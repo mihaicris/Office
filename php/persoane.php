@@ -5,7 +5,7 @@ include_once('conexiune.php');
 function afiseaza_tabel($query, $count)
 {
 	echo '<table class="persoane rezultate">';
-	echo "<tr>";
+	echo '<tr>';
 	echo '<th>ID</th>';
 	echo '<th>Nume și prenume</th>';
 	echo '<th>Companie</th>';
@@ -19,20 +19,20 @@ function afiseaza_tabel($query, $count)
 		echo '<td class="companie">' . $row['nume_companie'] . '</td>';
 		echo '<td class="email"><a class="email" href="mailto:' . $row['email_persoana'] . '">' . $row['email_persoana'] . '</a></td>';
 		echo '<td class="mobil">' . $row['mobil_persoana'] . '</td>';
-		echo "</tr>";
+		echo '</tr>';
 	} //end for
 	echo '</table>';
 	echo '<table>';
 	echo '<tr>';
 	echo '<td class="total">' . $count;
 	if ($count == 1) {
-		echo " persoană";
+		echo ' persoană';
 	} else {
-		echo " persoane";
+		echo ' persoane';
 	}
-	echo "</td>";
-	echo "</tr>";
-	echo "</table>";
+	echo '</td>';
+	echo '</tr>';
+	echo '</table>';
 }
 
 function afiseaza_numar_total($count)
@@ -45,9 +45,9 @@ function afiseaza_numar_total($count)
 	} else {
 		echo " persoane";
 	}
-	echo "</td>";
-	echo "</tr>";
-	echo "</table>";
+	echo '</td>';
+	echo '</tr>';
+	echo '</table>';
 }
 
 if (isset($_POST["creare"])) {
@@ -70,7 +70,7 @@ if (isset($_POST["creare"])) {
 			</tr>
 			<tr>
 				<td>
-					<label for="tel_persoana">Telefon</label><br/>
+					<label for="tel_persoana">Telefon fix</label><br/>
 					<input class="normal mediu" id="tel_persoana" type="text" name="tel_persoana" autocomplete="off"/>
 				</td>
 				<td>
@@ -81,7 +81,15 @@ if (isset($_POST["creare"])) {
 			</tr>
 			<tr>
 				<td>
-					<label for="email_persoana">Email</label><br/>
+					<label for="mobil_persoana">Telefon Mobil</label><br/>
+					<input class="normal mediu" id="mobil_persoana" type="text" name="mobil_persoana" autocomplete="off"/>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<label for="email_persoana">Adresă de email</label><br/>
 					<input class="normal lung" id="email_persoana" type="text" name="email_persoana"
 						   autocomplete="off"/>
 				</td>
@@ -93,14 +101,6 @@ if (isset($_POST["creare"])) {
 						<option value="1">Femeie</option>
 					</select>
 				</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>
-					<label for="mobil_persoana">Mobil</label><br/>
-					<input class="normal mediu" id="mobil_persoana" type="text" name="mobil_persoana" autocomplete="off"/>
-				</td>
-				<td></td>
 				<td></td>
 			</tr>
 			<tr>
@@ -155,7 +155,7 @@ if (isset($_POST["camp_str"])) {
 		echo '<p>Nu există în baza de date.</p>';
 		exit();
 	}
-	if ($str == "%%") {
+	if ($str == '%%') {
 		afiseaza_numar_total($count);
 		exit();
 	}

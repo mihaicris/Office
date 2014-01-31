@@ -64,7 +64,7 @@ $(document).ready(function() {
 	class_box.on({
 		focus: function() {
 			$(this).next("img").hide();
-			$(this).next("span").remove();
+			$(this).addClass('normal').removeClass('required');
 		},
 		keydown: function(event) {
 			// anulare apasare enter intr-un camp input
@@ -216,6 +216,10 @@ $(document).ready(function() {
 					return;
 				}
 			case 13: // key enter
+				if(!$('.tabel:visible').length) {
+					$('.submit').click();
+					return;
+				}
 				var id_companie,
 					$this = $('.tabel .selected');
 				if($this.length) {
@@ -225,11 +229,7 @@ $(document).ready(function() {
 					});
 					$(this).data('id_companie', id_companie).closest('tr').next().find('input:first').focus();
 					return;
-				} else {
-					$('.submit').click();
-					return;
 				}
-
 			default:
 				break;
 		} // end switch
@@ -271,24 +271,21 @@ $(document).ready(function() {
 	class_box.on({
 		mouseup: function() {
 			var $this = $(this).children().first(),
-				id_companie = $this.attr('id').slice(1),
+				id_companie = parseInt($this.attr('id').slice(1)),
 				$text = $this.text(); // salvez numele firmei
-			// scriu numele firmei in casuta de cautare si pun focusul pe casuta
-			$('#camp_cauta_companie').data('id_companie', id_companie).val($text).focus();
+			if(!$(this).children('a').length) {
+				$('#camp_cauta_companie').data('id_companie', id_companie).val($text).focus();
+			}
 			$('.tabel').fadeOut(100, function() {
 				$('.tabel').empty(); // ascund si apoi golesc casuta cu rezultatele cautarii
 			}); // end function()
-		},
-		mousedown: function() {
-			$(this).css('background-color', '#555').css('color', '#FFF').children().css('color', '#FFF');
 		},
 		mouseenter: function() {
 			$('.tabel .rec').removeClass('selected').css('background-color', '#FFFFFF');
 			$(this).addClass('selected').css('background-color', '#CED5F5');
 		},
 		mouseleave: function() {
-			$(this).removeClass('selected').css('background-color', '#FFFFFF').css('color', '#000')
-				.children().last().css('color', '#3F41D9');
+			$(this).removeClass('selected').css('background-color', '#FFFFFF');
 		}
 	}, '.tabel div');
 	class_box.on('click', 'span.actiune', function(event) {
@@ -531,54 +528,95 @@ $(document).ready(function() {
 	});  // end .on
 
 	id_box_persoane.on('click', '#creaza_persoana, #modifica_persoana', function(event) {
-		var $flag = false, $values = [],
-			$camp = $('form input, form select'),
-			$salveaza = (this.id == "creaza_persoana") ? 1 : 0;  // 1-salveaza nou, 0-modific existent
+		var flag = false,
+			pattern,
+			values = [],
+			camp = $('form input, form select'),
+			salveaza = (this.id == "creaza_persoana") ? 1 : 0;  // 1-salveaza nou, 0-modific existent
 		event.preventDefault();
 		$('form span.error').remove();
-		$camp.addClass('normal').removeClass('required');
+		camp.addClass('normal').removeClass('required');
 
-//		$values[0] =
-//		$values[1] =
-//		$values[2] =
-//		$values[3] =
-//		$values[4] =
-//		$values[5] =
-//		$values[6] =
-//		$values[7] =
-//		$values[8] =
-//		$values[9] =
-//		$values[10] =
+		pattern = /.{3,50}/;
+		// Prelucrare nume
+		values.nume = camp.eq(0).val(camp.eq(0).val().trim().slice(0, 50)).val();
+		if(!pattern.test(values.nume)) {
+			flag = true;
+			camp.eq(0).toggleClass('normal required').parent().append('<span class="error">Minim 3 caractere.</span>');
+		}
 
-		$camp.each(function(i) {
-			$(this).val($(this).val().trim());
-			$values[i] = $(this).val();
-			// validare nume, prenume, telefon,  fax, email, mobil, departament, functie
-			if($values[i].length < 3 && i != 5 && i != 7 && i != 10) {  // fara sex, companie, ID (ascuns)
-				$flag = true;
-				$camp.eq(i).removeClass('normal')
-					.addClass('required')
-					.closest('tr')
-					.children()
-					.last()
-					.append('<span class="error">Minim 3 caractere</span>');
-			}
-		});
+		// Prelucrare prenume
+		values.prenume = camp.eq(1).val(camp.eq(1).val().trim().slice(0, 50)).val();
+		if(!pattern.test(values.prenume)) {
+			flag = true;
+			camp.eq(1).toggleClass('normal required').parent().append('<span class="error">Minim 3 caractere.</span>');
+		}
+
+		// Prelucrare telefon
+		pattern = /^[+()\s0-9]{3,}$/;
+		values.telefon = camp.eq(2).val(camp.eq(2).val().trim().slice(0, 50)).val();
+		if(!pattern.test(values.telefon)) {
+			flag = true;
+			camp.eq(2).toggleClass('normal required').parent().append('<span class="error">Caractere permise : numere, spatii, + ( )<br />Minim 3 caracatere.</span>');
+		}
+
+		// Prelucrare fax
+		pattern = /^[+()\s0-9]{3,}$/;
+		values.fax = camp.eq(3).val(camp.eq(3).val().trim().slice(0, 50)).val();
+		if(!pattern.test(values.fax)) {
+			flag = true;
+			camp.eq(3).toggleClass('normal required').parent().append('<span class="error">Caractere permise : numere, spatii, + ( )<br />Minim 3 caracatere.</span>');
+		}
+
+		// Prelucrare telefon mobil
+		pattern = /^[+()\s0-9]{3,}$/;
+		values.mobil = camp.eq(4).val(camp.eq(4).val().trim().slice(0, 50)).val();
+		if(!pattern.test(values.mobil)) {
+			flag = true;
+			camp.eq(4).toggleClass('normal required').parent().append('<span class="error">Caractere permise : numere, spatii, + ( )<br />Minim 3 caracatere.</span>');
+		}
+
+		// prelucrare email
+		pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		values.email = camp.eq(5).val(camp.eq(5).val().trim().slice(0, 100)).val();
+		if(!pattern.test(values.email)) {
+			flag = true;
+			camp.eq(5).toggleClass('normal required').parent().append('<span class="error">Adresa de email nu este validă.</span>');
+		}
 
 		// validare sex
-		if($values[5].length == 0) {
-			$flag = true;
-			$camp.eq(5).removeClass('normal').addClass('required').closest('tr').children().last()
-				.append('<span class="error">Selectati o optiune</span>');
+		values.sex = camp.eq(6).val();
+		if(!values.sex.length) {
+			flag = true;
+			camp.eq(6).toggleClass('normal required').parent().append('<span class="error">Alegeţi o opţiune.</span>');
 		}
 
 		// validare companie
-		if($values[7].length == 0) {
-			$flag = true;
-			$camp.eq(7).removeClass('normal').addClass('required').closest('tr').children().last()
-				.append('<span class="error">Selectati o companie</span>');
+		values.companie = camp.eq(7).data('id_companie');
+		if(!values.companie) {
+			flag = true;
+			camp.eq(7).toggleClass('normal required').parent().append('<span class="error">Alegeţi o companie.</span>');
 		}
-		if(!$flag) {
+
+		// validare Departament
+		values.departament = camp.eq(8).val(camp.eq(8).val().trim().slice(0, 50)).val();
+		if(!values.departament.length) {
+			flag = true;
+			camp.eq(8).toggleClass('normal required').parent().append('<span class="error">Minim 3 caracatere.</span>');
+		}
+
+		// validare Functie
+		values.functie = camp.eq(9).val(camp.eq(9).val().trim().slice(0, 50)).val();
+		if(!values.functie.length) {
+			flag = true;
+			camp.eq(9).toggleClass('normal required').parent().append('<span class="error">Minim 3 caracatere.</span>');
+		}
+
+		console.dir(values);
+		//iesire fortata pentru ca nu este gata
+		return;
+
+		if(!flag) {
 			$.ajax({
 				async: false,
 				url: 'php/persoane.php',

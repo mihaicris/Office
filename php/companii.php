@@ -47,14 +47,17 @@
 				   value="<?php echo $_POST["nume"]; ?>"/>
 			<img id="c_nume" src="" alt=""><br>
 			<label for="adresa_companie">Adresă</label><br>
-			<input class="normal lung" id="adresa_companie" type="text" name="adresa_companie" autocomplete="off" value=""
+			<input class="normal lung" id="adresa_companie" type="text" name="adresa_companie" autocomplete="off"
+				   value=""
 				   autofocus/>
 			<img id="c_adresa" src="" alt=""><br>
 			<label for="oras_companie">Oraș</label><br>
-			<input class="normal scurt" id="oras_companie" type="text" name="oras_companie" autocomplete="off" value=""/>
+			<input class="normal scurt" id="oras_companie" type="text" name="oras_companie" autocomplete="off"
+				   value=""/>
 			<img id="c_oras" src="" alt=""><br>
 			<label for="tara_companie">Țară</label><br>
-			<input class="normal scurt" id="tara_companie" type="text" name="tara_companie" autocomplete="off" value=""/>
+			<input class="normal scurt" id="tara_companie" type="text" name="tara_companie" autocomplete="off"
+				   value=""/>
 			<img id="c_tara" src="" alt=""><br>
 			<a href="#" id="creaza_companie" class="submit"><h3>Salvează<span class="sosa">å</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
@@ -168,8 +171,10 @@
 		//daca nu sunt rezultate se iese cu mesaj
 		$count = $query->fetchColumn();
 		if(!$count) { //daca nu sunt rezultate se iese cu mesaj
-			// echo "<h2>Rezultate căutare</h2>";
-			echo '<p class="rec">Nu există în baza de date.</p>';
+			echo '<div class="rec">';
+			echo '<p id="C_NULL" class="bold" style="display: inline">Nu există în baza de date.</p>';
+			echo '<span class="noresults">Crează</span>';
+			echo '</div>';
 			exit();
 		}
 		// interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)

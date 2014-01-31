@@ -332,15 +332,19 @@ table {
 	vertical-align: top;
 }
 
-.rezultate tr:nth-child(2n) td {
-	background-color: #424242;
-}
-
 .rezultate th {
 	background-color: #600000; /* culoare cap tabel */
 	color: #FFD5D5;
 	font-weight: 400;
 	font-size: 1.1em;
+}
+
+td {
+	vertical-align: top;
+}
+
+.rezultate tr:nth-child(2n) td {
+	background-color: #424242;
 }
 
 /*.edit-line {*/
@@ -466,6 +470,8 @@ input.normal {
 	/* textele care se afiseaza dupa input */
 	color: #F44;
 	margin-right: 20px;
+	display: block;
+	margin-bottom: 10px;
 
 }
 
@@ -476,7 +482,7 @@ input.normal {
 	background-color: #fff;
 	border-radius: 3px;
 	box-shadow: 1px 1px 2px #777;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -508,4 +514,12 @@ input.normal {
 }
 .bold {
 	font-weight: 700;
+}
+.noresults {
+	color: white;
+	display: inline;
+	margin-left: 5px;
+	padding: 2px 9px 2px 6px;
+	background-color: #488FE0;
+	border-radius: 4px;
 }
