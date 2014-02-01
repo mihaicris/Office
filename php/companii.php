@@ -124,19 +124,19 @@
 			<label>Nume</label><br>
 			<input class="normal lung" id="nume_companie" type="text" name="nume_companie" autocomplete="off"
 				   value="<?php echo $row['nume_companie']; ?>"/>
-			<img id="c_nume" src="" alt=""><br>
+			<img id="c_nume" src="../images/yes_small.png" alt=""><br>
 			<label>Adresă</label><br>
 			<input class="normal lung" id="adresa_companie" type="text" name="adresa_companie" autocomplete="off"
 				   value="<?php echo $row['adresa_companie']; ?>"/>
-			<img id="c_adresa" src="" alt=""><br>
+			<img id="c_adresa" src="../images/yes_small.png" alt=""><br>
 			<label>Oraș</label><br>
 			<input class="normal scurt" id="oras_companie" type="text" name="oras_companie" autocomplete="off"
 				   value="<?php echo $row['oras_companie']; ?>"/>
-			<img id="c_oras" src="" alt=""><br>
+			<img id="c_oras" src="../images/yes_small.png" alt=""><br>
 			<label>Țară</label><br>
 			<input class="normal scurt" id="tara_companie" type="text" name="tara_companie" autocomplete="off"
 				   value="<?php echo $row['tara_companie']; ?>"/>
-			<img id="c_tara" src="" alt=""><br>
+			<img id="c_tara" src="../images/yes_small.png" alt=""><br>
 			<a href="#" id="modifica" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
 			<a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
@@ -171,10 +171,7 @@
 		//daca nu sunt rezultate se iese cu mesaj
 		$count = $query->fetchColumn();
 		if(!$count) { //daca nu sunt rezultate se iese cu mesaj
-			echo '<div class="rec">';
-			echo '<p id="C_NULL" class="bold" style="display: inline">Nu există în baza de date.</p>';
-			echo '<span class="noresults">Crează</span>';
-			echo '</div>';
+			echo '<p class="noresults">Nu există în baza de date.<br/>Crează compania nouă înaintea persoanei.</p>';
 			exit();
 		}
 		// interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)

@@ -515,11 +515,16 @@ input.normal {
 .bold {
 	font-weight: 700;
 }
+
 .noresults {
-	color: white;
-	display: inline;
-	margin-left: 5px;
-	padding: 2px 9px 2px 6px;
-	background-color: #488FE0;
-	border-radius: 4px;
+	padding: 5px;
+	color: #000;
 }
+/*.newfromselect {*/
+	/*color: white;*/
+	/*display: inline;*/
+	/*margin-left: 5px;*/
+	/*padding: 2px 9px 2px 6px;*/
+	/*background-color: #488FE0;*/
+	/*border-radius: 4px;*/
+/*}*/
