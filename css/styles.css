@@ -225,7 +225,7 @@ li.option.selected {
 	font-size: 1.3em;
 	overflow-y: auto;
 	padding: 10px 15px;
-	border-right: 1px solid #FFF;
+	/*border-right: 1px solid #FFF;*/
 	color: #FFF;
 	font-family: 'Roboto Condensed', sans-serif;
 	background-color: #333;

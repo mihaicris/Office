@@ -4,7 +4,7 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
 	<link href="css/styles.css" rel="stylesheet">
 	<link href="images/favicon.ico" rel="icon" type="image/x-icon">
-	<script src="scripts/external/jquery-2.1.0.js"></script>
+	<script src="scripts/external/jquery-1.11.0.js"></script>
 	<script src="scripts/main.js"></script>
 	<script src="scripts/external/Chart.js"></script>
 	<title>Proiect Office</title>
