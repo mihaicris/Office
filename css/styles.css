@@ -519,6 +519,7 @@ input.normal {
 .noresults {
 	padding: 5px;
 	color: #000;
+	background-color: #CED5F5 ;
 }
 /*.newfromselect {*/
 	/*color: white;*/
@@ -528,3 +529,24 @@ input.normal {
 	/*background-color: #488FE0;*/
 	/*border-radius: 4px;*/
 /*}*/
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   speak for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+	display:    none;
+	position: absolute;
+	z-index:    1000;
+	top:        40px;
+	left:       12px;
+	width: 70px;
+
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+	display: block;
+}

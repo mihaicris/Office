@@ -224,6 +224,7 @@ if (isset($_POST["salveaza"])) {
 		<a href="#" id="produs_nou" class="submit nou">
 			<h3>Crează un contact nou</h3>
 		</a>
+
 	</form>
 <?php
 $string = 'SELECT COUNT(*)

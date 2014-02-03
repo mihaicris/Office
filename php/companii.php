@@ -171,13 +171,14 @@
 		//daca nu sunt rezultate se iese cu mesaj
 		$count = $query->fetchColumn();
 		if(!$count) { //daca nu sunt rezultate se iese cu mesaj
-			echo '<p class="noresults">Nu există în baza de date.<br/>Crează compania nouă înaintea persoanei.</p>';
+			echo '<p class="noresults"><strong>Nu există în baza de date.</strong><br/>
+				Trebuie creată în avans.</p>';
 			exit();
 		}
 		// interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
 		$string = 'SELECT * FROM `companii`
 			WHERE (`nume_companie` LIKE ? OR `adresa_companie` LIKE ? OR `oras_companie` LIKE ?)
-			ORDER BY `nume_companie` ASC LIMIT 3;';
+			ORDER BY `nume_companie` ASC LIMIT 5;';
 		$query  = $db->prepare($string);
 		$query->execute($data);
 
