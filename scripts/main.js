@@ -5,7 +5,7 @@
 			id_box_vanzatori = $('#box-vanzatori'),
 			id_box_oferta_noua = $('#box-oferta-noua'),
 			id_box_persoane = $('#box-persoane'),
-			timp_tranzitie_afisari = 200;
+			timp_tranzitie_afisari = 100;
 
 		$.ajaxSetup({
 			cache: false,
@@ -42,17 +42,22 @@
 					'php/stats-furnizori.php',
 					'php/companii.php',
 					'php/vanzatori.php',
-					'php/persoane.php'];
+					'php/persoane.php'],
+				current = $('.box:visible');
+			current.fadeOut(timp_tranzitie_afisari)
+				.promise()
+				.done(function() {
+					current.empty();
+					var box = class_box.eq(ind);
+					box.load(pagina[ind], function(response, status, xhr) {
+						if(status == "error") {
+							var msg = "Sorry but there was an error: ";
+							box.html(msg + xhr.status + " " + xhr.statusText);
+						}
+						box.fadeIn(timp_tranzitie_afisari)
+					});
+				});
 
-			class_box.empty().hide().clearQueue();
-			var box = class_box.eq(ind); // se salveaza in varabila box divul care se va activa
-			box.load(pagina[ind], function(response, status, xhr) {
-				if(status == "error") {
-					var msg = "Sorry but there was an error: ";
-					box.html(msg + xhr.status + " " + xhr.statusText);
-				}
-				box.fadeIn(timp_tranzitie_afisari)
-			});
 		});
 
 		var toggleEvents = function(event, action) {
