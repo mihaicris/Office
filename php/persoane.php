@@ -2,7 +2,7 @@
 
 	include_once('conexiune.php');
 
-	function afiseaza_tabel($query, $count)
+	function afiseaza_tabel($query)
 	{
 		echo '<table class="persoane rezultate">';
 		echo '<tr>';
@@ -21,19 +21,6 @@
 			echo '<td class="mobil">' . $row['mobil_persoana'] . '</td>';
 			echo '</tr>';
 		} //end for
-		echo '</table>';
-
-
-		echo '<table>';
-		echo '<tr>';
-		echo '<td class="total">' . $count;
-		if($count == 1) {
-			echo ' persoană';
-		} else {
-			echo ' persoane';
-		}
-		echo '</td>';
-		echo '</tr>';
 		echo '</table>';
 	}
 
@@ -61,34 +48,49 @@
 				<tbody>
 				<tr>
 					<td>
-						<label for="nume_persoana">Nume</label><br/>
-						<input class="normal mediu" id="nume_persoana" type="text" name="nume_persoana"
+						<label for="nume_persoana">Nume</label>
+						<input class="normal mediu"
+							   id="nume_persoana"
+							   type="text"
+							   name="nume_persoana"
 							   autocomplete="off"/>
 					</td>
 					<td>
-						<label for="prenume_persoana">Prenume</label><br/>
-						<input class="normal mediu" id="prenume_persoana" type="text" name="prenume_persoana"
-							   autocomplete="off"/>
-					</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>
-						<label for="tel_persoana">Telefon fix</label><br/>
-						<input class="normal mediu" id="tel_persoana" type="text" name="tel_persoana"
-							   autocomplete="off"/>
-					</td>
-					<td>
-						<label for="fax_persoana">Fax</label><br/>
-						<input class="normal mediu" id="fax_persoana" type="text" name="fax_persoana"
+						<label for="prenume_persoana">Prenume</label>
+						<input class="normal mediu"
+							   id="prenume_persoana"
+							   type="text"
+							   name="prenume_persoana"
 							   autocomplete="off"/>
 					</td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>
-						<label for="mobil_persoana">Telefon Mobil</label><br/>
-						<input class="normal mediu" id="mobil_persoana" type="text" name="mobil_persoana"
+						<label for="tel_persoana">Telefon fix</label>
+						<input class="normal mediu"
+							   id="tel_persoana"
+							   type="text"
+							   name="tel_persoana"
+							   autocomplete="off"/>
+					</td>
+					<td>
+						<label for="fax_persoana">Fax</label>
+						<input class="normal mediu"
+							   id="fax_persoana"
+							   type="text"
+							   name="fax_persoana"
+							   autocomplete="off"/>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>
+						<label for="mobil_persoana">Telefon Mobil</label>
+						<input class="normal mediu"
+							   id="mobil_persoana"
+							   type="text"
+							   name="mobil_persoana"
 							   autocomplete="off"/>
 					</td>
 					<td></td>
@@ -96,12 +98,15 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="email_persoana">Adresă de email</label><br/>
-						<input class="normal lung" id="email_persoana" type="text" name="email_persoana"
+						<label for="email_persoana">Adresă de email</label>
+						<input class="normal lung"
+							   id="email_persoana"
+							   type="text"
+							   name="email_persoana"
 							   autocomplete="off"/>
 					</td>
 					<td>
-						<label for="sex">Sex</label><br/>
+						<label for="sex">Sex</label>
 						<select id="sex">
 							<option id="default" value=""></option>
 							<option value="0">Bărbat</option>
@@ -112,8 +117,11 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="camp_cauta_companie">Companie</label><br/>
-						<input class="normal lung" id="camp_cauta_companie" type="text" name="companie_persoana"
+						<label for="camp_cauta_companie">Companie</label>
+						<input class="normal lung"
+							   id="camp_cauta_companie"
+							   type="text"
+							   name="companie_persoana"
 							   autocomplete="off"/>
 					</td>
 					<td></td>
@@ -121,24 +129,28 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="dep_persoana">Departament</label><br/>
-						<input class="normal mediu" id="dep_persoana" type="text" name="dep_persoana"
+						<label for="dep_persoana">Departament</label>
+						<input class="normal mediu"
+							   id="dep_persoana"
+							   type="text"
+							   name="dep_persoana"
 							   autocomplete="off"/>
 					</td>
 					<td>
-						<label for="functie_persoana">Funcție</label><br/>
-						<input class="normal mediu" id="functie_persoana" type="text" name="functie_persoana"
+						<label for="functie_persoana">Funcție</label>
+						<input class="normal mediu"
+							   id="functie_persoana"
+							   type="text"
+							   name="functie_persoana"
 							   autocomplete="off"/>
 					</td>
 					<td></td>
 				</tr>
 				</tbody>
 			</table>
-			<br>
 			<input id="id_persoana" type="hidden" name="id_persoana" value=""/>
 			<a href="#" id="creaza_persoana" class="submit"><h3>Salvează<span class="sosa">å</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
-
 			<div class="tabel"></div>
 		</form>
 		<?php
@@ -181,7 +193,8 @@
 				ORDER BY nume_persoana ASC;';
 		$query  = $db->prepare($string);
 		$query->execute($data);
-		afiseaza_tabel($query, $count);
+		afiseaza_tabel($query);
+		afiseaza_numar_total($count);
 		exit();
 	}
 	if(isset($_POST["salveaza"])) {
@@ -249,12 +262,12 @@
 				<tbody>
 				<tr>
 					<td>
-						<label for="nume_persoana">Nume</label><br/>
+						<label for="nume_persoana">Nume</label>
 						<input class="normal mediu" id="nume_persoana" type="text" name="nume_persoana"
 							   value="<?php echo $row['nume_persoana']; ?>" autocomplete="off"/>
 					</td>
 					<td>
-						<label for="prenume_persoana">Prenume</label><br/>
+						<label for="prenume_persoana">Prenume</label>
 						<input class="normal mediu" id="prenume_persoana" type="text" name="prenume_persoana"
 							   value="<?php echo $row['prenume_persoana']; ?>" autocomplete="off"/>
 					</td>
@@ -262,12 +275,12 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="tel_persoana">Telefon fix</label><br/>
+						<label for="tel_persoana">Telefon fix</label>
 						<input class="normal mediu" id="tel_persoana" type="text" name="tel_persoana"
 							   value="<?php echo $row['tel_persoana']; ?>" autocomplete="off"/>
 					</td>
 					<td>
-						<label for="fax_persoana">Fax</label><br/>
+						<label for="fax_persoana">Fax</label>
 						<input class="normal mediu" id="fax_persoana" type="text" name="fax_persoana"
 							   value="<?php echo $row['fax_persoana']; ?>" autocomplete="off"/>
 					</td>
@@ -275,7 +288,7 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="mobil_persoana">Telefon Mobil</label><br/>
+						<label for="mobil_persoana">Telefon Mobil</label>
 						<input class="normal mediu" id="mobil_persoana" type="text" name="mobil_persoana"
 							   value="<?php echo $row['mobil_persoana']; ?>" autocomplete="off"/>
 					</td>
@@ -284,12 +297,12 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="email_persoana">Adresă de email</label><br/>
+						<label for="email_persoana">Adresă de email</label>
 						<input class="normal lung" id="email_persoana" type="text" name="email_persoana"
 							   value="<?php echo $row['email_persoana']; ?>" autocomplete="off"/>
 					</td>
 					<td>
-						<label for="sex">Sex</label><br/>
+						<label for="sex">Sex</label>
 						<select id="sex">
 							<option value="0" <?php if(!$row['gen_persoana']) echo 'selected="selected"' ?>>Bărbat
 							</option>
@@ -301,7 +314,7 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="camp_cauta_companie">Companie</label><br/>
+						<label for="camp_cauta_companie">Companie</label>
 						<input class="normal lung" id="camp_cauta_companie" type="text" name="companie_persoana"
 							   value="<?php echo $row['nume_companie']; ?>" autocomplete="off"/>
 					</td>
@@ -310,12 +323,12 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="dep_persoana">Departament</label><br/>
+						<label for="dep_persoana">Departament</label>
 						<input class="normal mediu" id="dep_persoana" type="text" name="dep_persoana"
 							   value="<?php echo $row['departament_persoana']; ?>" autocomplete="off"/>
 					</td>
 					<td>
-						<label for="functie_persoana">Funcție</label><br/>
+						<label for="functie_persoana">Funcție</label>
 						<input class="normal mediu" id="functie_persoana" type="text" name="functie_persoana"
 							   value="<?php echo $row['functie_persoana']; ?>" autocomplete="off"/>
 					</td>
@@ -336,7 +349,7 @@
 ?>
 	<h2>Lista persoane de contact</h2>
 	<form action="/" method="post" id="submit">
-		<label for="camp">Caută</label><br/>
+		<label for="camp">Caută</label>
 		<input id="camp" class="normal mediu" type="text" name="camp_str" autocomplete="off"/>
 		<a href="#" id="produs_nou" class="submit nou">
 			<h3>Crează un contact nou</h3>

@@ -66,21 +66,21 @@
 							salveaza = (this.id == "creaza_persoana") ? 1 : 0;  // 1-salveaza nou, 0-modific existent
 						event.preventDefault();
 						$('form span.error').remove();
-						camp.addClass('normal').removeClass('required');
+						camp.removeClass('required');
 
 						pattern = /.{3,50}/;
 						// Prelucrare nume
 						values[0] = camp.eq(0).val(camp.eq(0).val().trim().slice(0, 50)).val();
 						if(!pattern.test(values[0])) {
 							flag = true;
-							camp.eq(0).toggleClass('normal required').parent().append('<span class="error">Minim 3 caractere.</span>');
+							camp.eq(0).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
 						}
 
 						// Prelucrare prenume
 						values[1] = camp.eq(1).val(camp.eq(1).val().trim().slice(0, 50)).val();
 						if(!pattern.test(values[1])) {
 							flag = true;
-							camp.eq(1).toggleClass('normal required').parent().append('<span class="error">Minim 3 caractere.</span>');
+							camp.eq(1).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
 						}
 
 						// Prelucrare telefon
@@ -88,7 +88,7 @@
 						values[2] = camp.eq(2).val(camp.eq(2).val().trim().slice(0, 50)).val();
 						if(!pattern.test(values[2])) {
 							flag = true;
-							camp.eq(2).toggleClass('normal required').parent().append('<span class="error">Caractere permise : numere, spatii, + ( )<br />Minim 3 caracatere.</span>');
+							camp.eq(2).addClass('required').parent().append('<span class="error">Caractere permise : numere, spatii, + ( )<br />Minim 3 caracatere.</span>');
 						}
 
 						// Prelucrare fax
@@ -96,7 +96,7 @@
 						values[3] = camp.eq(3).val(camp.eq(3).val().trim().slice(0, 50)).val();
 						if(!pattern.test(values[3])) {
 							flag = true;
-							camp.eq(3).toggleClass('normal required').parent().append('<span class="error">Caractere permise : numere, spatii, + ( )<br />Minim 3 caracatere.</span>');
+							camp.eq(3).addClass('required').parent().append('<span class="error">Caractere permise : numere, spatii, + ( )<br />Minim 3 caracatere.</span>');
 						}
 
 						// Prelucrare telefon mobil
@@ -104,7 +104,7 @@
 						values[4] = camp.eq(4).val(camp.eq(4).val().trim().slice(0, 50)).val();
 						if(!pattern.test(values[4])) {
 							flag = true;
-							camp.eq(4).toggleClass('normal required').parent().append('<span class="error">Caractere permise : numere, spatii, + ( )<br />Minim 3 caracatere.</span>');
+							camp.eq(4).addClass('required').parent().append('<span class="error">Caractere permise : numere, spatii, + ( )<br />Minim 3 caracatere.</span>');
 						}
 
 						// prelucrare email
@@ -112,35 +112,35 @@
 						values[5] = camp.eq(5).val(camp.eq(5).val().trim().slice(0, 100)).val();
 						if(!pattern.test(values[5])) {
 							flag = true;
-							camp.eq(5).toggleClass('normal required').parent().append('<span class="error">Adresa de email nu este validă.</span>');
+							camp.eq(5).addClass('required').parent().append('<span class="error">Adresa de email nu este validă.</span>');
 						}
 
 						// validare sex
 						values[6] = camp.eq(6).val();
 						if(!values[6].length) {
 							flag = true;
-							camp.eq(6).toggleClass('normal required').parent().append('<span class="error">Alegeţi o opţiune.</span>');
+							camp.eq(6).addClass('required').parent().append('<span class="error">Alegeţi o opţiune.</span>');
 						}
 
 						// validare companie
 						values[7] = camp.eq(7).data('id_companie');
 						if(!values[7]) {
 							flag = true;
-							camp.eq(7).toggleClass('normal required').parent().append('<span class="error">Alegeţi o companie.</span>');
+							camp.eq(7).addClass('required').parent().append('<span class="error">Alegeţi o companie.</span>');
 						}
 
 						// validare Departament
 						values[8] = camp.eq(8).val(camp.eq(8).val().trim().slice(0, 50)).val();
 						if(!values[8].length) {
 							flag = true;
-							camp.eq(8).toggleClass('normal required').parent().append('<span class="error">Minim 3 caracatere.</span>');
+							camp.eq(8).addClass('required').parent().append('<span class="error">Minim 3 caracatere.</span>');
 						}
 
 						// validare Functie
 						values[9] = camp.eq(9).val(camp.eq(9).val().trim().slice(0, 50)).val();
 						if(!values[9].length) {
 							flag = true;
-							camp.eq(9).toggleClass('normal required').parent().append('<span class="error">Minim 3 caracatere.</span>');
+							camp.eq(9).addClass('required').parent().append('<span class="error">Minim 3 caracatere.</span>');
 						}
 
 						values[10] = camp.eq(10).attr('id');
