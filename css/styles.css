@@ -77,7 +77,7 @@ h1 {
 h2 {
 	/*padding-top: 10px;*/
 	border-bottom: 1px solid #777;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 }
 
 h3 {
@@ -138,7 +138,6 @@ a.submit {
 	display: inline-block;
 	background-color: #488FE0;
 	padding: 0 10px;
-	margin-top: 5px;
 	margin-right: 10px;
 	border-radius: 5px;
 	box-shadow: 0 0 0 0 #488FE0;
@@ -232,12 +231,12 @@ li.option.selected {
 }
 
 /*#logo {*/
-	/*position: absolute;*/
-	/*height: 100px;*/
-	/*right: 0;*/
-	/*bottom: 0;*/
-	/*z-index: 1;*/
-	/*opacity: 0.8;*/
+/*position: absolute;*/
+/*height: 100px;*/
+/*right: 0;*/
+/*bottom: 0;*/
+/*z-index: 1;*/
+/*opacity: 0.8;*/
 /*}*/
 
 :focus {
@@ -272,12 +271,12 @@ option[default] {
 }
 
 /*.select_scurt {*/
-	/*width: 80px;*/
-	/*margin-bottom: 10px;*/
-	/*margin-top: 3px;*/
+/*width: 80px;*/
+/*margin-bottom: 10px;*/
+/*margin-top: 3px;*/
 /*}*/
 
-.persoana td, tr {
+.persoana td, .persoana tr {
 	border: none;
 }
 
@@ -288,9 +287,7 @@ input[type="text"] {
 	font-size: 1em;
 	border-radius: 3px;
 	box-shadow: 0 0 2px #99F;
-	margin-bottom: 10px;
-	margin-right: 25px;
-	margin-top: 3px;
+	margin-right: 23px;
 }
 
 .lung {
@@ -310,10 +307,10 @@ input:focus {
 }
 
 label {
-	/*margin-left: 6px;*/
+	display: block;
 	font-weight: 400;
 	font-size: 1.05em;
-	color: #FFF;
+	padding-bottom: 3px;
 }
 
 table {
@@ -323,6 +320,11 @@ table {
 	/*border-spacing: 1px;*/
 	/*height: 200px;*/
 	/*overflow-y: auto;*/
+}
+
+td {
+	vertical-align: top;
+	padding-top: 5px;
 }
 
 .rezultate td, .rezultate th {
@@ -339,18 +341,14 @@ table {
 	font-size: 1.1em;
 }
 
-td {
-	vertical-align: top;
-}
-
 .rezultate tr:nth-child(2n) td {
 	background-color: #424242;
 }
 
 /*.edit-line {*/
-	/*position: relative;*/
-	/*margin-right: 7px;*/
-	/*top: 2px;*/
+/*position: relative;*/
+/*margin-right: 7px;*/
+/*top: 2px;*/
 /*}*/
 
 .produse .cod {
@@ -468,11 +466,9 @@ input.normal {
 
 .error {
 	/* textele care se afiseaza dupa input */
-	color: #F44;
-	margin-right: 20px;
+	padding-top: 2px;
 	display: block;
-	margin-bottom: 10px;
-
+	color: #F44;
 }
 
 .tabel {
@@ -509,9 +505,11 @@ input.normal {
 	line-height: 1.1;
 	cursor: default;
 }
+
 #source {
 	display: none;
 }
+
 .bold {
 	font-weight: 700;
 }
@@ -519,15 +517,16 @@ input.normal {
 .noresults {
 	padding: 5px;
 	color: #000;
-	background-color: #CED5F5 ;
+	background-color: #CED5F5;
 }
+
 /*.newfromselect {*/
-	/*color: white;*/
-	/*display: inline;*/
-	/*margin-left: 5px;*/
-	/*padding: 2px 9px 2px 6px;*/
-	/*background-color: #488FE0;*/
-	/*border-radius: 4px;*/
+/*color: white;*/
+/*display: inline;*/
+/*margin-left: 5px;*/
+/*padding: 2px 9px 2px 6px;*/
+/*background-color: #488FE0;*/
+/*border-radius: 4px;*/
 /*}*/
 
 /* Start by setting display:none to make this hidden.
@@ -536,11 +535,11 @@ input.normal {
    speak for themselves. Background we set to 80% white with
    our animation centered, and no-repeating */
 .modal {
-	display:    none;
+	display: none;
 	position: absolute;
-	z-index:    1000;
-	top:        40px;
-	left:       12px;
+	z-index: 1000;
+	top: 40px;
+	left: 12px;
 	width: 70px;
 
 }
@@ -550,3 +549,4 @@ input.normal {
 body.loading .modal {
 	display: block;
 }
+

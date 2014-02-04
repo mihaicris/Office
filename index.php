@@ -51,7 +51,6 @@
 <div class="box" id="box-companii"></div>
 <div class="box" id="box-vanzatori"></div>
 <div class="box" id="box-persoane"></div>
-<img src="images/30.png" alt="waiting" class="modal">
 <footer>Copyright</footer>
 </body>
 </html>
