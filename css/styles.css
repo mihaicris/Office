@@ -137,10 +137,10 @@ a {
 a.submit {
 	display: inline-block;
 	background-color: #488FE0;
+	box-shadow: 0 0 0 0 #488FE0;
 	padding: 0 10px;
 	margin-right: 10px;
 	border-radius: 5px;
-	box-shadow: 0 0 0 0 #488FE0;
 }
 
 a.submit:hover {
@@ -152,7 +152,6 @@ a.buton_stergere {
 	background-color: #900;
 	box-shadow: 0 0 0 0 #900;
 	padding: 0 10px;
-	margin-top: 5px;
 	margin-right: 10px;
 	border-radius: 5px;
 }
@@ -166,7 +165,7 @@ a.buton_renunta {
 	background-color: #555;
 	box-shadow: 0 0 0 0 #555;
 	padding: 0 10px;
-	margin-top: 5px;
+	margin-right: 10px;
 	border-radius: 5px;
 }
 
@@ -289,6 +288,12 @@ input[type="text"] {
 	box-shadow: 0 0 2px #99F;
 	margin-right: 23px;
 }
+input.normal {
+	border: 1px solid #eee;
+}
+input:focus {
+	background-color: #F1F2D0;
+}
 
 .lung {
 	width: 250px;
@@ -302,10 +307,6 @@ input[type="text"] {
 	width: 150px;
 }
 
-input:focus {
-	background-color: #F1F2D0;
-}
-
 label {
 	display: block;
 	font-weight: 400;
@@ -315,11 +316,13 @@ label {
 
 table {
 	/*display: block;*/
-	margin-top: 7px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	border-collapse: collapse;
 	/*border-spacing: 1px;*/
 	/*height: 200px;*/
 	/*overflow-y: auto;*/
+
 }
 
 td {
@@ -454,10 +457,6 @@ td {
 	padding: 0 4px;
 }
 
-input.normal {
-	color: #00008b;
-	border: 1px solid #eee;
-}
 
 .required {
 	border: 1px solid #F44;

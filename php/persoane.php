@@ -22,6 +22,8 @@
 			echo '</tr>';
 		} //end for
 		echo '</table>';
+
+
 		echo '<table>';
 		echo '<tr>';
 		echo '<td class="total">' . $count;

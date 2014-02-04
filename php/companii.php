@@ -22,7 +22,6 @@
 		} //end for
 		echo "</table>";
 	}
-
 	function afiseaza_numar_total($count)
 	{
 		echo '<table>';
@@ -36,24 +35,6 @@
 		echo "</td>";
 		echo "</tr>";
 		echo "<table>";
-	}
-
-	function interogare($string, $data)
-	{
-		global $db;
-		try {
-			$query = $db->prepare($string);
-			if(empty($data)) {
-				$query->execute();
-			} else {
-				$query->execute($data);
-			}
-		} catch(Exception $e) {
-			echo($e->getMessage());
-			exit();
-		}
-
-		return $query;
 	}
 
 	if(isset($_POST["formular-creare"])) {
@@ -72,7 +53,7 @@
 							   name="nume_companie"
 							   value="<?php echo $_POST["nume"]; ?>"
 							   autocomplete="off"/>
-						<img id="c_nume" src="" alt="">
+						<img id="c_nume" src="../images/yes_small.png" alt="imagine_lipsa">
 					</td>
 				</tr>
 				<tr>
@@ -83,7 +64,7 @@
 							   type="text"
 							   name="adresa_companie"
 							   autocomplete="off"/>
-						<img id="c_adresa" src="" alt="">
+						<img id="c_adresa" src="../images/yes_small.png" alt="imagine_lipsa">
 					</td>
 				</tr>
 				<tr>
@@ -94,7 +75,7 @@
 							   type="text"
 							   name="oras_companie"
 							   autocomplete="off"/>
-						<img id="c_oras" src="" alt="">
+						<img id="c_oras" src="../images/yes_small.png" alt="imagine_lipsa">
 					</td>
 				</tr>
 				<tr>
@@ -105,12 +86,11 @@
 							   type="text"
 							   name="tara_companie"
 							   autocomplete="off"/>
-						<img id="c_tara" src="" alt="">
+						<img id="c_tara" src="../images/yes_small.png" alt="imagine_lipsa">
 					</td>
 				</tr>
 				</tbody>
 			</table>
-			<br/>
 			<a href="#" id="creaza_companie" class="submit"><h3>Salvează<span class="sosa">å</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
 		</form>
@@ -143,7 +123,7 @@
 							   name="nume_companie"
 							   value="<?php echo $row['nume_companie']; ?>"
 							   autocomplete="off"/>
-						<img id="c_nume" src="../images/yes_small.png" alt="">
+						<img id="c_nume" src="../images/yes_small.png" alt="imagine_lipsa">
 					</td>
 				</tr>
 				<tr>
@@ -155,7 +135,7 @@
 							   name="adresa_companie"
 							   value="<?php echo $row['adresa_companie']; ?>"
 							   autocomplete="off"/>
-						<img id="c_adresa" src="../images/yes_small.png" alt="">
+						<img id="c_adresa" src="../images/yes_small.png" alt="imagine_lipsa">
 					</td>
 				</tr>
 				<tr>
@@ -167,7 +147,7 @@
 							   name="oras_companie"
 							   value="<?php echo $row['oras_companie']; ?>"
 							   autocomplete="off"/>
-						<img id="c_oras" src="../images/yes_small.png" alt="">
+						<img id="c_oras" src="../images/yes_small.png" alt="imagine_lipsa">
 					</td>
 				</tr>
 				<tr>
@@ -179,12 +159,11 @@
 							   name="tara_companie"
 							   value="<?php echo $row['tara_companie']; ?>"
 							   autocomplete="off"/>
-						<img id="c_tara" src="../images/yes_small.png" alt="">
+						<img id="c_tara" src="../images/yes_small.png" alt="imagine_lipsa">
 					</td>
 				</tr>
 				</tbody>
 			</table>
-			<br/>
 			<a href="#" id="modifica_companie" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
 			<a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
