@@ -10,7 +10,8 @@
 	$db_pass = 'mihai123';
 	// Conectare la baza de date
 
-	function interogare($string, $data) {
+	function interogare($string, $data)
+	{
 		global $db;
 		try {
 			$query = $db->prepare($string);
@@ -20,7 +21,7 @@
 				$query->execute($data);
 			}
 		} catch(Exception $e) {
-			echo($e->getMessage());
+			echo('<span class="error">' . $e->getMessage() . '</span>');
 			exit();
 		}
 

@@ -70,7 +70,7 @@
 				<tr>
 					<td>
 						<label for="oras_companie">Oraș</label>
-						<input class="normal scurt"
+						<input class="normal lung"
 							   id="oras_companie"
 							   type="text"
 							   name="oras_companie"
@@ -81,7 +81,7 @@
 				<tr>
 					<td>
 						<label for="tara_companie">Țară</label>
-						<input class="normal scurt"
+						<input class="normal lung"
 							   id="tara_companie"
 							   type="text"
 							   name="tara_companie"
@@ -141,7 +141,7 @@
 				<tr>
 					<td>
 						<label>Oraș</label>
-						<input class="normal scurt"
+						<input class="normal lung"
 							   id="oras_companie"
 							   type="text"
 							   name="oras_companie"
@@ -153,7 +153,7 @@
 				<tr>
 					<td>
 						<label>Țară</label>
-						<input class="normal scurt"
+						<input class="normal lung"
 							   id="tara_companie"
 							   type="text"
 							   name="tara_companie"
@@ -224,7 +224,7 @@
 		//daca nu sunt rezultate se iese cu mesaj
 		$count = $query->fetchColumn();
 		if(!$count) {
-			echo '<p class="noresults"><strong>Nu există în baza de date.</strong><br/>Trebuie creată în avans.</p>';
+			echo '<p class="noresults"><strong>Compania nu există în baza de date.</strong><br/>Aceasta trebuie creată în avans.</p>';
 			exit();
 		}
 		// interogarea adevarata pentru rezultate

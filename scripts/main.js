@@ -62,18 +62,19 @@
 
 		var toggleEvents = function(event, action) {
 			if(event === 'submit_formular_persoana') {
-				if(action === 'on') {
+				if(action) {
 					id_box_persoane.on('click.persoana', '#creaza_persoana, #editeaza_persoana', function(event) {
 						var flag = false,
 							pattern,
-							values = [],
+							values = [], id_companie,
 							camp = $('form input, form select'),
 							salveaza = (this.id == "creaza_persoana") ? 1 : 0;  // 1-salveaza nou, 0-modific existent
 						event.preventDefault();
-						$('form span.error').remove();
+						$('span.error').remove();
 						camp.removeClass('required');
 
-						values[0] = camp.eq(0).attr('id');
+						// prelucrare ID
+						values[0] = parseInt(camp.eq(0).val());
 
 						pattern = /.{3,50}/;
 						// Prelucrare nume
@@ -129,6 +130,10 @@
 							camp.eq(7).addClass('required').parent().append('<span class="error">Alegeţi o opţiune.</span>');
 						}
 
+						if(!salveaza) {
+							id_companie = parseInt(camp.eq(11).val());
+						}
+
 						// validare companie
 						values[8] = camp.eq(8).data('id_companie');
 						if(!values[8]) {
@@ -174,6 +179,7 @@
 								success: function(raspuns) {
 									if(raspuns === "ok") {
 										$('#box-persoane').load('php/persoane.php');
+										toggleEvents('submit_formular_persoana', false);
 									} else {
 										$('#box-persoane').append(raspuns);
 									}
@@ -186,7 +192,12 @@
 				}
 			}
 		};
-		toggleEvents('submit_formular_persoana', 'on');
+
+		$(document).keyup(function(event) {
+			if(event.keyCode == 27) {
+				$('#renunta').click();
+			}
+		});
 
 		class_box.on('change', 'select', function() {
 			$('form select').removeClass('required');
@@ -235,6 +246,7 @@
 						$('#camp_cauta_companie').removeData('id_companie');
 						$(this).dequeue('fx');
 					});
+					toggleEvents('submit_formular_persoana', true);
 				}
 			});
 		});
@@ -307,8 +319,10 @@
 			} // end function
 
 			switch(event.which) {
-				case 38: // key up
-					if($('.tabel .rec p').length == 0) { // verficam daca exista cel putin un rezultat
+				case 38:
+					// key up
+					if($('.tabel .rec p').length == 0) {
+						// daca a aparut mesaul nu exista nu facem nimic
 						return;
 					}
 					if($('.tabel .rec').hasClass('selected')) { // e deja selectat
@@ -333,9 +347,10 @@
 						$(this).val($text).focus();
 						return;
 					}
-				case 40: // key down
-					// code pentru selectare in jos
-					if($('.tabel .rec p').length == 0) { // verficam daca exista cel putin un rezultat
+				case 40:
+					// keu down
+					if($('.tabel .rec p').length == 0) {
+						// daca a aparut mesaul nu exista nu facem nimic
 						return;
 					}
 					if($('.tabel .rec').hasClass('selected')) {
@@ -368,10 +383,21 @@
 					if(selected.length) {
 						$text = selected.children().first().text();
 						id_companie = selected.children().first().attr('id').slice(1);
-						$(this).data('id_companie', id_companie).val($text).closest('tr').next().find('input:first').focus();
+
+						if($('div.box:visible').attr('id') === "box-persoane") {
+							$('input#id_companie_persoana').val('id_companie');
+						}
+
+						$(this).data('id_companie', id_companie)
+							.val($text)
+							.closest('tr')
+							.next()
+							.find('input:first')
+							.focus();
+
 						$('.tabel').fadeOut(100, function() {
 							$('.tabel').empty();
-							toggleEvents('submit_formular_persoana', 'on');
+							toggleEvents('submit_formular_persoana', true);
 						});
 						return;
 					} else {
@@ -405,13 +431,13 @@
 					success: function(raspuns) {
 						aranjeaza_elemente();
 						$('.tabel').html(raspuns).fadeIn(100);
-						toggleEvents('submit_formular_persoana', 'off');
+						toggleEvents('submit_formular_persoana', false);
 					} // end ajax succes
 				}); // end $.ajax
 			} else {
 				$('.tabel').fadeOut(100, function() {
 					$('.tabel').empty();
-					toggleEvents('submit_formular_persoana', 'on');
+					toggleEvents('submit_formular_persoana', true);
 				});
 			}
 		});
@@ -427,7 +453,7 @@
 				}
 				$('.tabel').fadeOut(100, function() {
 					$('.tabel').empty();
-					toggleEvents('submit_formular_persoana', 'on');
+					toggleEvents('submit_formular_persoana', true);
 				}); // end function()
 			},
 			mouseenter: function() {
@@ -446,92 +472,18 @@
 			id = parseInt($(this).parent().attr('id').slice(1));
 			formdata = "formular-editare=" + id;
 			rezervat = encodeURIComponent($(this).parent().next().text()); // se salveaza valoare din campul de dupa ID
-			$.post('php/' + $box + '.php', formdata, function(date_primite, textStatus, xhr) {
+			$.post('php/' + $box + '.php', formdata, function(date_primite) {
 				if(date_primite == "Inexistent") {
 					$('#box-' + $box).load('php/' + $box + '.php');
 				} else {
 					$('#box-' + $box).empty().append(date_primite);
 					$("form input").eq(1).data("rezervat", rezervat);
+					toggleEvents('submit_formular_persoana', true);
 				}
 			}); // end .post
 		});
 
 		//TODO de unit creaza companie si modifica companie in acelasi .on()
-		id_box_companii.on('click', '#modifica_companie', function(event) {
-			// administrare companii, formular editare client, click pe modifica
-			event.preventDefault();
-			var values = [], flag,
-				$this = $("form").attr("id").slice(8),
-				$url = "php/companii.php",
-				$string = 'Compania',
-				camp = $('form input');
-			$('span.error').remove();
-
-			camp.each(function(i) {
-				$(this).val($(this).val().trim());
-				values[i] = encodeURIComponent($(this).val());
-			});
-			var formdata = "nume_test=" + values[1]; //nume client sau furnizor pentru verificare
-			var rezervat = $("form input").eq(1).data("rezervat");
-			//		console.debug('Rezervat: ', rezervat);
-			//		console.debug('Modificat: ', values[1]);
-			if(formdata.length > 14) {
-				if(rezervat != values[1]) {
-					// nu este cel initial din camp
-					$.ajax({
-						url: $url,
-						async: false,
-						data: formdata,
-						timeout: 3000,
-						error: function() {
-							alert('Probleme de rețea');
-						},
-						success: function(date_primite) {
-							if(date_primite == "este") {
-								camp.eq(1).after('<span class="error">' + $string + ' se află deja în baza de date</span>');
-							} else {
-								$('#c_nume').attr('src', '/Projects/Start/images/yes_small.png').show();
-							} // end else
-						} // end succes
-					}); // end ajax
-				} // end if rezervat
-				else {
-					$('#c_nume').attr('src', '/Projects/Start/images/yes_small.png').show();
-					console.debug('Numele companiei nu s-a modificat.')
-				}
-			} else {
-				camp.eq(1).after("<span class='error'>Minim 5 caractere.</span>");
-			} // end if
-			if(values[2].length < 5) { // adresa
-				camp.eq(2).after('<span class="error">Minim 5 caractere.</span>');
-			} else {
-				$('#c_adresa').attr('src', '/Projects/Start/images/yes_small.png').show();
-			}
-			if(values[3].length <= 2) { // oras
-				camp.eq(3).after('<span class="error">Minim 3 caractere.</span>');
-			} else {
-				$('#c_oras').attr('src', '/Projects/Start/images/yes_small.png').show();
-			}
-			if(values[4].length <= 4) {
-				camp.eq(4).after('<span class="error">Minim 5 caractere.</span>');
-			} else {
-				$('#c_tara').attr('src', '/Projects/Start/images/yes_small.png').show();
-			}
-			flag = $('form span.error').length;
-			if(!flag) {
-				$('form img').hide();
-				$('form span.error').remove();
-				formdata = "salveaza=2&id=" + values[0] + "&nume=" + values[1] + "&adresa=" + values[2] + "&oras=" + values[3] + "&tara=" + values[4];
-				$.post('php/' + $this + '.php', formdata, function(date_primite) {
-					if(date_primite == 'ok') {
-						$('#box-' + $this).load('php/' + $this + '.php');
-					} else {
-						$('form span.error').remove();
-						camp.eq(1).after('<span class="error">Acest nume este deja in baza de date.</span>');
-					} // end else
-				}); // end .post
-			}
-		});
 		id_box_companii.on('click', '#creaza_companie', function(event) {
 			event.preventDefault();
 			// administrare clienti, formular creare client nou, click pe "Salveaza"
@@ -601,6 +553,81 @@
 				}); // end ajax
 			} // end if flag
 		});
+		id_box_companii.on('click', '#modifica_companie', function(event) {
+			// administrare companii, formular editare client, click pe modifica
+			event.preventDefault();
+			var values = [], flag,
+				$this = $("form").attr("id").slice(8),
+				$url = "php/companii.php",
+				$string = 'Compania',
+				camp = $('form input');
+			$('span.error').remove();
+
+			camp.each(function(i) {
+				$(this).val($(this).val().trim());
+				values[i] = encodeURIComponent($(this).val());
+			});
+			var formdata = "nume_test=" + values[1]; //nume client sau furnizor pentru verificare
+			var rezervat = $("form input").eq(1).data("rezervat");
+			//		console.debug('Rezervat: ', rezervat);
+			//		console.debug('Modificat: ', values[1]);
+			if(formdata.length > 14) {
+				if(rezervat != values[1]) {
+					// nu este cel initial din camp
+					$.ajax({
+						url: $url,
+						async: false,
+						data: formdata,
+						timeout: 3000,
+						error: function() {
+							alert('Probleme de rețea');
+						},
+						success: function(date_primite) {
+							if(date_primite == "este") {
+								camp.eq(1).after('<span class="error">' + $string + ' se află deja în baza de date</span>');
+							} else {
+								$('#c_nume').attr('src', '../images/yes_small.png').show();
+							} // end else
+						} // end succes
+					}); // end ajax
+				} // end if rezervat
+				else {
+					$('#c_nume').attr('src', '../images/yes_small.png').show();
+					console.debug('Numele companiei nu s-a modificat.')
+				}
+			} else {
+				camp.eq(1).after("<span class='error'>Minim 5 caractere.</span>");
+			} // end if
+			if(values[2].length < 5) { // adresa
+				camp.eq(2).after('<span class="error">Minim 5 caractere.</span>');
+			} else {
+				$('#c_adresa').attr('src', '../images/yes_small.png').show();
+			}
+			if(values[3].length <= 2) { // oras
+				camp.eq(3).after('<span class="error">Minim 3 caractere.</span>');
+			} else {
+				$('#c_oras').attr('src', '../images/yes_small.png').show();
+			}
+			if(values[4].length <= 4) {
+				camp.eq(4).after('<span class="error">Minim 5 caractere.</span>');
+			} else {
+				$('#c_tara').attr('src', '../images/yes_small.png').show();
+			}
+			flag = $('form span.error').length;
+			if(!flag) {
+				$('form img').hide();
+				$('form span.error').remove();
+				formdata = "salveaza=2&id=" + values[0] + "&nume=" + values[1] + "&adresa=" + values[2] + "&oras=" + values[3] + "&tara=" + values[4];
+				$.post('php/' + $this + '.php', formdata, function(date_primite) {
+					if(date_primite == 'ok') {
+						$('#box-' + $this).load('php/' + $this + '.php');
+					} else {
+						$('form span.error').remove();
+						camp.eq(1).after('<span class="error">Acest nume este deja in baza de date.</span>');
+					} // end else
+				}); // end .post
+			}
+		});
 
 		id_box_vanzatori.on('click', '#creaza_vanzator, #modifica_vanzator', function(event) {
 			// administrare vanzatori, formular creare vanzator nou, click pe Creaza vanzatorul
@@ -646,9 +673,9 @@
 						// console.debug('Am salvat / modificat vanzatorule existent');
 						id_box_vanzatori.load('php/vanzatori.php');
 					});
-				} // end if
-			}); // end post
-		}); // end on.click
+				}
+			});
+		});
 
 		id_box_oferta_noua.on('click', '#word', function(event) {
 			// TESTARE WORD

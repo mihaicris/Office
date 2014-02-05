@@ -255,6 +255,10 @@
 				</tr>
 				</tbody>
 			</table>
+			<input id="id_companie_persoana" type="hidden" name="id_companie_persoana"
+				   value="<?php echo $row['id_companie_persoana']; ?>"/>
+
+			<div class="tabel"></div>
 			<a href="#" id="editeaza_persoana" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
 			<a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
@@ -285,21 +289,22 @@
 		} else {
 			fb('se modifica existent');
 			$string = 'UPDATE `persoane`
-                   SET `nume_persoana` = ?,
-					`prenume_persoana` = ?,
-					`tel_persoana` = ?,
-					`fax_persoana` = ?,
-					`email_persoana` = ?,
-					`gen_persoana` = ?,
-					`mobil_persoana` = ?,
-					`id_companie_persoana` = ?,
-					`departament_persoana` = ?,
-					`functie_persoana`= ?
-                   WHERE `id_persoana` = ?;';
+                   	    SET	`nume_persoana` = ?,
+							`prenume_persoana` = ?,
+							`tel_persoana` = ?,
+							`fax_persoana` = ?,
+							`mobil_persoana` = ?,
+							`email_persoana` = ?,
+							`gen_persoana` = ?,
+							`id_companie_persoana` = ?,
+							`departament_persoana` = ?,
+							`functie_persoana`= ?
+                       	WHERE `id_persoana` = ?;';
 			array_push($data, array_shift($data));
 		}
 		fb($data);
 		fb($string);
+
 		$query = interogare($string, $data);
 		echo('ok');
 		exit();
@@ -317,18 +322,19 @@
 		// cautare persoane in baza de date
 		$str = "%" . $_POST["camp_str"] . "%";
 		// prima interogare pentru numar de rezultate
-		$data   = array($str, $str, $str, $str, $str);
-		$string = 'SELECT COUNT(*) FROM persoane
-				WHERE (nume_persoana LIKE ?
-					OR prenume_persoana LIKE ?
-					OR functie_persoana LIKE ?
-					OR departament_persoana LIKE ?
-					OR email_persoana LIKE ?)
-				ORDER BY nume_persoana ASC LIMIT 1;';
-		$query  = $db->prepare($string);
-		$query->execute($data);
-		//daca nu sunt rezultate se iese cu mesaj
-		$count = $query->fetchColumn();
+		$data   = array($str, $str, $str, $str, $str, $str);
+		$string = 'SELECT COUNT(*)
+					FROM persoane AS P
+					LEFT JOIN companii AS C ON P.id_companie_persoana = C.id_companie
+					WHERE (nume_persoana LIKE ?
+						OR prenume_persoana LIKE ?
+						OR functie_persoana LIKE ?
+						OR departament_persoana LIKE ?
+						OR email_persoana LIKE ?
+						OR nume_companie LIKE ?)
+					ORDER BY nume_persoana ASC LIMIT 1;';
+		$query  = interogare($string, $data);
+		$count  = $query->fetchColumn();
 		if(!$count) { //daca nu sunt rezultate se iese cu mesaj
 			// echo "<h2>Rezultate căutare</h2>";
 			echo '<p>Nu există în baza de date.</p>';
@@ -346,7 +352,8 @@
 				    OR prenume_persoana LIKE ?
 					OR functie_persoana LIKE ?
 					OR departament_persoana LIKE ?
-					OR email_persoana LIKE ?)
+					OR email_persoana LIKE ?
+					OR nume_companie LIKE ?)
 				ORDER BY nume_persoana ASC;';
 		$query  = $db->prepare($string);
 		$query->execute($data);
