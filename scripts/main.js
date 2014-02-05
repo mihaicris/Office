@@ -5,10 +5,21 @@
             id_box_vanzatori = $('#box-vanzatori'),
             id_box_oferta_noua = $('#box-oferta-noua'),
             id_box_persoane = $('#box-persoane'),
+            pagina = [  'php/oferta_noua.php',
+                'php/oferte.php',
+                'php/comanda_noua.php',
+                'php/comenzi.php',
+                'php/stats-ofertare.php',
+                'php/stats-comenzi.php',
+                'php/stats-clienti.php',
+                'php/stats-furnizori.php',
+                'php/companii.php',
+                'php/vanzatori.php',
+                'php/persoane.php'],
             timp_fadein = 100,
             timp_fadeout = 200;
 
-        var tranzitie = function (box, path) {
+        var tranzitie_interior_box = function (box, path) {
 
             $.ajax({
                 async: true,
@@ -33,7 +44,35 @@
                     }
                 });
         };
+        var tranzitie_box = function (box_curent, box_nou, path) {
 
+            $.ajax({
+                async: true,
+                url: path,
+                type: 'POST',
+                timeout: 5000})
+                .done(function (data) {
+                    box_curent.fadeOut(timp_fadeout)
+                        .promise()
+                        .done(function () {
+                            box_curent.empty();
+                            box_nou.queue('fx', function () {
+                                box_nou.html(data);
+                                box_nou.dequeue('fx');
+                            });
+                            box_nou.fadeIn(timp_fadein);
+                        });
+                })
+                .fail(function (jqXHR, textStatus) {
+                    $('span.ajax').remove();
+                    if (textStatus === "error") {
+                        box_curent.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
+                    }
+                    if (textStatus === "timeout") {
+                        box_curent.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
+                    }
+                });
+        };
         var toggleEvents = function (event, action) {
             if (event === 'submit_formular_persoana') {
                 if (action) {
@@ -150,7 +189,7 @@
                                     var box = $('#box-persoane'),
                                         path = 'php/persoane.php';
                                     if (raspuns === "ok") {
-                                        tranzitie(box, path);
+                                        tranzitie_interior_box(box, path);
                                         toggleEvents('submit_formular_persoana', false);
                                     } else {
                                         box.append(raspuns);
@@ -189,19 +228,12 @@
             }
             $('.option').not($(this)).removeClass('selected'); // deselect all other option;
             $(this).addClass('selected').show();
-            var ind = $(this).index('.option'), pagina = ['php/oferta_noua.php', 'php/oferte.php', 'php/comanda_noua.php', 'php/comenzi.php', 'php/stats-ofertare.php', 'php/stats-comenzi.php', 'php/stats-clienti.php', 'php/stats-furnizori.php', 'php/companii.php', 'php/vanzatori.php', 'php/persoane.php'], current = $('.box:visible');
-            current.fadeOut(timp_fadeout).promise().done(function () {
-                var box = class_box.eq(ind);
-                current.empty();
-                box.load(pagina[ind], function (response, status, xhr) {
-                    if (status == "error") {
-                        var msg = "Sorry but there was an error: ";
-                        box.html(msg + xhr.status + " " + xhr.statusText);
-                    }
-                    box.fadeIn(timp_fadein)
-                });
-            });
 
+            var ind = $(this).index('.option'),
+                box_curent = $('.box:visible'),
+                box_nou = class_box.eq(ind),
+                path = pagina[ind];
+            tranzitie_box(box_curent, box_nou, path);
         });
 
 
@@ -263,7 +295,7 @@
             var $this = $(this).closest('.box').attr('id').slice(4),
                 box = $('#box-' + $this),
                 path = 'php/' + $this + '.php';
-            tranzitie(box, path);
+            tranzitie_interior_box(box, path);
         });
 
         class_box.on('click', '#sterge', function (event) {
@@ -291,7 +323,7 @@
                     if (date_primite == 'ok') {
                         var box = $('#box-' + $this),
                             path = 'php/' + $this + '.php';
-                        tranzitie(box, path);
+                        tranzitie_interior_box(box, path);
                     } else {
                         alert('Eroare!')
                     } // end else
@@ -485,7 +517,7 @@
                 var a = $('#box-' + box),
                     cale = 'php/' + box + '.php';
                 if (raspuns === "Inexistent") {
-                    tranzitie(a, cale);
+                    tranzitie_interior_box(a, cale);
                 } else {
                     a.fadeOut(timp_fadeout);
                     a.queue('fx', function () {
@@ -508,7 +540,7 @@
             // administrare clienti, formular creare client nou, click pe "Salveaza"
             // console.debug($(this).attr('id'));
             var form, flag, box = $('#box-companii'), $url = "php/companii.php", values = [], $string = 'Compania', camp = $('form input');
-            $('form span.error').remove();
+            $('span.error').remove();
             camp.each(function (i) {
                 $(this).val($(this).val().trim());
                 values[i] = encodeURIComponent($(this).val());
@@ -558,7 +590,7 @@
                     },
                     success: function (raspuns) {
                         if (raspuns == 'ok') {
-                            tranzitie(box, $url)
+                            tranzitie_interior_box(box, $url)
                         } else {
                             box.append(raspuns);
                         }
