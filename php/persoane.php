@@ -44,6 +44,7 @@
 		?>
 		<h2>Creare persoană contact</h2>
 		<form action="/" method="post">
+			<input id="id_persoana" type="hidden" name="id_persoana" value=""/>
 			<table class="persoane">
 				<tbody>
 				<tr>
@@ -148,99 +149,17 @@
 				</tr>
 				</tbody>
 			</table>
-			<input id="id_persoana" type="hidden" name="id_persoana" value=""/>
 			<a href="#" id="creaza_persoana" class="submit"><h3>Salvează<span class="sosa">å</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
+
 			<div class="tabel"></div>
 		</form>
 		<?php
 		exit();
 	}
-	if(isset($_POST["camp_str"])) {
-		// cautare persoane in baza de date
-		$str = "%" . $_POST["camp_str"] . "%";
-		// prima interogare pentru numar de rezultate
-		$data   = array($str, $str, $str, $str, $str);
-		$string = 'SELECT COUNT(*) FROM persoane
-				WHERE (nume_persoana LIKE ?
-					OR prenume_persoana LIKE ?
-					OR functie_persoana LIKE ?
-					OR departament_persoana LIKE ?
-					OR email_persoana LIKE ?)
-				ORDER BY nume_persoana ASC LIMIT 1;';
-		$query  = $db->prepare($string);
-		$query->execute($data);
-		//daca nu sunt rezultate se iese cu mesaj
-		$count = $query->fetchColumn();
-		if(!$count) { //daca nu sunt rezultate se iese cu mesaj
-			// echo "<h2>Rezultate căutare</h2>";
-			echo '<p>Nu există în baza de date.</p>';
-			exit();
-		}
-		if($str == '%%') {
-			afiseaza_numar_total($count);
-			exit();
-		}
-		// interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
-		$string = 'SELECT P.* , C.nume_companie
-				FROM persoane AS P
-				LEFT JOIN companii AS C ON P.id_companie_persoana = C.id_companie
-				WHERE (nume_persoana LIKE ?
-				    OR prenume_persoana LIKE ?
-					OR functie_persoana LIKE ?
-					OR departament_persoana LIKE ?
-					OR email_persoana LIKE ?)
-				ORDER BY nume_persoana ASC;';
-		$query  = $db->prepare($string);
-		$query->execute($data);
-		afiseaza_tabel($query);
-		afiseaza_numar_total($count);
-		exit();
-	}
-	if(isset($_POST["salveaza"])) {
-		$data = $_POST["formdata"];
-
-		if($_POST["salveaza"]) {
-			fb('se salveza nou');
-			array_pop($data);
-			$string = 'INSERT INTO `persoane`
-					(`nume_persoana`,
-					`prenume_persoana`,
-					`tel_persoana`,
-					`fax_persoana`,
-					`mobil_persoana`,
-					`email_persoana`,
-					`gen_persoana`,
-					`id_companie_persoana`,
-					`departament_persoana`,
-					`functie_persoana`,
-					`id_persoana`)
-					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL);';
-		} else {
-			fb('se modifica existent');
-			$string = 'UPDATE `persoane`
-                   SET `nume_persoana` = ?,
-					`prenume_persoana` = ?,
-					`tel_persoana` = ?,
-					`fax_persoana` = ?,
-					`email_persoana` = ?,
-					`gen_persoana` = ?,
-					`mobil_persoana` = ?,
-					`id_companie_persoana` = ?,
-					`departament_persoana` = ?,
-					`functie_persoana`= ?
-                   WHERE `id_persoana` = ?;';
-		}
-		fb($data);
-		fb($string);
-		$query = $db->prepare($string);
-		$query->execute($data);
-		echo('ok');
-		exit();
-	}
-	if(isset($_POST["formular-editeaza"])) {
+	if(isset($_POST["formular-editare"])) {
 		// editeaza persoana din baza de date
-		$id     = $_POST["editeaza"];
+		$id     = $_POST["formular-editare"];
 		$string = 'SELECT P.*, C.nume_companie
 				   FROM `persoane` AS P
 				   LEFT JOIN companii AS C
@@ -248,9 +167,8 @@
 				   WHERE P.id_persoana = ?
 				   LIMIT 1;';
 		$data   = array($id);
-		$query  = $db->prepare($string);
-		$query->execute($data);
-		$row = $query->fetch(PDO::FETCH_ASSOC);
+		$query  = interogare($string, $data);
+		$row    = $query->fetch(PDO::FETCH_ASSOC);
 		if(count($row) == 1) {
 			echo("Inexistent");
 			exit();
@@ -258,6 +176,7 @@
 		?>
 		<h2>Modificare persoană de contact</h2>
 		<form action="/" method="post">
+			<input id="id_persoana" type="hidden" name="id_persoana" value="<?php echo $row['id_persoana']; ?>"/>
 			<table class="persoane">
 				<tbody>
 				<tr>
@@ -336,7 +255,6 @@
 				</tr>
 				</tbody>
 			</table>
-			<input id="id_persoana" type="hidden" name="id_persoana" value="<?php echo $row['id_persoana']; ?>"/>
 			<a href="#" id="editeaza_persoana" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
 			<a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
@@ -345,6 +263,97 @@
 		exit();
 	}
 
+	if(isset($_POST["salveaza"])) {
+		$data = $_POST["formdata"];
+		fb($data);
+		if($_POST["salveaza"]) {
+			fb('se salveza nou');
+			$string = 'INSERT INTO `persoane`
+					(`nume_persoana`,
+					`prenume_persoana`,
+					`tel_persoana`,
+					`fax_persoana`,
+					`mobil_persoana`,
+					`email_persoana`,
+					`gen_persoana`,
+					`id_companie_persoana`,
+					`departament_persoana`,
+					`functie_persoana`,
+					`id_persoana`)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL);';
+			array_shift($data); // se ia primul element (id) si se pune la sfarsit
+		} else {
+			fb('se modifica existent');
+			$string = 'UPDATE `persoane`
+                   SET `nume_persoana` = ?,
+					`prenume_persoana` = ?,
+					`tel_persoana` = ?,
+					`fax_persoana` = ?,
+					`email_persoana` = ?,
+					`gen_persoana` = ?,
+					`mobil_persoana` = ?,
+					`id_companie_persoana` = ?,
+					`departament_persoana` = ?,
+					`functie_persoana`= ?
+                   WHERE `id_persoana` = ?;';
+			array_push($data, array_shift($data));
+		}
+		fb($data);
+		fb($string);
+		$query = interogare($string, $data);
+		echo('ok');
+		exit();
+	}
+	if(isset($_POST["sterge"])) {
+		// actiune stergere companiein baza de date
+		$string = 'DELETE FROM `persoane` WHERE `id_persoana` = ? LIMIT 1;';
+		$data   = array($_POST['id']);
+		$query  = interogare($string, $data);
+		echo('ok');
+		exit();
+	}
+
+	if(isset($_POST["camp_str"])) {
+		// cautare persoane in baza de date
+		$str = "%" . $_POST["camp_str"] . "%";
+		// prima interogare pentru numar de rezultate
+		$data   = array($str, $str, $str, $str, $str);
+		$string = 'SELECT COUNT(*) FROM persoane
+				WHERE (nume_persoana LIKE ?
+					OR prenume_persoana LIKE ?
+					OR functie_persoana LIKE ?
+					OR departament_persoana LIKE ?
+					OR email_persoana LIKE ?)
+				ORDER BY nume_persoana ASC LIMIT 1;';
+		$query  = $db->prepare($string);
+		$query->execute($data);
+		//daca nu sunt rezultate se iese cu mesaj
+		$count = $query->fetchColumn();
+		if(!$count) { //daca nu sunt rezultate se iese cu mesaj
+			// echo "<h2>Rezultate căutare</h2>";
+			echo '<p>Nu există în baza de date.</p>';
+			exit();
+		}
+		if($str == '%%') {
+			afiseaza_numar_total($count);
+			exit();
+		}
+		// interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
+		$string = 'SELECT P.* , C.nume_companie
+				FROM persoane AS P
+				LEFT JOIN companii AS C ON P.id_companie_persoana = C.id_companie
+				WHERE (nume_persoana LIKE ?
+				    OR prenume_persoana LIKE ?
+					OR functie_persoana LIKE ?
+					OR departament_persoana LIKE ?
+					OR email_persoana LIKE ?)
+				ORDER BY nume_persoana ASC;';
+		$query  = $db->prepare($string);
+		$query->execute($data);
+		afiseaza_tabel($query);
+		afiseaza_numar_total($count);
+		exit();
+	}
 
 ?>
 	<h2>Lista persoane de contact</h2>
@@ -367,7 +376,7 @@
 		echo '<p>Nu există în baza de date.</p>';
 		exit();
 	}
-// interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
+	// interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
 	$string = 'SELECT P.*, C.nume_companie
            FROM persoane AS P
            LEFT JOIN companii AS C

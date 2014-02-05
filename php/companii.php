@@ -210,8 +210,6 @@
 		exit();
 	}
 
-	//de continnuat
-
 	if(isset($_POST["companie"])) {
 		// alegere companie din baza de date in formulare
 		$str = "%" . $_POST["companie"] . "%";
