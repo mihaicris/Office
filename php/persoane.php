@@ -100,7 +100,7 @@
 				<tr>
 					<td>
 						<label for="email_persoana">Adresă de email</label>
-						<input class="normal lung"
+						<input class="normal mediu"
 							   id="email_persoana"
 							   type="text"
 							   name="email_persoana"
@@ -119,7 +119,7 @@
 				<tr>
 					<td>
 						<label for="camp_cauta_companie">Companie</label>
-						<input class="normal lung"
+						<input class="normal mediu"
 							   id="camp_cauta_companie"
 							   type="text"
 							   name="companie_persoana"
@@ -220,7 +220,7 @@
 				<tr>
 					<td>
 						<label for="email_persoana">Adresă de email</label>
-						<input class="normal lung" id="email_persoana" type="text" name="email_persoana"
+						<input class="normal mediu" id="email_persoana" type="text" name="email_persoana"
 							   value="<?php echo $row['email_persoana']; ?>" autocomplete="off"/>
 					</td>
 					<td>
@@ -237,7 +237,7 @@
 				<tr>
 					<td>
 						<label for="camp_cauta_companie">Companie</label>
-						<input class="normal lung" id="camp_cauta_companie" type="text" name="companie_persoana"
+						<input class="normal mediu" id="camp_cauta_companie" type="text" name="companie_persoana"
 							   value="<?php echo $row['nume_companie']; ?>" autocomplete="off"/>
 					</td>
 					<td></td>
