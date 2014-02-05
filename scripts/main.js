@@ -73,8 +73,12 @@
 						$('span.error').remove();
 						camp.removeClass('required');
 
+						//						if(!salveaza) {
+						//							id_companie = parseInt(camp.eq(11).val());
+						//						}
+
 						// prelucrare ID
-						values[0] = parseInt(camp.eq(0).val());
+						values[0] = parseInt(camp.eq(0).val()) || null;
 
 						pattern = /.{3,50}/;
 						// Prelucrare nume
@@ -130,13 +134,9 @@
 							camp.eq(7).addClass('required').parent().append('<span class="error">Alegeţi o opţiune.</span>');
 						}
 
-						if(!salveaza) {
-							id_companie = parseInt(camp.eq(11).val());
-						}
-
 						// validare companie
-						values[8] = camp.eq(8).data('id_companie');
-						if(!values[8]) {
+						values[8] = camp.eq(11).val();
+						if(!values[8].length) {
 							flag = true;
 							camp.eq(8).addClass('required').parent().append('<span class="error">Alegeţi o companie.</span>');
 						}
@@ -183,9 +183,9 @@
 									} else {
 										$('#box-persoane').append(raspuns);
 									}
-								} // end ajax succes
-							}); // end $.ajax
-						} // end if flag
+								}
+							});
+						}
 					});
 				} else {
 					id_box_persoane.off('click.persoana');
@@ -377,28 +377,26 @@
 				case 13: // key enter
 					var id_companie,
 						selected = $('.tabel .selected');
+
 					if(!$('.tabel:visible').length) {
 						return;
 					}
+
 					if(selected.length) {
 						$text = selected.children().first().text();
-						id_companie = selected.children().first().attr('id').slice(1);
-
-						if($('div.box:visible').attr('id') === "box-persoane") {
-							$('input#id_companie_persoana').val('id_companie');
-						}
-
-						$(this).data('id_companie', id_companie)
-							.val($text)
-							.closest('tr')
-							.next()
-							.find('input:first')
-							.focus();
-
+						id_companie = parseInt(selected.children().first().attr('id').slice(1));
 						$('.tabel').fadeOut(100, function() {
 							$('.tabel').empty();
 							toggleEvents('submit_formular_persoana', true);
 						});
+						$(this).val($text)
+							.closest('tr')
+							.next()
+							.find('input:first')
+							.focus();
+						if($('div.box:visible').attr('id') === "box-persoane") {
+							$('input#id_companie_persoana').val(id_companie);
+						}
 						return;
 					} else {
 						return;
@@ -448,8 +446,11 @@
 					id_companie = parseInt($this.attr('id').slice(1)),
 					$text = $this.text(); // salvez numele firmei
 				if(!$(this).children('a').length) {
-					$('#camp_cauta_companie').data('id_companie', id_companie)
-						.val($text).closest('tr').next().find('input:first').focus();
+					$('#camp_cauta_companie').val($text)
+						.closest('tr').next().find('input:first').focus();
+					if($('div.box:visible').attr('id') === "box-persoane") {
+						$('input#id_companie_persoana').val(id_companie);
+					}
 				}
 				$('.tabel').fadeOut(100, function() {
 					$('.tabel').empty();

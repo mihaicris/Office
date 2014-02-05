@@ -149,11 +149,14 @@
 				</tr>
 				</tbody>
 			</table>
+			<input id="id_companie_persoana"
+				   type="hidden"
+				   name="id_companie_persoana"
+				   value=""/>
 			<a href="#" id="creaza_persoana" class="submit"><h3>Salvează<span class="sosa">å</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
-
-			<div class="tabel"></div>
 		</form>
+		<div class="tabel"></div>
 		<?php
 		exit();
 	}
@@ -255,14 +258,16 @@
 				</tr>
 				</tbody>
 			</table>
-			<input id="id_companie_persoana" type="hidden" name="id_companie_persoana"
+			<input id="id_companie_persoana"
+				   type="hidden"
+				   name="id_companie_persoana"
 				   value="<?php echo $row['id_companie_persoana']; ?>"/>
 
-			<div class="tabel"></div>
 			<a href="#" id="editeaza_persoana" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
 			<a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
 			<a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
 		</form>
+		<div class="tabel"></div>
 		<?php
 		exit();
 	}
