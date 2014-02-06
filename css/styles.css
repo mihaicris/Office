@@ -155,7 +155,7 @@ a.submit:not(.nou) {
 
 
 a.submit:hover {
-    box-shadow: 0 0 1px 1px #488FE0;
+    box-shadow: 0 0 2px 1px #488FE0;
 }
 
 a.buton_stergere {
@@ -169,7 +169,7 @@ a.buton_stergere {
 }
 
 a.buton_stergere:hover {
-    box-shadow: 0 0 1px 1px #900;
+    box-shadow: 0 0 2px 1px #900;
 }
 
 a.buton_renunta {
@@ -183,7 +183,7 @@ a.buton_renunta {
 }
 
 a.buton_renunta:hover {
-    box-shadow: 0 0 1px 1px #555;
+    box-shadow: 0 0 2px 1px #555;
 }
 
 li {

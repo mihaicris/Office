@@ -569,6 +569,9 @@
 			}
 		}, '.tabel div');
 
+
+		// TODO aici am ramas cu modificarile pentru $.ajax
+
 		class_box.on('click', 'span.actiune', function (event) {
 			event.preventDefault();
 			var id,

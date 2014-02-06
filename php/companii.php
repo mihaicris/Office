@@ -93,7 +93,7 @@ if (isset($_POST["formular_creare"])) {
             </tbody>
         </table>
         <a href="#" id="creaza_companie" class="submit"><h3>Salvează<span class="sosa">å</span></h3></a>
-        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
+        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
     <?php
     exit();
@@ -167,7 +167,7 @@ if (isset($_POST["formular_editare"])) {
         </table>
         <a href="#" id="modifica_companie" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
         <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
-        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță</h3></a>
+        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
     <?php
     exit();
