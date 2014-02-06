@@ -37,7 +37,7 @@
 		echo "<table>";
 	}
 
-	if(isset($_POST["formular-creare"])) {
+	if(isset($_POST["formular_creare"])) {
 		//  Formular creeare vanzator nou
 		?>
 		<h2>Creare vânzător</h2>

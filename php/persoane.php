@@ -39,7 +39,7 @@
 		echo '</table>';
 	}
 
-	if(isset($_POST["formular-creare"])) {
+	if(isset($_POST["formular_creare"])) {
 		//  Formular creeare persoana de contact noua
 		?>
 		<h2>Creare persoană contact</h2>

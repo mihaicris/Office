@@ -38,7 +38,7 @@ function afiseaza_numar_total($count)
     echo "<table>";
 }
 
-if (isset($_POST["formular-creare"])) {
+if (isset($_POST["formular_creare"])) {
     //  Formular creeare companie nou
     ?>
     <h2>Creare companie</h2>
