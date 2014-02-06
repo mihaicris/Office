@@ -141,6 +141,7 @@ a.submit {
 	padding: 0 10px;
 	margin-right: 10px;
 	border-radius: 5px;
+    margin-top: 20px;
 }
 
 a.submit:hover {
@@ -152,6 +153,7 @@ a.buton_stergere {
 	background-color: #900;
 	box-shadow: 0 0 0 0 #900;
 	padding: 0 10px;
+    margin-top: 20px;
 	margin-right: 10px;
 	border-radius: 5px;
 }
@@ -165,6 +167,7 @@ a.buton_renunta {
 	background-color: #555;
 	box-shadow: 0 0 0 0 #555;
 	padding: 0 10px;
+    margin-top: 20px;
 	margin-right: 10px;
 	border-radius: 5px;
 }
@@ -314,7 +317,6 @@ label {
 table {
 	/*display: block;*/
 	margin-top: 10px;
-	margin-bottom: 20px;
 	border-collapse: collapse;
 	/*border-spacing: 1px;*/
 	/*height: 200px;*/

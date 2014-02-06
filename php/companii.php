@@ -255,23 +255,22 @@ if (isset($_POST["camp_str"])) {
                WHERE (`nume_companie` LIKE ?)
 			   ORDER BY `nume_companie` ASC
 			   LIMIT 1;';
-
-    fb($_POST["camp_str"]);
-
     $data = array('%' . $_POST["camp_str"] . '%');
-
     $query = interogare($string, $data);
 
     //daca nu sunt rezultate se iese cu mesaj
     $count = $query->fetchColumn();
+    
     if (!$count) {
         echo '<p>Nu există în baza de date.</p>';
         exit();
     }
-    if (!$_POST["camp_str"]) {
-        afiseaza_numar_total($count);
-        exit();
+
+    if ($_POST["camp_str"] == "" ) {
+            afiseaza_numar_total($count);
+    exit();
     }
+
     // interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
     $string = 'SELECT * FROM `companii`
                		WHERE (`nume_companie` LIKE ?)

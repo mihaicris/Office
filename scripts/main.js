@@ -263,9 +263,11 @@
 				path = 'php/' + $this + '.php',
 				box_current = $('#box-' + $this);
 
-			console.log(camp_str);
+			if (event.which == 13 || event.which == 16) {   // enter sau shift
+				return;
+			}
 
-			if (camp_str.length > 2 && event.which != 13) {
+			if (!camp_str.length || camp_str.length > 2 || event.which === 53) {     // 53 == '%' all records
 				$.ajax({
 					async: false,
 					url: path,
@@ -291,7 +293,11 @@
 
 		class_box.on('click', '.nou', function (event) {
 			event.preventDefault();
-			var formdata = "formular-creare=1&nume=" + encodeURIComponent($('#camp').val()), $this = $(this).closest('.box').attr('id').slice(4), a = $('#box-' + $this), page = 'php/' + $this + '.php';
+			var formdata = "formular-creare=1&nume=" + encodeURIComponent($('#camp').val()),
+				$this = $(this).closest('.box').attr('id').slice(4),
+				a = $('#box-' + $this),
+				page = 'php/' + $this + '.php';
+
 			$.ajax({
 				type: 'POST',
 				cache: false,
@@ -389,6 +395,7 @@
 					'min-width': Xwidth
 				});
 			}
+
 			switch (event.which) {
 				case 38:
 					// key up

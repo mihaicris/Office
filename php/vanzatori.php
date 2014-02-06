@@ -170,7 +170,6 @@
 		$string = 'SELECT COUNT(*)
                FROM vanzatori
 			   WHERE (nume_vanzator LIKE ? OR prenume_vanzator LIKE ?);';
-
 		$query = interogare($string, $data);
 		//daca nu sunt rezultate se iese cu mesaj
 		$count = $query->fetchColumn();
@@ -178,6 +177,10 @@
 			echo '<p>Nu există în baza de date.</p>';
 			exit();
 		}
+        if ($_POST["camp_str"] == "" ) {
+            afiseaza_numar_total($count);
+            exit();
+        }
 		// interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
 		$string = 'SELECT *
                FROM vanzatori
@@ -185,6 +188,7 @@
 			   ORDER BY nume_vanzator, prenume_vanzator ASC;';
 		$query  = interogare($string, $data);
 		afiseaza_tabel($query, $count);
+        afiseaza_numar_total($count);
 		exit();
 	} // end if
 	if(isset($_POST["nume_test"])) {
