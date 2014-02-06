@@ -507,7 +507,8 @@ td {
 .noresults {
 	padding: 5px;
 	color: #000;
-	background-color: #CED5F5;
+	background-color: lavender;
+    line-height: 1.05;
 }
 
 /*.newfromselect {*/

@@ -16,8 +16,8 @@
 				'php/companii.php',
 				'php/vanzatori.php',
 				'php/persoane.php'],
-			timp_fadein = 100,
-			timp_fadeout = 200;
+			timp_fadein = 80,
+			timp_fadeout = 250;
 
 		var tranzitie_interior_box = function (box, path) {
 			$.ajax({
@@ -249,22 +249,45 @@
 			$(this).addClass('normal').removeClass('required');
 		});
 
+		class_box.on('keydown', 'input#camp', function (event) {
+			if (event.which == 13) {
+				event.preventDefault();
+				$('.nou').click();
+			}
+		});
+
 		class_box.on('keyup', 'input#camp', function (event) {
-			var formdata = 'camp_str=' + encodeURIComponent($(this).val()), $this;
-			if ((formdata.length > 11 || formdata.length == 9) && event.which != 13) {
-				$this = $(this).closest('.box').attr('id').slice(4);
 
+			var camp_str = $(this).val(),
+				$this = $(this).closest('.box').attr('id').slice(4),
+				path = 'php/' + $this + '.php',
+				box_current = $('#box-' + $this);
 
-				
+			console.log(camp_str);
 
-
-
-
-				$.post('php/' + $this + '.php', formdata, function (date_primite) {
-					$('#box-' + $this).children('table, p, a, div').remove().end().append(date_primite);
-				}); // end function
-			} // end if
-		}); // end on
+			if (camp_str.length > 2 && event.which != 13) {
+				$.ajax({
+					async: false,
+					url: path,
+					type: 'POST',
+					data: {
+						camp_str: camp_str
+					},
+					timeout: 5000})
+					.done(function (raspuns) {
+						box_current.children('table, p, a, div').remove().end().append(raspuns);
+					})
+					.fail(function (jqXHR, textStatus) {
+						$('span.ajax').remove();
+						if (textStatus === "error") {
+							box_current.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
+						}
+						if (textStatus === "timeout") {
+							box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
+						}
+					});
+			}
+		});
 
 		class_box.on('click', '.nou', function (event) {
 			event.preventDefault();
@@ -354,14 +377,18 @@
 			var $text;
 
 			function aranjeaza_elemente() { // pozitioneaza fereastra de sugenstii sub input #camp
-				var a = $('#camp_cauta_companie');
-				$('.tabel').css({
-					'left': a.position().left,
-					'top': a.position().top + a.height() + 10,
-					'width': a.css('width')
-				}); // end .css
-			} // end function
+				var a = $('#camp_cauta_companie'),
+					Xleft = a.position().left,
+					Xtop = a.position().top,
+					Xwidth = parseInt(a.css('width')),
+					Xheight = parseInt(a.css('height'));
 
+				$('.tabel').css({
+					'left': Xleft,
+					'top': Xtop + Xheight + 1,
+					'min-width': Xwidth
+				});
+			}
 			switch (event.which) {
 				case 38:
 					// key up
