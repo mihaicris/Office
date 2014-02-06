@@ -98,9 +98,9 @@ if (isset($_POST["formular_creare"])) {
     <?php
     exit();
 }
-if (isset($_POST["formular-editare"])) {
+if (isset($_POST["formular_editare"])) {
     // editeaza companie din baza de date
-    $id = $_POST["formular-editare"];
+    $id = $_POST["formular_editare"];
     $string = 'SELECT * FROM `companii` WHERE `id_companie` = ? LIMIT 1;';
     $data = array($id);
     $query = interogare($string, $data);
@@ -227,8 +227,8 @@ if (isset($_POST["companie"])) {
     if (!$count) {
         echo '<p class="noresults">
 			        <strong>Nu există în baza de date.</strong>
-			        <br/>Crează compania în meniul<br/>
-			        <em>Administrare, Companii</em>
+			        <br/>Crează compania din meniul
+			        <span class="sosa_font" style="color: #000">ñ</span><em>Administrare, Companii</em>
 			       </p>';
         exit();
     }
@@ -260,15 +260,15 @@ if (isset($_POST["camp_str"])) {
 
     //daca nu sunt rezultate se iese cu mesaj
     $count = $query->fetchColumn();
-    
+
     if (!$count) {
         echo '<p>Nu există în baza de date.</p>';
         exit();
     }
 
-    if ($_POST["camp_str"] == "" ) {
-            afiseaza_numar_total($count);
-    exit();
+    if ($_POST["camp_str"] == "") {
+        afiseaza_numar_total($count);
+        exit();
     }
 
     // interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
