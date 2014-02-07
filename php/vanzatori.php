@@ -78,7 +78,7 @@ if (isset($_POST["formular_creare"])) {
 }
 if (isset($_POST["formular_editare"])) {
     // editeaza vanzator din baza de date
-    $id = $_POST["formular_editare"];
+    $id = $_POST["id"];
     $string = 'SELECT *
                FROM vanzatori
                WHERE id_vanzator = ?

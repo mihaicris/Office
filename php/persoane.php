@@ -162,7 +162,7 @@ if (isset($_POST["formular_creare"])) {
 }
 if (isset($_POST["formular_editare"])) {
     // editeaza persoana din baza de date
-    $id = $_POST["formular_editare"];
+    $id = $_POST["id"];
     $string = 'SELECT P.*, C.nume_companie
 				   FROM `persoane` AS P
 				   LEFT JOIN companii AS C
@@ -262,7 +262,6 @@ if (isset($_POST["formular_editare"])) {
                type="hidden"
                name="id_companie_persoana"
                value="<?php echo $row['id_companie_persoana']; ?>"/>
-
         <a href="#" id="editeaza_persoana" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
         <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
@@ -274,9 +273,7 @@ if (isset($_POST["formular_editare"])) {
 
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];
-    fb($data);
-    if ($_POST["salveaza"]) {
-        fb('se salveza nou');
+    if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
         $string = 'INSERT INTO `persoane`
 					(`nume_persoana`,
 					`prenume_persoana`,
@@ -290,9 +287,8 @@ if (isset($_POST["salveaza"])) {
 					`functie_persoana`,
 					`id_persoana`)
 					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL);';
-        array_shift($data); // se ia primul element (id) si se pune la sfarsit
+        array_shift($data);
     } else {
-        fb('se modifica existent');
         $string = 'UPDATE `persoane`
                    	    SET	`nume_persoana` = ?,
 							`prenume_persoana` = ?,
@@ -307,9 +303,6 @@ if (isset($_POST["salveaza"])) {
                        	WHERE `id_persoana` = ?;';
         array_push($data, array_shift($data));
     }
-    fb($data);
-    fb($string);
-
     $query = interogare($string, $data);
     echo('ok');
     exit();

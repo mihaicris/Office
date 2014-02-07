@@ -18,15 +18,14 @@
 				'php/persoane.php'],
 			timp_fadein = 100,
 			timp_fadeout = 150;
-
-		var tranzitie_box = function (box_curent, box_nou, path) {
+		var load_box = function (box_curent, box_nou, path) {
 			// se incarca box-ul unei optiuni noi din meniu
 			// implemantare box.load cu fadeout/fadein
 			// intre box-ul optiunii curente si box-ul optiunii noi care se incarca
 			$.ajax({
-				async: true,
-				url: path,
-				type: 'POST',
+				async:   true,
+				url:     path,
+				type:    'POST',
 				timeout: 5000})
 				.done(function (data) {
 					box_curent.fadeOut(timp_fadeout)
@@ -43,23 +42,22 @@
 				.fail(function (jqXHR, textStatus) {
 					$('span.ajax').remove();
 					if (textStatus === "error") {
-						box_curent.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
+						box_curent.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
 					}
 					if (textStatus === "timeout") {
 						box_curent.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
 					}
 				});
 		};
-
-		var tranzitie_interior_box = function (box, path) {
+		var load_interior_box = function (box, path) {
 			// se incarca in box-ul curent noua pagina
 			// implemantare box.load cu fadeout/fadein
 			// intre cele doua pagini ale aceluiasi box care se incarca
 
 			$.ajax({
-				async: true,
-				url: path,
-				type: 'POST',
+				async:   true,
+				url:     path,
+				type:    'POST',
 				timeout: 5000})
 				.done(function (data) {
 					box.fadeOut(timp_fadeout);
@@ -72,14 +70,13 @@
 				.fail(function (jqXHR, textStatus) {
 					$('span.ajax').remove();
 					if (textStatus === "error") {
-						box.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
+						box.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
 					}
 					if (textStatus === "timeout") {
 						box.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
 					}
 				});
 		};
-
 		var pozitionare_lista_sugestii = function (elem_sursa, elem_destinatie) {
 			// pozitioneaza fereastra de sugestii sub campul apelat
 			// elem_sursa este cel de la care se preia pozitia si dimensiunile
@@ -90,17 +87,16 @@
 				Xwidth = parseInt(elem_sursa.css('width')),
 				Xheight = parseInt(elem_sursa.css('height'));
 			elem_destinatie.css({
-				'left': Xleft,
-				'top': Xtop + Xheight + 1,
+				'left':      Xleft,
+				'top':       Xtop + Xheight + 1,
 				'min-width': Xwidth
 			});
 		};
-
 		var toggleEvents = function (event, action) {
 			if (event === 'submit_formular_persoana') {
 				if (action) {
 					id_box_persoane.on('click.persoana', '#creaza_persoana, #editeaza_persoana', function (event) {
-						var path = 'php/persoane.php',
+						var path = pagina[10],
 							flag = false,
 							pattern,
 							values = [],
@@ -113,16 +109,16 @@
 						// prelucrare ID
 						values[0] = parseInt(camp.eq(0).val()) || null;
 
-						pattern = /.{3,50}/;
+						pattern = /^.{3,50}$/;
 						// Prelucrare nume
-						values[1] = camp.eq(1).val(camp.eq(1).val().slice(0, 50).trim()).val();
+						values[1] = camp.eq(1).val(camp.eq(1).val().trim()).val();
 						if (!pattern.test(values[1])) {
 							flag = true;
 							camp.eq(1).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
 						}
 
 						// Prelucrare prenume
-						values[2] = camp.eq(2).val(camp.eq(2).val().slice(0, 50).trim()).val();
+						values[2] = camp.eq(2).val(camp.eq(2).val().trim()).val();
 						if (!pattern.test(values[2])) {
 							flag = true;
 							camp.eq(2).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
@@ -168,6 +164,7 @@
 						}
 
 						// validare companie
+
 						values[8] = camp.eq(11).val();
 						if (!values[8].length) {
 							flag = true;
@@ -175,41 +172,42 @@
 						}
 
 						// validare Departament
-						values[9] = camp.eq(9).val(camp.eq(9).val().slice(0, 50).trim()).val();
-						if (!values[9].length) {
+						pattern = /^.{3,50}$/;
+						values[9] = camp.eq(9).val(camp.eq(9).val().trim()).val();
+						if (!pattern.test(values[9])) {
 							flag = true;
 							camp.eq(9).addClass('required').parent().append('<span class="error">Minim 3 caracatere.</span>');
 						}
 
 						// validare Functie
-						values[10] = camp.eq(10).val(camp.eq(10).val().slice(0, 50).trim()).val();
-						if (!values[10].length) {
+						values[10] = camp.eq(10).val(camp.eq(10).val().trim()).val();
+						if (!pattern.test(values[10])) {
 							flag = true;
 							camp.eq(10).addClass('required').parent().append('<span class="error">Minim 3 caracatere.</span>');
 						}
 
 						if (!flag) {
 							$.ajax({
-								async: true,
-								url: path,
-								type: 'POST',
-								data: {
+								async:   true,
+								url:     path,
+								type:    'POST',
+								data:    {
 									salveaza: salveaza, // se creaza / se modifica persoana
 									formdata: values
 								},
 								timeout: 5000})
-								.done(function (raspuns) {
-									if (raspuns === "ok") {
-										tranzitie_interior_box(id_box_persoane, path);
+								.done(function (data) {
+									if (data === "ok") {
+										load_interior_box(id_box_persoane, path);
 										toggleEvents('submit_formular_persoana', false);
 									} else {
-										id_box_persoane.append(raspuns);
+										id_box_persoane.append(data);
 									}
 								})
 								.fail(function (jqXHR, textStatus) {
 									$('span.ajax').remove();
 									if (textStatus === "error") {
-										id_box_persoane.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
+										id_box_persoane.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
 									}
 									if (textStatus === "timeout") {
 										id_box_persoane.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
@@ -222,12 +220,10 @@
 				}
 			}
 		};
-
 		$.ajaxSetup({
 			cache: false,
-			type: 'POST'
+			type:  'POST'
 		});
-
 		$('.menu').click(function () {
 			// tratez click pe optiunile din menu
 			if ($(this).hasClass('selected')) {
@@ -252,10 +248,9 @@
 				box_curent = $('.box:visible'),
 				box_nou = class_box.eq(ind),
 				path = pagina[ind];
-			tranzitie_box(box_curent, box_nou, path);
+			load_box(box_curent, box_nou, path);
 		});
-
-		$(document).on('ajaxStart',function () {
+		$(document).on('ajaxStart', function () {
 			$('span.ajax').remove();
 		});
 		$(document).keyup(function (event) {
@@ -263,24 +258,20 @@
 				$('#renunta').click();
 			}
 		});
-
 		class_box.on('change', 'select', function () {
 			$('form select').removeClass('required');
 			$('form #default').remove();
 		});
-
 		class_box.on('focus', 'input', function () {
 			$(this).next('img').hide();
 			$(this).addClass('normal').removeClass('required');
 		});
-
 		class_box.on('keydown', 'input#camp', function (event) {
 			if (event.which == 13) {
 				event.preventDefault();
 				$('.nou').click();
 			}
 		});
-
 		class_box.on('keyup', 'input#camp', function (event) {
 
 			var camp_str = $(this).val(),
@@ -294,10 +285,10 @@
 
 			if (!camp_str.length || camp_str.length > 2 || event.which === 53) {     // 53 == '%' all records
 				$.ajax({
-					async: true,
-					url: path,
-					type: 'POST',
-					data: {
+					async:   true,
+					url:     path,
+					type:    'POST',
+					data:    {
 						camp_str: camp_str
 					},
 					timeout: 5000})
@@ -306,7 +297,7 @@
 					})
 					.fail(function (jqXHR, textStatus) {
 						if (textStatus === "error") {
-							box_current.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
+							box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
 						}
 						if (textStatus === "timeout") {
 							box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
@@ -314,7 +305,6 @@
 					});
 			}
 		});
-
 		class_box.on('click', '.nou', function (event) {
 			event.preventDefault();
 
@@ -324,12 +314,12 @@
 				box_current = $('#box-' + root);
 
 			$.ajax({
-				async: true,
-				url: path,
-				type: 'POST',
-				data: {
+				async:   true,
+				url:     path,
+				type:    'POST',
+				data:    {
 					formular_creare: 1,
-					nume: nume
+					nume:            nume
 				},
 				timeout: 5000})
 				.done(function (raspuns) {
@@ -347,21 +337,19 @@
 				})
 				.fail(function (jqXHR, textStatus) {
 					if (textStatus === "error") {
-						box_current.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
+						box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
 					}
 					if (textStatus === "timeout") {
 						box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
 					}
 				});
 		});
-
 		class_box.on('click', '#renunta', function () {
 			var root = $(this).closest('.box').attr('id').slice(4),
 				box = $('#box-' + root),
 				path = 'php/' + root + '.php';
-			tranzitie_interior_box(box, path);
+			load_interior_box(box, path);
 		});
-
 		class_box.on('click', '#sterge', function (event) {
 
 			event.preventDefault();
@@ -384,17 +372,17 @@
 			}
 			if (r == true) {
 				$.ajax({
-					async: true,
-					url: path,
-					type: 'POST',
-					data: {
+					async:   true,
+					url:     path,
+					type:    'POST',
+					data:    {
 						sterge: 1,
-						id: id
+						id:     id
 					},
 					timeout: 5000})
 					.done(function (raspuns) {
 						if (raspuns == 'ok') {
-							tranzitie_interior_box(box_current, path);
+							load_interior_box(box_current, path);
 						}
 						else {
 							box_current.append(raspuns);
@@ -402,7 +390,7 @@
 					})
 					.fail(function (jqXHR, textStatus) {
 						if (textStatus === "error") {
-							box_current.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
+							box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
 						}
 						if (textStatus === "timeout") {
 							box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
@@ -410,7 +398,6 @@
 					});
 			}
 		});
-
 		class_box.on('keydown', 'input#camp_cauta_companie', function (event) {
 			switch (event.which) {
 				case 38: // key up
@@ -426,7 +413,6 @@
 					break;
 			}
 		});
-
 		class_box.on('keyup', 'input#camp_cauta_companie', function (event) {
 			var $text,
 				tabel = $('.tabel'),
@@ -519,10 +505,10 @@
 
 			if (string.length > 2) {
 				$.ajax({
-					async: true,
-					url: path,
-					type: 'POST',
-					data: { companie: string },
+					async:   true,
+					url:     path,
+					type:    'POST',
+					data:    { companie: string },
 					timeout: 5000})
 					.done(function (raspuns) {
 						pozitionare_lista_sugestii(camp, tabel);
@@ -531,7 +517,7 @@
 					})
 					.fail(function (jqXHR, textStatus) {
 						if (textStatus === "error") {
-							box_current.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
+							box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
 						}
 						if (textStatus === "timeout") {
 							box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
@@ -544,9 +530,8 @@
 				});
 			}
 		});
-
 		class_box.on({
-			mouseup: function () {
+			mouseup:    function () {
 				var $this = $(this).children().first(), id_companie = parseInt($this.attr('id').slice(1)), $text = $this.text(); // salvez numele firmei
 				if (!$(this).children('a').length) {
 					$('#camp_cauta_companie').val($text).closest('tr').next().find('input:first').focus();
@@ -567,181 +552,131 @@
 				$(this).removeClass('selected').css('background-color', '#FFFFFF');
 			}
 		}, '.tabel div');
-
-		// TODO aici am ramas cu modificarile pentru $.ajax
-
 		class_box.on('click', 'span.actiune', function (event) {
 			event.preventDefault();
-			var id,
-				formdata,
-				rezervat,
-				box;
+			var id = parseInt($(this).parent().attr('id').slice(1)),
+				root = $(this).closest('.box').attr('id').slice(4),
+				box_current = $('#box-' + root),
+				path = 'php/' + root + '.php';
 
-			box = $(this).closest('.box').attr('id').slice(4);
+//			rezervat = encodeURIComponent($(this).parent().next().text()); // se salveaza valoare din campul de dupa ID
 
-			id = parseInt($(this).parent().attr('id').slice(1));
-
-			formdata = "formular_editare=" + id;
-
-			rezervat = encodeURIComponent($(this).parent().next().text()); // se salveaza valoare din campul de dupa ID
-
-			$.post('php/' + box + '.php', formdata, function (raspuns) {
-				var a = $('#box-' + box),
-					cale = 'php/' + box + '.php';
-				if (raspuns === "Inexistent") {
-					tranzitie_interior_box(a, cale);
-				} else {
-					a.fadeOut(timp_fadeout);
-					a.queue('fx', function () {
-						$(this).empty().append(raspuns);
-						$(this).dequeue('fx');
-					});
-					a.fadeIn(timp_fadein);
-					a.queue('fx', function () {
-						$('form input').eq(1).data("rezervat", rezervat);
-						toggleEvents('submit_formular_persoana', true);
-						$(this).dequeue('fx');
-					});
-				}
-			}); // end .post
-		});
-
-		//TODO de unit creaza companie si modifica companie in acelasi .on()
-		id_box_companii.on('click', '#creaza_companie', function (event) {
-			event.preventDefault();
-			// administrare clienti, formular creare client nou, click pe "Salveaza"
-			// console.debug($(this).attr('id'));
-			var form, flag, box = $('#box-companii'), $url = "php/companii.php", values = [], $string = 'Compania', camp = $('form input');
-			$('span.error').remove();
-			camp.each(function (i) {
-				$(this).val($(this).val().trim());
-				values[i] = encodeURIComponent($(this).val());
-			});
-			formdata = "nume_test=" + values[0]; //nume client sau furnizor
-			if (formdata.length > 14) {
-				$.ajax({
-					async: false,
-					url: $url,
-					data: formdata,
-					success: function (date_primite) {
-						if (date_primite != "este") {
-							$('#c_nume').attr('src', 'images/yes_small.png').show();
-						} else {
-							camp.eq(0).after('<span class="error">' + $string + ' se află deja în baza de date</span>');
-						}
+			$.ajax({
+				async:   true,
+				url:     path,
+				type:    'POST',
+				data:    {
+					formular_editare: 1,
+					id:               id
+				},
+				timeout: 5000})
+				.done(function (data) {
+					if (data === 'Inexistent') {
+						load_interior_box(box_current, path);
+					}
+					else {
+						box_current.fadeOut(timp_fadeout);
+						box_current.queue('fx', function () {
+							$(this).empty().append(data);
+							$(this).dequeue('fx');
+						});
+						box_current.fadeIn(timp_fadein);
+						box_current.queue('fx', function () {
+//							$('form input').eq(1).data("rezervat", rezervat);
+							if (root == 'persoane') {
+								toggleEvents('submit_formular_persoana', true);
+							}
+							$(this).dequeue('fx');
+						});
+					}
+				})
+				.fail(function (jqXHR, textStatus) {
+					if (textStatus === "error") {
+						box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
+					}
+					if (textStatus === "timeout") {
+						box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
 					}
 				});
-			} else {
-				camp.eq(0).after("<span class='error'>Minim 5 caractere.</span>");
-			} // end if
-			if (values[1].length < 5) { // adresa
-				camp.eq(1).after('<span class="error">Minim 5 caractere.</span>');
-			} else {
-				$('#c_adresa').attr('src', 'images/yes_small.png').show();
+		});
+		id_box_companii.on('click', '#creaza_companie, #editeaza_companie ', function (event) {
+			var path = pagina[8],
+				flag = false,
+				pattern,
+				values = [],
+				camp = $('form input'),
+				salveaza = (this.id === 'creaza_companie') ? 1 : 0; // (1) creare, (0) modificare
+			event.preventDefault();
+			$('span.error').remove();
+			camp.removeClass('required');
+
+			// prelucare ID companie
+			values[0] = parseInt(camp.eq(0).val());
+
+			// prelucare nume companie
+			pattern = /^.{5,100}$/;
+			values[1] = camp.eq(1).val(camp.eq(1).val().trim()).val();
+			if (!pattern.test(values[1])) {
+				flag = true;
+				camp.eq(1).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
 			}
-			if (values[2].length <= 2) { // oras
-				camp.eq(2).after('<span class="error">Minim 3 caractere.</span>');
-			} else {
-				$('#c_oras').attr('src', 'images/yes_small.png').show();
+
+			// prelucare adresa companie
+			pattern = /^.{5,150}$/;
+			values[2] = camp.eq(2).val(camp.eq(2).val().trim()).val();
+			if (!pattern.test(values[2])) {
+				flag = true;
+				camp.eq(2).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
 			}
-			if (values[3].length <= 4) {
-				camp.eq(3).after('<span class="error">Minim 5 caractere.</span>');
-			} else {
-				$('#c_tara').attr('src', 'images/yes_small.png').show();
+
+			// prelucare oras companie
+			pattern = /^.{5,30}$/;
+			values[3] = camp.eq(3).val(camp.eq(3).val().trim()).val();
+			if (!pattern.test(values[3])) {
+				flag = true;
+				camp.eq(3).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
 			}
-			flag = $('form span.error').length;
+
+			// prelucare tara companie
+			pattern = /^.{5,50}$/;
+			values[4] = camp.eq(4).val(camp.eq(4).val().trim()).val();
+			if (!pattern.test(values[4])) {
+				flag = true;
+				camp.eq(4).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
+			}
+
 			if (!flag) {
-				$('form img').hide();
-				var formdata = "salveaza=1&nume=" + values[0] + "&adresa=" + values[1] + "&oras=" + values[2] + "&tara=" + values[3];
 				$.ajax({
-					url: $url,
-					data: formdata,
-					timeout: 3000,
-					error: function () {
-						alert('Probleme de rețea');
+					async:   true,
+					url:     path,
+					type:    'POST',
+					data:    {
+						salveaza: salveaza, // se creaza | se modifica compania
+						formdata: values
 					},
-					success: function (raspuns) {
-						if (raspuns == 'ok') {
-							tranzitie_interior_box(box, $url)
-						} else {
-							box.append(raspuns);
+					timeout: 5000})
+					.done(function (data) {
+						if (data === "ok") {
+							load_interior_box(id_box_companii, path);
+						} else if (data === "exista") {
+							camp.eq(1).addClass('required').parent().append('<span class="error">Compania există deja în sistem</span>');
 						}
-					}
-				});
+						else {
+							id_box_companii.append('<span class="error">Eroare:</span>' + data);
+						}
+					})
+					.fail(function (jqXHR, textStatus) {
+						$('span.ajax').remove();
+						if (textStatus === "error") {
+							id_box_companii.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
+						}
+						if (textStatus === "timeout") {
+							id_box_companii.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
+						}
+					});
 			}
 		});
-		id_box_companii.on('click', '#modifica_companie', function (event) {
-			// administrare companii, formular editare client, click pe modifica
-			event.preventDefault();
-			var values = [], flag, $this = $("form").attr("id").slice(8), $url = "php/companii.php", $string = 'Compania', camp = $('form input');
-			$('span.error').remove();
-
-			camp.each(function (i) {
-				$(this).val($(this).val().trim());
-				values[i] = encodeURIComponent($(this).val());
-			});
-			var formdata = "nume_test=" + values[1]; //nume client sau furnizor pentru verificare
-			var rezervat = $("form input").eq(1).data("rezervat");
-			//		console.debug('Rezervat: ', rezervat);
-			//		console.debug('Modificat: ', values[1]);
-			if (formdata.length > 14) {
-				if (rezervat != values[1]) {
-					// nu este cel initial din camp
-					$.ajax({
-						url: $url,
-						async: false,
-						data: formdata,
-						timeout: 3000,
-						error: function () {
-							alert('Probleme de rețea');
-						},
-						success: function (date_primite) {
-							if (date_primite == "este") {
-								camp.eq(1).after('<span class="error">' + $string + ' se află deja în baza de date</span>');
-							} else {
-								$('#c_nume').attr('src', '../images/yes_small.png').show();
-							} // end else
-						} // end succes
-					}); // end ajax
-				} // end if rezervat
-				else {
-					$('#c_nume').attr('src', '../images/yes_small.png').show();
-					console.debug('Numele companiei nu s-a modificat.')
-				}
-			} else {
-				camp.eq(1).after("<span class='error'>Minim 5 caractere.</span>");
-			} // end if
-			if (values[2].length < 5) { // adresa
-				camp.eq(2).after('<span class="error">Minim 5 caractere.</span>');
-			} else {
-				$('#c_adresa').attr('src', '../images/yes_small.png').show();
-			}
-			if (values[3].length <= 2) { // oras
-				camp.eq(3).after('<span class="error">Minim 3 caractere.</span>');
-			} else {
-				$('#c_oras').attr('src', '../images/yes_small.png').show();
-			}
-			if (values[4].length <= 4) {
-				camp.eq(4).after('<span class="error">Minim 5 caractere.</span>');
-			} else {
-				$('#c_tara').attr('src', '../images/yes_small.png').show();
-			}
-			flag = $('form span.error').length;
-			if (!flag) {
-				$('form img').hide();
-				$('form span.error').remove();
-				formdata = "salveaza=2&id=" + values[0] + "&nume=" + values[1] + "&adresa=" + values[2] + "&oras=" + values[3] + "&tara=" + values[4];
-				$.post('php/' + $this + '.php', formdata, function (date_primite) {
-					if (date_primite == 'ok') {
-						$('#box-' + $this).load('php/' + $this + '.php');
-					} else {
-						$('form span.error').remove();
-						camp.eq(1).after('<span class="error">Acest nume este deja in baza de date.</span>');
-					} // end else
-				}); // end .post
-			}
-		});
-
+		// TODO aici am ramas cu modificarile pentru $.ajax
 		id_box_vanzatori.on('click', '#creaza_vanzator, #modifica_vanzator', function (event) {
 			// administrare vanzatori, formular creare vanzator nou, click pe Creaza vanzatorul
 			event.preventDefault();
@@ -787,7 +722,6 @@
 				}
 			});
 		});
-
 		id_box_oferta_noua.on('click', '#word', function (event) {
 			// TESTARE WORD
 			var _self = $(this).parent();
@@ -798,14 +732,14 @@
 				return;
 			}
 			$.ajax({
-				async: false,
-				url: 'php/word/genereaza_word.php',
-				type: 'POST',
-				data: {
+				async:   false,
+				url:     'php/word/genereaza_word.php',
+				type:    'POST',
+				data:    {
 					id_persoana: $id
 				},
 				timeout: 3000,
-				error: function (jqXHR, textStatus) {
+				error:   function (jqXHR, textStatus) {
 					if (textStatus === "timeout") {
 						alert('Probleme de rețea');
 						event.preventDefault();
@@ -816,6 +750,5 @@
 				}
 			}); // end $.ajax
 		});  // end .on
-
 	})
 })(); // ready

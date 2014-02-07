@@ -1,6 +1,25 @@
 <?php
 include_once('conexiune.php');
 
+
+function verifica_existenta_companie($id, $nume_companie)
+{
+// testeaza existenta companie in baza de date
+// daca se apeleaza cu $id null inseamna se creaza o companie noua
+
+    $data = array($nume_companie);
+    $string = 'SELECT `id_companie` FROM `companii` WHERE `nume_companie` = ?;';
+    $query = interogare($string, $data);
+    $result = $query->fetch();
+    if($result['id_companie'] && $result['id_companie'] != $id) {
+        // daca exista un rezultat si acesta este diferit de $id atunci exista
+        // daca $id este null (creare) atunci la orice rezultat care nu este null inseamna ca exista
+        echo('exista');
+        exit();
+    };
+    return;
+}
+
 function afiseaza_tabel($query)
 {
     echo '<table class="companii rezultate">';
@@ -43,6 +62,7 @@ if (isset($_POST["formular_creare"])) {
     ?>
     <h2>Creare companie</h2>
     <form action="/" method="post">
+        <input id="id_companie" type="hidden" name="id_companie" value=""/>
         <table class="companii">
             <tbody>
             <tr>
@@ -54,7 +74,6 @@ if (isset($_POST["formular_creare"])) {
                            name="nume_companie"
                            value="<?php echo $_POST["nume"]; ?>"
                            autocomplete="off"/>
-                    <img id="c_nume" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             <tr>
@@ -65,7 +84,6 @@ if (isset($_POST["formular_creare"])) {
                            type="text"
                            name="adresa_companie"
                            autocomplete="off"/>
-                    <img id="c_adresa" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             <tr>
@@ -76,7 +94,6 @@ if (isset($_POST["formular_creare"])) {
                            type="text"
                            name="oras_companie"
                            autocomplete="off"/>
-                    <img id="c_oras" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             <tr>
@@ -87,11 +104,13 @@ if (isset($_POST["formular_creare"])) {
                            type="text"
                            name="tara_companie"
                            autocomplete="off"/>
-                    <img id="c_tara" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             </tbody>
         </table>
+        <input type="hidden"
+               name="rezervat_nume"
+               value=""/>
         <a href="#" id="creaza_companie" class="submit"><h3>Salvează<span class="sosa">å</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
@@ -100,7 +119,7 @@ if (isset($_POST["formular_creare"])) {
 }
 if (isset($_POST["formular_editare"])) {
     // editeaza companie din baza de date
-    $id = $_POST["formular_editare"];
+    $id = $_POST["id"];
     $string = 'SELECT * FROM `companii` WHERE `id_companie` = ? LIMIT 1;';
     $data = array($id);
     $query = interogare($string, $data);
@@ -124,7 +143,6 @@ if (isset($_POST["formular_editare"])) {
                            name="nume_companie"
                            value="<?php echo $row['nume_companie']; ?>"
                            autocomplete="off"/>
-                    <img id="c_nume" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             <tr>
@@ -136,7 +154,6 @@ if (isset($_POST["formular_editare"])) {
                            name="adresa_companie"
                            value="<?php echo $row['adresa_companie']; ?>"
                            autocomplete="off"/>
-                    <img id="c_adresa" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             <tr>
@@ -148,7 +165,6 @@ if (isset($_POST["formular_editare"])) {
                            name="oras_companie"
                            value="<?php echo $row['oras_companie']; ?>"
                            autocomplete="off"/>
-                    <img id="c_oras" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             <tr>
@@ -160,12 +176,12 @@ if (isset($_POST["formular_editare"])) {
                            name="tara_companie"
                            value="<?php echo $row['tara_companie']; ?>"
                            autocomplete="off"/>
-                    <img id="c_tara" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             </tbody>
         </table>
-        <a href="#" id="modifica_companie" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
+        <input type="hidden" name="rezervat_nume" value="<?php echo $row['nume_companie']; ?>"/>
+        <a href="#" id="editeaza_companie" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
         <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
@@ -174,29 +190,27 @@ if (isset($_POST["formular_editare"])) {
 }
 
 if (isset($_POST["salveaza"])) {
-    // salvare companie noua (1) sau modificare companie existenta (2) in baza de date
-    $nume = $_POST["nume"];
-    $adresa = $_POST["adresa"];
-    $oras = $_POST["oras"];
-    $tara = $_POST["tara"];
-    if ($_POST["salveaza"] == 1) { // se creaza un companie nou daca salveaza=1
-        $data = array($nume, $adresa, $oras, $tara);
+    $data = $_POST["formdata"];
+
+    if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
+        verifica_existenta_companie(null, $data[1]);
         $string = 'INSERT INTO `companii`
-                       (`id_companie`,
-                        `nume_companie`,
+                       (`nume_companie`,
                         `adresa_companie`,
                         `oras_companie`,
-                        `tara_companie`)
-		           VALUES (NULL, ?, ?, ?, ?);';
-    } else { // se modifica companiel existent daca salveaza=2
-        $id = $_POST["id"];
-        $data = array($nume, $adresa, $oras, $tara, $id);
+                        `tara_companie`,
+                        `id_companie`)
+		           VALUES (?, ?, ?, ?,NULL);';
+        array_shift($data);
+    } else {
+        verifica_existenta_companie($data[0], $data[1]); // data[0] contine id-ul companiei care se modifica
         $string = 'UPDATE `companii`
                    SET  `nume_companie` = ?,
                         `adresa_companie` = ?,
                         `oras_companie` = ?,
                         `tara_companie` = ?
                    WHERE `id_companie` = ?;';
+        array_push($data, array_shift($data));
     }
     $query = interogare($string, $data);
     echo('ok');
@@ -278,19 +292,6 @@ if (isset($_POST["camp_str"])) {
     $query = interogare($string, $data);
     afiseaza_tabel($query);
     afiseaza_numar_total($count);
-    exit();
-}
-
-if (isset($_POST["nume_test"])) {
-    // testeaza existenta companie in baza de date
-    $data = array($_POST["nume_test"]);
-    $string = 'SELECT COUNT(*)
-					FROM `companii`
-					WHERE `nume_companie` = ?;';
-    $query = interogare($string, $data);
-    if (!$query->fetchColumn() == 0) {
-        echo 'este';
-    }
     exit();
 }
 ?>

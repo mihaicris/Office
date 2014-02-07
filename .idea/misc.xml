@@ -383,6 +383,6 @@
     </ddl-file-settings>
   </component>
   <component name="ProjectRootManager" version="2" />
-  <component name="RegexUtilComponent" text="" flags="0" regex="^[+() 0-9]*$" mode="0" />
+  <component name="RegexUtilComponent" text="" flags="0" regex="^.{3,4}$" mode="0" />
 </project>
 
