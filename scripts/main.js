@@ -24,9 +24,9 @@
 			// implemantare box.load cu fadeout/fadein
 			// intre box-ul optiunii curente si box-ul optiunii noi care se incarca
 			$.ajax({
-				async  : true,
-				url    : path,
-				type   : 'POST',
+				async: true,
+				url: path,
+				type: 'POST',
 				timeout: 5000})
 				.done(function (data) {
 					box_curent.fadeOut(timp_fadeout)
@@ -57,9 +57,9 @@
 			// intre cele doua pagini ale aceluiasi box care se incarca
 
 			$.ajax({
-				async  : true,
-				url    : path,
-				type   : 'POST',
+				async: true,
+				url: path,
+				type: 'POST',
 				timeout: 5000})
 				.done(function (data) {
 					box.fadeOut(timp_fadeout);
@@ -90,8 +90,8 @@
 				Xwidth = parseInt(elem_sursa.css('width')),
 				Xheight = parseInt(elem_sursa.css('height'));
 			elem_destinatie.css({
-				'left'     : Xleft,
-				'top'      : Xtop + Xheight + 1,
+				'left': Xleft,
+				'top': Xtop + Xheight + 1,
 				'min-width': Xwidth
 			});
 		};
@@ -190,10 +190,10 @@
 
 						if (!flag) {
 							$.ajax({
-								async  : true,
-								url    : path,
-								type   : 'POST',
-								data   : {
+								async: true,
+								url: path,
+								type: 'POST',
+								data: {
 									salveaza: salveaza, // se creaza / se modifica persoana
 									formdata: values
 								},
@@ -225,7 +225,7 @@
 
 		$.ajaxSetup({
 			cache: false,
-			type : 'POST'
+			type: 'POST'
 		});
 
 		$('.menu').click(function () {
@@ -255,6 +255,9 @@
 			tranzitie_box(box_curent, box_nou, path);
 		});
 
+		$(document).on('ajaxStart',function () {
+			$('span.ajax').remove();
+		});
 		$(document).keyup(function (event) {
 			if (event.keyCode == 27) {
 				$('#renunta').click();
@@ -291,10 +294,10 @@
 
 			if (!camp_str.length || camp_str.length > 2 || event.which === 53) {     // 53 == '%' all records
 				$.ajax({
-					async  : true,
-					url    : path,
-					type   : 'POST',
-					data   : {
+					async: true,
+					url: path,
+					type: 'POST',
+					data: {
 						camp_str: camp_str
 					},
 					timeout: 5000})
@@ -302,7 +305,6 @@
 						box_current.children('table, p, a, div').remove().end().append(raspuns);
 					})
 					.fail(function (jqXHR, textStatus) {
-						$('span.ajax').remove();
 						if (textStatus === "error") {
 							box_current.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
 						}
@@ -322,12 +324,12 @@
 				box_current = $('#box-' + root);
 
 			$.ajax({
-				async  : true,
-				url    : path,
-				type   : 'POST',
-				data   : {
+				async: true,
+				url: path,
+				type: 'POST',
+				data: {
 					formular_creare: 1,
-					nume           : nume
+					nume: nume
 				},
 				timeout: 5000})
 				.done(function (raspuns) {
@@ -344,7 +346,6 @@
 					toggleEvents('submit_formular_persoana', true);
 				})
 				.fail(function (jqXHR, textStatus) {
-					$('span.ajax').remove();
 					if (textStatus === "error") {
 						box_current.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
 					}
@@ -383,12 +384,12 @@
 			}
 			if (r == true) {
 				$.ajax({
-					async  : true,
-					url    : path,
-					type   : 'POST',
-					data   : {
+					async: true,
+					url: path,
+					type: 'POST',
+					data: {
 						sterge: 1,
-						id    : id
+						id: id
 					},
 					timeout: 5000})
 					.done(function (raspuns) {
@@ -400,7 +401,6 @@
 						}
 					})
 					.fail(function (jqXHR, textStatus) {
-						$('span.ajax').remove();
 						if (textStatus === "error") {
 							box_current.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
 						}
@@ -519,10 +519,10 @@
 
 			if (string.length > 2) {
 				$.ajax({
-					async  : true,
-					url    : path,
-					type   : 'POST',
-					data   : { companie: string },
+					async: true,
+					url: path,
+					type: 'POST',
+					data: { companie: string },
 					timeout: 5000})
 					.done(function (raspuns) {
 						pozitionare_lista_sugestii(camp, tabel);
@@ -530,7 +530,6 @@
 						toggleEvents('submit_formular_persoana', false);
 					})
 					.fail(function (jqXHR, textStatus) {
-						$('span.ajax').remove();
 						if (textStatus === "error") {
 							box_current.append('<span class="error ajax">Eroare!<br/>' + jqXHR.responseText + '</span>');
 						}
@@ -547,7 +546,7 @@
 		});
 
 		class_box.on({
-			mouseup   : function () {
+			mouseup: function () {
 				var $this = $(this).children().first(), id_companie = parseInt($this.attr('id').slice(1)), $text = $this.text(); // salvez numele firmei
 				if (!$(this).children('a').length) {
 					$('#camp_cauta_companie').val($text).closest('tr').next().find('input:first').focus();
@@ -568,7 +567,6 @@
 				$(this).removeClass('selected').css('background-color', '#FFFFFF');
 			}
 		}, '.tabel div');
-
 
 		// TODO aici am ramas cu modificarile pentru $.ajax
 
@@ -622,9 +620,9 @@
 			formdata = "nume_test=" + values[0]; //nume client sau furnizor
 			if (formdata.length > 14) {
 				$.ajax({
-					async  : false,
-					url    : $url,
-					data   : formdata,
+					async: false,
+					url: $url,
+					data: formdata,
 					success: function (date_primite) {
 						if (date_primite != "este") {
 							$('#c_nume').attr('src', 'images/yes_small.png').show();
@@ -656,10 +654,10 @@
 				$('form img').hide();
 				var formdata = "salveaza=1&nume=" + values[0] + "&adresa=" + values[1] + "&oras=" + values[2] + "&tara=" + values[3];
 				$.ajax({
-					url    : $url,
-					data   : formdata,
+					url: $url,
+					data: formdata,
 					timeout: 3000,
-					error  : function () {
+					error: function () {
 						alert('Probleme de rețea');
 					},
 					success: function (raspuns) {
@@ -690,11 +688,11 @@
 				if (rezervat != values[1]) {
 					// nu este cel initial din camp
 					$.ajax({
-						url    : $url,
-						async  : false,
-						data   : formdata,
+						url: $url,
+						async: false,
+						data: formdata,
 						timeout: 3000,
-						error  : function () {
+						error: function () {
 							alert('Probleme de rețea');
 						},
 						success: function (date_primite) {
@@ -800,14 +798,14 @@
 				return;
 			}
 			$.ajax({
-				async  : false,
-				url    : 'php/word/genereaza_word.php',
-				type   : 'POST',
-				data   : {
+				async: false,
+				url: 'php/word/genereaza_word.php',
+				type: 'POST',
+				data: {
 					id_persoana: $id
 				},
 				timeout: 3000,
-				error  : function (jqXHR, textStatus) {
+				error: function (jqXHR, textStatus) {
 					if (textStatus === "timeout") {
 						alert('Probleme de rețea');
 						event.preventDefault();
