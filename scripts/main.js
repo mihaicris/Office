@@ -25,8 +25,8 @@
 			$.ajax({
 				async:   true,
 				url:     path,
-				type:    'POST',
-				timeout: 5000})
+				timeout: 5000
+			})
 				.done(function (data) {
 					box_curent.fadeOut(timp_fadeout)
 						.promise()
@@ -55,10 +55,8 @@
 			// intre cele doua pagini ale aceluiasi box care se incarca
 
 			$.ajax({
-				async:   true,
-				url:     path,
-				type:    'POST',
-				timeout: 5000})
+				async: true,
+				url:   path, timeout: 5000})
 				.done(function (data) {
 					box.fadeOut(timp_fadeout);
 					box.queue('fx', function () {
@@ -190,7 +188,6 @@
 							$.ajax({
 								async:   true,
 								url:     path,
-								type:    'POST',
 								data:    {
 									salveaza: salveaza, // se creaza / se modifica persoana
 									formdata: values
@@ -287,7 +284,6 @@
 				$.ajax({
 					async:   true,
 					url:     path,
-					type:    'POST',
 					data:    {
 						camp_str: camp_str
 					},
@@ -316,7 +312,6 @@
 			$.ajax({
 				async:   true,
 				url:     path,
-				type:    'POST',
 				data:    {
 					formular_creare: 1,
 					nume:            nume
@@ -374,12 +369,12 @@
 				$.ajax({
 					async:   true,
 					url:     path,
-					type:    'POST',
 					data:    {
 						sterge: 1,
 						id:     id
 					},
-					timeout: 5000})
+					timeout: 5000
+				})
 					.done(function (raspuns) {
 						if (raspuns == 'ok') {
 							load_interior_box(box_current, path);
@@ -507,7 +502,6 @@
 				$.ajax({
 					async:   true,
 					url:     path,
-					type:    'POST',
 					data:    { companie: string },
 					timeout: 5000})
 					.done(function (raspuns) {
@@ -564,7 +558,6 @@
 			$.ajax({
 				async:   true,
 				url:     path,
-				type:    'POST',
 				data:    {
 					formular_editare: 1,
 					id:               id
@@ -649,7 +642,6 @@
 				$.ajax({
 					async:   true,
 					url:     path,
-					type:    'POST',
 					data:    {
 						salveaza: salveaza, // se creaza | se modifica compania
 						formdata: values
@@ -677,12 +669,12 @@
 			}
 		});
 		// TODO aici am ramas cu modificarile pentru $.ajax
-		id_box_vanzatori.on('click', '#creaza_vanzator, #modifica_vanzator', function (event) {
+		id_box_vanzatori.on('click', '#creaza_vanzator, #editeaza_vanzator', function (event) {
 			// administrare vanzatori, formular creare vanzator nou, click pe Creaza vanzatorul
 			event.preventDefault();
 			var camp, form, formdata, values = [], rezervat, modificat, id_vanzator;
 			camp = $('form input');
-			if (this.id == 'modifica_vanzator') {
+			if (this.id == 'editeaza_vanzator') {
 				id_vanzator = camp.eq(0).val();
 				camp = camp.slice(1);
 			}
@@ -733,12 +725,10 @@
 			}
 			$.ajax({
 				async:   false,
-				url:     'php/word/genereaza_word.php',
-				type:    'POST',
-				data:    {
+				url:     'php/word/genereaza_word.php', data: {
 					id_persoana: $id
 				},
-				timeout: 3000,
+				timeout: 5000,
 				error:   function (jqXHR, textStatus) {
 					if (textStatus === "timeout") {
 						alert('Probleme de rețea');

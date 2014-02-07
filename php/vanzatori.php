@@ -53,7 +53,6 @@ if (isset($_POST["formular_creare"])) {
                            name="nume_vanzator"
                            value="<?php echo $_POST["nume"]; ?>"
                            autocomplete="off"/>
-                    <img id="c_adresa" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             <tr>
@@ -65,7 +64,6 @@ if (isset($_POST["formular_creare"])) {
                            name="prenume_vanzator"
                            autocomplete="off"
                            autofocus/>
-                    <img id="c_adresa" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             </tbody>
@@ -108,7 +106,6 @@ if (isset($_POST["formular_editare"])) {
                            name="nume_vanzator"
                            value="<?php echo $row['nume_vanzator']; ?>"
                            autocomplete="off"/>
-                    <img id="c_nume" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             <tr>
@@ -120,12 +117,11 @@ if (isset($_POST["formular_editare"])) {
                            name="prenume_vanzator"
                            value="<?php echo $row['prenume_vanzator']; ?>"
                            autocomplete="off"/>
-                    <img id="c_adresa" src="../images/yes_small.png" alt="imagine_lipsa">
                 </td>
             </tr>
             </tbody>
         </table>
-        <a href="#" id="modifica_vanzator" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
+        <a href="#" id="editeaza_vanzator" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
         <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
