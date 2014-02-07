@@ -19,7 +19,7 @@ $query->execute();
 	} //end for
 	echo '</select>';
 	?>
-	<a href="php/word/Oferta.docx" id="word" class="submit nou">
+	<a href="php/word/Oferta.docx" id="word" class="submit">
 		<h3>Generează ofertă</h3>
 	</a>
 </form><br>

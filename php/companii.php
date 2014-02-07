@@ -108,10 +108,10 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <input type="hidden"
-               name="rezervat_nume"
-               value=""/>
-        <a href="#" id="creaza_companie" class="submit"><h3>Salvează<span class="sosa">å</span></h3></a>
+<!--        <input type="hidden"-->
+<!--               name="rezervat_nume"-->
+<!--               value=""/>-->
+        <a href="#" id="creaza_companie" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
     <?php
@@ -180,8 +180,8 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <input type="hidden" name="rezervat_nume" value="<?php echo $row['nume_companie']; ?>"/>
-        <a href="#" id="editeaza_companie" class="submit"><h3>Modifică<span class="sosa">å</span></h3></a>
+<!--        <input type="hidden" name="rezervat_nume" value="--><?php //echo $row['nume_companie']; ?><!--"/>-->
+        <a href="#" id="editeaza_companie" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></a>
         <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
@@ -191,7 +191,6 @@ if (isset($_POST["formular_editare"])) {
 
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];
-
     if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
         verifica_existenta_companie(null, $data[1]);
         $string = 'INSERT INTO `companii`
