@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
-	<link href="css/styles.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="scripts/external/datepicker/css/default.css" type="text/css">
 	<link href="images/favicon.ico" rel="icon" type="image/x-icon">
 	<script src="scripts/external/jquery-1.11.0.js"></script>
+    <script src="scripts/external/datepicker/javascript/zebra_datepicker.src.js"></script>
 	<script src="scripts/main.js"></script>
 	<script src="scripts/external/Chart.js"></script>
 	<title>Proiect Office</title>

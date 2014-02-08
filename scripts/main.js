@@ -37,6 +37,15 @@
 								box_nou.dequeue('fx');
 							});
 							box_nou.fadeIn(timp_fadein);
+							$('input.datepicker').Zebra_DatePicker({
+									months: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie',
+											'Mai', 'Iunie', 'Iulie', 'August',
+											'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'],
+									format: 'j-M-Y',
+									zero_pad: true,
+									offset: [5,255]
+								}
+							);
 						});
 				})
 				.fail(function(jqXHR, textStatus) {
@@ -200,6 +209,7 @@
 				}
 			}
 		};
+
 		$.ajaxSetup({
 			cache: false,
 			type:  'POST'
@@ -228,6 +238,7 @@
 				box_nou = class_box.eq(ind),
 				path = pagina[ind];
 			load_box(box_curent, box_nou, path);
+
 		});
 		$(document).on('ajaxStart', function() {
 			$('span.ajax').remove();
