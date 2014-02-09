@@ -4,7 +4,7 @@
 
 	$limit   = 10;
 	$counter = 0;
-	$db_host = "localhost";
+	$db_host = "mihaicris.go.ro";
 	$db_name = "office";
 	$db_user = 'root';
 	$db_pass = 'mihai123';

@@ -71,4 +71,7 @@
       <primary-key name="PRIMARY" columns="id_vanzator"/>
     </table>
   </data-source>
+  <data-source source="LOCAL" name="MySQL - @mihaicris.go.ro" uuid="814bbf8c-81bd-4366-87a1-9247630dc5bf">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
 </component>
