@@ -217,7 +217,7 @@ li.menu.selected {
     color: #FFF;
 }
 
-li.menu.selected + ul li:last-child {
+ul.selected li:last-child {
     border-bottom: 1px solid #C00;
 }
 

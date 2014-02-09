@@ -207,24 +207,21 @@
         }
       }
     };
-
     $.ajaxSetup({
       cache: false,
       type:  'POST'
     });
-    $('.menu').click(function() {
-      // tratez click pe optiunile din menu
+    $('nav .menu').click(function() {
       if ($(this).hasClass('selected')) {
         $(this).removeClass('selected');
-        $(this).next().children().hide();
-        $('.box').hide();
+        $(this).parent().next().children().hide();
         return;
       }
-      $('.menu').removeClass('selected');
-      $('.option').removeClass('selected').hide();
-      $(this).addClass('selected').next().children().show()
+      $('nav .menu, nav ul').removeClass('selected');
+      $('nav .option').removeClass('selected').hide();
+      $(this).addClass('selected').parent().next().addClass('selected').children().show();
     });
-    $('.option').click(function() {
+    $('nav .option').click(function() {
       if ($(this).hasClass('selected')) {
         // daca este deja selectat nu se face nimic
         return;
@@ -247,7 +244,6 @@
     });
     class_box.on('click', 'select', function() {
       $('form select').removeClass('required');
-      $('form #default').remove();
     });
     class_box.on('focus', 'input', function() {
       $(this).next('img').hide();
@@ -310,7 +306,7 @@
             });
             box_current.fadeIn(timp_fadein);
             box_current.queue('fx', function() {
-              $(this).find('input').eq(0).focus();
+              $(this).find('input[type="text"]').eq(0).focus();
               $(this).dequeue('fx');
             });
             toggleEvents('submit_formular_persoana', true);
