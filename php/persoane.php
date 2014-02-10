@@ -2,6 +2,28 @@
 
 include_once('conexiune.php');
 
+function verifica_existenta_persoana($id, $nume_persoana, $prenume_persoana, $id_companie_persoana )
+{
+// testeaza existenta  in baza de date
+// daca se apeleaza cu $id null inseamna se testeaza un vanzator nou
+
+    $data = array($nume_persoana, $prenume_persoana, $id_companie_persoana);
+    $string = 'SELECT `id_persoana`
+                FROM `persoane`
+                WHERE (`nume_persoana` = ?
+                   AND `prenume_persoana` = ?
+                   AND `id_companie_persoana` = ?);';
+    $query = interogare($string, $data);
+    $result = $query->fetch();
+    if($result['id_persoana'] && $result['id_persoana'] != $id) {
+        // daca exista un rezultat si acesta este diferit de $id atunci exista
+        // daca $id este null (creare) atunci la orice rezultat care nu este null inseamna ca exista
+        echo('exista');
+        exit();
+    };
+    return;
+}
+
 function afiseaza_tabel($query)
 {
     echo '<table class="persoane rezultate">';
@@ -273,6 +295,46 @@ if (isset($_POST["formular_editare"])) {
 
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];
+    if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
+        verifica_existenta_persoana(null, $data[1], $data[2], $data[8]);
+        $string = 'INSERT INTO `persoane`
+					(`nume_persoana`,
+					`prenume_persoana`,
+					`tel_persoana`,
+					`fax_persoana`,
+					`mobil_persoana`,
+					`email_persoana`,
+					`gen_persoana`,
+					`id_companie_persoana`,
+					`departament_persoana`,
+					`functie_persoana`,
+					`id_persoana`)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL);';
+        array_shift($data);
+    } else {
+        verifica_existenta_persoana($data[0], $data[1], $data[2], $data[8]); // data[0] contine id-ul persoanei care se modifica
+        $string = 'UPDATE `persoane`
+                   	    SET	`nume_persoana` = ?,
+							`prenume_persoana` = ?,
+							`tel_persoana` = ?,
+							`fax_persoana` = ?,
+							`mobil_persoana` = ?,
+							`email_persoana` = ?,
+							`gen_persoana` = ?,
+							`id_companie_persoana` = ?,
+							`departament_persoana` = ?,
+							`functie_persoana`= ?
+                       	WHERE `id_persoana` = ?;';
+        array_push($data, array_shift($data));
+    }
+    $query = interogare($string, $data);
+    echo('ok');
+    exit();
+
+
+
+
+
     if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
         $string = 'INSERT INTO `persoane`
 					(`nume_persoana`,

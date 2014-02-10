@@ -14,7 +14,7 @@ function verifica_existenta_vanzator($id, $nume_vanzator, $prenume_vanzator)
                 WHERE (`nume_vanzator` = ? AND `prenume_vanzator` = ?);';
     $query = interogare($string, $data);
     $result = $query->fetch();
-    if($result['id_vanzator'] && $result['id_vanzator'] != $id) {
+    if ($result['id_vanzator'] && $result['id_vanzator'] != $id) {
         // daca exista un rezultat si acesta este diferit de $id atunci exista
         // daca $id este null (creare) atunci la orice rezultat care nu este null inseamna ca exista
         echo('exista');
@@ -150,7 +150,6 @@ if (isset($_POST["formular_editare"])) {
     exit();
 }
 if (isset($_POST["salveaza"])) {
-
     $data = $_POST["formdata"];
     if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
         verifica_existenta_vanzator(null, $data[1], $data[2]);
@@ -235,7 +234,7 @@ if (isset($_POST["camp_str"])) {
                type="text"
                name="camp_str"
                autocomplete="off"/>
-        <a href="#" class="submit nou" id="vanzator_nou" >
+        <a href="#" class="submit nou" id="vanzator_nou">
             <h3>Crează un vânzător nou</h3>
         </a>
     </form>

@@ -16,8 +16,8 @@
           'php/companii.php',
           'php/vanzatori.php',
           'php/persoane.php'],
-        timp_fadein = 100,
-        timp_fadeout = 150;
+        timp_fadein = 50,
+        timp_fadeout = 100;
     var load_box = function(box_curent, box_nou, path) {
       // se incarca box-ul unei optiuni noi din meniu
       // implemantare box.load cu fadeout/fadein
@@ -187,8 +187,13 @@
                     if (data === "ok") {
                       load_interior_box(id_box_persoane, path);
                       toggleEvents('submit_formular_persoana', false);
+                    } else if (data === "exista") {
+                      camp.filter(function(i) {
+                        return $.inArray(i, [1, 2, 8]) > -1;
+                      }).addClass('required');
+                      $('table').prepend('<span class="error">Combinația nume, prenume şi companie există deja.</span>');
                     } else {
-                      id_box_persoane.append(data);
+                      id_box_persoane.append('<span class="error">Eroare:</span>' + data);
                     }
                   })
                   .fail(function(jqXHR, textStatus) {
@@ -207,10 +212,12 @@
         }
       }
     };
+
     $.ajaxSetup({
       cache: false,
       type:  'POST'
     });
+
     $('nav .menu').click(function() {
       if ($(this).hasClass('selected')) {
         $(this).removeClass('selected');
@@ -221,6 +228,7 @@
       $('nav .option').removeClass('selected').hide();
       $(this).addClass('selected').parent().next().addClass('selected').children().show();
     });
+
     $('nav .option').click(function() {
       if ($(this).hasClass('selected')) {
         // daca este deja selectat nu se face nimic
@@ -234,27 +242,33 @@
           path = pagina[ind];
       load_box(box_curent, box_nou, path);
     });
+
     $(document).on('ajaxStart', function() {
       $('span.ajax').remove();
     });
+
     $(document).keyup(function(event) {
       if (event.keyCode == 27) {
         $('#renunta').click();
       }
     });
+
     class_box.on('click', 'select', function() {
       $('form select').removeClass('required');
     });
+
     class_box.on('focus', 'input', function() {
       $(this).next('img').hide();
       $(this).addClass('normal').removeClass('required');
     });
+
     class_box.on('keydown', 'input#camp', function(event) {
       if (event.which == 13) {
         event.preventDefault();
         $('.nou').click();
       }
     });
+
     class_box.on('keyup', 'input#camp', function(event) {
       var camp_str = $(this).val(),
           $this = $(this).closest('.box').attr('id').slice(4),
@@ -284,6 +298,7 @@
             });
       }
     });
+
     class_box.on('click', '.nou', function(event) {
       event.preventDefault();
       var root = $(this).closest('.box').attr('id').slice(4),
@@ -320,12 +335,14 @@
             }
           });
     });
+
     class_box.on('click', '#renunta', function() {
       var root = $(this).closest('.box').attr('id').slice(4),
           box = $('#box-' + root),
           path = 'php/' + root + '.php';
       load_interior_box(box, path);
     });
+
     class_box.on('click', '#sterge', function(event) {
       event.preventDefault();
       var r, id = $('form input').eq(0).val(),
@@ -371,6 +388,7 @@
             });
       }
     });
+
     class_box.on('keydown', 'input#camp_cauta_companie', function(event) {
       switch (event.which) {
         case 38: // key up
@@ -386,6 +404,7 @@
           break;
       }
     });
+
     class_box.on('keyup', 'input#camp_cauta_companie', function(event) {
       var $text,
           tabel = $('.tabel'),
@@ -498,6 +517,7 @@
         });
       }
     });
+
     class_box.on({
       mouseup:    function() {
         var $this = $(this).children().first(), id_companie = parseInt($this.attr('id').slice(1)), $text = $this.text(); // salvez numele firmei
@@ -520,6 +540,7 @@
         $(this).removeClass('selected').css('background-color', '#FFFFFF');
       }
     }, '.tabel div');
+
     class_box.on('click', 'span.actiune', function(event) {
       event.preventDefault();
       var id = parseInt($(this).parent().attr('id').slice(1)),
@@ -564,6 +585,7 @@
             }
           });
     });
+
     id_box_companii.on('click', '#creaza_companie, #editeaza_companie ', function(event) {
       var path = pagina[8],
           flag = false,
@@ -617,7 +639,9 @@
               if (data === "ok") {
                 load_interior_box(id_box_companii, path);
               } else if (data === "exista") {
-                camp.eq(1).addClass('required').parent().append('<span class="error">Compania există deja în sistem</span>');
+                camp.eq(1).addClass('required')
+                    .parent()
+                    .append('<span class="error">Compania există deja.</span>');
               }
               else {
                 id_box_companii.append('<span class="error">Eroare:</span>' + data);
@@ -634,6 +658,7 @@
             });
       }
     });
+
     id_box_vanzatori.on('click', '#creaza_vanzator, #editeaza_vanzator', function(event) {
       event.preventDefault();
       var path = pagina[9],
@@ -676,8 +701,8 @@
               } else if (data === "exista") {
                 camp.eq(1).addClass('required');
                 camp.eq(2).addClass('required')
-                    .parent()
-                    .append('<span class="error">Combinația nume și prenume deja există.</span>')
+                    .parents('table')
+                    .prepend('<span class="error">Combinația nume și prenume există deja.</span>')
               }
               else {
                 id_box_vanzatori.append('<span class="error">Eroare:</span>' + data);
@@ -694,6 +719,7 @@
             });
       }
     });
+
     id_box_oferta_noua.on('click', '#word', function(event) {
       // TESTARE WORD
       var _self = $(this).parent();

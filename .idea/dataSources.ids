@@ -41,6 +41,7 @@
       <column name="email_persoana" sqlType="VARCHAR" length="100" precision="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id_persoana"/>
       <foreign-key name="persoane_ibfk_1" columns="id_companie_persoana" ref-table="companii" ref-schema="" ref-catalog="office" ref-columns="id_companie" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="nume_persoana" unique="true" columns="nume_persoana,prenume_persoana,id_companie_persoana"/>
     </table>
     <table name="pozitii_oferte" schema="" catalog="office" type="TABLE">
       <column name="id_pozitie" sqlType="TINYINT" length="3" precision="0" nullable="false" jdbcType="-6" autoIncrement="true"/>
@@ -69,6 +70,7 @@
       <column name="nume_vanzator" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
       <column name="prenume_vanzator" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id_vanzator"/>
+      <index name="nume_vanzator" unique="true" columns="nume_vanzator,prenume_vanzator"/>
     </table>
   </data-source>
   <data-source source="LOCAL" name="mihaicris.go.ro" uuid="814bbf8c-81bd-4366-87a1-9247630dc5bf">
