@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3849955730">
-    <data-source source="LOCAL" name="Data Source" uuid="4ab5079b-c918-4dd7-9318-391d351e7c3b">
+  <component name="DataSourceManagerImpl" format="xml" hash="2915730285">
+    <data-source source="LOCAL" name="localhost" uuid="4ab5079b-c918-4dd7-9318-391d351e7c3b">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
@@ -13,11 +13,11 @@
       <default-dialect>MySQL</default-dialect>
       <libraries />
     </data-source>
-    <data-source source="LOCAL" name="MySQL - @mihaicris.go.ro" uuid="814bbf8c-81bd-4366-87a1-9247630dc5bf">
+    <data-source source="LOCAL" name="mihaicris.go.ro" uuid="814bbf8c-81bd-4366-87a1-9247630dc5bf">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://mihaicris.go.ro:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://mihaicris.go.ro:3306/office</jdbc-url>
       <user-name>root</user-name>
       <user-password>dfc7dfc3dfc2dfcbdfc3df9bdf98df99</user-password>
       <driver-properties>

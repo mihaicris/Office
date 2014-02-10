@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source source="LOCAL" name="Data Source" uuid="4ab5079b-c918-4dd7-9318-391d351e7c3b">
+  <data-source source="LOCAL" name="localhost" uuid="4ab5079b-c918-4dd7-9318-391d351e7c3b">
     <database-info product="MySQL" version="5.6.12-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.26 ( Revision: ${bzr.revision-id} )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
@@ -31,7 +31,7 @@
       <column name="id_persoana" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5" autoIncrement="true"/>
       <column name="nume_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
       <column name="prenume_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
-      <column name="gen_persoana" sqlType="BIT" length="0" precision="0" nullable="false" jdbcType="-7"/>
+      <column name="gen_persoana" sqlType="TINYINT" length="3" precision="0" nullable="false" jdbcType="-6"/>
       <column name="functie_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
       <column name="departament_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
       <column name="id_companie_persoana" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
@@ -71,7 +71,7 @@
       <primary-key name="PRIMARY" columns="id_vanzator"/>
     </table>
   </data-source>
-  <data-source source="LOCAL" name="MySQL - @mihaicris.go.ro" uuid="814bbf8c-81bd-4366-87a1-9247630dc5bf">
+  <data-source source="LOCAL" name="mihaicris.go.ro" uuid="814bbf8c-81bd-4366-87a1-9247630dc5bf">
     <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
   </data-source>
 </component>
