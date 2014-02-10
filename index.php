@@ -33,7 +33,7 @@
 
     </ul>
     <ul>
-        <li class="menu">Statistici</li>
+        <li class="menu">Rapoarte</li>
     </ul>
     <ul>
         <li class="option">Ofertare</li>

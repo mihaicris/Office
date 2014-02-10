@@ -276,7 +276,7 @@ li.option.selected {
 label {
     display: block;
     font-weight: 400;
-    font-size: 1.05em;
+    font-size: 1em;
     padding-bottom: 3px;
 }
 
@@ -309,11 +309,9 @@ input.valoare_oferta:focus {
 }
 
 .data_expirare {
-    border: 1px solid #778899;
-    background-color: #778899;
-}
-input.data_expirare:focus {
-    background-color: #8899AA;
+    border: 1px solid #999;
+    background-color: #333;
+    color: #CCC;
 }
 
 .required {
@@ -354,15 +352,19 @@ textarea {
     box-shadow: 0 0 2px #99F;
     /*margin-right: 30px;*/
     border: 1px solid lightsteelblue;
-    width: 400px;
+    width: 350px;
+    max-width: 350px;
+    min-width: 350px;
     height: 6em;
+    min-height: 6em;
+    max-height: 18em;
     background-color: lightsteelblue;
 
 }
 
 
 .lung {
-    width: 250px;
+    width: 350px;
 }
 
 .extralung {

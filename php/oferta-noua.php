@@ -9,14 +9,14 @@ include_once('conexiune.php');
         <tr>
             <td>
                 <label for="nume_oferta">Nume proiect</label>
-                <input class="normal extralung"
+                <input class="normal lung"
                        id="nume_oferta"
                        type="text"
                        name="nume_oferta"/>
             </td>
             <td>
                 <label for="data_oferta">Data ofertă / Valabilitate</label>
-                <input id="data_oferta" class="datepicker normal scurt" type="text" value=""/>
+                <input id="data_oferta" class="datepicker normal extrascurt" type="text" value=""/>
                 <input id="valabilitate" class="normal megascurt" type="text" value="30"/>
             </td>
         </tr>
@@ -40,9 +40,7 @@ include_once('conexiune.php');
         <tr>
             <td>
                 <label for="descriere_oferta">Descriere</label>
-                <textarea id="descriere_oferta"
-                          maxlength="400">
-                </textarea>
+                <textarea id="descriere_oferta" maxlength="400"></textarea>
             </td>
             <td>
                 <label for="relevant">Relevant volum ofertare</label>
@@ -52,7 +50,7 @@ include_once('conexiune.php');
         <tr>
             <td>
                 <label for="camp_cauta_companie">Companie</label>
-                <input class="normal extralung"
+                <input class="normal lung"
                        id="camp_cauta_companie"
                        type="text"/>
             </td>
@@ -63,7 +61,6 @@ include_once('conexiune.php');
                        type="text"/>
             </td>
         </tr>
-
         <tr>
             <td>
                 <label for="valoare_oferta">Valoare ofertă</label>
@@ -87,6 +84,6 @@ include_once('conexiune.php');
            value=""/>
     <a href="#" id="creaza_oferta" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
     <a href="#" id="renunta" class="buton_renunta"><h3>Resetează<span class="sosa">ã</span></h3></a>
-    <a href="#" id="printeaza_oferta" class="buton_printeaza"><h3>Printează<span class="sosa">8</span></h3></a>
+<!--    <a href="#" id="printeaza_oferta" class="buton_printeaza"><h3>Printează<span class="sosa">8</span></h3></a>-->
 </form>
 <div class="tabel"></div>

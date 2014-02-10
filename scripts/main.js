@@ -35,26 +35,22 @@
             async:   true,
             url:     path,
             timeout: 5000
+          }).done(function(data) {
+            box_curent.fadeOut(timp_fadeout)
+                .promise()
+                .done(function() {
+                  box_curent.empty();
+                  box_nou.queue('fx', function() {
+                    box_nou.html(data);
+                    box_nou.dequeue('fx');
+                  });
+                  box_nou.fadeIn(timp_fadein, function() {
+                  });
+                  $('input.datepicker').Zebra_DatePicker().val(functie_data());
+                  $('#data_expirare').val(functie_data(30));
+
+                });
           })
-              .done(function(data) {
-                box_curent.fadeOut(timp_fadeout)
-                    .promise()
-                    .done(function() {
-                      box_curent.empty();
-                      box_nou.queue('fx', function() {
-                        box_nou.html(data);
-                        box_nou.dequeue('fx');
-                      });
-                      box_nou.fadeIn(timp_fadein, function() {
-                        $('input.datepicker').Zebra_DatePicker({
-                              months: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie',
-                                'Mai', 'Iunie', 'Iulie', 'August',
-                                'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'],
-                              format: 'j-M-Y', zero_pad: true, offset: [5, 255] }
-                        );
-                      });
-                    });
-              })
               .fail(function(jqXHR, textStatus) {
                 $('span.ajax').remove();
                 if (textStatus === "error") {
@@ -89,6 +85,20 @@
                   box.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
                 }
               });
+        },
+        functie_data = function(zile) {
+          var a = new Date()
+          var dd = a.getDate().toString();
+          var mm = a.getMonth().toString();
+          var yyyy = a.getFullYear().toString(),
+              luni = ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec'];
+          if (typeof zile !== 'undefined') {
+            var b = new Date(a.getFullYear(), a.getMonth(), a.getDate() + zile);
+            dd = b.getDate().toString();
+            mm = b.getMonth().toString();
+            yyyy = b.getFullYear().toString();
+          }
+          return (dd[1] ? dd : "0" + dd[0]) + '-' + luni[mm] + '-' + yyyy;
         },
         pozitionare_lista_sugestii = function(elem_sursa, elem_destinatie) {
           // pozitioneaza fereastra de sugestii sub campul apelat

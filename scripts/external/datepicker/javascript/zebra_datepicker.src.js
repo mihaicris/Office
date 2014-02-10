@@ -26,7 +26,7 @@
             always_visible: false,
 
             //  days of the week; Sunday to Saturday
-            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            days: ['Duminică', 'Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă'],
 
             //  by default, the abbreviated name of a day consists of the first 2 letters from the day's full name;
             //  while this is common for most languages, there are also exceptions for languages like Thai, Loa, Myanmar,
@@ -110,7 +110,7 @@
             //  "days" for the "view" property makes no sense if the date format doesn't allow the selection of days.
             //
             //  default is Y-m-d
-            format: 'Y-m-d',
+            format: 'j-M-Y',
 
             //  captions in the datepicker's header, for the 3 possible views: days, months, years
             //
@@ -160,10 +160,10 @@
             inside: true,
 
             //  the caption for the "Clear" button
-            lang_clear_date: 'Clear date',
+            lang_clear_date: 'Șterge data',
 
             //  months names
-            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            months: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'],
 
             //  by default, the abbreviated name of a month consists of the first 3 letters from the month's full name;
             //  while this is common for most languages, there are also exceptions for languages like Thai, Loa, Myanmar,
@@ -181,7 +181,7 @@
             //  the date picker to be placed automatically so that it is visible!
             //
             //  default is [5, -5]
-            offset: [5, -5],
+            offset: [2, 280],
 
             //  if set as a jQuery element with a Zebra_DatePicker attached, that particular date picker will use the
             //  current date picker's value as starting date
@@ -234,7 +234,7 @@
             //  caption for the button; setting it to FALSE will disable the button
             //
             //  default is "Today"
-            show_select_today: 'Today',
+            show_select_today: 'Azi',
 
             //  should an extra column be shown, showing the number of each week?
             //  anything other than FALSE will enable this feature, and use the given value as column title
