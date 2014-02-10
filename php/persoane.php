@@ -259,8 +259,12 @@ if (isset($_POST["formular_editare"])) {
             <tr>
                 <td>
                     <label for="camp_cauta_companie">Companie</label>
-                    <input class="normal mediu" id="camp_cauta_companie" type="text" name="companie_persoana"
-                           value="<?php echo $row['nume_companie']; ?>" autocomplete="off"/>
+                    <input class="normal mediu"
+                           id="camp_cauta_companie"
+                           type="text"
+                           name="companie_persoana"
+                           value="<?php echo $row['nume_companie']; ?>"
+                           autocomplete="off"/>
                 </td>
                 <td></td>
                 <td></td>
@@ -292,7 +296,6 @@ if (isset($_POST["formular_editare"])) {
     <?php
     exit();
 }
-
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];
     if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
@@ -377,7 +380,6 @@ if (isset($_POST["sterge"])) {
     echo('ok');
     exit();
 }
-
 if (isset($_POST["camp_str"])) {
     // cautare persoane in baza de date
     $str = "%" . $_POST["camp_str"] . "%";
@@ -421,7 +423,6 @@ if (isset($_POST["camp_str"])) {
     afiseaza_numar_total($count);
     exit();
 }
-
 ?>
     <h2>Lista persoane de contact</h2>
     <form action="/" method="post" id="submit">
