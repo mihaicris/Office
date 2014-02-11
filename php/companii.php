@@ -1,5 +1,5 @@
 <?php
-include_once('conexiune.php');
+include_once 'conexiune.php';
 
 
 function verifica_existenta_companie($id, $nume_companie)
@@ -89,7 +89,7 @@ if (isset($_POST["formular_creare"])) {
             <tr>
                 <td>
                     <label for="oras_companie">Oraș</label>
-                    <input class="normal lung"
+                    <input class="normal scurt"
                            id="oras_companie"
                            type="text"
                            name="oras_companie"
@@ -99,7 +99,7 @@ if (isset($_POST["formular_creare"])) {
             <tr>
                 <td>
                     <label for="tara_companie">Țară</label>
-                    <input class="normal lung"
+                    <input class="normal scurt"
                            id="tara_companie"
                            type="text"
                            name="tara_companie"
@@ -108,9 +108,6 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-<!--        <input type="hidden"-->
-<!--               name="rezervat_nume"-->
-<!--               value=""/>-->
         <a href="#" id="creaza_companie" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
@@ -159,7 +156,7 @@ if (isset($_POST["formular_editare"])) {
             <tr>
                 <td>
                     <label>Oraș</label>
-                    <input class="normal lung"
+                    <input class="normal scurt"
                            id="oras_companie"
                            type="text"
                            name="oras_companie"
@@ -170,7 +167,7 @@ if (isset($_POST["formular_editare"])) {
             <tr>
                 <td>
                     <label>Țară</label>
-                    <input class="normal lung"
+                    <input class="normal scurt"
                            id="tara_companie"
                            type="text"
                            name="tara_companie"
@@ -180,7 +177,6 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-<!--        <input type="hidden" name="rezervat_nume" value="--><?php //echo $row['nume_companie']; ?><!--"/>-->
         <a href="#" id="editeaza_companie" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></a>
         <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>

@@ -1,6 +1,6 @@
 
 <?php
-include_once('conexiune.php');
+include_once 'conexiune.php';
 
 $string = 'SELECT *
 FROM persoane

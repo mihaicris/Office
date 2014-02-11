@@ -1,5 +1,5 @@
 <?php
-include_once('conexiune.php');
+include_once 'conexiune.php';
 ?>
 <h2>Creare ofertă nouă</h2>
 <form action="/" method="post" id="formular_oferta_noua">
@@ -43,7 +43,7 @@ include_once('conexiune.php');
                 <textarea id="descriere_oferta" maxlength="400"></textarea>
             </td>
             <td>
-                <label for="relevant">Relevant volum ofertare</label>
+                <label for="relevant">Inclus în volum ofertare</label>
                 <input id="relevant" type="checkbox" checked="checked"/>
             </td>
         </tr>

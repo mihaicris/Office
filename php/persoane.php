@@ -1,6 +1,6 @@
 <?php
 
-include_once('conexiune.php');
+include_once 'conexiune.php';
 
 function verifica_existenta_persoana($id, $nume_persoana, $prenume_persoana, $id_companie_persoana )
 {

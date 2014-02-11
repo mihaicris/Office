@@ -294,18 +294,20 @@ input[type="text"] {
 .normal {
     border: 1px solid #eee;
 }
+
 input.normal:focus {
     background-color: #F1F2D0;
 }
 
 .valoare_oferta {
-    border: 1px solid mediumseagreen;
-    background-color: mediumseagreen;
+    border: 1px solid darkseagreen;
+    background-color: darkseagreen;
     font-size: 1.2em !important;
 }
+
 input.valoare_oferta:focus {
-    background-color: darkseagreen;
-    border: 1px solid darkseagreen;
+    background-color: #F1F2D0;
+    border: 1px solid #F1F2D0;
 }
 
 .data_expirare {
@@ -330,7 +332,6 @@ select {
     height: 22px;
     border: 1px solid #EEE;
 }
-
 
 option {
     padding: 1px 3px 1px 3px;
@@ -362,6 +363,10 @@ textarea {
 
 }
 
+textarea:focus {
+    background-color: #F1F2D0;
+    border: 1px solid #F1F2D0;
+}
 
 .lung {
     width: 350px;
