@@ -2,7 +2,7 @@
 
 include_once 'conexiune.php';
 
-function verifica_existenta_persoana($id, $nume_persoana, $prenume_persoana, $id_companie_persoana )
+function verifica_existenta_persoana($id, $nume_persoana, $prenume_persoana, $id_companie_persoana)
 {
 // testeaza existenta  in baza de date
 // daca se apeleaza cu $id null inseamna se testeaza un vanzator nou
@@ -15,7 +15,7 @@ function verifica_existenta_persoana($id, $nume_persoana, $prenume_persoana, $id
                    AND `id_companie_persoana` = ?);';
     $query = interogare($string, $data);
     $result = $query->fetch();
-    if($result['id_persoana'] && $result['id_persoana'] != $id) {
+    if ($result['id_persoana'] && $result['id_persoana'] != $id) {
         // daca exista un rezultat si acesta este diferit de $id atunci exista
         // daca $id este null (creare) atunci la orice rezultat care nu este null inseamna ca exista
         echo('exista');
@@ -334,43 +334,6 @@ if (isset($_POST["salveaza"])) {
     echo('ok');
     exit();
 
-
-
-
-
-    if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
-        $string = 'INSERT INTO `persoane`
-					(`nume_persoana`,
-					`prenume_persoana`,
-					`tel_persoana`,
-					`fax_persoana`,
-					`mobil_persoana`,
-					`email_persoana`,
-					`gen_persoana`,
-					`id_companie_persoana`,
-					`departament_persoana`,
-					`functie_persoana`,
-					`id_persoana`)
-					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL);';
-        array_shift($data);
-    } else {
-        $string = 'UPDATE `persoane`
-                   	    SET	`nume_persoana` = ?,
-							`prenume_persoana` = ?,
-							`tel_persoana` = ?,
-							`fax_persoana` = ?,
-							`mobil_persoana` = ?,
-							`email_persoana` = ?,
-							`gen_persoana` = ?,
-							`id_companie_persoana` = ?,
-							`departament_persoana` = ?,
-							`functie_persoana`= ?
-                       	WHERE `id_persoana` = ?;';
-        array_push($data, array_shift($data));
-    }
-    $query = interogare($string, $data);
-    echo('ok');
-    exit();
 }
 if (isset($_POST["sterge"])) {
     // actiune stergere companiein baza de date
