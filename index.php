@@ -7,6 +7,7 @@
     <link href="images/favicon.ico" rel="icon" type="image/x-icon">
     <script src="scripts/external/jquery-1.11.0.js"></script>
     <script src="scripts/external/datepicker/javascript/zebra_datepicker.src.js"></script>
+    <script type="text/javascript" src="scripts/external/date-ro-RO.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/external/Chart.js"></script>
     <title>Proiect Office</title>

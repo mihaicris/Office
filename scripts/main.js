@@ -28,6 +28,46 @@
         timp_fadein = 50,
         timp_fadeout = 100;
 
+//    var functie_data = function(zile) {
+//      var a = new Date();
+//      var dd = a.getDate().toString();
+//      var mm = a.getMonth().toString();
+//      var yyyy = a.getFullYear().toString(),
+//          luni = ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec'];
+//      if (typeof zile !== 'undefined') {
+//        var b = new Date(a.getFullYear(), a.getMonth(), a.getDate() + zile);
+//        dd = b.getDate().toString();
+//        mm = b.getMonth().toString();
+//        yyyy = b.getFullYear().toString();
+//      }
+//      return (dd[1] ? dd : "0" + dd[0]) + '-' + luni[mm] + '-' + yyyy;
+//    };
+    //    var calcTime = function(offset) {
+//      var date, utc, newDateWithOffset;
+//      //Deal with dates in milliseconds for most accuracy
+//      date = new Date();
+//      utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+//      newDateWithOffset = new Date(utc + (3600000 * offset));
+//      //This will return the date with the locale format (string), or just return newDateWithOffset
+//      //and go from there.
+//      return newDateWithOffset;
+//    };
+    var isInArray = function(value, array) {
+      return array.indexOf(value) > -1;
+    }
+
+    var convertDate = function(value) {
+      var out,
+          temp = value.split('-'),
+          luni = {
+            Ian: 0, Feb: 1, Mar: 2, Apr: 3,
+            Mai: 4, Iun: 5, Iul: 6, Aug: 7,
+            Sep: 8, Oct: 9, Noi: 10, Dec: 11
+          };
+      out = new Date(temp[2], luni[temp[1]], temp[0]);
+      return out;
+    };
+
     var load_box = function(box_curent, box_nou, path) {
       // se incarca box-ul unei optiuni noi din meniu
       // implemantare box.load cu fadeout/fadein
@@ -47,9 +87,11 @@
               });
               box_nou.fadeIn(timp_fadein, function() {
               });
-              $('input.datepicker').Zebra_DatePicker();
-//                          .val(functie_data());
-//                  $('#data_expirare').val(functie_data(30));
+              $('input.datepicker').Zebra_DatePicker()
+
+//             .val(Date.today().toString('d-MMM-yyyy'));
+//              var b = convertDate(a.val()).addDays(30).toString('d-MMM-yyyy'); // JS Date
+//              $('#data_expirare').val(b);
             });
       })
           .fail(function(jqXHR, textStatus) {
@@ -222,36 +264,6 @@
       }
     };
 
-    var functie_data = function(zile) {
-      var a = new Date();
-      var dd = a.getDate().toString();
-      var mm = a.getMonth().toString();
-      var yyyy = a.getFullYear().toString(),
-          luni = ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec'];
-      if (typeof zile !== 'undefined') {
-        var b = new Date(a.getFullYear(), a.getMonth(), a.getDate() + zile);
-        dd = b.getDate().toString();
-        mm = b.getMonth().toString();
-        yyyy = b.getFullYear().toString();
-      }
-      return (dd[1] ? dd : "0" + dd[0]) + '-' + luni[mm] + '-' + yyyy;
-    };
-
-    var Zebra = function(data) {
-      var temp, out,
-          luni = {
-            Ian: 0, Feb: 1, Mar: 2, Apr: 3,
-            Mai: 4, Iun: 5, Iul: 6, Aug: 7,
-            Sep: 8, Oct: 9, Noi: 10, Dec: 11
-          };
-      temp = data.split('-');
-      out = new Date(temp[2], luni[temp[1]], temp[0]).getTime();
-      return out;
-    };
-
-    console.log(Zebra('11-Feb-2014'));
-    console.log(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0).getTime());
-
     $.ajaxSetup({
       cache: false,
       type:  'POST'
@@ -290,6 +302,24 @@
       if (event.keyCode == 27) {
         $('#renunta').click();
       }
+    });
+
+    id_box_oferta_noua.on('keydown', '#valabilitate', function(event) {
+      if (!isInArray(event.keyCode, [8, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
+        103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
+        event.preventDefault();
+      } else {
+        if (this.selectionStart === this.selectionEnd && $(this).val().length === 3 && !isInArray(event.keyCode, [8 , 46, 37, 39])) {
+          event.preventDefault();
+        }
+      }
+    });
+
+    id_box_oferta_noua.on('blur', '#data_oferta, #valabilitate', function() {
+      var data = convertDate($('input.datepicker').val());
+      var valabilitate = $('#valabilitate').val();
+      var b = data.addDays(valabilitate).toString('d-MMM-yyyy');
+      $('#data_expirare').val(b);
     });
 
     class_box.on('click', 'select', function() {

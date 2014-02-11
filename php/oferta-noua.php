@@ -1,6 +1,27 @@
 <?php
 include_once 'conexiune.php';
+
+date_default_timezone_set('Europe/Bucharest');
+$months = ['Ian' , 'Feb' ,'Mar', 'Apr' , 'Mai' , 'Iun' , 'Iul' , 'Aug', 'Sep', 'Oct', 'Noi', 'Dec='];
+$ziua = getdate()['mday'];
+$luna = getdate()['mon'];
+$an = getdate()['year'];
+$timestamp = getdate()['0'];
+
+$today = $ziua.'-'.$months[$luna-1].'-'.$an;
+
+
+$date1 = mktime(0,0,0,$luna +1, $ziua, $an);
+$ziua1= getdate($date1)['mday'];
+$luna1=getdate($date1)['mon'];
+$an1 =getdate($date1)['year'];
+
+$viitor = $ziua1.'-'.$months[$luna1-1].'-'.$an1;
+
+
+
 ?>
+
 <h2>Creare ofertă nouă</h2>
 <form action="/" method="post" id="formular_oferta_noua">
     <input id="id_oferta" type="hidden" name="id_oferta" value=""/>
@@ -16,7 +37,7 @@ include_once 'conexiune.php';
             </td>
             <td>
                 <label for="data_oferta">Data ofertă / Valabilitate</label>
-                <input id="data_oferta" class="datepicker normal extrascurt" type="text" value=""/>
+                <input id="data_oferta" class="datepicker normal extrascurt" type="text" value="<?php echo $today; ?>"/>
                 <input id="valabilitate" class="normal megascurt" type="text" value="30"/>
             </td>
         </tr>
@@ -29,11 +50,11 @@ include_once 'conexiune.php';
                        name="vanzator_oferta"/>
             </td>
             <td>
-                <label for="data_expirare">Data expirare</label>
+                <label for="data_expirare">Data expirare ofertă</label>
                 <input id="data_expirare"
                        class="data_expirare extrascurt"
                        type="text"
-                       value=""
+                       value="<?php echo $viitor; ?>"
                        disabled="disabled"/>
             </td>
         </tr>
@@ -43,6 +64,12 @@ include_once 'conexiune.php';
                 <textarea id="descriere_oferta" maxlength="400"></textarea>
             </td>
             <td>
+
+                <label for="referinta">Referință</label>
+                <input class="normal scurt"
+                       id="referinta"
+                       name="referinta"
+                       type="text"/><br/><br/>
                 <label for="relevant">Inclus în volum ofertare</label>
                 <input id="relevant" type="checkbox" checked="checked"/>
             </td>
@@ -78,12 +105,16 @@ include_once 'conexiune.php';
         </tr>
         </tbody>
     </table>
-    <input id="id_companie_persoana"
+    <input id="id_companie"
            type="hidden"
-           name="id_companie_persoana"
+           name="id_companie"
+           value=""/>
+    <input id="id_persoana"
+           type="hidden"
+           name="id_persoana"
            value=""/>
     <a href="#" id="creaza_oferta" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
     <a href="#" id="renunta" class="buton_renunta"><h3>Resetează<span class="sosa">ã</span></h3></a>
-<!--    <a href="#" id="printeaza_oferta" class="buton_printeaza"><h3>Printează<span class="sosa">8</span></h3></a>-->
+    <!--    <a href="#" id="printeaza_oferta" class="buton_printeaza"><h3>Printează<span class="sosa">8</span></h3></a>-->
 </form>
 <div class="tabel"></div>

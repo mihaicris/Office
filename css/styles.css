@@ -255,14 +255,9 @@ li.option.selected {
     background-color: #333;
 }
 
-/*#logo {*/
-/*position: absolute;*/
-/*height: 100px;*/
-/*right: 0;*/
-/*bottom: 0;*/
-/*z-index: 1;*/
-/*opacity: 0.8;*/
-/*}*/
+.nou {
+    margin-left: 30px;
+}
 
 :focus {
     outline: none;
@@ -356,7 +351,7 @@ textarea {
     width: 350px;
     max-width: 350px;
     min-width: 350px;
-    height: 6em;
+    height: 9em;
     min-height: 6em;
     max-height: 18em;
     background-color: lightsteelblue;
@@ -428,12 +423,6 @@ form td {
 .rezultate tr:nth-child(2n) td {
     background-color: #424242;
 }
-
-/*.edit-line {*/
-/*position: relative;*/
-/*margin-right: 7px;*/
-/*top: 2px;*/
-/*}*/
 
 .produse .cod {
     min-width: 200px;
@@ -595,37 +584,5 @@ form td {
     line-height: 1.05;
 }
 
-.nou {
-    margin-left: 30px;
-}
 
-/*.newfromselect {*/
-/*color: white;*/
-/*display: inline;*/
-/*margin-left: 5px;*/
-/*padding: 2px 9px 2px 6px;*/
-/*background-color: #488FE0;*/
-/*border-radius: 4px;*/
-/*}*/
-
-/* Start by setting display:none to make this hidden.
-   Then we position it in relation to the viewport window
-   with position:fixed. Width, height, top and left speak
-   speak for themselves. Background we set to 80% white with
-   our animation centered, and no-repeating */
-.modal {
-    display: none;
-    position: absolute;
-    z-index: 1000;
-    top: 40px;
-    left: 12px;
-    width: 70px;
-
-}
-
-/* Anytime the body has the loading class, our
-   modal element will be visible */
-body.loading .modal {
-    display: block;
-}
 
