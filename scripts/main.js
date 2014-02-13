@@ -25,8 +25,8 @@
           'php/companii.php',
           'php/vanzatori.php',
           'php/persoane.php'],
-        timp_fadein = 50,
-        timp_fadeout = 100;
+        timp_fadein = 100,
+        timp_fadeout = 150;
 
 //    var functie_data = function(zile) {
 //      var a = new Date();
@@ -56,6 +56,15 @@
       return array.indexOf(value) > -1;
     }
 
+    var AjaxFail = function(jqXHR, textStatus, box) {
+      if (textStatus === "error") {
+        box.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
+      }
+      if (textStatus === "timeout") {
+        box.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
+      }
+    };
+
     var convertDate = function(value) {
       var out,
           temp = value.split('-'),
@@ -76,32 +85,38 @@
         async:   true,
         url:     path,
         timeout: 5000
-      }).done(function(data) {
-        box_curent.fadeOut(timp_fadeout)
-            .promise()
-            .done(function() {
-              box_curent.empty();
-              box_nou.queue('fx', function() {
-                box_nou.html(data);
-                box_nou.dequeue('fx');
-              });
-              box_nou.fadeIn(timp_fadein, function() {
-              });
-              $('input.datepicker').Zebra_DatePicker()
-
-//             .val(Date.today().toString('d-MMM-yyyy'));
-//              var b = convertDate(a.val()).addDays(30).toString('d-MMM-yyyy'); // JS Date
-//              $('#data_expirare').val(b);
-            });
       })
+          .done(function(data) {
+            box_curent.fadeOut(timp_fadeout)
+                .promise()
+                .done(function() {
+                  box_curent.empty();
+                  box_nou.queue('fx', function() {
+                    box_nou.html(data);
+                    box_nou.dequeue('fx');
+                  });
+                  box_nou.fadeIn(timp_fadein, function() {
+                  });
+                  $('input.datepicker').Zebra_DatePicker({
+                    onClear:  function() {
+                      $('#data_expirare').val('');
+                    },
+                    onSelect: function(user_data, b, data_JS, d) {
+                      /**
+                       The callback function takes 4 parameters:
+                       - the date in the format specified by the “format” attribute;
+                       - the date in YYYY-MM-DD format
+                       - the date as a JavaScript Date object
+                       - a reference to the element the date picker is attached to, as a jQuery object*/
+                      var v = $('#valabilitate').val();
+                      var data = data_JS.addDays(v).toString('d-MMM-yyyy');
+                      $('#data_expirare').val(data);
+                    }
+                  });
+                });
+          })
           .fail(function(jqXHR, textStatus) {
-            $('span.ajax').remove();
-            if (textStatus === "error") {
-              box_curent.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-            }
-            if (textStatus === "timeout") {
-              box_curent.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-            }
+            AjaxFail(jqXHR, textStatus, box_curent);
           });
     };
 
@@ -121,13 +136,7 @@
             box.fadeIn(timp_fadein);
           })
           .fail(function(jqXHR, textStatus) {
-            $('span.ajax').remove();
-            if (textStatus === "error") {
-              box.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-            }
-            if (textStatus === "timeout") {
-              box.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-            }
+            AjaxFail(jqXHR, textStatus, box);
           });
     };
 
@@ -248,13 +257,7 @@
                     }
                   })
                   .fail(function(jqXHR, textStatus) {
-                    $('span.ajax').remove();
-                    if (textStatus === "error") {
-                      id_box_persoane.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-                    }
-                    if (textStatus === "timeout") {
-                      id_box_persoane.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-                    }
+                    AjaxFail(jqXHR, textStatus, id_box_persoane);
                   });
             }
           });
@@ -305,17 +308,17 @@
     });
 
     id_box_oferta_noua.on('keydown', '#valabilitate', function(event) {
-      if (!isInArray(event.keyCode, [8, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
+      if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
         103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
         event.preventDefault();
       } else {
-        if (this.selectionStart === this.selectionEnd && $(this).val().length === 3 && !isInArray(event.keyCode, [8 , 46, 37, 39])) {
+        if (this.selectionStart === this.selectionEnd && $(this).val().length === 3 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
           event.preventDefault();
         }
       }
     });
 
-    id_box_oferta_noua.on('blur', '#data_oferta, #valabilitate', function() {
+    id_box_oferta_noua.on('input', '#valabilitate', function() {
       var data = convertDate($('input.datepicker').val());
       var valabilitate = $('#valabilitate').val();
       var b = data.addDays(valabilitate).toString('d-MMM-yyyy');
@@ -342,7 +345,7 @@
       var camp_str = $(this).val(),
           $this = $(this).closest('.box').attr('id').slice(4),
           path = 'php/' + $this + '.php',
-          box_current = $('#box-' + $this);
+          box_curent = $('#box-' + $this);
       if (event.which == 13 || event.which == 16) {   // enter sau shift
         return;
       }
@@ -355,15 +358,10 @@
           },
           timeout: 5000})
             .done(function(raspuns) {
-              box_current.children('table, p, a, div').remove().end().append(raspuns);
+              box_curent.children('table, p, a, div').remove().end().append(raspuns);
             })
             .fail(function(jqXHR, textStatus) {
-              if (textStatus === "error") {
-                box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-              }
-              if (textStatus === "timeout") {
-                box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-              }
+              AjaxFail(jqXHR, textStatus, box_curent);
             });
       }
     });
@@ -373,7 +371,7 @@
       var root = $(this).closest('.box').attr('id').slice(4),
           path = 'php/' + root + '.php',
           nume = $('#camp').val(),
-          box_current = $('#box-' + root);
+          box_curent = $('#box-' + root);
       $.ajax({
         async:   true,
         url:     path,
@@ -383,25 +381,20 @@
         },
         timeout: 5000})
           .done(function(raspuns) {
-            box_current.fadeOut(timp_fadeout);
-            box_current.queue('fx', function() {
+            box_curent.fadeOut(timp_fadeout);
+            box_curent.queue('fx', function() {
               $(this).empty().append(raspuns);
               $(this).dequeue('fx');
             });
-            box_current.fadeIn(timp_fadein);
-            box_current.queue('fx', function() {
+            box_curent.fadeIn(timp_fadein);
+            box_curent.queue('fx', function() {
               $(this).find('input[type="text"]').eq(0).focus();
               $(this).dequeue('fx');
             });
             toggleEvents('submit_formular_persoana', true);
           })
           .fail(function(jqXHR, textStatus) {
-            if (textStatus === "error") {
-              box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-            }
-            if (textStatus === "timeout") {
-              box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-            }
+            AjaxFail(jqXHR, textStatus, box_curent);
           });
     });
 
@@ -416,7 +409,7 @@
       event.preventDefault();
       var r, id = $('form input').eq(0).val(),
           root = $(this).closest('.box').attr('id').slice(4),
-          box_current = $('#box-' + root),
+          box_curent = $('#box-' + root),
           path = 'php/' + root + '.php';
       switch (root) {
         case 'companii':
@@ -441,104 +434,92 @@
         })
             .done(function(raspuns) {
               if (raspuns == 'ok') {
-                load_interior_box(box_current, path);
+                load_interior_box(box_curent, path);
               }
               else {
-                box_current.append(raspuns);
+                box_curent.append(raspuns);
               }
             })
             .fail(function(jqXHR, textStatus) {
-              if (textStatus === "error") {
-                box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-              }
-              if (textStatus === "timeout") {
-                box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-              }
+              AjaxFail(jqXHR, textStatus, box_curent);
             });
       }
     });
 
-    class_box.on('keydown', 'input#camp_cauta_companie', function(event) {
-      switch (event.which) {
-        case 38: // key up
-          event.preventDefault();
+    class_box.on('keydown', 'input.livesearch', function(event) {
+      if (isInArray(event.which, [13, 38, 40])) event.preventDefault();
+    });
+
+    class_box.on('keyup', 'input.livesearch', function(event) {
+      var $text, path,
+          tabel = $('.tabel'),
+          camp = $(this),
+          id = camp.attr('id'),
+          string = camp.val(),
+          root = $(this).closest('.box').attr('id').slice(4),
+          box_curent = $('#box-' + root);
+
+      switch (id) {
+        case 'camp_cauta_persoana':
+          path = 'php/persoane.php'
           break;
-        case 40: // key up
-          event.preventDefault();
-          break;
-        case 13: // key enter
-          event.preventDefault();
+        case 'camp_cauta_companie':
+          path = 'php/companii.php'
           break;
         default:
           break;
       }
-    });
 
-    class_box.on('keyup', 'input#camp_cauta_companie', function(event) {
-      var $text,
-          tabel = $('.tabel'),
-          camp = $(this),
-          string = camp.val(),
-          path = 'php/companii.php',
-          root = $(this).closest('.box').attr('id').slice(4),
-          box_current = $('#box-' + root);
       switch (event.which) {
         case 38:
           // key up
-          if ($('.tabel .rec p').length == 0) {
-            // daca a aparut mesajul nu exista nu facem nimic
+          if (tabel.find('.noresults').length) {
             return;
           }
-          if ($('.tabel .rec').hasClass('selected')) { // e deja selectat
-            if ($('.tabel .rec:first').hasClass('selected')) {
-              $('.tabel .selected').css('background-color', '#ffffff').removeClass('selected');
-              $('.tabel .rec:last').css('background-color', '#CED5F5').addClass('selected');
-              $text = $('.tabel .rec:last').children().first().text();
+          if (tabel.find('.selected').length) {
+            if (tabel.find('.rec:first.selected').length) {
+              tabel.find('.selected').removeClass('selected');
+              tabel.find('.rec:last').addClass('selected');
+              $text = tabel.find('.rec:last').children().first().text();
               $('#camp_cauta_companie').val($text).focus();
               return;
             }
-            $('.tabel .selected').css('background-color', '#ffffff')
-                .removeClass('selected')
-                .prev()
-                .css('background-color', '#CED5F5')
-                .addClass('selected');
-            $text = $('.tabel .selected').children().first().text();
+            tabel.find('.selected').removeClass('selected').prev().addClass('selected');
+            $text = tabel.find('.selected').children().first().text();
             $(this).val($text).focus();
             return;
           } else { // nu e nimic selectat
-            $('.tabel .rec:last').css('background-color', '#CED5F5').addClass('selected');
-            $text = $('.rec:last').children().first().text();
+            $text = tabel.find('.rec:last').addClass('selected').children().first().text();
             $(this).val($text).focus();
             return;
           }
+
         case 40:
-          // keu down
-          if ($('.tabel .rec p').length == 0) {
-            // daca a aparut mesaul nu exista nu facem nimic
+          // key down
+          if (tabel.find('.noresults').length) {
             return;
           }
-          if ($('.tabel .rec').hasClass('selected')) {
-            // e deja selectat
-            if ($('.tabel .rec:last').hasClass('selected')) {
-              $('.tabel .selected').css('background-color', '#ffffff').removeClass('selected');
-              $('.tabel .rec:first').addClass('selected');
-              $text = $('.tabel .rec:first').children().first().text();
-              $(this).val($text).focus();
+          if (tabel.find('.selected').length) {
+            if (tabel.find('.rec:last.selected').length) {
+              tabel.find('.selected').removeClass('selected');
+              tabel.find('.rec:first').addClass('selected');
+              $text = tabel.find('.rec:first').children().first().text();
+              $('#camp_cauta_companie').val($text).focus();
               return;
             }
-            $('.tabel .selected').css('background-color', '#ffffff').removeClass('selected').next().css('background-color', '#CED5F5').addClass('selected');
-            $text = $('.tabel .selected').children().first().text();
+            tabel.find('.selected').removeClass('selected').next().addClass('selected');
+            $text = tabel.find('.selected').children().first().text();
             $(this).val($text).focus();
             return;
-          } else {
-            // nu e nimic selectat
-            $('.tabel .rec:nth-child(2)').css('background-color', '#CED5F5').addClass('selected');
-            $text = $('.rec:nth-child(2)').children().first().text();
+          } else { // nu e nimic selectat
+            $text = tabel.find('.rec:nth-child(2)').addClass('selected').children().first().text();
             $(this).val($text).focus();
             return;
           }
+
         case 13: // key enter
-          var id_companie, selected = $('.tabel .selected');
+          var id_companie,
+              selected = $('.tabel .selected');
           if (!$('.tabel:visible').length) {
             return;
           }
@@ -547,12 +528,11 @@
             id_companie = parseInt(selected.children().first().attr('id').slice(1));
             $('.tabel').fadeOut(timp_fadeout, function() {
               $('.tabel').empty();
+              $('input, textarea').removeAttr('disabled');
               toggleEvents('submit_formular_persoana', true);
             });
             $(this).val($text).closest('tr').next().find('input:first').focus();
-            if ($('div.box:visible').attr('id') === "box-persoane") {
-              $('input#id_companie_persoana').val(id_companie);
-            }
+            $('input#id_companie').val(id_companie);
             return;
           } else {
             return;
@@ -564,24 +544,21 @@
         $.ajax({
           async:   true,
           url:     path,
-          data:    { companie: string },
+          data:    { livesearch: string },
           timeout: 5000})
             .done(function(raspuns) {
               pozitionare_lista_sugestii(camp, tabel);
               tabel.html(raspuns).fadeIn(100);
+              $('input, textarea').not(camp).attr('disabled', 'disabled');
               toggleEvents('submit_formular_persoana', false);
             })
             .fail(function(jqXHR, textStatus) {
-              if (textStatus === "error") {
-                box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-              }
-              if (textStatus === "timeout") {
-                box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-              }
+              AjaxFail(jqXHR, textStatus, box_curent);
             });
       } else {
         $('.tabel').fadeOut(timp_fadeout, function() {
           $('.tabel').empty();
+          $('input, textarea').removeAttr('disabled');
           toggleEvents('submit_formular_persoana', true);
         });
       }
@@ -589,24 +566,30 @@
 
     class_box.on({
       mouseup:    function() {
-        var $this = $(this).children().first(), id_companie = parseInt($this.attr('id').slice(1)), $text = $this.text(); // salvez numele firmei
+        var $this = $(this).children().first(),
+            id = parseInt($this.attr('id').slice(1)),
+            $text = $this.text(); // salvez numele firmei
         if (!$(this).children('a').length) {
           $('#camp_cauta_companie').val($text).closest('tr').next().find('input:first').focus();
           if ($('div.box:visible').attr('id') === "box-persoane") {
-            $('input#id_companie_persoana').val(id_companie);
+            $('input#id_companie_persoana').val(id);
           }
         }
         $('.tabel').fadeOut(timp_fadeout, function() {
           $('.tabel').empty();
+          $('input, textarea').removeAttr('disabled');
           toggleEvents('submit_formular_persoana', true);
         }); // end function()
       },
       mouseenter: function() {
-        $('.tabel .rec').removeClass('selected').css('background-color', '#FFFFFF');
-        $(this).addClass('selected').css('background-color', '#CED5F5');
+        $('.tabel .rec').removeClass('selected')
+            .css('background-color', '#FFFFFF');
+        $(this).addClass('selected')
+            .css('background-color', '#CED5F5');
       },
       mouseleave: function() {
-        $(this).removeClass('selected').css('background-color', '#FFFFFF');
+        $(this).removeClass('selected')
+            .css('background-color', '#FFFFFF');
       }
     }, '.tabel div');
 
@@ -614,7 +597,7 @@
       event.preventDefault();
       var id = parseInt($(this).parent().attr('id').slice(1)),
           root = $(this).closest('.box').attr('id').slice(4),
-          box_current = $('#box-' + root),
+          box_curent = $('#box-' + root),
           path = 'php/' + root + '.php';
 //			rezervat = encodeURIComponent($(this).parent().next().text()); // se salveaza valoare din campul de dupa ID
       $.ajax({
@@ -627,16 +610,16 @@
         timeout: 5000})
           .done(function(data) {
             if (data === 'Inexistent') {
-              load_interior_box(box_current, path);
+              load_interior_box(box_curent, path);
             }
             else {
-              box_current.fadeOut(timp_fadeout);
-              box_current.queue('fx', function() {
+              box_curent.fadeOut(timp_fadeout);
+              box_curent.queue('fx', function() {
                 $(this).empty().append(data);
                 $(this).dequeue('fx');
               });
-              box_current.fadeIn(timp_fadein);
-              box_current.queue('fx', function() {
+              box_curent.fadeIn(timp_fadein);
+              box_curent.queue('fx', function() {
 //							$('form input').eq(1).data("rezervat", rezervat);
                 if (root == 'persoane') {
                   toggleEvents('submit_formular_persoana', true);
@@ -646,12 +629,7 @@
             }
           })
           .fail(function(jqXHR, textStatus) {
-            if (textStatus === "error") {
-              box_current.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-            }
-            if (textStatus === "timeout") {
-              box_current.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-            }
+            AjaxFail(jqXHR, textStatus, box_curent);
           });
     });
 
@@ -717,13 +695,7 @@
               }
             })
             .fail(function(jqXHR, textStatus) {
-              $('span.ajax').remove();
-              if (textStatus === "error") {
-                id_box_companii.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-              }
-              if (textStatus === "timeout") {
-                id_box_companii.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-              }
+              AjaxFail(jqXHR, textStatus, box_curent);
             });
       }
     });
@@ -778,13 +750,8 @@
               }
             })
             .fail(function(jqXHR, textStatus) {
-              $('span.ajax').remove();
-              if (textStatus === "error") {
-                id_box_vanzatori.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
-              }
-              if (textStatus === "timeout") {
-                id_box_vanzatori.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-              }
+              console.log('Box_curent')
+              AjaxFail(jqXHR, textStatus, id_box_vanzatori);
             });
       }
     });

@@ -2,21 +2,21 @@
 include_once 'conexiune.php';
 
 date_default_timezone_set('Europe/Bucharest');
-$months = ['Ian' , 'Feb' ,'Mar', 'Apr' , 'Mai' , 'Iun' , 'Iul' , 'Aug', 'Sep', 'Oct', 'Noi', 'Dec='];
+$months = ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec='];
 $ziua = getdate()['mday'];
 $luna = getdate()['mon'];
 $an = getdate()['year'];
 $timestamp = getdate()['0'];
 
-$today = $ziua.'-'.$months[$luna-1].'-'.$an;
+$today = $ziua . '-' . $months[$luna - 1] . '-' . $an;
 
 
-$date1 = mktime(0,0,0,$luna +1, $ziua, $an);
-$ziua1= getdate($date1)['mday'];
-$luna1=getdate($date1)['mon'];
-$an1 =getdate($date1)['year'];
+$date1 = mktime(0, 0, 0, $luna, $ziua + 30, $an);
+$ziua1 = getdate($date1)['mday'];
+$luna1 = getdate($date1)['mon'];
+$an1 = getdate($date1)['year'];
 
-$viitor = $ziua1.'-'.$months[$luna1-1].'-'.$an1;
+$viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
 
 
 
@@ -63,13 +63,7 @@ $viitor = $ziua1.'-'.$months[$luna1-1].'-'.$an1;
                 <label for="descriere_oferta">Descriere</label>
                 <textarea id="descriere_oferta" maxlength="400"></textarea>
             </td>
-            <td>
-
-                <label for="referinta">Referință</label>
-                <input class="normal scurt"
-                       id="referinta"
-                       name="referinta"
-                       type="text"/><br/><br/>
+            <td><br>
                 <label for="relevant">Inclus în volum ofertare</label>
                 <input id="relevant" type="checkbox" checked="checked"/>
             </td>
@@ -77,15 +71,16 @@ $viitor = $ziua1.'-'.$months[$luna1-1].'-'.$an1;
         <tr>
             <td>
                 <label for="camp_cauta_companie">Companie</label>
-                <input class="normal lung"
+                <input class="normal lung livesearch"
                        id="camp_cauta_companie"
                        type="text"/>
             </td>
             <td>
                 <label for="camp_cauta_persoana">Persoană de contact</label>
-                <input class="normal scurt"
+                <input class="normal scurt livesearch"
                        id="camp_cauta_persoana"
-                       type="text"/>
+                       type="text"
+                       />
             </td>
         </tr>
         <tr>

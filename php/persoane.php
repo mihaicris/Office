@@ -139,9 +139,9 @@ if (isset($_POST["formular_creare"])) {
                 <td></td>
             </tr>
             <tr>
-                <td>
+                <td colspan="2">
                     <label for="camp_cauta_companie">Companie</label>
-                    <input class="normal mediu"
+                    <input class="normal lung livesearch"
                            id="camp_cauta_companie"
                            type="text"
                            name="companie_persoana"
@@ -171,9 +171,9 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <input id="id_companie_persoana"
+        <input id="id_companie"
                type="hidden"
-               name="id_companie_persoana"
+               name="id_companie"
                value=""/>
         <a href="#" id="creaza_persoana" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
@@ -259,7 +259,7 @@ if (isset($_POST["formular_editare"])) {
             <tr>
                 <td>
                     <label for="camp_cauta_companie">Companie</label>
-                    <input class="normal mediu"
+                    <input class="normal mediu livesearch"
                            id="camp_cauta_companie"
                            type="text"
                            name="companie_persoana"
@@ -284,9 +284,9 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <input id="id_companie_persoana"
+        <input id="id_companie"
                type="hidden"
-               name="id_companie_persoana"
+               name="id_companie"
                value="<?php echo $row['id_companie_persoana']; ?>"/>
         <a href="#" id="editeaza_persoana" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></a>
         <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
@@ -341,6 +341,45 @@ if (isset($_POST["sterge"])) {
     $data = array($_POST['id']);
     $query = interogare($string, $data);
     echo('ok');
+    exit();
+}
+if (isset($_POST["livesearch"])) {
+    // alegere persoana din baza de date in formulare
+    $str = "%" . $_POST["livesearch"] . "%";
+    // prima interogare pentru numarare rezultate
+    $string = 'SELECT COUNT(*)
+					FROM `persoane`
+					WHERE (`nume_persoana` LIKE ? OR `prenume_persoana` LIKE ?)
+					ORDER BY `nume_persoana` ASC
+					LIMIT 1;';
+    $data = array($str, $str);
+    $query = interogare($string, $data);
+    //daca nu sunt rezultate se iese cu mesaj
+    $count = $query->fetchColumn();
+    if (!$count) {
+        echo '<p class="noresults">
+			        <strong>Nu există în baza de date.</strong>
+			        <br/>Crează persoana din meniul
+			        <span class="sosa_font" style="color: #000">ñ</span><em>Administrare, Persoane</em>
+			       </p>';
+        exit();
+    }
+    // interogarea adevarata pentru rezultate
+    $string = 'SELECT *
+					FROM `persoane`
+					WHERE (`nume_persoana` LIKE ? OR `prenume_persoana` LIKE ?)
+					ORDER BY `nume_persoana` ASC
+					LIMIT 5;';
+    $query = interogare($string, $data);
+    echo '<div class="rec" id="source"><p>' . $_POST["livesearch"] . '</p></div>';
+    for ($i = 0; $row = $query->fetch(); $i++) {
+        echo '<div class="rec">';
+        echo '<p  id="f' . $row['id_persoana'] . '" class="bold">' . $row['prenume_persoana'];
+        echo '&nbsp' . $row['nume_persoana'] . "</p>";
+        echo '<p>' . $row['departament_persoana'] . "</p>";
+        echo '<p style="color: #3F41D9;">' . $row['functie_persoana'] . '</p>';
+        echo '</div>';
+    }
     exit();
 }
 if (isset($_POST["camp_str"])) {
