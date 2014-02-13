@@ -7,53 +7,60 @@ $ziua = getdate()['mday'];
 $luna = getdate()['mon'];
 $an = getdate()['year'];
 $timestamp = getdate()['0'];
-
 $today = $ziua . '-' . $months[$luna - 1] . '-' . $an;
-
-
 $date1 = mktime(0, 0, 0, $luna, $ziua + 30, $an);
 $ziua1 = getdate($date1)['mday'];
 $luna1 = getdate($date1)['mon'];
 $an1 = getdate($date1)['year'];
-
 $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
-
-
-
 ?>
-
 <h2>Creare ofertă nouă</h2>
 <form action="/" method="post" id="formular_oferta_noua">
-    <input id="id_oferta" type="hidden" name="id_oferta" value=""/>
+    <input id="id_oferta"
+           type="hidden"
+           name="id_oferta"
+           value=""/>
     <table class="oferta_noua">
         <tbody>
         <tr>
             <td>
                 <label for="nume_oferta">Nume proiect</label>
-                <input class="normal lung"
-                       id="nume_oferta"
+                <input id="nume_oferta"
+                       name="nume_oferta"
                        type="text"
-                       name="nume_oferta"/>
+                       class="normal lung"
+                       value=""/>
             </td>
             <td>
                 <label for="data_oferta">Data ofertă / Valabilitate</label>
-                <input id="data_oferta" class="datepicker normal extrascurt" type="text" value="<?php echo $today; ?>"/>
-                <input id="valabilitate" class="normal megascurt" type="text" value="30"/>
+                <input id="data_oferta"
+                       name="data_oferta"
+                       type="text"
+                       class="datepicker normal extrascurt"
+                       value="<?php echo $today; ?>"/>
+
+                <input id="valabilitate"
+                       name="valabilitate"
+                       class="normal megascurt"
+                       type="text"
+                       value="30"/>
             </td>
         </tr>
         <tr>
             <td>
                 <label for="vanzator_oferta">Vânzător</label>
-                <input class="normal scurt"
-                       id="vanzator_oferta"
+                <input id="vanzator_oferta"
+                       class="normal scurt"
+                       name="vanzator_oferta"
                        type="text"
-                       name="vanzator_oferta"/>
+                    />
             </td>
             <td>
                 <label for="data_expirare">Data expirare ofertă</label>
                 <input id="data_expirare"
-                       class="data_expirare extrascurt"
+                       name="data_expirare"
                        type="text"
+                       class="data_expirare extrascurt"
                        value="<?php echo $viitor; ?>"
                        disabled="disabled"/>
             </td>
@@ -65,37 +72,48 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
             </td>
             <td><br>
                 <label for="relevant">Inclus în volum ofertare</label>
-                <input id="relevant" type="checkbox" checked="checked"/>
+                <input id="relevant"
+                       name="relevant"
+                       type="checkbox"
+                       checked="checked"/>
             </td>
         </tr>
         <tr>
             <td>
                 <label for="camp_cauta_companie">Companie</label>
-                <input class="normal lung livesearch"
-                       id="camp_cauta_companie"
-                       type="text"/>
+                <input id="camp_cauta_companie"
+                       name="camp_cauta_companie"
+                       type="text"
+                       class="normal lung livesearch"
+                       value=""/>
             </td>
             <td>
                 <label for="camp_cauta_persoana">Persoană de contact</label>
-                <input class="normal scurt livesearch"
-                       id="camp_cauta_persoana"
+                <input id="camp_cauta_persoana"
+                       name="camp_cauta_persoana"
                        type="text"
-                       />
+                       class="normal scurt"
+                       value=""/>
             </td>
         </tr>
         <tr>
             <td>
                 <label for="valoare_oferta">Valoare ofertă</label>
-                <input class="scurt valoare_oferta"
-                       id="valoare_oferta"
-                       type="text"/>
+                <input id="valoare_oferta"
+                       name="valoare_oferta"
+                       type="text"
+                       placeholder="EURO"
+                       class="scurt valoare_oferta"
+                       value=""/>
             </td>
             <td>
                 <label for="stadiu_oferta">Stadiu</label>
-                <input class="normal scurt"
-                       id="stadiu_oferta"
+                <input id="stadiu_oferta"
+                       name="stadiu_oferta"
                        type="text"
-                       name="stadiu_oferta"/>
+                       class="normal scurt"
+                       value=""
+                    />
             </td>
         </tr>
         </tbody>

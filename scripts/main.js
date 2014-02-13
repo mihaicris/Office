@@ -1,7 +1,5 @@
 /**
- *  Javascript Principal
- *
- *
+ *  Javascript Main
  *  @author     Mihai Cristescu <mihai.cristescu@gmail.com>
  *  @version    1.0 (last revision: Feb 2014)
  *  @copyright  (c) 2014 Mihai Cristescu
@@ -25,36 +23,17 @@
           'php/companii.php',
           'php/vanzatori.php',
           'php/persoane.php'],
-        timp_fadein = 100,
-        timp_fadeout = 150;
+        timp_fadein = 200,
+        timp_fadeout = 350;
 
-//    var functie_data = function(zile) {
-//      var a = new Date();
-//      var dd = a.getDate().toString();
-//      var mm = a.getMonth().toString();
-//      var yyyy = a.getFullYear().toString(),
-//          luni = ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec'];
-//      if (typeof zile !== 'undefined') {
-//        var b = new Date(a.getFullYear(), a.getMonth(), a.getDate() + zile);
-//        dd = b.getDate().toString();
-//        mm = b.getMonth().toString();
-//        yyyy = b.getFullYear().toString();
-//      }
-//      return (dd[1] ? dd : "0" + dd[0]) + '-' + luni[mm] + '-' + yyyy;
-//    };
-    //    var calcTime = function(offset) {
-//      var date, utc, newDateWithOffset;
-//      //Deal with dates in milliseconds for most accuracy
-//      date = new Date();
-//      utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-//      newDateWithOffset = new Date(utc + (3600000 * offset));
-//      //This will return the date with the locale format (string), or just return newDateWithOffset
-//      //and go from there.
-//      return newDateWithOffset;
-//    };
+    $.ajaxSetup({
+      cache: false,
+      type:  'POST'
+    });
+
     var isInArray = function(value, array) {
       return array.indexOf(value) > -1;
-    }
+    };
 
     var AjaxFail = function(jqXHR, textStatus, box) {
       if (textStatus === "error") {
@@ -77,6 +56,27 @@
       return out;
     };
 
+    var initializare_Zebra = function() {
+
+      $('input.datepicker').Zebra_DatePicker({
+        onClear:  function() {
+          $('#data_expirare').val('');
+        },
+        onSelect: function(user_data, b, data_JS, d) {
+          /**
+           The callback function takes 4 parameters:
+           - the date in the format specified by the “format” attribute;
+           - the date in YYYY-MM-DD format
+           - the date as a JavaScript Date object
+           - a reference to the element the date picker is attached to, as a jQuery object*/
+          var v = $('#valabilitate').val();
+          var data = data_JS.addDays(v).toString('d-MMM-yyyy');
+          $('#data_expirare').val(data);
+        }
+      });
+
+    };
+
     var load_box = function(box_curent, box_nou, path) {
       // se incarca box-ul unei optiuni noi din meniu
       // implemantare box.load cu fadeout/fadein
@@ -95,24 +95,8 @@
                     box_nou.html(data);
                     box_nou.dequeue('fx');
                   });
-                  box_nou.fadeIn(timp_fadein, function() {
-                  });
-                  $('input.datepicker').Zebra_DatePicker({
-                    onClear:  function() {
-                      $('#data_expirare').val('');
-                    },
-                    onSelect: function(user_data, b, data_JS, d) {
-                      /**
-                       The callback function takes 4 parameters:
-                       - the date in the format specified by the “format” attribute;
-                       - the date in YYYY-MM-DD format
-                       - the date as a JavaScript Date object
-                       - a reference to the element the date picker is attached to, as a jQuery object*/
-                      var v = $('#valabilitate').val();
-                      var data = data_JS.addDays(v).toString('d-MMM-yyyy');
-                      $('#data_expirare').val(data);
-                    }
-                  });
+                  box_nou.fadeIn(timp_fadein);
+                  initializare_Zebra();
                 });
           })
           .fail(function(jqXHR, textStatus) {
@@ -267,11 +251,6 @@
       }
     };
 
-    $.ajaxSetup({
-      cache: false,
-      type:  'POST'
-    });
-
     $('nav .menu').click(function() {
       if ($(this).hasClass('selected')) {
         $(this).removeClass('selected');
@@ -325,13 +304,28 @@
       $('#data_expirare').val(b);
     });
 
+    id_box_oferta_noua.on('keydown', '#valoare_oferta', function(event) {
+      if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
+        103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
+        event.preventDefault();
+      } else {
+        if (this.selectionStart === this.selectionEnd && $(this).val().length === 12 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
+          event.preventDefault();
+        }
+      }
+    });
+
+    id_box_oferta_noua.on('input', '#valoare_oferta', function() {
+
+    });
+
     class_box.on('click', 'select', function() {
       $('form select').removeClass('required');
     });
 
     class_box.on('focus', 'input', function() {
       $(this).next('img').hide();
-      $(this).addClass('normal').removeClass('required');
+      $(this).removeClass('required');
     });
 
     class_box.on('keydown', 'input#camp', function(event) {
@@ -461,10 +455,10 @@
 
       switch (id) {
         case 'camp_cauta_persoana':
-          path = 'php/persoane.php'
+          path = 'php/persoane.php';
           break;
         case 'camp_cauta_companie':
-          path = 'php/companii.php'
+          path = 'php/companii.php';
           break;
         default:
           break;
@@ -524,15 +518,17 @@
             return;
           }
           if (selected.length) {
+            $('input').eq($(this).index('input') + 1).focus();
             $text = selected.children().first().text();
+            $(this).val($text);
             id_companie = parseInt(selected.children().first().attr('id').slice(1));
-            $('.tabel').fadeOut(timp_fadeout, function() {
-              $('.tabel').empty();
-              $('input, textarea').removeAttr('disabled');
-              toggleEvents('submit_formular_persoana', true);
-            });
-            $(this).val($text).closest('tr').next().find('input:first').focus();
             $('input#id_companie').val(id_companie);
+            $('.tabel').fadeOut(timp_fadeout)
+                .promise()
+                .done(function() {
+                  tabel.empty();
+                  toggleEvents('submit_formular_persoana', true);
+                });
             return;
           } else {
             return;
@@ -549,7 +545,6 @@
             .done(function(raspuns) {
               pozitionare_lista_sugestii(camp, tabel);
               tabel.html(raspuns).fadeIn(100);
-              $('input, textarea').not(camp).attr('disabled', 'disabled');
               toggleEvents('submit_formular_persoana', false);
             })
             .fail(function(jqXHR, textStatus) {
@@ -558,7 +553,6 @@
       } else {
         $('.tabel').fadeOut(timp_fadeout, function() {
           $('.tabel').empty();
-          $('input, textarea').removeAttr('disabled');
           toggleEvents('submit_formular_persoana', true);
         });
       }
@@ -569,15 +563,11 @@
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(); // salvez numele firmei
-        if (!$(this).children('a').length) {
-          $('#camp_cauta_companie').val($text).closest('tr').next().find('input:first').focus();
-          if ($('div.box:visible').attr('id') === "box-persoane") {
-            $('input#id_companie_persoana').val(id);
-          }
-        }
+        $('input').eq($('#camp_cauta_companie').index('input') + 1).focus();
+        $('#camp_cauta_companie').val($text);
+        $('#id_companie').val(id);
         $('.tabel').fadeOut(timp_fadeout, function() {
           $('.tabel').empty();
-          $('input, textarea').removeAttr('disabled');
           toggleEvents('submit_formular_persoana', true);
         }); // end function()
       },
