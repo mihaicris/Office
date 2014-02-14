@@ -23,8 +23,8 @@
           'php/companii.php',
           'php/vanzatori.php',
           'php/persoane.php'],
-        timp_fadein = 200,
-        timp_fadeout = 350;
+        timp_fadein = 100,
+        timp_fadeout = 150;
 
     $.ajaxSetup({
       cache: false,
@@ -440,19 +440,18 @@
       }
     });
 
-    class_box.on('keydown', 'input.livesearch', function(event) {
+    class_box.on('keydown', 'input.select_companie', function(event) {
       if (isInArray(event.which, [13, 38, 40])) event.preventDefault();
     });
 
-    class_box.on('keyup', 'input.livesearch', function(event) {
+    class_box.on('keyup', 'input.select_companie', function(event) {
       var $text, path,
           tabel = $('.tabel'),
           camp = $(this),
           id = camp.attr('id'),
-          string = camp.val(),
+          string = camp.val().trim(),
           root = $(this).closest('.box').attr('id').slice(4),
           box_curent = $('#box-' + root);
-
       switch (id) {
         case 'camp_cauta_persoana':
           path = 'php/persoane.php';
@@ -463,7 +462,6 @@
         default:
           break;
       }
-
       switch (event.which) {
         case 38:
           // key up
@@ -513,22 +511,21 @@
 
         case 13: // key enter
           var id_companie,
-              selected = $('.tabel .selected');
-          if (!$('.tabel:visible').length) {
+              selected = tabel.find('.selected');
+          if (tabel.is(':not(:visible)').length) {
             return;
           }
           if (selected.length) {
-            $('input').eq($(this).index('input') + 1).focus();
             $text = selected.children().first().text();
             $(this).val($text);
-            id_companie = parseInt(selected.children().first().attr('id').slice(1));
-            $('input#id_companie').val(id_companie);
-            $('.tabel').fadeOut(timp_fadeout)
-                .promise()
-                .done(function() {
-                  tabel.empty();
-                  toggleEvents('submit_formular_persoana', true);
-                });
+            id = parseInt(selected.children().first().attr('id').slice(1));
+            tabel.hide().promise().done(function() {
+              $('input').eq(camp.val($text).index('input') + 1).focus();
+              $('#id_companie').val(id);
+              $('#id_persoana').val('');
+              tabel.empty();
+              toggleEvents('submit_formular_persoana', true);
+            });
             return;
           } else {
             return;
@@ -540,48 +537,57 @@
         $.ajax({
           async:   true,
           url:     path,
-          data:    { livesearch: string },
+          data:    { select_companie: string },
           timeout: 5000})
             .done(function(raspuns) {
               pozitionare_lista_sugestii(camp, tabel);
-              tabel.html(raspuns).fadeIn(100);
+              tabel.html(raspuns).fadeIn(200);
+              $('#id_companie, #id_persoana').val('');
               toggleEvents('submit_formular_persoana', false);
             })
             .fail(function(jqXHR, textStatus) {
               AjaxFail(jqXHR, textStatus, box_curent);
             });
       } else {
-        $('.tabel').fadeOut(timp_fadeout, function() {
-          $('.tabel').empty();
+        tabel.hide().promise().done(function() {
+          tabel.empty();
           toggleEvents('submit_formular_persoana', true);
         });
       }
     });
 
     class_box.on({
+      mouseenter: function() {
+        $('.tabel .rec').removeClass('selected');
+        $(this).addClass('selected');
+      },
+      mouseleave: function() {
+        $(this).removeClass('selected');
+      },
       mouseup:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
-            $text = $this.text(); // salvez numele firmei
-        $('input').eq($('#camp_cauta_companie').index('input') + 1).focus();
-        $('#camp_cauta_companie').val($text);
-        $('#id_companie').val(id);
-        $('.tabel').fadeOut(timp_fadeout, function() {
-          $('.tabel').empty();
+            $text = $this.text(),
+            tabel = $('.tabel'),
+            camp = $('#camp_cauta_companie');
+        tabel.hide().promise().done(function() {
+          $('input').eq(camp.val($text).index('input') + 1).focus();
+          $('#id_companie').val(id);
+          $('#id_persoana, #camp_cauta_persoana').val('');
+          tabel.empty();
           toggleEvents('submit_formular_persoana', true);
-        }); // end function()
-      },
+        });
+      }
+    }, '.tabel .rec');
+
+    class_box.on({
       mouseenter: function() {
-        $('.tabel .rec').removeClass('selected')
-            .css('background-color', '#FFFFFF');
-        $(this).addClass('selected')
-            .css('background-color', '#CED5F5');
       },
       mouseleave: function() {
-        $(this).removeClass('selected')
-            .css('background-color', '#FFFFFF');
+      },
+      mouseup:    function() {
       }
-    }, '.tabel div');
+    }, '.select_vanzator div');
 
     class_box.on('click', 'span.actiune', function(event) {
       event.preventDefault();

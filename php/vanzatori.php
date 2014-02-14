@@ -1,8 +1,6 @@
 <?php
 include('conexiune.php');
 
-//  Afisare tabel
-
 function verifica_existenta_vanzator($id, $nume_vanzator, $prenume_vanzator)
 {
 // testeaza existenta  in baza de date

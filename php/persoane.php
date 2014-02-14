@@ -141,7 +141,7 @@ if (isset($_POST["formular_creare"])) {
             <tr>
                 <td colspan="2">
                     <label for="camp_cauta_companie">Companie</label>
-                    <input class="normal lung livesearch"
+                    <input class="normal lung select_companie"
                            id="camp_cauta_companie"
                            type="text"
                            name="companie_persoana"
@@ -259,7 +259,7 @@ if (isset($_POST["formular_editare"])) {
             <tr>
                 <td>
                     <label for="camp_cauta_companie">Companie</label>
-                    <input class="normal mediu livesearch"
+                    <input class="normal mediu select_companie"
                            id="camp_cauta_companie"
                            type="text"
                            name="companie_persoana"
@@ -343,9 +343,9 @@ if (isset($_POST["sterge"])) {
     echo('ok');
     exit();
 }
-if (isset($_POST["livesearch"])) {
+if (isset($_POST["select_companie"])) {
     // alegere persoana din baza de date in formulare
-    $str = "%" . $_POST["livesearch"] . "%";
+    $str = "%" . $_POST["select_companie"] . "%";
     // prima interogare pentru numarare rezultate
     $string = 'SELECT COUNT(*)
 					FROM `persoane`
@@ -371,7 +371,7 @@ if (isset($_POST["livesearch"])) {
 					ORDER BY `nume_persoana` ASC
 					LIMIT 5;';
     $query = interogare($string, $data);
-    echo '<div class="rec" id="source"><p>' . $_POST["livesearch"] . '</p></div>';
+    echo '<div class="rec" id="source"><p>' . $_POST["select_companie"] . '</p></div>';
     for ($i = 0; $row = $query->fetch(); $i++) {
         echo '<div class="rec">';
         echo '<p  id="f' . $row['id_persoana'] . '" class="bold">' . $row['prenume_persoana'];

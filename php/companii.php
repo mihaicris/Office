@@ -220,9 +220,9 @@ if (isset($_POST["sterge"])) {
     exit();
 }
 
-if (isset($_POST["livesearch"])) {
+if (isset($_POST["select_companie"])) {
     // alegere companie din baza de date in formulare
-    $str = "%" . $_POST["livesearch"] . "%";
+    $str = "%" . $_POST["select_companie"] . "%";
     // prima interogare pentru numarare rezultate
     $string = 'SELECT COUNT(*)
 					FROM `companii`
@@ -248,7 +248,7 @@ if (isset($_POST["livesearch"])) {
 					ORDER BY `nume_companie` ASC
 					LIMIT 5;';
     $query = interogare($string, $data);
-    echo '<div class="rec" id="source"><p>' . $_POST["livesearch"] . '</p></div>';
+    echo '<div class="rec" id="source"><p>' . $_POST["select_companie"] . '</p></div>';
     for ($i = 0; $row = $query->fetch(); $i++) {
         echo '<div class="rec">';
         echo '<p  id="f' . $row['id_companie'] . '" class="bold">' . $row['nume_companie'] . "</p>";

@@ -84,7 +84,7 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                 <input id="camp_cauta_companie"
                        name="camp_cauta_companie"
                        type="text"
-                       class="normal lung livesearch"
+                       class="normal lung select_companie"
                        value=""/>
             </td>
             <td>
@@ -118,6 +118,10 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
         </tr>
         </tbody>
     </table>
+    <input id="id_vanzator"
+           type="hidden"
+           name="id_vanzator"
+           value=""/>
     <input id="id_companie"
            type="hidden"
            name="id_companie"
