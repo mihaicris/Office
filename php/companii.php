@@ -68,7 +68,7 @@ if (isset($_POST["formular_creare"])) {
             <tr>
                 <td>
                     <label for="nume_companie">Nume</label>
-                    <input class="normal lung"
+                    <input class="normal mediu"
                            id="nume_companie"
                            type="text"
                            name="nume_companie"
@@ -79,7 +79,7 @@ if (isset($_POST["formular_creare"])) {
             <tr>
                 <td>
                     <label for="adresa_companie">Adresă</label>
-                    <input class="normal lung"
+                    <input class="normal mediu"
                            id="adresa_companie"
                            type="text"
                            name="adresa_companie"
@@ -89,7 +89,7 @@ if (isset($_POST["formular_creare"])) {
             <tr>
                 <td>
                     <label for="oras_companie">Oraș</label>
-                    <input class="normal scurt"
+                    <input class="normal mediu"
                            id="oras_companie"
                            type="text"
                            name="oras_companie"
@@ -99,7 +99,7 @@ if (isset($_POST["formular_creare"])) {
             <tr>
                 <td>
                     <label for="tara_companie">Țară</label>
-                    <input class="normal scurt"
+                    <input class="normal mediu"
                            id="tara_companie"
                            type="text"
                            name="tara_companie"
@@ -134,7 +134,7 @@ if (isset($_POST["formular_editare"])) {
             <tr>
                 <td>
                     <label>Nume</label>
-                    <input class="normal lung"
+                    <input class="normal mediu"
                            id="nume_companie"
                            type="text"
                            name="nume_companie"
@@ -145,7 +145,7 @@ if (isset($_POST["formular_editare"])) {
             <tr>
                 <td>
                     <label>Adresă</label>
-                    <input class="normal lung"
+                    <input class="normal mediu"
                            id="adresa_companie"
                            type="text"
                            name="adresa_companie"
@@ -156,7 +156,7 @@ if (isset($_POST["formular_editare"])) {
             <tr>
                 <td>
                     <label>Oraș</label>
-                    <input class="normal scurt"
+                    <input class="normal mediu"
                            id="oras_companie"
                            type="text"
                            name="oras_companie"
@@ -167,7 +167,7 @@ if (isset($_POST["formular_editare"])) {
             <tr>
                 <td>
                     <label>Țară</label>
-                    <input class="normal scurt"
+                    <input class="normal mediu"
                            id="tara_companie"
                            type="text"
                            name="tara_companie"

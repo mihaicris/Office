@@ -52,6 +52,7 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                 <input id="select_vanzator"
                        class="normal scurt"
                        name="select_vanzator"
+                       data-id=""
                        type="text"
                     />
             </td>
@@ -85,7 +86,8 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                        name="select_companie"
                        type="text"
                        class="normal lung select_companie"
-                       value=""/>
+                       value=""
+                       data-id=""/>
             </td>
             <td>
                 <label for="select_persoana">Persoană de contact</label>
@@ -93,7 +95,8 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                        name="select_persoana"
                        type="text"
                        class="normal scurt"
-                       value=""/>
+                       value=""
+                       data-id="" readonly/>
             </td>
         </tr>
         <tr>
@@ -118,18 +121,6 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
         </tr>
         </tbody>
     </table>
-    <input id="id_vanzator"
-           type="hidden"
-           name="id_vanzator"
-           value=""/>
-    <input id="id_companie"
-           type="hidden"
-           name="id_companie"
-           value=""/>
-    <input id="id_persoana"
-           type="hidden"
-           name="id_persoana"
-           value=""/>
     <a href="#" id="creaza_oferta" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
     <a href="#" id="renunta" class="buton_renunta"><h3>Resetează<span class="sosa">ã</span></h3></a>
     <!--    <a href="#" id="printeaza_oferta" class="buton_printeaza"><h3>Printează<span class="sosa">8</span></h3></a>-->

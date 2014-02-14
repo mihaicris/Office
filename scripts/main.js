@@ -146,6 +146,7 @@
             camp.removeClass('required');
             // prelucrare ID
             values[0] = parseInt(camp.eq(0).val()) || null;
+
             pattern = /^.{3,50}$/;
             // Prelucrare nume
             values[1] = camp.eq(1).val(camp.eq(1).val().trim()).val();
@@ -192,7 +193,7 @@
               camp.eq(7).addClass('required').parent().append('<span class="error">Alegeţi o opţiune.</span>');
             }
             // validare companie
-            values[8] = camp.eq(11).val();
+            values[8] = camp.eq(8).attr('data-id');
             if (!values[8].length) {
               flag = true;
               camp.eq(8).addClass('required').parent().append('<span class="error">Alegeţi o companie.</span>');
@@ -433,18 +434,19 @@
     });
 
     class_box.on({
-      keydown: function(event) {
+      keydown:   function(event) {
         if (isInArray(event.which, [13, 38, 40])) event.preventDefault();
       },
-      keyup:   function(event) {
+      keyup:     function(event) {
         var $text,
+            id,
+            camp = $(this),
             path = 'php/companii.php',
             lista = $('#lista_companii'),
-            camp = $(this),
-            id = camp.attr('id'),
             string = camp.val().trim(),
-            root = $(this).closest('.box').attr('id').slice(4),
+            root = camp.closest('.box').attr('id').slice(4),
             box_curent = $('#box-' + root);
+
         switch (event.which) {
           case 38:
             // key up
@@ -456,16 +458,16 @@
                 lista.find('.selected').removeClass('selected');
                 lista.find('.rec:last').addClass('selected');
                 $text = lista.find('.rec:last').children().first().text();
-                $('#select_companie').val($text).focus();
+                camp.val($text).focus();
                 return;
               }
               lista.find('.selected').removeClass('selected').prev().addClass('selected');
               $text = lista.find('.selected').children().first().text();
-              $(this).val($text).focus();
+              camp.val($text).focus();
               return;
             } else {
               $text = lista.find('.rec:last').addClass('selected').children().first().text();
-              $(this).val($text).focus();
+              camp.val($text).focus();
               return;
             }
 
@@ -479,33 +481,31 @@
                 lista.find('.selected').removeClass('selected');
                 lista.find('.rec:first').addClass('selected');
                 $text = lista.find('.rec:first').children().first().text();
-                $('#select_companie').val($text).focus();
+                camp.val($text).focus();
                 return;
               }
               lista.find('.selected').removeClass('selected').next().addClass('selected');
               $text = lista.find('.selected').children().first().text();
-              $(this).val($text).focus();
+              camp.val($text).focus();
               return;
             } else { // nu e nimic selectat
               $text = lista.find('.rec:nth-child(2)').addClass('selected').children().first().text();
-              $(this).val($text).focus();
+              camp.val($text).focus();
               return;
             }
 
           case 13: // key enter
-            var id_companie,
-                selected = lista.find('.selected');
+            var selected = lista.find('.selected');
             if (lista.is(':not(:visible)').length) {
               return;
             }
             if (selected.length) {
               $text = selected.children().first().text();
-              $(this).val($text);
+              camp.val($text);
               id = parseInt(selected.children().first().attr('id').slice(1));
               lista.hide().promise().done(function() {
                 $('input').eq(camp.val($text).index('input') + 1).focus();
-                $('#id_companie').val(id);
-                $('#id_persoana').val('');
+                camp.attr('data-id', id)
                 lista.empty();
                 toggleEvents('submit_formular_persoana', true);
               });
@@ -520,12 +520,12 @@
           $.ajax({
             async:   true,
             url:     path,
-            data:    { select_companie: string },
+            data:    { select_companie: string  },
             timeout: 5000})
               .done(function(raspuns) {
                 pozitionare_lista_sugestii(camp, lista);
-                lista.html(raspuns).fadeIn(200);
-                $('#id_companie, #id_persoana').val('');
+                lista.html(raspuns).show();
+                camp.attr('data-id', '');
                 toggleEvents('submit_formular_persoana', false);
               })
               .fail(function(jqXHR, textStatus) {
@@ -534,11 +534,14 @@
         } else {
           lista.hide().promise().done(function() {
             lista.empty();
-            toggleEvents('submit_formular_persoana', true);
           });
         }
+      },
+      mousedown: function() {
+        $('#lista_persoane').hide();
       }
     }, 'input#select_companie');
+
     class_box.on({
       mouseenter: function() {
         $('#lista_companii').find('.rec').removeClass('selected');
@@ -555,25 +558,74 @@
             camp = $('#select_companie');
         lista.hide().promise().done(function() {
           $('input').eq(camp.val($text).index('input') + 1).focus();
-          $('#id_companie').val(id);
-          $('#id_persoana, #camp_cauta_persoana').val('');
+          camp.attr('data-id', id);
           lista.empty();
           toggleEvents('submit_formular_persoana', true);
         });
       }
     }, '#lista_companii .rec');
 
-    class_box.on({}, 'input#select_persoana');
+    class_box.on({
+      mousedown: function(event) {
+        var lista = $('#lista_persoane'),
+            path = 'php/persoane.php',
+            camp = $(this),
+            id_companie = $('#select_companie').blur().attr('data-id');
+//        event.preventDefault();
+        $('#lista_companii').hide();
+        if (!id_companie) {
+          alert('Alegeti o companie!');
+          return;
+        }
+        if (!lista.is(':visible')) {
+          $.ajax({
+            async:   true,
+            url:     path,
+            data:    {
+              select_persoana: 1,
+              id_companie:     id_companie
+            },
+            timeout: 5000})
+              .done(function(raspuns) {
+                pozitionare_lista_sugestii(camp, lista);
+                lista.html(raspuns).show();
+                $(this).attr('data-id', '');
+              })
+              .fail(function(jqXHR, textStatus) {
+                AjaxFail(jqXHR, textStatus, box_curent);
+              });
+        } else {
+          lista.hide();
+        }
+      }
+
+    }, 'input#select_persoana');
+
     class_box.on({
       mouseenter: function() {
+        $('#lista_persoane').find('.rec').removeClass('selected');
+        $(this).addClass('selected');
       },
       mouseleave: function() {
+        $(this).removeClass('selected');
       },
       mouseup:    function() {
+        var $this = $(this).children().first(),
+            id = parseInt($this.attr('id').slice(1)),
+            $text = $this.text(),
+            lista = $('#lista_persoane'),
+            camp = $('#select_persoana');
+        lista.hide().promise().done(function() {
+          $('input').eq(camp.val($text).index('input') + 1).focus();
+          camp.attr('data-id', id);
+          lista.empty();
+        });
       }
     }, '#lista_persoane .rec');
 
+    // TODO
     class_box.on({}, 'input#select_vanzator');
+
     class_box.on({
       mouseenter: function() {
       },
@@ -773,4 +825,5 @@
       }); // end $.ajax
     });  // end .on
   })
-})();
+})
+    ();

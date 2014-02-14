@@ -2746,7 +2746,7 @@
                 // execute the callback function
                 // make "this" inside the callback function refer to the element the date picker is attached to
                 plugin.settings.onSelect.call($element, selected_value, year + '-' + str_pad(month + 1, 2) + '-' + str_pad(day, 2), default_date, $element);
-                
+
             // move focus to the element the plugin is attached to
             $element.focus();
 

@@ -145,6 +145,7 @@ if (isset($_POST["formular_creare"])) {
                            id="select_companie"
                            type="text"
                            name="select_companie"
+                           data-id=""
                            autocomplete="off"/>
                 </td>
                 <td></td>
@@ -171,10 +172,10 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <input id="id_companie"
-               type="hidden"
-               name="id_companie"
-               value=""/>
+        <!--        <input id="id_companie"-->
+        <!--               type="hidden"-->
+        <!--               name="id_companie"-->
+        <!--               value=""/>-->
         <a href="#" id="creaza_persoana" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
@@ -264,6 +265,7 @@ if (isset($_POST["formular_editare"])) {
                            type="text"
                            name="select_companie"
                            value="<?php echo $row['nume_companie']; ?>"
+                           data-id="<?php echo $row['id_companie_persoana']; ?>"
                            autocomplete="off"/>
                 </td>
                 <td></td>
@@ -284,10 +286,10 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <input id="id_companie"
-               type="hidden"
-               name="id_companie"
-               value="<?php echo $row['id_companie_persoana']; ?>"/>
+        <!--        <input id="id_companie"-->
+        <!--               type="hidden"-->
+        <!--               name="id_companie"-->
+        <!--               value="--><?php //echo $row['id_companie_persoana']; ?><!--"/>-->
         <a href="#" id="editeaza_persoana" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></a>
         <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
@@ -343,16 +345,19 @@ if (isset($_POST["sterge"])) {
     echo('ok');
     exit();
 }
-if (isset($_POST["select_companie"])) {
+if (isset($_POST["select_persoana"])) {
+
     // alegere persoana din baza de date in formulare
-    $str = "%" . $_POST["select_companie"] . "%";
+
+    $str = $_POST["id_companie"];
+
     // prima interogare pentru numarare rezultate
     $string = 'SELECT COUNT(*)
 					FROM `persoane`
-					WHERE (`nume_persoana` LIKE ? OR `prenume_persoana` LIKE ?)
+					WHERE `id_companie_persoana` = ?
 					ORDER BY `nume_persoana` ASC
 					LIMIT 1;';
-    $data = array($str, $str);
+    $data = array($str);
     $query = interogare($string, $data);
     //daca nu sunt rezultate se iese cu mesaj
     $count = $query->fetchColumn();
@@ -367,16 +372,20 @@ if (isset($_POST["select_companie"])) {
     // interogarea adevarata pentru rezultate
     $string = 'SELECT *
 					FROM `persoane`
-					WHERE (`nume_persoana` LIKE ? OR `prenume_persoana` LIKE ?)
-					ORDER BY `nume_persoana` ASC
-					LIMIT 5;';
+					WHERE `id_companie_persoana` = ?
+					ORDER BY `nume_persoana` ASC;';
     $query = interogare($string, $data);
-    echo '<div class="rec" id="source"><p>' . $_POST["select_companie"] . '</p></div>';
+//    echo '<div class="rec" id="source"><p>' . $_POST["select_persoana"] . '</p></div>';
     for ($i = 0; $row = $query->fetch(); $i++) {
         echo '<div class="rec">';
-        echo '<p  id="f' . $row['id_persoana'] . '" class="bold">' . $row['prenume_persoana'];
-        echo '&nbsp' . $row['nume_persoana'] . "</p>";
-        echo '<p>' . $row['departament_persoana'] . "</p>";
+        echo '<p  id="f' . $row['id_persoana'] . '" class="bold">';
+        if ($row['gen_persoana']) {
+            echo "Dna. ";
+        } else {
+            echo "Dl. ";
+        }
+        echo $row['nume_persoana'];
+        echo '&nbsp' . $row['prenume_persoana'] . "</p>";
         echo '<p style="color: #3F41D9;">' . $row['functie_persoana'] . '</p>';
         echo '</div>';
     }
