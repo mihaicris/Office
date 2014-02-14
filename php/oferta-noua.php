@@ -20,7 +20,7 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
            type="hidden"
            name="id_oferta"
            value=""/>
-    <table class="oferta_noua">
+    <table>
         <tbody>
         <tr>
             <td>
@@ -102,7 +102,7 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                 <input id="valoare_oferta"
                        name="valoare_oferta"
                        type="text"
-                       placeholder="EURO"
+                       placeholder="EUR"
                        class="scurt valoare_oferta"
                        value=""/>
             </td>
@@ -134,4 +134,6 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
     <a href="#" id="renunta" class="buton_renunta"><h3>Resetează<span class="sosa">ã</span></h3></a>
     <!--    <a href="#" id="printeaza_oferta" class="buton_printeaza"><h3>Printează<span class="sosa">8</span></h3></a>-->
 </form>
-<div class="tabel"></div>
+<div id="lista_companii" class="ddm"></div>
+<div id="lista_vanzatori" class="ddm"></div>
+<div id="lista_persoane" class="ddm"></div>

@@ -20,9 +20,9 @@ function verifica_existenta_companie($id, $nume_companie)
     return;
 }
 
-function afiseaza_tabel($query)
+function afiseaza_rezultate($query)
 {
-    echo '<table class="companii rezultate">';
+    echo '<table class="rezultate">';
     echo "<tr>";
     echo '<th>ID</th>';
     echo '<th>Companie</th>';
@@ -31,7 +31,7 @@ function afiseaza_tabel($query)
     echo '<th>Țară</th>';
     echo "</tr>";
     for ($i = 0; $row = $query->fetch(); $i++) {
-        echo '<tr class="record">';
+        echo '<tr>';
         echo '<td id="f' . $row['id_companie'] . '"><span class="id">' . $row['id_companie'] . '</span><span class="sosa actiune">a</span></td>';
         echo '<td class="companie">' . $row['nume_companie'] . '</td>';
         echo '<td class="adresa">' . $row['adresa_companie'] . '</td>';
@@ -63,7 +63,7 @@ if (isset($_POST["formular_creare"])) {
     <h2>Creare companie</h2>
     <form action="/" method="post">
         <input id="id_companie" type="hidden" name="id_companie" value=""/>
-        <table class="companii">
+        <table>
             <tbody>
             <tr>
                 <td>
@@ -129,7 +129,7 @@ if (isset($_POST["formular_editare"])) {
     <h2>Modificare companie</h2>
     <form action="/" method="post" id="editare_companii">
         <input id="id_companie" type="hidden" name="id_companie" value="<?php echo $row['id_companie']; ?>"/>
-        <table class="companii">
+        <table>
             <tbody>
             <tr>
                 <td>
@@ -285,7 +285,7 @@ if (isset($_POST["camp_str"])) {
                		WHERE (`nume_companie` LIKE ?)
 			   		ORDER BY `nume_companie` ASC;';
     $query = interogare($string, $data);
-    afiseaza_tabel($query);
+    afiseaza_rezultate($query);
     afiseaza_numar_total($count);
     exit();
 }

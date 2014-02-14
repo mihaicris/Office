@@ -1,9 +1,9 @@
 <?php
 include('conexiune.php');
 
-function afiseaza_tabel($query, $count)
+function afiseaza_rezultate($query, $count)
 {
-	echo '<table class="produse rezultate">';
+	echo '<table class="rezultate">';
 	echo "<tr>";
 	echo '<th>ID</th>';
 	echo '<th>Cod produs</th>';
@@ -11,7 +11,7 @@ function afiseaza_tabel($query, $count)
 	echo '<th class="pret">Preț</th>';
 	echo "</tr>";
 	for ($i = 0; $row = $query->fetch(); $i++) {
-		echo '<tr class="record">';
+		echo '<tr>';
 		echo '<td id="f' . $row['id_produs'] . '"class="id actiune">' . $row['id_produs'] . '</td>';
 		echo '<td class="cod">' . $row['cod_produs'] . '</td>';
 		echo '<td class="titlu">' . $row['titlu_produs'] . '</td>';
@@ -30,7 +30,7 @@ function afiseaza_tabel($query, $count)
 	echo "</td>";
 	echo "</tr>";
 	echo "<table>";
-} // end function afiseaza_tabel()
+}
 
 //=======================================================================================================================
 // cautare produse in baza de date
@@ -67,6 +67,6 @@ $string = 'SELECT *
            ORDER BY cod_produs ASC;';
 $query = $db->query($string);
 $query->execute();
-afiseaza_tabel($query, $count);
+afiseaza_rezultate($query, $count);
 exit();
 ?>

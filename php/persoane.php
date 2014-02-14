@@ -24,9 +24,9 @@ function verifica_existenta_persoana($id, $nume_persoana, $prenume_persoana, $id
     return;
 }
 
-function afiseaza_tabel($query)
+function afiseaza_rezultate($query)
 {
-    echo '<table class="persoane rezultate">';
+    echo '<table class="rezultate">';
     echo '<tr>';
     echo '<th>ID</th>';
     echo '<th>Nume și prenume</th>';
@@ -35,7 +35,7 @@ function afiseaza_tabel($query)
     echo '<th>Mobil</th>';
     echo "</tr>";
     for ($i = 0; $row = $query->fetch(); $i++) {
-        echo '<tr class="record">';
+        echo '<tr>';
         echo '<td id="f' . $row['id_persoana'] . '"><span class="id">' . $row['id_persoana'] . '</span><span class="sosa actiune">a</span></td>';
         echo '<td class="nume">' . $row['nume_persoana'] . ' ' . $row['prenume_persoana'] . '</td>';
         echo '<td class="companie">' . $row['nume_companie'] . '</td>';
@@ -67,7 +67,7 @@ if (isset($_POST["formular_creare"])) {
     <h2>Creare persoană contact</h2>
     <form action="/" method="post">
         <input id="id_persoana" type="hidden" name="id_persoana" value=""/>
-        <table class="persoane">
+        <table>
             <tbody>
             <tr>
                 <td>
@@ -178,7 +178,7 @@ if (isset($_POST["formular_creare"])) {
         <a href="#" id="creaza_persoana" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
-    <div class="tabel"></div>
+    <div id="lista_companii" class="ddm"></div>
     <?php
     exit();
 }
@@ -202,7 +202,7 @@ if (isset($_POST["formular_editare"])) {
     <h2>Modificare persoană de contact</h2>
     <form action="/" method="post">
         <input id="id_persoana" type="hidden" name="id_persoana" value="<?php echo $row['id_persoana']; ?>"/>
-        <table class="persoane">
+        <table>
             <tbody>
             <tr>
                 <td>
@@ -292,7 +292,7 @@ if (isset($_POST["formular_editare"])) {
         <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
-    <div class="tabel"></div>
+    <div id="lista_companii" class="ddm"></div>
     <?php
     exit();
 }
@@ -421,7 +421,7 @@ if (isset($_POST["camp_str"])) {
 				ORDER BY nume_persoana ASC;';
     $query = $db->prepare($string);
     $query->execute($data);
-    afiseaza_tabel($query);
+    afiseaza_rezultate($query);
     afiseaza_numar_total($count);
     exit();
 }

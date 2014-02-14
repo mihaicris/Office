@@ -21,15 +21,15 @@ function verifica_existenta_vanzator($id, $nume_vanzator, $prenume_vanzator)
     return;
 }
 
-function afiseaza_tabel($query)
+function afiseaza_rezultate($query)
 {
-    echo '<table class="vanzatori rezultate">';
+    echo '<table class="rezultate">';
     echo '<tr>';
     echo '<th>ID</th>';
     echo '<th>Nume și prenume</th>';
     echo '</tr>';
     for ($i = 0; $row = $query->fetch(); $i++) {
-        echo '<tr class="record">';
+        echo '<tr>';
         echo '<td id="f' . $row['id_vanzator']
             . '"><span class="id">'
             . $row['id_vanzator']
@@ -61,7 +61,7 @@ if (isset($_POST["formular_creare"])) {
     <h2>Creare vânzător</h2>
     <form action="/" method="post" id="creare_vanzator">
         <input id="id_vanzator" type="hidden" name="id_vanzator" value=""/>
-        <table class="vanzatori">
+        <table>
             <tbody>
             <tr>
                 <td>
@@ -114,7 +114,7 @@ if (isset($_POST["formular_editare"])) {
                type="hidden"
                name="id_vanzator"
                value="<?php echo $row['id_vanzator']; ?>"/>
-        <table class="vanzatori">
+        <table>
             <tbody>
             <tr>
                 <td>
@@ -202,12 +202,10 @@ if (isset($_POST["camp_str"])) {
 			   WHERE (`nume_vanzator` LIKE ? OR `prenume_vanzator` LIKE ?)
 			   ORDER BY `nume_vanzator`, `prenume_vanzator` ASC;';
     $query = interogare($string, $data);
-    afiseaza_tabel($query, $count);
+    afiseaza_rezultate($query, $count);
     afiseaza_numar_total($count);
     exit();
 }
-
-
 //if (isset($_POST["nume_test"])) {
 //    // testeaza existenta vanzator in baza de date
 //    $nume = $_POST["nume"];

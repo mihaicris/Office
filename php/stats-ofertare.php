@@ -2,7 +2,7 @@
 include('conexiune.php');
 ?>
 
-<h2>Volum lunar</h2>
+<h2>Statistici ofertare</h2>
 <canvas id="canvas2" height="400" width="900"></canvas>
 <script>
     var barChartData = {

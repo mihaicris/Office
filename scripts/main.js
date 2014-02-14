@@ -34,7 +34,6 @@
     var isInArray = function(value, array) {
       return array.indexOf(value) > -1;
     };
-
     var AjaxFail = function(jqXHR, textStatus, box) {
       if (textStatus === "error") {
         box.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
@@ -43,7 +42,6 @@
         box.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
       }
     };
-
     var convertDate = function(value) {
       var out,
           temp = value.split('-'),
@@ -55,9 +53,7 @@
       out = new Date(temp[2], luni[temp[1]], temp[0]);
       return out;
     };
-
     var initializare_Zebra = function() {
-
       $('input.datepicker').Zebra_DatePicker({
         onClear:  function() {
           $('#data_expirare').val('');
@@ -74,9 +70,7 @@
           $('#data_expirare').val(data);
         }
       });
-
     };
-
     var load_box = function(box_curent, box_nou, path) {
       // se incarca box-ul unei optiuni noi din meniu
       // implemantare box.load cu fadeout/fadein
@@ -87,6 +81,7 @@
         timeout: 5000
       })
           .done(function(data) {
+            $('.Zebra_DatePicker').remove();
             box_curent.fadeOut(timp_fadeout)
                 .promise()
                 .done(function() {
@@ -103,7 +98,6 @@
             AjaxFail(jqXHR, textStatus, box_curent);
           });
     };
-
     var load_interior_box = function(box, path) {
       // se incarca in box-ul curent noua pagina
       // implemantare box.load cu fadeout/fadein
@@ -123,7 +117,6 @@
             AjaxFail(jqXHR, textStatus, box);
           });
     };
-
     var pozitionare_lista_sugestii = function(elem_sursa, elem_destinatie) {
       // pozitioneaza fereastra de sugestii sub campul apelat
       // elem_sursa este cel de la care se preia pozitia si dimensiunile
@@ -138,7 +131,6 @@
         'min-width': Xwidth
       });
     };
-
     var toggleEvents = function(event, action) {
       if (event === 'submit_formular_persoana') {
         if (action) {
@@ -343,7 +335,7 @@
       if (event.which == 13 || event.which == 16) {   // enter sau shift
         return;
       }
-      if (!camp_str.length || camp_str.length > 2 || event.which === 53) {     // 53 == '%' all records
+      if (!camp_str.length || camp_str.length > 2 || event.which === 53) {     // 53 == '%' toate
         $.ajax({
           async:   true,
           url:     path,
