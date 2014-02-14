@@ -140,11 +140,11 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             <tr>
                 <td colspan="2">
-                    <label for="camp_cauta_companie">Companie</label>
-                    <input class="normal lung select_companie"
-                           id="camp_cauta_companie"
+                    <label for="select_companie">Companie</label>
+                    <input class="normal lung"
+                           id="select_companie"
                            type="text"
-                           name="companie_persoana"
+                           name="select_companie"
                            autocomplete="off"/>
                 </td>
                 <td></td>
@@ -258,11 +258,11 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             <tr>
                 <td>
-                    <label for="camp_cauta_companie">Companie</label>
+                    <label for="select_companie">Companie</label>
                     <input class="normal mediu select_companie"
-                           id="camp_cauta_companie"
+                           id="select_companie"
                            type="text"
-                           name="companie_persoana"
+                           name="select_companie"
                            value="<?php echo $row['nume_companie']; ?>"
                            autocomplete="off"/>
                 </td>

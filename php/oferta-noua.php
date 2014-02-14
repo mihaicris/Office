@@ -48,10 +48,10 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
         </tr>
         <tr>
             <td>
-                <label for="vanzator_oferta">Vânzător</label>
-                <input id="vanzator_oferta"
+                <label for="select_vanzator">Vânzător</label>
+                <input id="select_vanzator"
                        class="normal scurt"
-                       name="vanzator_oferta"
+                       name="select_vanzator"
                        type="text"
                     />
             </td>
@@ -80,17 +80,17 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
         </tr>
         <tr>
             <td>
-                <label for="camp_cauta_companie">Companie</label>
-                <input id="camp_cauta_companie"
-                       name="camp_cauta_companie"
+                <label for="select_companie">Companie</label>
+                <input id="select_companie"
+                       name="select_companie"
                        type="text"
                        class="normal lung select_companie"
                        value=""/>
             </td>
             <td>
-                <label for="camp_cauta_persoana">Persoană de contact</label>
-                <input id="camp_cauta_persoana"
-                       name="camp_cauta_persoana"
+                <label for="select_persoana">Persoană de contact</label>
+                <input id="select_persoana"
+                       name="select_persoana"
                        type="text"
                        class="normal scurt"
                        value=""/>
