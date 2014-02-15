@@ -54,6 +54,7 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                        name="select_vanzator"
                        data-id=""
                        type="text"
+                       readonly
                     />
             </td>
             <td>

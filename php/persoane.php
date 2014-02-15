@@ -360,9 +360,8 @@ if (isset($_POST["select_persoana"])) {
     if (!$count) {
         echo '<p class="noresults">
 			        <strong>Nu există în baza de date.</strong>
-			        <br/>Crează persoana din meniul
-			        <span class="sosa_font" style="color: #000">ñ</span><em>Administrare, Persoane</em>
-			       </p>';
+			        <br/><br/>Crează persoana din meniul:&nbsp;&nbsp;<em>Administrare, Persoane contact</em>
+			  </p>';
         exit();
     }
     // interogarea adevarata pentru rezultate

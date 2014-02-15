@@ -236,9 +236,8 @@ if (isset($_POST["select_companie"])) {
     if (!$count) {
         echo '<p class="noresults">
 			        <strong>Nu există în baza de date.</strong>
-			        <br/>Crează compania din meniul
-			        <span class="sosa_font" style="color: #000">ñ</span><em>Administrare, Companii</em>
-			       </p>';
+			        <br/><br/>Crează compania din meniul:&nbsp;&nbsp;<em>Administrare, Companii</em>
+			  </p>';
         exit();
     }
     // interogarea adevarata pentru rezultate

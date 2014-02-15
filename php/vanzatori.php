@@ -147,6 +147,39 @@ if (isset($_POST["formular_editare"])) {
     <?php
     exit();
 }
+if (isset($_POST["select_vanzator"])) {
+
+    // alegere vanzator din baza de date in formulare
+
+    // prima interogare pentru numarare rezultate
+    $string = 'SELECT COUNT(*)
+					FROM `vanzatori`
+					ORDER BY `nume_vanzator` ASC
+					LIMIT 1;';
+    $query = interogare($string, NULL);
+    //daca nu sunt rezultate se iese cu mesaj
+    $count = $query->fetchColumn();
+    if (!$count) {
+        echo '<p class="noresults">
+			        <strong>Nu există în baza de date.</strong>
+			        <br/><br/>Crează compania din meniul:&nbsp;&nbsp;<em>Administrare, Vânzători</em>
+			  </p>';
+        exit();
+    }
+    // interogarea adevarata pentru rezultate
+    $string = 'SELECT *
+					FROM `vanzatori`
+					ORDER BY `nume_vanzator` ASC;';
+    $query = interogare($string, NULL);
+    for ($i = 0; $row = $query->fetch(); $i++) {
+        echo '<div class="rec">';
+        echo '<p  id="f' . $row['id_vanzator'] . '">';
+        echo $row['nume_vanzator'];
+        echo '&nbsp' . $row['prenume_vanzator'] . "</p>";
+        echo '</div>';
+    }
+    exit();
+}
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];
     if ($_POST["salveaza"]) { // 1-creaza | 0-modifica

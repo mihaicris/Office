@@ -423,8 +423,8 @@
           });
         }
       },
-      mouseup: function() {
-        $('#lista_persoane').hide();
+      mousedown: function() {
+        $('#lista_persoane, #lista_vanzatori').hide();
       }
     }, 'input#select_companie');
 
@@ -436,7 +436,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mousedown:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -452,13 +452,14 @@
     }, '#lista_companii .rec');
 
     class_box.on({
-      mousedown: function(event) {
+      mousedown: function() {
         var lista = $('#lista_persoane'),
             path = 'php/persoane.php',
             camp = $(this),
-            id_companie = $('#select_companie').blur().attr('data-id');
-//        event.preventDefault();
-        $('#lista_companii').hide();
+            id_companie = $('#select_companie').blur().attr('data-id'),
+            root = $(this).closest('.box').attr('id').slice(4),
+            box_curent = $('#box-' + root);
+        $('#lista_companii, #lista_vanzatori').hide();
         if (!id_companie) {
           alert('Alegeti o companie!');
           return;
@@ -494,7 +495,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mousedown:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -508,16 +509,55 @@
       }
     }, '#lista_persoane .rec');
 
-//    class_box.on({}, 'input#select_vanzator');
-//
-//    class_box.on({
-//      mouseenter: function() {
-//      },
-//      mouseleave: function() {
-//      },
-//      mouseup:    function() {
-//      }
-//    }, '#lista_vanzatori .rec');
+    class_box.on({
+      mousedown: function() {
+        var lista = $('#lista_vanzatori'),
+            path = 'php/vanzatori.php',
+            camp = $(this),
+            root = $(this).closest('.box').attr('id').slice(4),
+            box_curent = $('#box-' + root);
+        $('#lista_companii, #lista_persoane').hide();
+        if (!lista.is(':visible')) {
+          $.ajax({
+            async:   true,
+            url:     path,
+            data:    { select_vanzator: 1 },
+            timeout: 5000})
+              .done(function(raspuns) {
+                pozitionare_lista_sugestii(camp, lista);
+                lista.html(raspuns).show();
+                $(this).attr('data-id', '');
+              })
+              .fail(function(jqXHR, textStatus) {
+                AjaxFail(jqXHR, textStatus, box_curent);
+              });
+        } else {
+          lista.hide();
+        }
+      }
+    }, 'input#select_vanzator');
+
+    class_box.on({
+      mouseenter: function() {
+        $('#lista_vanzatori').find('.rec').removeClass('selected');
+        $(this).addClass('selected');
+      },
+      mouseleave: function() {
+        $(this).removeClass('selected');
+      },
+      mouseup:    function() {
+        var $this = $(this).children().first(),
+            id = parseInt($this.attr('id').slice(1)),
+            $text = $this.text(),
+            lista = $('#lista_vanzatori'),
+            camp = $('#select_vanzator');
+        lista.hide().promise().done(function() {
+          $('input').eq(camp.val($text).index('input') + 1).focus();
+          camp.attr('data-id', id);
+          lista.empty();
+        });
+      }
+    }, '#lista_vanzatori .rec');
 
     class_box.on('click', 'span.actiune', function(event) {
       event.preventDefault();
