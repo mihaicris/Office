@@ -244,8 +244,7 @@ if (isset($_POST["select_companie"])) {
     $string = 'SELECT *
 					FROM `companii`
 					WHERE (`nume_companie` LIKE ? OR `adresa_companie` LIKE ? OR `oras_companie` LIKE ?)
-					ORDER BY `nume_companie` ASC
-					LIMIT 5;';
+					ORDER BY `nume_companie` ASC;';
     $query = interogare($string, $data);
     echo '<div class="rec" id="source"><p>' . $_POST["select_companie"] . '</p></div>';
     for ($i = 0; $row = $query->fetch(); $i++) {

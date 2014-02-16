@@ -119,11 +119,14 @@
       var Xleft = elem_sursa.position().left,
           Xtop = elem_sursa.position().top,
           Xwidth = parseInt(elem_sursa.css('width')),
-          Xheight = parseInt(elem_sursa.css('height'));
+          Xheight = parseInt(elem_sursa.css('height')),
+          Rheight = parseInt(elem_destinatie.children(':not(#source)').first().outerHeight());
+      console.log(Rheight);
       elem_destinatie.css({
-        'left':      Xleft,
-        'top':       Xtop + Xheight + 1,
-        'min-width': Xwidth
+        'left':       Xleft,
+        'top':        Xtop + Xheight + 1,
+        'min-width':  Xwidth,
+        'max-height': Rheight * 7
       });
     };
 
@@ -416,8 +419,8 @@
             data:    { select_companie: string  },
             timeout: 5000})
               .done(function(raspuns) {
-                pozitionare_lista_sugestii(camp, lista);
                 lista.html(raspuns).show();
+                pozitionare_lista_sugestii(camp, lista);
                 camp.attr('data-id', '');
               })
               .fail(function(jqXHR, textStatus) {
@@ -481,8 +484,8 @@
             },
             timeout: 5000})
               .done(function(raspuns) {
-                pozitionare_lista_sugestii(camp, lista);
                 lista.html(raspuns).show();
+                pozitionare_lista_sugestii(camp, lista);
                 $(this).attr('data-id', '');
               })
               .fail(function(jqXHR, textStatus) {
@@ -531,8 +534,8 @@
             data:    { select_vanzator: 1 },
             timeout: 5000})
               .done(function(raspuns) {
-                pozitionare_lista_sugestii(camp, lista);
                 lista.html(raspuns).show();
+                pozitionare_lista_sugestii(camp, lista);
                 $(this).attr('data-id', '');
               })
               .fail(function(jqXHR, textStatus) {
@@ -572,8 +575,8 @@
             camp = $(this);
         $('#lista_companii, #lista_persoane, #lista_vanzatori').hide();
         if (!lista.is(':visible')) {
-          pozitionare_lista_sugestii(camp, lista);
           lista.show();
+          pozitionare_lista_sugestii(camp, lista);
         } else {
           lista.hide();
         }

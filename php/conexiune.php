@@ -25,7 +25,6 @@ while (true) {
     }
 }
 
-
 function interogare($string, $data)
 {
     global $db;

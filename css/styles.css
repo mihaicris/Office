@@ -337,7 +337,7 @@ div.ddm {
     background-color:      #fff;
     border-radius:         2px;
     box-shadow:            0 0 3px 1px #222;
-    /*overflow: hidden;*/
+    overflow-y:            auto;
     -webkit-touch-callout: none;
     -webkit-user-select:   none;
     -khtml-user-select:    none;
