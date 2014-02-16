@@ -4,7 +4,7 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
 
     <link href="images/favicon.ico" rel="icon" type="image/x-icon">
-
+    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/datepicker/default.css" type="text/css">
 

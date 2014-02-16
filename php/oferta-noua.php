@@ -50,10 +50,11 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
             <td>
                 <label for="select_vanzator">Vânzător</label>
                 <input id="select_vanzator"
-                       class="normal scurt"
+                       class="scurt normal"
                        name="select_vanzator"
-                       data-id=""
                        type="text"
+                       placeholder="Selectează..."
+                       data-id=""
                        readonly
                     />
             </td>
@@ -68,11 +69,26 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
             </td>
         </tr>
         <tr>
-            <td>
+            <td rowspan="2">
                 <label for="descriere_oferta">Descriere</label>
-                <textarea id="descriere_oferta" maxlength="400"></textarea>
+                <textarea id="descriere_oferta"
+                          maxlength="400"
+                          spellcheck="false"></textarea>
             </td>
-            <td><br>
+            <td>
+                <label for="select_stadiu">Stadiu ofertă</label>
+                <input id="select_stadiu"
+                       name="select_stadiu"
+                       type="text"
+                       class="normal scurt"
+                       value=""
+                       data-id=""
+                       placeholder="Selectează..."
+                       readonly
+                    />
+            </td>
+        <tr>
+            <td>
                 <label for="relevant">Inclus în volum ofertare</label>
                 <input id="relevant"
                        name="relevant"
@@ -86,9 +102,10 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                 <input id="select_companie"
                        name="select_companie"
                        type="text"
-                       class="normal lung select_companie"
+                       class="lung normal"
                        value=""
-                       data-id=""/>
+                       data-id=""
+                       placeholder="Tastează pentru a căuta..."/>
             </td>
             <td>
                 <label for="select_persoana">Persoană de contact</label>
@@ -97,7 +114,10 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                        type="text"
                        class="normal scurt"
                        value=""
-                       data-id="" readonly/>
+                       data-id=""
+                       placeholder="Selectează..."
+                       readonly
+                    />
             </td>
         </tr>
         <tr>
@@ -110,15 +130,7 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                        class="scurt valoare_oferta"
                        value=""/>
             </td>
-            <td>
-                <label for="stadiu_oferta">Stadiu</label>
-                <input id="stadiu_oferta"
-                       name="stadiu_oferta"
-                       type="text"
-                       class="normal scurt"
-                       value=""
-                    />
-            </td>
+            <td></td>
         </tr>
         </tbody>
     </table>
@@ -129,3 +141,14 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
 <div id="lista_companii" class="ddm"></div>
 <div id="lista_vanzatori" class="ddm"></div>
 <div id="lista_persoane" class="ddm"></div>
+<div id="lista_stadii" class="ddm">
+    <div class="rec">
+        <p id="f00">Ofertă deschisă</p>
+    </div>
+    <div class="rec">
+        <p id="f01">Ofertă câștigată</p>
+    </div>
+    <div class="rec">
+        <p id="f02">Ofertă pierdută</p>
+    </div>
+</div>

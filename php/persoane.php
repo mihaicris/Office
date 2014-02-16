@@ -86,8 +86,7 @@ if (isset($_POST["formular_creare"])) {
                            name="prenume_persoana"
                            autocomplete="off"/>
                 </td>
-                <td></td>
-            </tr>
+           </tr>
             <tr>
                 <td>
                     <label for="tel_persoana">Telefon fix</label>
@@ -105,7 +104,6 @@ if (isset($_POST["formular_creare"])) {
                            name="fax_persoana"
                            autocomplete="off"/>
                 </td>
-                <td></td>
             </tr>
             <tr>
                 <td>
@@ -116,7 +114,6 @@ if (isset($_POST["formular_creare"])) {
                            name="mobil_persoana"
                            autocomplete="off"/>
                 </td>
-                <td></td>
                 <td></td>
             </tr>
             <tr>
@@ -136,7 +133,6 @@ if (isset($_POST["formular_creare"])) {
                         <option value="1">Femeie</option>
                     </select>
                 </td>
-                <td></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -148,8 +144,6 @@ if (isset($_POST["formular_creare"])) {
                            data-id=""
                            autocomplete="off"/>
                 </td>
-                <td></td>
-                <td></td>
             </tr>
             <tr>
                 <td>
@@ -168,14 +162,9 @@ if (isset($_POST["formular_creare"])) {
                            name="functie_persoana"
                            autocomplete="off"/>
                 </td>
-                <td></td>
             </tr>
             </tbody>
         </table>
-        <!--        <input id="id_companie"-->
-        <!--               type="hidden"-->
-        <!--               name="id_companie"-->
-        <!--               value=""/>-->
         <a href="#" id="creaza_persoana" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
@@ -216,7 +205,6 @@ if (isset($_POST["formular_editare"])) {
                     <input class="normal mediu" id="prenume_persoana" type="text" name="prenume_persoana"
                            value="<?php echo $row['prenume_persoana']; ?>" autocomplete="off"/>
                 </td>
-                <td></td>
             </tr>
             <tr>
                 <td>
@@ -229,7 +217,6 @@ if (isset($_POST["formular_editare"])) {
                     <input class="normal mediu" id="fax_persoana" type="text" name="fax_persoana"
                            value="<?php echo $row['fax_persoana']; ?>" autocomplete="off"/>
                 </td>
-                <td></td>
             </tr>
             <tr>
                 <td>
@@ -237,7 +224,6 @@ if (isset($_POST["formular_editare"])) {
                     <input class="normal mediu" id="mobil_persoana" type="text" name="mobil_persoana"
                            value="<?php echo $row['mobil_persoana']; ?>" autocomplete="off"/>
                 </td>
-                <td></td>
                 <td></td>
             </tr>
             <tr>
@@ -255,7 +241,6 @@ if (isset($_POST["formular_editare"])) {
                         </option>
                     </select>
                 </td>
-                <td></td>
             </tr>
             <tr>
                 <td>
@@ -269,7 +254,6 @@ if (isset($_POST["formular_editare"])) {
                            autocomplete="off"/>
                 </td>
                 <td></td>
-                <td></td>
             </tr>
             <tr>
                 <td>
@@ -282,7 +266,6 @@ if (isset($_POST["formular_editare"])) {
                     <input class="normal mediu" id="functie_persoana" type="text" name="functie_persoana"
                            value="<?php echo $row['functie_persoana']; ?>" autocomplete="off"/>
                 </td>
-                <td></td>
             </tr>
             </tbody>
         </table>
