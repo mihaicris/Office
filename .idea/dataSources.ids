@@ -22,20 +22,20 @@
     <table name="oferte" schema="" catalog="office" type="TABLE">
       <column name="id_oferta" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5" autoIncrement="true"/>
       <column name="nume_oferta" sqlType="VARCHAR" length="200" precision="0" nullable="false" jdbcType="12"/>
-      <column name="data_oferta" sqlType="DATE" length="10" precision="0" nullable="false" jdbcType="91"/>
+      <column name="data_oferta" sqlType="VARCHAR" length="11" precision="0" nullable="false" jdbcType="12"/>
       <column name="descriere_oferta" sqlType="TEXT" length="65535" precision="0" nullable="true" jdbcType="-1"/>
       <column name="id_companie_oferta" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
       <column name="id_persoana_oferta" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
       <column name="id_vanzator_oferta" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
-      <column name="data_expirare" sqlType="DATE" length="10" precision="0" nullable="false" jdbcType="91"/>
+      <column name="data_expirare" sqlType="VARCHAR" length="11" precision="0" nullable="false" jdbcType="12"/>
       <column name="valabilitate" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="valoare_oferta" sqlType="DOUBLE" length="22" precision="0" nullable="false" jdbcType="8"/>
-      <column name="relevant" sqlType="ENUM" length="3" precision="0" nullable="false" jdbcType="1"/>
-      <column name="stadiu" sqlType="VARCHAR" length="10" precision="0" nullable="false" jdbcType="12"/>
+      <column name="relevant" sqlType="TINYINT" length="3" precision="0" nullable="false" jdbcType="-6"/>
+      <column name="stadiu" sqlType="ENUM" length="2" precision="0" nullable="false" jdbcType="1"/>
       <primary-key name="PRIMARY" columns="id_oferta"/>
-      <foreign-key name="oferte_ibfk_3" columns="id_vanzator_oferta" ref-table="vanzatori" ref-schema="" ref-catalog="office" ref-columns="id_vanzator" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="oferte_ibfk_1" columns="id_companie_oferta" ref-table="companii" ref-schema="" ref-catalog="office" ref-columns="id_companie" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="oferte_ibfk_2" columns="id_persoana_oferta" ref-table="persoane" ref-schema="" ref-catalog="office" ref-columns="id_persoana" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="oferte_ibfk_3" columns="id_vanzator_oferta" ref-table="vanzatori" ref-schema="" ref-catalog="office" ref-columns="id_vanzator" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="oferta_unica" unique="true" columns="nume_oferta,data_oferta,id_companie_oferta"/>
     </table>
     <table name="persoane" schema="" catalog="office" type="TABLE">
