@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 18, 2014 at 11:38 AM
+-- Generation Time: Feb 18, 2014 at 12:44 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -84,22 +84,30 @@ INSERT INTO `companii` (`id_companie`, `nume_companie`, `adresa_companie`, `oras
 CREATE TABLE IF NOT EXISTS `oferte` (
   `id_oferta` smallint(5) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `nume_oferta` varchar(200) NOT NULL,
-  `data_oferta` varchar(10) NOT NULL,
+  `data_oferta` varchar(11) NOT NULL,
   `descriere_oferta` text,
   `id_companie_oferta` smallint(5) unsigned zerofill NOT NULL,
   `id_persoana_oferta` smallint(5) unsigned zerofill NOT NULL,
   `id_vanzator_oferta` smallint(5) unsigned zerofill NOT NULL,
-  `data_expirare` varchar(10) NOT NULL,
+  `data_expirare` varchar(11) NOT NULL,
   `valabilitate` int(3) NOT NULL,
   `valoare_oferta` double NOT NULL,
-  `relevant` enum('on','off') NOT NULL,
-  `stadiu` varchar(10) NOT NULL,
+  `relevant` tinyint(1) NOT NULL,
+  `stadiu` enum('0','1','2') NOT NULL,
   PRIMARY KEY (`id_oferta`),
   UNIQUE KEY `oferta_unica` (`nume_oferta`,`data_oferta`,`id_companie_oferta`),
   KEY `id_companie_oferta` (`id_companie_oferta`),
   KEY `id_vanzator_oferta` (`id_vanzator_oferta`),
   KEY `id_persoana_oferta` (`id_persoana_oferta`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+
+--
+-- Dumping data for table `oferte`
+--
+
+INSERT INTO `oferte` (`id_oferta`, `nume_oferta`, `data_oferta`, `descriere_oferta`, `id_companie_oferta`, `id_persoana_oferta`, `id_vanzator_oferta`, `data_expirare`, `valabilitate`, `valoare_oferta`, `relevant`, `stadiu`) VALUES
+(00014, 'Alimentare cu energie', '18-Feb-2014', 'descriere', 00024, 00018, 00038, '20-Mar-2014', 30, 150000, 1, '0'),
+(00015, 'Post de transformare', '18-Feb-2014', 'Descriere 2', 00011, 00009, 00037, '19-Apr-2014', 60, 250000, 0, '1');
 
 -- --------------------------------------------------------
 

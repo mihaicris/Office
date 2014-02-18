@@ -49,23 +49,33 @@
       return out;
     };
     var initializare_Zebra = function() {
+      var elem = $('input.datepicker'),
+          exp = $('#data_expirare');
       $('.Zebra_DatePicker').remove();
-      $('input.datepicker').Zebra_DatePicker({
+      elem.Zebra_DatePicker({
         onClear:  function() {
-          $('#data_expirare').val('');
+          elem.attr('data-data', '');
+          if (exp.length) {
+            $('#data_expirare').val('').attr('data-data', '');
+          }
         },
-        onSelect: function(user_data, b, data_JS, d) {
+        onSelect: function(user_data, date_MSQL, data_JS, element) {
           /**
            The callback function takes 4 parameters:
            - the date in the format specified by the “format” attribute;
            - the date in YYYY-MM-DD format
            - the date as a JavaScript Date object
            - a reference to the element the date picker is attached to, as a jQuery object*/
-          var v = $('#valabilitate').val();
-          var data = data_JS.addDays(v).toString('d-MMM-yyyy');
-          $('#data_expirare').val(data);
+          var v = $('#valabilitate').val(),
+              data_expirare = data_JS.addDays(v);
+          element.attr('data-data', date_MSQL);
+          if (exp.length) {
+            exp.val(data_expirare.toString('d-MMM-yyyy')).attr('data-data', data_expirare.toString('yyyy-MM-dd'));
+          }
+
         }
       });
+
     };
     var load_box = function(box_curent, box_nou, path) {
       // se incarca box-ul unei optiuni noi din meniu
@@ -163,10 +173,20 @@
     });
 
     id_box_oferta_noua.on('input', '#valabilitate', function() {
-      var data = convertDate($('input.datepicker').val());
+      var data_ro = $('#data_oferta').val();
+      var data_JS = convertDate(data_ro);
       var valabilitate = $('#valabilitate').val();
-      var b = data.addDays(valabilitate).toString('d-MMM-yyyy');
-      $('#data_expirare').val(b);
+      var exp_ro = data_JS.addDays(valabilitate).toString('d-MMM-yyyy');
+      var exp_MSQL = data_JS.addDays(valabilitate).toString('yyyy-MM-dd');
+      $('#data_expirare').val(exp_ro);
+      $('#data_oferta').attr('data-data', exp_MSQL);
+      console.clear();
+      console.log(data_ro);
+      console.log(data_JS);
+      console.log(exp_ro);
+      console.log(exp_MSQL);
+
+
     });
 
     id_box_oferta_noua.on('keydown', '#valoare_oferta', function(event) {
@@ -620,7 +640,7 @@
     });
 
     id_box_oferta_noua.on('click', '#creaza_oferta', function(event) {
-      var path = pagina[1],
+      var path = pagina[0],
           flag = false,
           pattern,
           values = [],
@@ -629,6 +649,8 @@
       event.preventDefault();
       $('span.error').remove();
       camp.removeClass('required');
+
+      // Prelucrare id oferta
       values[0] = parseInt(camp.eq(0).val()) || null;
 
       // Prelucrare nume
@@ -639,8 +661,8 @@
         camp.eq(1).addClass('required').closest('td').append('<span class="error">Minim 3 caractere.</span>');
       }
 
-      // prelucrare data
-      values[2] = camp.eq(2).val();
+      // prelucrare data oferta
+      values[2] = camp.eq(2).attr('data-data');
       if (!values[2].length) {
         flag = true;
         camp.eq(2).addClass('required').closest('td').append('<span class="error">Selectați data ofertei.</span>');
@@ -661,7 +683,7 @@
       }
 
       // citire data expirare
-      values[5] = camp.eq(5).val();
+      values[5] = camp.eq(5).attr('data-data');
 
       // citire descriere
       values[6] = camp.eq(6).val();
@@ -674,7 +696,10 @@
       }
 
       // citire raportare volum
-      values[8] = camp.eq(8).val();
+//      values[8] = camp.eq(8).val();
+      values[8] = camp.eq(8).is(':checked') ? 1 : 0;
+
+      console.log(values[8]);
 
       // prelucrare companie
       values[9] = camp.eq(9).attr('data-id');
@@ -684,7 +709,7 @@
       }
 
       // prelucrare persoana
-      values[10] = camp.eq(9).attr('data-id');
+      values[10] = camp.eq(10).attr('data-id');
       if (!values[10].length) {
         flag = true;
         camp.eq(10).addClass('required').closest('td').append('<span class="error">Selectați persoana de contact.</span>');
@@ -700,7 +725,6 @@
       if (!flag) {
         console.dir(values);
 
-        return;
         $.ajax({
           async:   true,
           url:     path,

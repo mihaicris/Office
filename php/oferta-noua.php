@@ -36,6 +36,9 @@ if (isset($_POST["salveaza"])) {
 //                       	WHERE `id_persoana` = ?;';
 //        array_push($data, array_shift($data));
     }
+
+    fb($string);
+
     $query = interogare($string, $data);
     echo('ok');
     exit();
@@ -48,12 +51,19 @@ $ziua = getdate()['mday'];
 $luna = getdate()['mon'];
 $an = getdate()['year'];
 $timestamp = getdate()['0'];
+
 $today = $ziua . '-' . $months[$luna - 1] . '-' . $an;
+$today_MSQL = date('Y-m-d');
+
+
 $date1 = mktime(0, 0, 0, $luna, $ziua + 30, $an);
 $ziua1 = getdate($date1)['mday'];
 $luna1 = getdate($date1)['mon'];
 $an1 = getdate($date1)['year'];
+
 $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
+$viitor_MSQL = date('Y-m-d', $date1);
+
 ?>
 <h2>Creare ofertă nouă</h2>
 <form action="/" method="post" id="formular_oferta_noua">
@@ -78,6 +88,7 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                        name="data_oferta"
                        type="text"
                        class="datepicker normal extrascurt"
+                       data-data="<?php echo $today_MSQL; ?>"
                        value="<?php echo $today; ?>"/>
 
                 <input id="valabilitate"
@@ -106,6 +117,7 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                        type="text"
                        class="data_expirare extrascurt"
                        value="<?php echo $viitor; ?>"
+                       data-data="<?php echo $viitor_MSQL; ?>"
                        disabled="disabled"/>
             </td>
         </tr>
@@ -135,7 +147,7 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                 <input id="relevant"
                        name="relevant"
                        type="checkbox"
-                       checked="checked"/>
+                       checked/>
             </td>
         </tr>
         <tr>
