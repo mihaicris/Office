@@ -81,12 +81,13 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
                        name="select_stadiu"
                        type="text"
                        class="normal scurt"
-                       value=""
-                       data-id=""
+                       value="Deschisă"
+                       data-id="0"
                        placeholder="Selectează..."
                        readonly
                     />
             </td>
+        </tr>
         <tr>
             <td>
                 <label for="relevant">Inclus în volum ofertare</label>
@@ -143,12 +144,12 @@ $viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
 <div id="lista_persoane" class="ddm"></div>
 <div id="lista_stadii" class="ddm">
     <div class="rec">
-        <p id="f00">Ofertă deschisă</p>
+        <p id="f00">Deschisă</p>
     </div>
     <div class="rec">
-        <p id="f01">Ofertă câștigată</p>
+        <p id="f01">Câștigată</p>
     </div>
     <div class="rec">
-        <p id="f02">Ofertă pierdută</p>
+        <p id="f02">Pierdută</p>
     </div>
 </div>
