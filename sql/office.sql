@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 18, 2014 at 07:04 AM
+-- Generation Time: Feb 18, 2014 at 11:38 AM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -82,26 +82,24 @@ INSERT INTO `companii` (`id_companie`, `nume_companie`, `adresa_companie`, `oras
 --
 
 CREATE TABLE IF NOT EXISTS `oferte` (
-  `id_oferta` smallint(6) NOT NULL AUTO_INCREMENT,
-  `nume_proiect` varchar(200) NOT NULL,
+  `id_oferta` smallint(5) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `nume_oferta` varchar(200) NOT NULL,
+  `data_oferta` varchar(10) NOT NULL,
   `descriere_oferta` text,
-  `id_companie` smallint(6) NOT NULL,
-  `id_persoana` int(6) NOT NULL,
-  `id_vanzator` smallint(6) NOT NULL,
-  `data_oferta` date NOT NULL,
+  `id_companie_oferta` smallint(5) unsigned zerofill NOT NULL,
+  `id_persoana_oferta` smallint(5) unsigned zerofill NOT NULL,
+  `id_vanzator_oferta` smallint(5) unsigned zerofill NOT NULL,
+  `data_expirare` varchar(10) NOT NULL,
   `valabilitate` int(3) NOT NULL,
-  `valoare` float(10,2) NOT NULL,
-  `inclus` tinyint(1) NOT NULL,
+  `valoare_oferta` double NOT NULL,
+  `relevant` enum('on','off') NOT NULL,
   `stadiu` varchar(10) NOT NULL,
-  PRIMARY KEY (`id_oferta`)
+  PRIMARY KEY (`id_oferta`),
+  UNIQUE KEY `oferta_unica` (`nume_oferta`,`data_oferta`,`id_companie_oferta`),
+  KEY `id_companie_oferta` (`id_companie_oferta`),
+  KEY `id_vanzator_oferta` (`id_vanzator_oferta`),
+  KEY `id_persoana_oferta` (`id_persoana_oferta`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `oferte`
---
-
-INSERT INTO `oferte` (`id_oferta`, `nume_proiect`, `descriere_oferta`, `id_companie`, `id_persoana`, `id_vanzator`, `data_oferta`, `valabilitate`, `valoare`, `inclus`, `stadiu`) VALUES
-(1, 'erterter ert ert ert ert ert ert e', 'r ert ert ert sergserg serg serg serg serg serg r ser r', 1, 1, 1, '2013-11-19', 30, 25620.23, 1, 'deschisa');
 
 -- --------------------------------------------------------
 
@@ -203,7 +201,7 @@ INSERT INTO `produse` (`id_produs`, `id_companie`, `cod_produs`, `titlu_produs`,
 --
 
 CREATE TABLE IF NOT EXISTS `vanzatori` (
-  `id_vanzator` tinyint(5) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `id_vanzator` smallint(5) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `nume_vanzator` varchar(50) CHARACTER SET utf8 COLLATE utf8_romanian_ci NOT NULL,
   `prenume_vanzator` varchar(50) CHARACTER SET utf8 COLLATE utf8_romanian_ci NOT NULL,
   PRIMARY KEY (`id_vanzator`)
@@ -228,6 +226,14 @@ INSERT INTO `vanzatori` (`id_vanzator`, `nume_vanzator`, `prenume_vanzator`) VAL
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `oferte`
+--
+ALTER TABLE `oferte`
+  ADD CONSTRAINT `oferte_ibfk_1` FOREIGN KEY (`id_companie_oferta`) REFERENCES `companii` (`id_companie`),
+  ADD CONSTRAINT `oferte_ibfk_2` FOREIGN KEY (`id_persoana_oferta`) REFERENCES `persoane` (`id_persoana`),
+  ADD CONSTRAINT `oferte_ibfk_3` FOREIGN KEY (`id_vanzator_oferta`) REFERENCES `vanzatori` (`id_vanzator`);
 
 --
 -- Constraints for table `persoane`

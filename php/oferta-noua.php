@@ -1,6 +1,47 @@
 <?php
 include_once 'conexiune.php';
 
+if (isset($_POST["salveaza"])) {
+    $data = $_POST["formdata"];
+    if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
+//        verifica_existenta_persoana(null, $data[1], $data[2], $data[8]);
+        $string = 'INSERT INTO `oferte`
+					(`nume_oferta`,
+					`data_oferta`,
+					`valabilitate`,
+					`id_vanzator_oferta`,
+					`data_expirare`,
+					`descriere_oferta`,
+					`stadiu`,
+					`relevant`,
+					`id_companie_oferta`,
+					`id_persoana_oferta`,
+					`valoare_oferta`,
+					`id_oferta`)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL);';
+        array_shift($data);
+    } else {
+//        verifica_existenta_persoana($data[0], $data[1], $data[2], $data[8]); // data[0] contine id-ul persoanei care se modifica
+//        $string = 'UPDATE `persoane`
+//                   	    SET	`nume_persoana` = ?,
+//							`prenume_persoana` = ?,
+//							`tel_persoana` = ?,
+//							`fax_persoana` = ?,
+//							`mobil_persoana` = ?,
+//							`email_persoana` = ?,
+//							`gen_persoana` = ?,
+//							`id_companie_persoana` = ?,
+//							`departament_persoana` = ?,
+//							`functie_persoana`= ?
+//                       	WHERE `id_persoana` = ?;';
+//        array_push($data, array_shift($data));
+    }
+    $query = interogare($string, $data);
+    echo('ok');
+    exit();
+
+}
+
 date_default_timezone_set('Europe/Bucharest');
 $months = ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec='];
 $ziua = getdate()['mday'];
