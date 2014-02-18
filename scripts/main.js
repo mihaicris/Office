@@ -23,8 +23,8 @@
           'php/companii.php',
           'php/vanzatori.php',
           'php/persoane.php'],
-        timp_fadein = 1000,
-        timp_fadeout = 1500;
+        timp_fadein = 150,
+        timp_fadeout = 200;
 
     var isInArray = function(value, array) {
       return array.indexOf(value) > -1;
@@ -93,26 +93,7 @@
             AjaxFail(jqXHR, textStatus, box_curent);
           });
     };
-    var load_interior_box = function(box, path) {
-      // se incarca in box-ul curent noua pagina
-      // implemantare box.load cu fadeout/fadein
-      // intre cele doua pagini ale aceluiasi box care se incarca
-      $.ajax({
-        async: true,
-        url:   path, timeout: 5000})
-          .done(function(data) {
-            box.fadeOut(timp_fadeout);
-            box.queue('fx', function() {
-              box.html(data);
-              box.dequeue('fx');
-            });
-            box.fadeIn(timp_fadein);
-            initializare_Zebra();
-          })
-          .fail(function(jqXHR, textStatus) {
-            AjaxFail(jqXHR, textStatus, box);
-          });
-    };
+
     var pozitionare_lista_sugestii = function(elem_sursa, elem_destinatie) {
       // pozitioneaza fereastra de sugestii sub campul apelat
       // elem_sursa este cel de la care se preia pozitia si dimensiunile
@@ -279,7 +260,7 @@
       var root = $(this).closest('.box').attr('id').slice(4),
           box = $('#box-' + root),
           path = 'php/' + root + '.php';
-      load_interior_box(box, path);
+      load_box(box, box, path);
     });
 
     class_box.on('click', '#sterge', function(event) {
@@ -311,7 +292,7 @@
         })
             .done(function(raspuns) {
               if (raspuns == 'ok') {
-                load_interior_box(box_curent, path);
+                load_box(box_curent, box_curent, path);
               }
               else {
                 box_curent.append(raspuns);
@@ -619,7 +600,7 @@
         timeout: 5000})
           .done(function(data) {
             if (data === 'Inexistent') {
-              load_interior_box(box_curent, path);
+              load_box(box_curent, box_curent, path);
             }
             else {
               box_curent.fadeOut(timp_fadeout);
@@ -769,7 +750,7 @@
           timeout: 5000})
             .done(function(data) {
               if (data === "ok") {
-                load_interior_box(id_box_companii, path);
+                load_box(id_box_companii, id_box_companii, path);
               } else if (data === "exista") {
                 camp.eq(1).addClass('required')
                     .parent()
@@ -823,7 +804,7 @@
           timeout: 5000})
             .done(function(data) {
               if (data === "ok") {
-                load_interior_box(id_box_vanzatori, path);
+                load_box(id_box_vanzatori, id_box_vanzatori, path);
               } else if (data === "exista") {
                 camp.eq(1).addClass('required');
                 camp.eq(2).addClass('required')
@@ -929,7 +910,7 @@
           timeout: 5000})
             .done(function(data) {
               if (data === "ok") {
-                load_interior_box(id_box_persoane, path);
+                load_box(id_box_persoane, id_box_persoane, path);
               } else if (data === "exista") {
                 camp.filter(function(i) {
                   return $.inArray(i, [1, 2, 8]) > -1;

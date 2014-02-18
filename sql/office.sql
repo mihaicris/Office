@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 17, 2014 at 05:50 PM
+-- Generation Time: Feb 18, 2014 at 07:04 AM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -83,11 +83,16 @@ INSERT INTO `companii` (`id_companie`, `nume_companie`, `adresa_companie`, `oras
 
 CREATE TABLE IF NOT EXISTS `oferte` (
   `id_oferta` smallint(6) NOT NULL AUTO_INCREMENT,
-  `id_client` smallint(6) NOT NULL,
+  `nume_proiect` varchar(200) NOT NULL,
+  `descriere_oferta` text,
+  `id_companie` smallint(6) NOT NULL,
+  `id_persoana` int(6) NOT NULL,
   `id_vanzator` smallint(6) NOT NULL,
-  `data_creare` date NOT NULL,
-  `data_expirare` date NOT NULL,
-  `stadiu` varchar(10) CHARACTER SET utf8 COLLATE utf8_romanian_ci NOT NULL,
+  `data_oferta` date NOT NULL,
+  `valabilitate` int(3) NOT NULL,
+  `valoare` float(10,2) NOT NULL,
+  `inclus` tinyint(1) NOT NULL,
+  `stadiu` varchar(10) NOT NULL,
   PRIMARY KEY (`id_oferta`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
@@ -95,9 +100,8 @@ CREATE TABLE IF NOT EXISTS `oferte` (
 -- Dumping data for table `oferte`
 --
 
-INSERT INTO `oferte` (`id_oferta`, `id_client`, `id_vanzator`, `data_creare`, `data_expirare`, `stadiu`) VALUES
-(1, 5, 1, '2013-11-19', '2013-12-19', 'open'),
-(2, 6, 2, '2013-11-18', '2013-12-18', 'open');
+INSERT INTO `oferte` (`id_oferta`, `nume_proiect`, `descriere_oferta`, `id_companie`, `id_persoana`, `id_vanzator`, `data_oferta`, `valabilitate`, `valoare`, `inclus`, `stadiu`) VALUES
+(1, 'erterter ert ert ert ert ert ert e', 'r ert ert ert sergserg serg serg serg serg serg r ser r', 1, 1, 1, '2013-11-19', 30, 25620.23, 1, 'deschisa');
 
 -- --------------------------------------------------------
 
