@@ -70,9 +70,9 @@
               data_expirare = data_JS.addDays(v);
           element.attr('data-data', date_MSQL);
           if (exp.length) {
-            exp.val(data_expirare.toString('d-MMM-yyyy')).attr('data-data', data_expirare.toString('yyyy-MM-dd'));
+            exp.val(data_expirare.toString('d-MMM-yyyy'))
+                .attr('data-data', data_expirare.toString('yyyy-MM-dd'));
           }
-
         }
       });
 
@@ -174,19 +174,13 @@
 
     id_box_oferta_noua.on('input', '#valabilitate', function() {
       var data_ro = $('#data_oferta').val();
-      var data_JS = convertDate(data_ro);
-      var valabilitate = $('#valabilitate').val();
-      var exp_ro = data_JS.addDays(valabilitate).toString('d-MMM-yyyy');
-      var exp_MSQL = data_JS.addDays(valabilitate).toString('yyyy-MM-dd');
-      $('#data_expirare').val(exp_ro);
-      $('#data_oferta').attr('data-data', exp_MSQL);
-      console.clear();
-      console.log(data_ro);
-      console.log(data_JS);
-      console.log(exp_ro);
-      console.log(exp_MSQL);
-
-
+      if (data_ro !== "") {
+        var valabilitate = $('#valabilitate').val();
+        var dataJS_exp = convertDate(data_ro).addDays(valabilitate);
+        var exp_ro = dataJS_exp.toString('d-MMM-yyyy');
+        var exp_MSQL = dataJS_exp.toString('yyyy-MM-dd');
+        $('#data_expirare').val(exp_ro).attr('data-data', exp_MSQL);
+      }
     });
 
     id_box_oferta_noua.on('keydown', '#valoare_oferta', function(event) {
