@@ -384,7 +384,6 @@ if (isset($_POST["select_persoana"])) {
 					WHERE `id_companie_persoana` = ?
 					ORDER BY `nume_persoana` ASC;';
     $query = interogare($string, $data);
-//    echo '<div class="rec" id="source"><p>' . $_POST["select_persoana"] . '</p></div>';
     for ($i = 0; $row = $query->fetch(); $i++) {
         echo '<div class="rec">';
         echo '<p  id="f' . $row['id_persoana'] . '" class="bold">';
@@ -393,8 +392,8 @@ if (isset($_POST["select_persoana"])) {
         } else {
             echo "Dl. ";
         }
-        echo $row['nume_persoana'];
-        echo '&nbsp' . $row['prenume_persoana'] . "</p>";
+        echo $row['prenume_persoana'];
+        echo '&nbsp' . $row['nume_persoana'] . "</p>";
         echo '<p style="color: #3F41D9;">' . $row['functie_persoana'] . '</p>';
         echo '</div>';
     }

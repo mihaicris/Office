@@ -427,8 +427,8 @@
           });
         }
       },
-      mousedown: function() {
-        $('#lista_companii, #lista_persoane, #lista_stadii').hide();
+      mouseup: function() {
+        $('#lista_vanzatori, #lista_persoane, #lista_stadii').hide();
       }
     }, 'input#select_companie');
 
@@ -440,7 +440,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mousedown:    function() {
+      mouseup:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -456,7 +456,7 @@
     }, '#lista_companii .rec');
 
     class_box.on({
-      mousedown: function() {
+      mouseup: function() {
         var lista = $('#lista_persoane'),
             path = 'php/persoane.php',
             camp = $(this),
@@ -464,13 +464,10 @@
             root = $(this).closest('.box').attr('id').slice(4),
             box_curent = $('#box-' + root);
         $('#lista_companii, #lista_vanzatori, #lista_stadii').hide();
-        console.log(id_companie);
         if (!id_companie) {
-          camp.val('');
           $('#select_companie').focus();
-          return;
-        }
-        if (!lista.is(':visible')) {
+          camp.val('');
+        } else if (!lista.is(':visible')) {
           $.ajax({
             async:   true,
             url:     path,
@@ -502,7 +499,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mousedown:    function() {
+      mouseup:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -517,7 +514,7 @@
     }, '#lista_persoane .rec');
 
     class_box.on({
-      mousedown: function() {
+      mouseup: function() {
         var lista = $('#lista_vanzatori'),
             path = 'php/vanzatori.php',
             camp = $(this),
@@ -553,7 +550,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mousedown:    function() {
+      mouseup:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -568,7 +565,7 @@
     }, '#lista_vanzatori .rec');
 
     class_box.on({
-      mousedown: function() {
+      mouseup: function() {
         var lista = $('#lista_stadii'),
             camp = $(this);
         $('#lista_companii, #lista_persoane, #lista_vanzatori').hide();
@@ -590,7 +587,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mousedown:    function() {
+      mouseup:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -604,7 +601,7 @@
     }, '#lista_stadii .rec');
 
     class_box.on({
-      mousedown: function() {
+      mouseup: function() {
         var lista = $('#lista_sex'),
             camp = $(this);
         $('#lista_companii').hide();
@@ -626,7 +623,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mousedown:    function() {
+      mouseup:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -1018,10 +1015,11 @@
 
     });
 
-    id_box_oferta_noua.on('click', '#word', function(event) {
+    class_box.on('click', '#word', function(event) {
       // TESTARE WORD
-      var _self = $(this).parent();
-      var $id = $('form').find(':selected').val();
+      var $id = $('#select_persoana').attr('data-id'),
+          root = $(this).closest('.box').attr('id').slice(4),
+          box_curent = $('#box-' + root);
       if (!$id) {
         event.preventDefault();
         $('form select').addClass('required');
@@ -1029,20 +1027,15 @@
       }
       $.ajax({
         async:   false,
-        url:     'php/word/genereaza_word.php', data: {
-          id_persoana: $id
-        },
-        timeout: 5000,
-        error:   function(jqXHR, textStatus) {
-          if (textStatus === "timeout") {
-            alert('Probleme de rețea');
-            event.preventDefault();
-          }
-        },
-        success: function() {
-          _self.append('<p>Documentul s-a generat cu succes.</p>')
-        }
-      }); // end $.ajax
-    });  // end .on
+        url:     'php/word/genereaza_word.php',
+        data:    { id_persoana: $id },
+        timeout: 5000})
+          .done(function() {
+            box_curent.append('<p>Documentul s-a generat cu succes.</p>');
+          })
+          .fail(function(jqXHR, textStatus) {
+            AjaxFail(jqXHR, textStatus, box_curent);
+          });
+    });
   })
 })();

@@ -1,8 +1,8 @@
 <?php
 
-include_once('../external/opentbs/tbs_class.php'); // Load the TinyButStrong template engine
-include_once('../external/opentbs/tbs_plugin_opentbs.php'); // Load the OpenTBS plugin
-include_once('../conexiune.php');
+include_once '../external/opentbs/tbs_class.php'; // Load the TinyButStrong template engine
+include_once '../external/opentbs/tbs_plugin_opentbs.php'; // Load the OpenTBS plugin
+include_once '../conexiune.php';
 
 // fetch informatii despre clientul cu id=?
 $string = 'SELECT * FROM `office`.`persoane` WHERE `id_persoana` = ? LIMIT 1;';
@@ -24,6 +24,10 @@ $row = $query->fetch();
 	$fax_persoana = $row['fax_persoana'];
 	$mobil_persoana = $row['mobil_persoana'];
 	$email_persoana = $row['email_persoana'];
+
+fb($email_persoana);
+
+
 
 // fetch informatii despre compania asociata contactului cu id=?
 $string = 'SELECT * FROM `office`.`companii` WHERE `id_companie` = ? LIMIT 1;';
