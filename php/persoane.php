@@ -86,7 +86,7 @@ if (isset($_POST["formular_creare"])) {
                            name="prenume_persoana"
                            autocomplete="off"/>
                 </td>
-           </tr>
+            </tr>
             <tr>
                 <td>
                     <label for="tel_persoana">Telefon fix</label>
@@ -126,12 +126,16 @@ if (isset($_POST["formular_creare"])) {
                            autocomplete="off"/>
                 </td>
                 <td>
-                    <label for="sex">Sex</label>
-                    <select id="sex">
-                        <option id="default" value=""></option>
-                        <option value="0">Bărbat</option>
-                        <option value="1">Femeie</option>
-                    </select>
+                    <label for="select_sex">Sex</label>
+                    <input id="select_sex"
+                           name="select_stadiu"
+                           type="text"
+                           class="normal extrascurt"
+                           value=""
+                           data-id="0"
+                           placeholder="Selectează..."
+                           readonly
+                        />
                 </td>
             </tr>
             <tr>
@@ -169,6 +173,14 @@ if (isset($_POST["formular_creare"])) {
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
     <div id="lista_companii" class="ddm"></div>
+    <div id="lista_sex" class="ddm">
+        <div class="rec">
+            <p id="f00">Bărbat</p>
+        </div>
+        <div class="rec">
+            <p id="f01">Femeie</p>
+        </div>
+    </div>
     <?php
     exit();
 }
@@ -233,13 +245,23 @@ if (isset($_POST["formular_editare"])) {
                            value="<?php echo $row['email_persoana']; ?>" autocomplete="off"/>
                 </td>
                 <td>
-                    <label for="sex">Sex</label>
-                    <select id="sex">
-                        <option value="0" <?php if (!$row['gen_persoana']) echo 'selected="selected"' ?>>Bărbat
-                        </option>
-                        <option value="1" <?php if ($row['gen_persoana']) echo 'selected="selected"' ?>>Femeie
-                        </option>
-                    </select>
+                    <label for="select_sex">Sex</label>
+                    <input id="select_sex"
+                           name="select_stadiu"
+                           type="text"
+                           class="normal extrascurt"
+                        <?php
+                        if (!$row['gen_persoana']) {
+                            echo 'value="Bărbat"';
+                        } else {
+                            echo 'value="Femeie"';
+                        }
+                        echo ('data-id="'.$row['gen_persoana'].'"');
+                        ?>
+                           placeholder="Selectează..."
+                           readonly
+                        />
+
                 </td>
             </tr>
             <tr>
@@ -274,6 +296,15 @@ if (isset($_POST["formular_editare"])) {
         <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
     <div id="lista_companii" class="ddm"></div>
+    <div id="lista_sex" class="ddm">
+        <div class="rec">
+            <p id="f00">Bărbat</p>
+        </div>
+        <div class="rec">
+            <p id="f01">Femeie</p>
+        </div>
+    </div>
+
     <?php
     exit();
 }
@@ -413,14 +444,14 @@ if (isset($_POST["camp_str"])) {
     exit();
 }
 ?>
-    <h2>Lista persoane de contact</h2>
-    <form action="/" method="post" id="submit">
-        <label for="camp">Caută</label>
-        <input id="camp" class="normal mediu" type="text" name="camp_str" autocomplete="off"/>
-        <a href="#" id="produs_nou" class="submit nou">
-            <h3>Crează un contact nou</h3>
-        </a>
-    </form>
+<h2>Lista persoane de contact</h2>
+<form action="/" method="post" id="submit">
+    <label for="camp">Caută</label>
+    <input id="camp" class="normal mediu" type="text" name="camp_str" autocomplete="off"/>
+    <a href="#" id="produs_nou" class="submit nou">
+        <h3>Crează un contact nou</h3>
+    </a>
+</form>
 <?php
 $string = 'SELECT COUNT(*)
            FROM `persoane`

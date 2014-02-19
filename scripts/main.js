@@ -427,7 +427,7 @@
           });
         }
       },
-      mouseup: function() {
+      mousedown: function() {
         $('#lista_companii, #lista_persoane, #lista_stadii').hide();
       }
     }, 'input#select_companie');
@@ -440,7 +440,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mousedown:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -456,19 +456,21 @@
     }, '#lista_companii .rec');
 
     class_box.on({
-      mouseup: function() {
+      mousedown: function() {
         var lista = $('#lista_persoane'),
             path = 'php/persoane.php',
             camp = $(this),
             id_companie = $('#select_companie').attr('data-id'),
             root = $(this).closest('.box').attr('id').slice(4),
             box_curent = $('#box-' + root);
-        $('#lista_companii, #lista_persoane, #lista_stadii').hide();
+        $('#lista_companii, #lista_vanzatori, #lista_stadii').hide();
+        console.log(id_companie);
         if (!id_companie) {
           camp.val('');
           $('#select_companie').focus();
           return;
-        } else if (!lista.is(':visible')) {
+        }
+        if (!lista.is(':visible')) {
           $.ajax({
             async:   true,
             url:     path,
@@ -487,6 +489,7 @@
               });
         } else {
           lista.hide();
+          $(this).blur();
         }
       }
     }, 'input#select_persoana');
@@ -499,7 +502,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mousedown:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -514,7 +517,7 @@
     }, '#lista_persoane .rec');
 
     class_box.on({
-      mouseup: function() {
+      mousedown: function() {
         var lista = $('#lista_vanzatori'),
             path = 'php/vanzatori.php',
             camp = $(this),
@@ -537,6 +540,7 @@
               });
         } else {
           lista.hide();
+          $(this).blur();
         }
       }
     }, 'input#select_vanzator');
@@ -549,7 +553,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mousedown:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -564,7 +568,7 @@
     }, '#lista_vanzatori .rec');
 
     class_box.on({
-      mouseup: function() {
+      mousedown: function() {
         var lista = $('#lista_stadii'),
             camp = $(this);
         $('#lista_companii, #lista_persoane, #lista_vanzatori').hide();
@@ -573,6 +577,7 @@
           pozitionare_lista_sugestii(camp, lista);
         } else {
           lista.hide();
+          $(this).blur();
         }
       }
     }, 'input#select_stadiu');
@@ -585,7 +590,7 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mousedown:    function() {
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -597,6 +602,42 @@
         });
       }
     }, '#lista_stadii .rec');
+
+    class_box.on({
+      mousedown: function() {
+        var lista = $('#lista_sex'),
+            camp = $(this);
+        $('#lista_companii').hide();
+        if (!lista.is(':visible')) {
+          lista.show();
+          pozitionare_lista_sugestii(camp, lista);
+        } else {
+          lista.hide();
+          $(this).blur();
+        }
+      }
+    }, 'input#select_sex');
+
+    class_box.on({
+      mouseenter: function() {
+        $('#lista_sex').find('.rec').removeClass('selected');
+        $(this).addClass('selected');
+      },
+      mouseleave: function() {
+        $(this).removeClass('selected');
+      },
+      mousedown:    function() {
+        var $this = $(this).children().first(),
+            id = parseInt($this.attr('id').slice(1)),
+            $text = $this.text(),
+            lista = $('#lista_sex'),
+            camp = $('#select_sex');
+        lista.hide().promise().done(function() {
+          $('input').eq(camp.val($text).index('input') + 1).focus();
+          camp.attr('data-id', id);
+        });
+      }
+    }, '#lista_sex .rec');
 
     class_box.on('click', 'span.actiune', function(event) {
       event.preventDefault();
@@ -874,7 +915,7 @@
           flag = false,
           pattern,
           values = [],
-          camp = $('form input, form select'),
+          camp = $('form input'),
           salveaza = (this.id == "creaza_persoana") ? 1 : 0;  // 1-salveaza nou, 0-modific existent
       event.preventDefault();
       $('span.error').remove();
@@ -922,7 +963,7 @@
         camp.eq(6).addClass('required').parent().append('<span class="error">Adresa de email nu este validă.</span>');
       }
       // validare sex
-      values[7] = camp.eq(7).val();
+      values[7] = camp.eq(7).attr('data-id');
       if (!values[7].length) {
         flag = true;
         camp.eq(7).addClass('required').parent().append('<span class="error">Alegeţi o opţiune.</span>');

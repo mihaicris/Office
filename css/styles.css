@@ -107,7 +107,7 @@ nav {
 :focus {
     outline: medium none;
 }
-li, header, footer {
+li, header, footer, label, input[readonly] {
     -webkit-touch-callout: none;
     -webkit-user-select:   none;
     -khtml-user-select:    none;
