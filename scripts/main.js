@@ -318,6 +318,12 @@
       }
     });
 
+    class_box.on('mousedown', function(event) {
+      if (typeof $(event.target).closest('.ddm').attr('id') === 'undefined') {
+        $('.ddm').hide();
+      }
+    });
+
     class_box.on({
       keydown: function(event) {
         if (isInArray(event.which, [13, 38, 40])) event.preventDefault();
@@ -425,9 +431,6 @@
             lista.empty();
           });
         }
-      },
-      mouseup: function() {
-        $('.ddm').hide();
       }
     }, 'input#select_companie');
 
@@ -439,14 +442,6 @@
             id_companie = $('#select_companie').attr('data-id'),
             root = $(this).closest('.box').attr('id').slice(4),
             box_curent = $('#box-' + root);
-        lista.addClass('selected')
-            .promise()
-            .done(function() {
-              $('.ddm').not('.selected').hide();
-            })
-            .done(function() {
-              lista.removeClass('selected');
-            });
         if (!id_companie) {
           $('#select_companie').focus();
           camp.val('');
@@ -481,14 +476,6 @@
             camp = $(this),
             root = $(this).closest('.box').attr('id').slice(4),
             box_curent = $('#box-' + root);
-        lista.addClass('selected')
-            .promise()
-            .done(function() {
-              $('.ddm').not('.selected').hide();
-            })
-            .done(function() {
-              lista.removeClass('selected');
-            });
         if (!lista.is(':visible')) {
           $.ajax({
             async:   true,
@@ -514,14 +501,6 @@
       mouseup: function() {
         var lista = $('#lista_stadii'),
             camp = $(this);
-        lista.addClass('selected')
-            .promise()
-            .done(function() {
-              $('.ddm').not('.selected').hide();
-            })
-            .done(function() {
-              lista.removeClass('selected');
-            });
         if (!lista.is(':visible')) {
           lista.fadeIn('fast');
           pozitionare_lista_sugestii(camp, lista);
@@ -536,14 +515,6 @@
       mouseup: function() {
         var lista = $('#lista_sex'),
             camp = $(this);
-        lista.addClass('selected')
-            .promise()
-            .done(function() {
-              $('.ddm').not('.selected').hide();
-            })
-            .done(function() {
-              lista.removeClass('selected');
-            });
         if (!lista.is(':visible')) {
           lista.fadeIn('fast');
           pozitionare_lista_sugestii(camp, lista);
