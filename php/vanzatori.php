@@ -82,7 +82,7 @@ if (isset($_POST["formular_creare"])) {
                            type="text"
                            name="prenume_vanzator"
                            autocomplete="off"
-                           autofocus/>
+                        />
                 </td>
             </tr>
             </tbody>
@@ -255,18 +255,18 @@ if (isset($_POST["camp_str"])) {
 // end if
 // afisare default cand se apeleaza vanzator fara nici un parametru de cautare
 ?>
-    <h2>Listă vânzători</h2>
-    <form action="/" method="post" id="submit">
-        <label for="camp">Caută</label>
-        <input class=" normal mediu"
-               id="camp"
-               type="text"
-               name="camp_str"
-               autocomplete="off"/>
-        <a href="#" class="submit nou" id="vanzator_nou">
-            <h3>Crează un vânzător nou</h3>
-        </a>
-    </form>
+<h2>Listă vânzători</h2>
+<form action="/" method="post" id="submit">
+    <label for="camp">Caută</label>
+    <input class=" normal mediu"
+           id="camp"
+           type="text"
+           name="camp_str"
+           autocomplete="off"/>
+    <a href="#" class="submit nou" id="vanzator_nou">
+        <h3>Crează un vânzător nou</h3>
+    </a>
+</form>
 <?php
 $string = 'SELECT COUNT(*) FROM `vanzatori` LIMIT 1;';
 $query = interogare($string, NULL);

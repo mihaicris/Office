@@ -23,8 +23,8 @@
           'php/companii.php',
           'php/vanzatori.php',
           'php/persoane.php'],
-        timp_fadein = 150,
-        timp_fadeout = 200;
+        timp_fadein = 50,
+        timp_fadeout = 100;
 
     var isInArray = function(value, array) {
       return array.indexOf(value) > -1;
@@ -331,7 +331,6 @@
             string = camp.val().trim(),
             root = camp.closest('.box').attr('id').slice(4),
             box_curent = $('#box-' + root);
-
         switch (event.which) {
           case 38:
             // key up
@@ -414,7 +413,7 @@
             data:    { select_companie: string  },
             timeout: 5000})
               .done(function(raspuns) {
-                lista.html(raspuns).show();
+                lista.html(raspuns).fadeIn('fast').scrollTop(0);
                 pozitionare_lista_sugestii(camp, lista);
                 camp.attr('data-id', '');
               })
@@ -428,9 +427,132 @@
         }
       },
       mouseup: function() {
-        $('#lista_vanzatori, #lista_persoane, #lista_stadii').hide();
+        $('.ddm').hide();
       }
     }, 'input#select_companie');
+
+    class_box.on({
+      mouseup: function() {
+        var lista = $('#lista_persoane'),
+            path = 'php/persoane.php',
+            camp = $(this),
+            id_companie = $('#select_companie').attr('data-id'),
+            root = $(this).closest('.box').attr('id').slice(4),
+            box_curent = $('#box-' + root);
+        lista.addClass('selected')
+            .promise()
+            .done(function() {
+              $('.ddm').not('.selected').hide();
+            })
+            .done(function() {
+              lista.removeClass('selected');
+            });
+        if (!id_companie) {
+          $('#select_companie').focus();
+          camp.val('');
+        } else if (!lista.is(':visible')) {
+          $.ajax({
+            async:   true,
+            url:     path,
+            data:    {
+              select_persoana: 1,
+              id_companie:     id_companie
+            },
+            timeout: 5000})
+              .done(function(raspuns) {
+                lista.html(raspuns).fadeIn('fast');
+                pozitionare_lista_sugestii(camp, lista);
+                $(this).attr('data-id', '');
+              })
+              .fail(function(jqXHR, textStatus) {
+                AjaxFail(jqXHR, textStatus, box_curent);
+              });
+        } else {
+          lista.hide();
+          $(this).blur();
+        }
+      }
+    }, 'input#select_persoana');
+
+    class_box.on({
+      mouseup: function() {
+        var lista = $('#lista_vanzatori'),
+            path = 'php/vanzatori.php',
+            camp = $(this),
+            root = $(this).closest('.box').attr('id').slice(4),
+            box_curent = $('#box-' + root);
+        lista.addClass('selected')
+            .promise()
+            .done(function() {
+              $('.ddm').not('.selected').hide();
+            })
+            .done(function() {
+              lista.removeClass('selected');
+            });
+        if (!lista.is(':visible')) {
+          $.ajax({
+            async:   true,
+            url:     path,
+            data:    { select_vanzator: 1 },
+            timeout: 5000})
+              .done(function(raspuns) {
+                lista.html(raspuns).fadeIn('fast').scrollTop(0);
+                pozitionare_lista_sugestii(camp, lista);
+                $(this).attr('data-id', '');
+              })
+              .fail(function(jqXHR, textStatus) {
+                AjaxFail(jqXHR, textStatus, box_curent);
+              });
+        } else {
+          lista.hide().empty();
+          $(this).blur();
+        }
+      }
+    }, 'input#select_vanzator');
+
+    class_box.on({
+      mouseup: function() {
+        var lista = $('#lista_stadii'),
+            camp = $(this);
+        lista.addClass('selected')
+            .promise()
+            .done(function() {
+              $('.ddm').not('.selected').hide();
+            })
+            .done(function() {
+              lista.removeClass('selected');
+            });
+        if (!lista.is(':visible')) {
+          lista.fadeIn('fast');
+          pozitionare_lista_sugestii(camp, lista);
+        } else {
+          lista.hide();
+          $(this).blur();
+        }
+      }
+    }, 'input#select_stadiu');
+
+    class_box.on({
+      mouseup: function() {
+        var lista = $('#lista_sex'),
+            camp = $(this);
+        lista.addClass('selected')
+            .promise()
+            .done(function() {
+              $('.ddm').not('.selected').hide();
+            })
+            .done(function() {
+              lista.removeClass('selected');
+            });
+        if (!lista.is(':visible')) {
+          lista.fadeIn('fast');
+          pozitionare_lista_sugestii(camp, lista);
+        } else {
+          lista.hide();
+          $(this).blur();
+        }
+      }
+    }, 'input#select_sex');
 
     class_box.on({
       mouseenter: function() {
@@ -456,42 +578,6 @@
     }, '#lista_companii .rec');
 
     class_box.on({
-      mouseup: function() {
-        var lista = $('#lista_persoane'),
-            path = 'php/persoane.php',
-            camp = $(this),
-            id_companie = $('#select_companie').attr('data-id'),
-            root = $(this).closest('.box').attr('id').slice(4),
-            box_curent = $('#box-' + root);
-        $('#lista_companii, #lista_vanzatori, #lista_stadii').hide();
-        if (!id_companie) {
-          $('#select_companie').focus();
-          camp.val('');
-        } else if (!lista.is(':visible')) {
-          $.ajax({
-            async:   true,
-            url:     path,
-            data:    {
-              select_persoana: 1,
-              id_companie:     id_companie
-            },
-            timeout: 5000})
-              .done(function(raspuns) {
-                lista.html(raspuns).show();
-                pozitionare_lista_sugestii(camp, lista);
-                $(this).attr('data-id', '');
-              })
-              .fail(function(jqXHR, textStatus) {
-                AjaxFail(jqXHR, textStatus, box_curent);
-              });
-        } else {
-          lista.hide();
-          $(this).blur();
-        }
-      }
-    }, 'input#select_persoana');
-
-    class_box.on({
       mouseenter: function() {
         $('#lista_persoane').find('.rec').removeClass('selected');
         $(this).addClass('selected');
@@ -512,35 +598,6 @@
         });
       }
     }, '#lista_persoane .rec');
-
-    class_box.on({
-      mouseup: function() {
-        var lista = $('#lista_vanzatori'),
-            path = 'php/vanzatori.php',
-            camp = $(this),
-            root = $(this).closest('.box').attr('id').slice(4),
-            box_curent = $('#box-' + root);
-        $('#lista_companii, #lista_persoane, #lista_stadii').hide();
-        if (!lista.is(':visible')) {
-          $.ajax({
-            async:   true,
-            url:     path,
-            data:    { select_vanzator: 1 },
-            timeout: 5000})
-              .done(function(raspuns) {
-                lista.html(raspuns).show();
-                pozitionare_lista_sugestii(camp, lista);
-                $(this).attr('data-id', '');
-              })
-              .fail(function(jqXHR, textStatus) {
-                AjaxFail(jqXHR, textStatus, box_curent);
-              });
-        } else {
-          lista.hide();
-          $(this).blur();
-        }
-      }
-    }, 'input#select_vanzator');
 
     class_box.on({
       mouseenter: function() {
@@ -565,21 +622,6 @@
     }, '#lista_vanzatori .rec');
 
     class_box.on({
-      mouseup: function() {
-        var lista = $('#lista_stadii'),
-            camp = $(this);
-        $('#lista_companii, #lista_persoane, #lista_vanzatori').hide();
-        if (!lista.is(':visible')) {
-          lista.show();
-          pozitionare_lista_sugestii(camp, lista);
-        } else {
-          lista.hide();
-          $(this).blur();
-        }
-      }
-    }, 'input#select_stadiu');
-
-    class_box.on({
       mouseenter: function() {
         $('#lista_stadii').find('.rec').removeClass('selected');
         $(this).addClass('selected');
@@ -599,21 +641,6 @@
         });
       }
     }, '#lista_stadii .rec');
-
-    class_box.on({
-      mouseup: function() {
-        var lista = $('#lista_sex'),
-            camp = $(this);
-        $('#lista_companii').hide();
-        if (!lista.is(':visible')) {
-          lista.show();
-          pozitionare_lista_sugestii(camp, lista);
-        } else {
-          lista.hide();
-          $(this).blur();
-        }
-      }
-    }, 'input#select_sex');
 
     class_box.on({
       mouseenter: function() {
@@ -728,10 +755,7 @@
       }
 
       // citire raportare volum
-//      values[8] = camp.eq(8).val();
       values[8] = camp.eq(8).is(':checked') ? 1 : 0;
-
-      console.log(values[8]);
 
       // prelucrare companie
       values[9] = camp.eq(9).attr('data-id');
