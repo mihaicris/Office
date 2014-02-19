@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 18, 2014 at 03:01 PM
+-- Generation Time: Feb 19, 2014 at 03:41 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -46,7 +46,7 @@ INSERT INTO `companii` (`id_companie`, `nume_companie`, `adresa_companie`, `oras
 (00001, 'Siemens S.R.L.', 'Bulevardul Preciziei Nr. 24, Clădirea H4', 'București', 'România'),
 (00002, 'Transelectrica S.A.', 'Strada Olteni Nr. 2-4, sector 3', 'București', 'România'),
 (00004, 'Tempos Serv S.R.L.', 'Șoseaua Colentina Nr. 85', 'București', 'România'),
-(00005, 'Automatica S.A.', 'Șoseaua Afumați Nr. 108', 'Voluntari', 'România'),
+(00005, 'Automatica S.A.', 'Bdul. Voluntari Nr. 108 Bis', 'Voluntari', 'România'),
 (00006, 'Electrotel S.A.', 'Strada Dunării Nr. 279', 'Alexandria', 'România'),
 (00007, 'Electroutilaj S.A.', 'Strada Bobâlna Nr. 44', 'Câmpina', 'România'),
 (00008, 'EnergoBIT S.R.L.', 'Strada Tăietura Turcului Nr. 47', 'Cluj-Napoca', 'România'),
@@ -99,7 +99,14 @@ CREATE TABLE IF NOT EXISTS `oferte` (
   KEY `id_companie_oferta` (`id_companie_oferta`),
   KEY `id_vanzator_oferta` (`id_vanzator_oferta`),
   KEY `id_persoana_oferta` (`id_persoana_oferta`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+
+--
+-- Dumping data for table `oferte`
+--
+
+INSERT INTO `oferte` (`id_oferta`, `nume_oferta`, `data_oferta`, `descriere_oferta`, `id_companie_oferta`, `id_persoana_oferta`, `id_vanzator_oferta`, `data_expirare`, `valabilitate`, `valoare_oferta`, `relevant`, `stadiu`) VALUES
+(00022, 'Petrobrazi 1', '2014-02-19', 'Livrare celule de medie tensiune', 00005, 00020, 00030, '2014-04-20', 60, 550000, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -121,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `persoane` (
   `email_persoana` varchar(100) CHARACTER SET utf8 COLLATE utf8_romanian_ci NOT NULL,
   PRIMARY KEY (`id_persoana`),
   KEY `id_companie_persoana` (`id_companie_persoana`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `persoane`
@@ -140,7 +147,8 @@ INSERT INTO `persoane` (`id_persoana`, `nume_persoana`, `prenume_persoana`, `gen
 (00010, 'Costin', 'Ana Maria', 1, 'Director Executiv', 'Management', 00010, '+40 (264) 415 120', '+40 (264) 415 121', '+40 (721) 367 234', 'anamaria.costin@electrogrup.ro'),
 (00011, 'Stoica', 'Neculai', 0, 'Ing. Electric APE', 'Birou Proiectare', 00021, '+40 (234) 574 479', '+40 (234) 573 548', '+40 (234) 574 479', 'stoica.n@electrotehno.ro'),
 (00016, 'Warkus', 'Mueller', 0, 'Representant vânzări', 'Vânzări', 00052, '+40 (21) 345-123', '+40 (21) 345-123', '+40 (21) 345-123', 'Mueller.warkus@ritz.com'),
-(00018, 'Solomon', 'Mircea', 0, 'Director General', 'Management', 00024, '+40 (244) 335 540', '+40 (244) 375 221', '+40 (722) 255 032', 'mircea.solomon@emon.ro');
+(00018, 'Solomon', 'Mircea', 0, 'Director General', 'Management', 00024, '+40 (244) 335 540', '+40 (244) 375 221', '+40 (722) 255 032', 'mircea.solomon@emon.ro'),
+(00020, 'Sava', 'Svestun', 0, 'Director de Marketing', 'Management', 00005, '+40 (372) 058 100', '+40 (372) 058 101', '+40 (724) 320 950', 'office@automatica.ro');
 
 -- --------------------------------------------------------
 
