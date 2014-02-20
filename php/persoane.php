@@ -169,8 +169,8 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <a href="#" id="creaza_persoana" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
-        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
+        <a href="" id="creaza_persoana" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
+        <a href="" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
     <div id="lista_companii" class="ddm"></div>
     <div id="lista_sex" class="ddm">
@@ -291,9 +291,9 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <a href="#" id="editeaza_persoana" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></a>
-        <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
-        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
+        <a href="" id="editeaza_persoana" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></a>
+        <a href="" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
+        <a href="" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
     </form>
     <div id="lista_companii" class="ddm"></div>
     <div id="lista_sex" class="ddm">
@@ -447,7 +447,7 @@ if (isset($_POST["camp_str"])) {
 <form action="/" method="post" id="submit">
     <label for="camp">Caută</label>
     <input id="camp" class="normal mediu" type="text" name="camp_str" autocomplete="off"/>
-    <a href="#" id="produs_nou" class="submit nou">
+    <a href="" id="produs_nou" class="submit nou">
         <h3>Crează un contact nou</h3>
     </a>
 </form>
