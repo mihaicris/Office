@@ -145,6 +145,7 @@ if (isset($_POST["formular_creare"])) {
                            id="select_companie"
                            type="text"
                            name="select_companie"
+                           placeholder="Tastează pentru a căuta..."
                            data-id=""
                            autocomplete="off"/>
                 </td>
@@ -271,6 +272,7 @@ if (isset($_POST["formular_editare"])) {
                            id="select_companie"
                            type="text"
                            name="select_companie"
+                           placeholder="Tastează pentru a căuta..."
                            value="<?php echo $row['nume_companie']; ?>"
                            data-id="<?php echo $row['id_companie_persoana']; ?>"
                            autocomplete="off"/>
