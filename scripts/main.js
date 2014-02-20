@@ -718,7 +718,7 @@
       }
 
       // citire raportare volum
-      values[8] = camp.eq(8).is(':checked') ? 1 : 0;
+      values[8] = camp.eq(8)[0].checked ? 1 : 0;
 
       // prelucrare companie
       values[9] = camp.eq(9).attr('data-id');
