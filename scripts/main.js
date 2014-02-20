@@ -243,14 +243,12 @@
       event.preventDefault();
       var root = $(this).closest('.box').attr('id').slice(4),
           path = 'php/' + root + '.php',
-          box_curent = $('#box-' + root),
-          nume = $('#camp').val();
+          box_curent = $('#box-' + root);
       $.ajax({
         async:   true,
         url:     path,
         data:    {
-          formular_creare: 1,
-          nume:            nume
+          formular_creare: 1
         },
         timeout: 5000})
           .done(function(raspuns) {

@@ -70,7 +70,6 @@ if (isset($_POST["formular_creare"])) {
                            id="nume_vanzator"
                            type="text"
                            name="nume_vanzator"
-                           value="<?php echo $_POST["nume"]; ?>"
                            autocomplete="off"/>
                 </td>
             </tr>
@@ -87,7 +86,7 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="creaza_vanzator" class="submit F1">Salvează<span class="sosa">å</span></span>
+        <span id="creaza_vanzator" class="submit">Salvează<span class="sosa">å</span></span>
         <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
     <?php
@@ -140,7 +139,7 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="editeaza_vanzator" class="submit F1">Modifică<span class="sosa">å</span></span>
+        <span id="editeaza_vanzator" class="submit">Modifică<span class="sosa">å</span></span>
         <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
         <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
