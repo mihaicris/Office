@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source source="LOCAL" name="localhost" uuid="4ab5079b-c918-4dd7-9318-391d351e7c3b">
+    <database-info product="MySQL" version="5.6.12-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.26 ( Revision: ${bzr.revision-id} )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="office"/>
+    <table name="companii" schema="" catalog="office" type="TABLE">
+      <column name="id_companie" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5" autoIncrement="true"/>
+      <column name="nume_companie" sqlType="VARCHAR" length="100" precision="0" nullable="false" jdbcType="12"/>
+      <column name="adresa_companie" sqlType="VARCHAR" length="150" precision="0" nullable="false" jdbcType="12"/>
+      <column name="oras_companie" sqlType="VARCHAR" length="30" precision="0" nullable="false" jdbcType="12"/>
+      <column name="tara_companie" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id_companie"/>
+      <exported-key name="oferte_ibfk_1" table="oferte" schema="" catalog="office" columns="id_companie_oferta"/>
+      <exported-key name="persoane_ibfk_1" table="persoane" schema="" catalog="office" columns="id_companie_persoana"/>
+      <exported-key name="produse_ibfk_1" table="produse" schema="" catalog="office" columns="id_companie"/>
+      <index name="nume_client" unique="true" columns="nume_companie"/>
+    </table>
+    <table name="oferte" schema="" catalog="office" type="TABLE">
+      <column name="id_oferta" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5" autoIncrement="true"/>
+      <column name="nume_oferta" sqlType="VARCHAR" length="200" precision="0" nullable="false" jdbcType="12"/>
+      <column name="data_oferta" sqlType="DATE" length="10" precision="0" nullable="false" jdbcType="91"/>
+      <column name="descriere_oferta" sqlType="TEXT" length="65535" precision="0" nullable="true" jdbcType="-1"/>
+      <column name="id_companie_oferta" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
+      <column name="id_persoana_oferta" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
+      <column name="id_vanzator_oferta" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
+      <column name="data_expirare" sqlType="DATE" length="10" precision="0" nullable="false" jdbcType="91"/>
+      <column name="valabilitate" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
+      <column name="valoare_oferta" sqlType="DOUBLE" length="22" precision="0" nullable="false" jdbcType="8"/>
+      <column name="relevant" sqlType="TINYINT UNSIGNED" length="3" precision="0" nullable="false" jdbcType="-6"/>
+      <column name="stadiu" sqlType="TINYINT UNSIGNED" length="3" precision="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="id_oferta"/>
+      <foreign-key name="oferte_ibfk_1" columns="id_companie_oferta" ref-table="companii" ref-schema="" ref-catalog="office" ref-columns="id_companie" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="oferte_ibfk_2" columns="id_persoana_oferta" ref-table="persoane" ref-schema="" ref-catalog="office" ref-columns="id_persoana" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="oferte_ibfk_3" columns="id_vanzator_oferta" ref-table="vanzatori" ref-schema="" ref-catalog="office" ref-columns="id_vanzator" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="oferta_unica" unique="true" columns="nume_oferta,data_oferta,id_companie_oferta"/>
+    </table>
+    <table name="persoane" schema="" catalog="office" type="TABLE">
+      <column name="id_persoana" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5" autoIncrement="true"/>
+      <column name="nume_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="prenume_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="gen_persoana" sqlType="TINYINT" length="3" precision="0" nullable="false" jdbcType="-6"/>
+      <column name="functie_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="departament_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="id_companie_persoana" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
+      <column name="tel_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="fax_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="mobil_persoana" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="email_persoana" sqlType="VARCHAR" length="100" precision="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id_persoana"/>
+      <foreign-key name="persoane_ibfk_1" columns="id_companie_persoana" ref-table="companii" ref-schema="" ref-catalog="office" ref-columns="id_companie" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="oferte_ibfk_2" table="oferte" schema="" catalog="office" columns="id_persoana_oferta"/>
+    </table>
+    <table name="pozitii_oferte" schema="" catalog="office" type="TABLE">
+      <column name="id_pozitie" sqlType="TINYINT" length="3" precision="0" nullable="false" jdbcType="-6" autoIncrement="true"/>
+      <column name="id_oferta" sqlType="TINYINT" length="3" precision="0" nullable="false" jdbcType="-6"/>
+      <column name="id_produs" sqlType="TINYINT" length="3" precision="0" nullable="false" jdbcType="-6"/>
+      <column name="pozitie" sqlType="VARCHAR" length="10" precision="0" nullable="false" jdbcType="12"/>
+      <column name="pret" sqlType="FLOAT" length="12" precision="0" nullable="false" jdbcType="7"/>
+      <column name="cantitate" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id_pozitie"/>
+    </table>
+    <table name="produse" schema="" catalog="office" type="TABLE">
+      <column name="id_produs" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5" autoIncrement="true"/>
+      <column name="id_companie" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
+      <column name="cod_produs" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="titlu_produs" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="descriere_produs" sqlType="TEXT" length="65535" precision="0" nullable="false" jdbcType="-1"/>
+      <column name="unitate_produs" sqlType="VARCHAR" length="10" precision="0" nullable="false" jdbcType="12"/>
+      <column name="pret_produs" sqlType="FLOAT" length="10" precision="2" nullable="true" jdbcType="7"/>
+      <primary-key name="PRIMARY" columns="id_produs"/>
+      <foreign-key name="produse_ibfk_1" columns="id_companie" ref-table="companii" ref-schema="" ref-catalog="office" ref-columns="id_companie" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="cod_produs" unique="true" columns="cod_produs"/>
+      <index name="companie" unique="false" columns="id_companie"/>
+    </table>
+    <table name="vanzatori" schema="" catalog="office" type="TABLE">
+      <column name="id_vanzator" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5" autoIncrement="true"/>
+      <column name="nume_vanzator" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="prenume_vanzator" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id_vanzator"/>
+      <exported-key name="oferte_ibfk_3" table="oferte" schema="" catalog="office" columns="id_vanzator_oferta"/>
+    </table>
+  </data-source>
+  <data-source source="LOCAL" name="mihaicris.go.ro" uuid="814bbf8c-81bd-4366-87a1-9247630dc5bf">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+</component>
