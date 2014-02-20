@@ -170,8 +170,8 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="creaza_persoana" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></span>
-        <span id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></span>
+        <span id="creaza_persoana" class="submit F1">Salvează<span class="sosa">å</span></span>
+        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
     <div id="lista_companii" class="ddm"></div>
     <div id="lista_sex" class="ddm">
@@ -293,9 +293,9 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="editeaza_persoana" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></span>
-        <span id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></span>
-        <span id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></span>
+        <span id="editeaza_persoana" class="submit F1">Modifică<span class="sosa">å</span></span>
+        <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
+        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
     <div id="lista_companii" class="ddm"></div>
     <div id="lista_sex" class="ddm">
@@ -450,7 +450,7 @@ if (isset($_POST["camp_str"])) {
     <label for="camp">Caută</label>
     <input id="camp" class="normal mediu" type="text" name="camp_str" autocomplete="off"/>
     <span id="produs_nou" class="submit nou">
-        <h3>Crează un contact nou</h3>
+        Crează un contact nou
     </span>
 </form>
 <?php
