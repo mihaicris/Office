@@ -219,6 +219,7 @@
     class_box.on('keyup', 'input#camp', function(event) {
       var camp_str = $(this).val(),
           root = $(this).closest('.box').attr('id').slice(4),
+          box_curent = $('#box-' + root),
           path = 'php/' + root + '.php';
       if (event.which == 13 || event.which == 16) {   // enter sau shift
         return;
@@ -282,6 +283,7 @@
       event.preventDefault();
       var r, id = $('form input').eq(0).val(),
           root = $(this).closest('.box').attr('id').slice(4),
+          box_curent = $('#box-' + root),
           path = 'php/' + root + '.php';
       switch (root) {
         case 'companii':
@@ -394,7 +396,7 @@
               lista.hide().promise().done(function() {
                 $('input').eq(camp.val($text).index('input') + 1).focus();
                 camp.attr('data-id', id);
-                $('#select_persoana').val('').attr('data-id', '');
+                $('#select_persoana').val('').attr('data-id', '').trigger('mouseup');
                 lista.empty();
               });
               return;
@@ -417,7 +419,7 @@
             data:    { select_companie: string  },
             timeout: 5000})
               .done(function(raspuns) {
-                lista.html(raspuns).fadeIn('fast').scrollTop(0);
+                lista.html(raspuns).stop(true, false).fadeIn('fast').scrollTop(0);
                 pozitionare_lista_sugestii(camp, lista);
                 camp.attr('data-id', '');
               })
@@ -451,7 +453,7 @@
             },
             timeout: 5000})
               .done(function(raspuns) {
-                lista.html(raspuns).fadeIn('fast');
+                lista.html(raspuns).stop(true, false).fadeIn('fast');
                 pozitionare_lista_sugestii(camp, lista);
                 $(this).attr('data-id', '');
               })
@@ -477,7 +479,7 @@
             data:    { select_vanzator: 1 },
             timeout: 5000})
               .done(function(raspuns) {
-                lista.html(raspuns).fadeIn('fast').scrollTop(0);
+                lista.html(raspuns).stop(true, false).fadeIn('fast').scrollTop(0);
                 pozitionare_lista_sugestii(camp, lista);
                 $(this).attr('data-id', '');
               })
@@ -496,7 +498,7 @@
         var lista = $('#lista_stadii'),
             camp = $(this);
         if (!lista.is(':visible')) {
-          lista.fadeIn('fast');
+          lista.stop(true, false).fadeIn('fast');
           pozitionare_lista_sugestii(camp, lista);
         } else {
           lista.hide();
@@ -510,7 +512,7 @@
         var lista = $('#lista_sex'),
             camp = $(this);
         if (!lista.is(':visible')) {
-          lista.fadeIn('fast');
+          lista.stop(true, false).fadeIn('fast');
           pozitionare_lista_sugestii(camp, lista);
         } else {
           lista.hide();
@@ -536,7 +538,7 @@
         lista.hide().promise().done(function() {
           $('input').eq(camp.val($text).index('input') + 1).focus();
           camp.attr('data-id', id);
-          $('#select_persoana').val('').attr('data-id', '');
+          $('#select_persoana').val('').attr('data-id', '').trigger('mouseup');
           lista.empty();
         });
       }
@@ -632,6 +634,7 @@
       event.preventDefault();
       var root = $(this).closest('.box').attr('id').slice(4),
           id = parseInt($(this).parent().attr('id').slice(1)),
+          box_curent = $('#box-' + root),
           path = 'php/' + root + '.php';
       $.ajax({
         async:   true,
@@ -1015,7 +1018,7 @@
         data:    { id_persoana: $id },
         timeout: 5000})
           .done(function() {
-            box_curent.append('<p>Documentul s-a generat cu succes.</p>');
+            $('#box-editeaza-oferta').append('<p>Documentul s-a generat cu succes.</p>');
           })
           .fail(function(jqXHR, textStatus) {
             AjaxFail(jqXHR, textStatus);
