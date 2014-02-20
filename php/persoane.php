@@ -170,7 +170,7 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="creaza_persoana" class="submit F1">Salvează<span class="sosa">å</span></span>
+        <span id="creaza_persoana" class="submit">Salvează<span class="sosa">å</span></span>
         <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
     <div id="lista_companii" class="ddm"></div>
@@ -293,7 +293,7 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="editeaza_persoana" class="submit F1">Modifică<span class="sosa">å</span></span>
+        <span id="editeaza_persoana" class="submit">Modifică<span class="sosa">å</span></span>
         <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
         <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
