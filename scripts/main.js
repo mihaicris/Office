@@ -1022,5 +1022,6 @@
             AjaxFail(jqXHR, textStatus);
           });
     });
+
   })
 })();

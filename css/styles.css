@@ -96,17 +96,6 @@ nav {
     font-family:      'Roboto Condensed', sans-serif;
     font-weight:      400;
 }
-/*::-webkit-input-placeholder {*/
-/* WebKit browsers */
-/*color: #555;*/
-/*}*/
-/*:-ms-input-placeholder {*/
-/* Internet Explorer 10+ */
-/*color: #555;*/
-/*}*/
-:focus {
-    outline: medium none;
-}
 li, header, footer, label, input[readonly] {
     -webkit-touch-callout: none;
     -webkit-user-select:   none;
@@ -138,7 +127,6 @@ span.buton_stergere {
     background-color: #900;
     box-shadow:       0 0 1px 0 #900;
     padding:          2px 10px;
-    margin-top:       20px;
     margin-right:     10px;
     border-radius:    5px;
     font-size:        1.1em;
@@ -152,7 +140,6 @@ span.buton_renunta {
     background-color: #555;
     box-shadow:       0 0 1px 0 #555;
     padding:          2px 10px;
-    margin-top:       20px;
     margin-right:     10px;
     border-radius:    5px;
     font-size:        1.1em;
@@ -166,7 +153,6 @@ span.buton_printeaza {
     background-color: mediumseagreen;
     box-shadow:       0 0 1px 0 mediumseagreen;
     padding:          2px 10px;
-    margin-top:       20px;
     margin-right:     10px;
     border-radius:    5px;
     font-size:        1.1em;
@@ -325,6 +311,7 @@ option {
 table {
     /*display: block;*/
     margin-top:      10px;
+    margin-bottom:      20px;
     border-collapse: collapse;
     /*border-spacing: 1px;*/
     /*height: 200px;*/
@@ -376,6 +363,9 @@ div.ddm .noresults {
     color:            #000;
     background-color: lavender;
     line-height:      1.05;
+}
+:focus {
+    outline: medium none;
 }
 #source {
     display: none;
