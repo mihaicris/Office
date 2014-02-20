@@ -87,8 +87,8 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <a href="#" id="creaza_vanzator" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
-        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
+        <span id="creaza_vanzator" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></span>
+        <span id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></span>
     </form>
     <?php
     exit();
@@ -140,9 +140,9 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <a href="#" id="editeaza_vanzator" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></a>
-        <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
-        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
+        <span id="editeaza_vanzator" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></span>
+        <span id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></span>
+        <span id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></span>
     </form>
     <?php
     exit();
@@ -263,9 +263,9 @@ if (isset($_POST["camp_str"])) {
            type="text"
            name="camp_str"
            autocomplete="off"/>
-    <a href="#" class="submit nou" id="vanzator_nou">
+    <span class="submit nou" id="vanzator_nou">
         <h3>Crează un vânzător nou</h3>
-    </a>
+    </span>
 </form>
 <?php
 $string = 'SELECT COUNT(*) FROM `vanzatori` LIMIT 1;';

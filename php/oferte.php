@@ -26,7 +26,7 @@ include_once 'conexiune.php';
            readonly
         />
     <br/><br/>
-    <a href="/php/word/Oferta.docx" id="word" class="submit">
+    <a href="/php/word/Oferta.docx" id="word">
         <h3>Generează ofertă</h3>
     </a>
 </form>

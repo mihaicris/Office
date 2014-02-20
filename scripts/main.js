@@ -30,10 +30,9 @@
       return array.indexOf(value) > -1;
     };
     var AjaxFail = function(jqXHR, textStatus) {
-      var root = $(this).closest('.box').attr('id').slice(4),
-      box = $('#box-' + root);
+      var box = $('.box:visible');
       if (textStatus === "error") {
-        box.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
+        box.append('<span class="error ajax">A intervenit o eroare!<br/>' + jqXHR.responseText + '</span>');
       }
       if (textStatus === "timeout") {
         box.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
@@ -105,7 +104,6 @@
             AjaxFail(jqXHR, textStatus);
           });
     };
-
     var pozitionare_lista_sugestii = function(elem_sursa, elem_destinatie) {
       // pozitioneaza fereastra de sugestii sub campul apelat
       // elem_sursa este cel de la care se preia pozitia si dimensiunile
@@ -274,7 +272,7 @@
 
     class_box.on('click', '#renunta', function() {
       var root = $(this).closest('.box').attr('id').slice(4),
-          box = $('#box-' + root),
+          box = $('.box:visible'),
           path = 'php/' + root + '.php';
       load_box(box, box, path);
     });

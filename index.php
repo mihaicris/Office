@@ -19,7 +19,6 @@
 <body>
 <header>
     <a href="index.php">Office</a>
-
     <div class="sosa_font" style="display: none">a</div>
 </header>
 <nav>

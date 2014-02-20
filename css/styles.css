@@ -120,18 +120,20 @@ a {
     text-decoration: none;
     font-size:       0.9em;
 }
-a.submit {
+span.submit {
     display:          inline-block;
     background-color: #488FE0;
     box-shadow:       0 0 1px 0 #488FE0;
     padding:          0 10px;
     margin-right:     10px;
     border-radius:    5px;
+    font-size:       0.9em;
 }
-a.submit:hover {
+span.submit:hover {
     box-shadow: 0 0 2px 1px #488FE0;
+    cursor: pointer;
 }
-a.buton_stergere {
+span.buton_stergere {
     display:          inline-block;
     background-color: #900;
     box-shadow:       0 0 1px 0 #900;
@@ -139,11 +141,13 @@ a.buton_stergere {
     margin-top:       20px;
     margin-right:     10px;
     border-radius:    5px;
+    font-size:       0.9em;
 }
-a.buton_stergere:hover {
+span.buton_stergere:hover {
     box-shadow: 0 0 2px 1px #900;
+    cursor: pointer;
 }
-a.buton_renunta {
+span.buton_renunta {
     display:          inline-block;
     background-color: #555;
     box-shadow:       0 0 1px 0 #555;
@@ -151,11 +155,13 @@ a.buton_renunta {
     margin-top:       20px;
     margin-right:     10px;
     border-radius:    5px;
+    font-size:       0.9em;
 }
-a.buton_renunta:hover {
+span.buton_renunta:hover {
     box-shadow: 0 0 2px 1px #555;
+    cursor: pointer;
 }
-a.buton_printeaza {
+span.buton_printeaza {
     display:          inline-block;
     background-color: mediumseagreen;
     box-shadow:       0 0 1px 0 mediumseagreen;
@@ -163,9 +169,11 @@ a.buton_printeaza {
     margin-top:       20px;
     margin-right:     10px;
     border-radius:    5px;
+    font-size:       0.9em;
 }
-a.buton_printeaza:hover {
+span.buton_printeaza:hover {
     box-shadow: 0 0 2px 1px mediumseagreen;
+    cursor: pointer;
 }
 li {
     list-style-type: none;

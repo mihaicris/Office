@@ -108,8 +108,8 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <a href="#" id="creaza_companie" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
-        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
+        <span id="creaza_companie" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></span>
+        <span id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></span>
     </form>
     <?php
     exit();
@@ -177,9 +177,9 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <a href="#" id="editeaza_companie" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></a>
-        <a href="#" id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></a>
-        <a href="#" id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></a>
+        <span id="editeaza_companie" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></span>
+        <span id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></span>
+        <span id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></span>
     </form>
     <?php
     exit();
@@ -292,9 +292,9 @@ if (isset($_POST["camp_str"])) {
     <form action="/" method="post" id="submit">
         <label for="camp">Caută</label>
         <input class="normal mediu" id="camp" type="text" name="camp_str" autocomplete="off"/>
-        <a href="#" id="companie_noua" class="submit nou">
+        <span id="companie_noua" class="submit nou">
             <h3>Crează o companie nouă</h3>
-        </a>
+        </span>
     </form>
 <?php
 // afisare default cand se apeleaza companie fara nici un parametru de cautare
