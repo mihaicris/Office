@@ -188,9 +188,9 @@ $viitor_MSQL = date('Y-m-d', $date1);
         </tr>
         </tbody>
     </table>
-    <a href="" id="creaza_oferta" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
-    <a href="" id="renunta" class="buton_renunta"><h3>Resetează<span class="sosa">ã</span></h3></a>
-    <!--    <a href="" id="printeaza_oferta" class="buton_printeaza"><h3>Printează<span class="sosa">8</span></h3></a>-->
+    <a href="#" id="creaza_oferta" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></a>
+    <a href="#" id="renunta" class="buton_renunta"><h3>Resetează<span class="sosa">ã</span></h3></a>
+    <!--    <a href="#" id="printeaza_oferta" class="buton_printeaza"><h3>Printează<span class="sosa">8</span></h3></a>-->
 </form>
 <div id="lista_companii" class="ddm"></div>
 <div id="lista_vanzatori" class="ddm"></div>

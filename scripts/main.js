@@ -633,8 +633,8 @@
     class_box.on('click', 'span.actiune', function(event) {
       event.preventDefault();
       var root = $(this).closest('.box').attr('id').slice(4),
-          box_curent = $('#box-' + root),
           id = parseInt($(this).parent().attr('id').slice(1)),
+          box_curent = $('#box-' + root),
           path = 'php/' + root + '.php';
       $.ajax({
         async:   true,
