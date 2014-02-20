@@ -124,56 +124,56 @@ span.submit {
     display:          inline-block;
     background-color: #488FE0;
     box-shadow:       0 0 1px 0 #488FE0;
-    padding:          0 10px;
+    padding:          3px 10px;
     margin-right:     10px;
     border-radius:    5px;
-    font-size:       0.9em;
+    font-size:        1.1em;
 }
 span.submit:hover {
     box-shadow: 0 0 2px 1px #488FE0;
-    cursor: pointer;
+    cursor:     pointer;
 }
 span.buton_stergere {
     display:          inline-block;
     background-color: #900;
     box-shadow:       0 0 1px 0 #900;
-    padding:          0 10px;
+    padding:          3px 10px;
     margin-top:       20px;
     margin-right:     10px;
     border-radius:    5px;
-    font-size:       0.9em;
+    font-size:        1.1em;
 }
 span.buton_stergere:hover {
     box-shadow: 0 0 2px 1px #900;
-    cursor: pointer;
+    cursor:     pointer;
 }
 span.buton_renunta {
     display:          inline-block;
     background-color: #555;
     box-shadow:       0 0 1px 0 #555;
-    padding:          0 10px;
+    padding:          3px 10px;
     margin-top:       20px;
     margin-right:     10px;
     border-radius:    5px;
-    font-size:       0.9em;
+    font-size:        1.1em;
 }
 span.buton_renunta:hover {
     box-shadow: 0 0 2px 1px #555;
-    cursor: pointer;
+    cursor:     pointer;
 }
 span.buton_printeaza {
     display:          inline-block;
     background-color: mediumseagreen;
     box-shadow:       0 0 1px 0 mediumseagreen;
-    padding:          0 10px;
+    padding:          3px 10px;
     margin-top:       20px;
     margin-right:     10px;
     border-radius:    5px;
-    font-size:       0.9em;
+    font-size:        1.1em;
 }
 span.buton_printeaza:hover {
     box-shadow: 0 0 2px 1px mediumseagreen;
-    cursor: pointer;
+    cursor:     pointer;
 }
 li {
     list-style-type: none;
@@ -454,9 +454,15 @@ div.ddm .noresults {
 }
 .error {
     /* textele care se afiseaza dupa input */
-    padding-top: 2px;
+    padding-top: 10px;
     display:     block;
     color:       #F44;
+}
+.mesaj {
+    /* textele care se afiseaza dupa input */
+    padding-top: 10px;
+    display:     inline-block;
+    color:       mediumseagreen;
 }
 .bold {
     font-weight: 700;

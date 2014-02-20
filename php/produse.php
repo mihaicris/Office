@@ -46,7 +46,7 @@ if (isset($_POST["camp_str"])) {
 		<label for="camp">Caută</label><br>
 		<input class="scurt" id="camp" type="text" name="camp_str" autocomplete="off"/>
 		<span id="produs_nou" class="submit nou">
-			<h3>Crează un produs nou</h3>
+			Crează un produs nou
 		</span>
 	</form>
 <?php

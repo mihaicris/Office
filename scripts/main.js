@@ -1003,11 +1003,11 @@
 
     });
 
-    class_box.on('click', '#word', function(event) {
+    class_box.on('click', '#word', function() {
       var $id = $('#select_persoana').attr('data-id');
+      $('.error, .mesaj, p, a').remove();
       if (!$id) {
-        event.preventDefault();
-        $('form select').addClass('required');
+        $('#box-editeaza-oferta').append('<span class="error">Alegeţi o companie şi o persoană de contact.</p>')
         return;
       }
       $.ajax({
@@ -1016,7 +1016,9 @@
         data:    { id_persoana: $id },
         timeout: 5000})
           .done(function() {
-            $('#box-editeaza-oferta').append('<p>Documentul s-a generat cu succes.</p>');
+            $('#box-editeaza-oferta')
+                .append('<span class="mesaj">Documentul s-a generat cu succes.&nbsp</span>')
+                .append('<a href="/php/word/Oferta.docx">Descarcă aici.</a>');
           })
           .fail(function(jqXHR, textStatus) {
             AjaxFail(jqXHR, textStatus);

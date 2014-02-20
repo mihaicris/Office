@@ -87,8 +87,8 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="creaza_vanzator" class="submit F1"><h3>Salvează<span class="sosa">å</span></h3></span>
-        <span id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></span>
+        <span id="creaza_vanzator" class="submit F1">Salvează<span class="sosa">å</span></span>
+        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
     <?php
     exit();
@@ -140,9 +140,9 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="editeaza_vanzator" class="submit F1"><h3>Modifică<span class="sosa">å</span></h3></span>
-        <span id="sterge" class="buton_stergere"><h3>Șterge<span class="sosa">ç</span></h3></span>
-        <span id="renunta" class="buton_renunta"><h3>Renunță<span class="sosa">ã</span></h3></span>
+        <span id="editeaza_vanzator" class="submit F1">Modifică<span class="sosa">å</span></span>
+        <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
+        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
     <?php
     exit();
@@ -264,7 +264,7 @@ if (isset($_POST["camp_str"])) {
            name="camp_str"
            autocomplete="off"/>
     <span class="submit nou" id="vanzator_nou">
-        <h3>Crează un vânzător nou</h3>
+        Crează un vânzător nou
     </span>
 </form>
 <?php
