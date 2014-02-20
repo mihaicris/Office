@@ -29,7 +29,9 @@
     var isInArray = function(value, array) {
       return array.indexOf(value) > -1;
     };
-    var AjaxFail = function(jqXHR, textStatus, box) {
+    var AjaxFail = function(jqXHR, textStatus) {
+      var root = $(this).closest('.box').attr('id').slice(4),
+      box = $('#box-' + root);
       if (textStatus === "error") {
         box.append('<span class="error ajax">Eroare!' + jqXHR.responseText + '</span>');
       }
@@ -100,7 +102,7 @@
                 });
           })
           .fail(function(jqXHR, textStatus) {
-            AjaxFail(jqXHR, textStatus, box_curent);
+            AjaxFail(jqXHR, textStatus);
           });
     };
 
@@ -216,9 +218,8 @@
 
     class_box.on('keyup', 'input#camp', function(event) {
       var camp_str = $(this).val(),
-          $this = $(this).closest('.box').attr('id').slice(4),
-          path = 'php/' + $this + '.php',
-          box_curent = $('#box-' + $this);
+          root = $(this).closest('.box').attr('id').slice(4),
+          path = 'php/' + root + '.php';
       if (event.which == 13 || event.which == 16) {   // enter sau shift
         return;
       }
@@ -234,7 +235,7 @@
               box_curent.children('table, p, a, div').remove().end().append(raspuns);
             })
             .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus, box_curent);
+              AjaxFail(jqXHR, textStatus);
             });
       }
     });
@@ -243,8 +244,8 @@
       event.preventDefault();
       var root = $(this).closest('.box').attr('id').slice(4),
           path = 'php/' + root + '.php',
-          nume = $('#camp').val(),
-          box_curent = $('#box-' + root);
+          box_curent = $('#box-' + root),
+          nume = $('#camp').val();
       $.ajax({
         async:   true,
         url:     path,
@@ -266,7 +267,7 @@
             });
           })
           .fail(function(jqXHR, textStatus) {
-            AjaxFail(jqXHR, textStatus, box_curent);
+            AjaxFail(jqXHR, textStatus);
           });
     });
 
@@ -281,7 +282,6 @@
       event.preventDefault();
       var r, id = $('form input').eq(0).val(),
           root = $(this).closest('.box').attr('id').slice(4),
-          box_curent = $('#box-' + root),
           path = 'php/' + root + '.php';
       switch (root) {
         case 'companii':
@@ -313,7 +313,7 @@
               }
             })
             .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus, box_curent);
+              AjaxFail(jqXHR, textStatus);
             });
       }
     });
@@ -332,11 +332,9 @@
         var $text,
             id,
             camp = $(this),
-            path = 'php/companii.php',
+            path = pagina[8],
             lista = $('#lista_companii'),
-            string = camp.val().trim(),
-            root = camp.closest('.box').attr('id').slice(4),
-            box_curent = $('#box-' + root);
+            string = camp.val().trim();
         switch (event.which) {
           case 38:
             // key up
@@ -424,7 +422,7 @@
                 camp.attr('data-id', '');
               })
               .fail(function(jqXHR, textStatus) {
-                AjaxFail(jqXHR, textStatus, box_curent);
+                AjaxFail(jqXHR, textStatus);
               });
         } else {
           lista.hide().promise().done(function() {
@@ -437,11 +435,9 @@
     class_box.on({
       mouseup: function() {
         var lista = $('#lista_persoane'),
-            path = 'php/persoane.php',
+            path = pagina[10],
             camp = $(this),
-            id_companie = $('#select_companie').attr('data-id'),
-            root = $(this).closest('.box').attr('id').slice(4),
-            box_curent = $('#box-' + root);
+            id_companie = $('#select_companie').attr('data-id');
         if (!id_companie) {
           $('#select_companie').focus();
           camp.val('');
@@ -460,7 +456,7 @@
                 $(this).attr('data-id', '');
               })
               .fail(function(jqXHR, textStatus) {
-                AjaxFail(jqXHR, textStatus, box_curent);
+                AjaxFail(jqXHR, textStatus);
               });
         } else {
           lista.hide();
@@ -472,10 +468,8 @@
     class_box.on({
       mouseup: function() {
         var lista = $('#lista_vanzatori'),
-            path = 'php/vanzatori.php',
-            camp = $(this),
-            root = $(this).closest('.box').attr('id').slice(4),
-            box_curent = $('#box-' + root);
+            path = pagina[9],
+            camp = $(this);
         if (!lista.is(':visible')) {
           $.ajax({
             async:   true,
@@ -488,7 +482,7 @@
                 $(this).attr('data-id', '');
               })
               .fail(function(jqXHR, textStatus) {
-                AjaxFail(jqXHR, textStatus, box_curent);
+                AjaxFail(jqXHR, textStatus);
               });
         } else {
           lista.hide().empty();
@@ -636,9 +630,8 @@
 
     class_box.on('click', 'span.actiune', function(event) {
       event.preventDefault();
-      var id = parseInt($(this).parent().attr('id').slice(1)),
-          root = $(this).closest('.box').attr('id').slice(4),
-          box_curent = $('#box-' + root),
+      var root = $(this).closest('.box').attr('id').slice(4),
+          id = parseInt($(this).parent().attr('id').slice(1)),
           path = 'php/' + root + '.php';
       $.ajax({
         async:   true,
@@ -665,7 +658,7 @@
             }
           })
           .fail(function(jqXHR, textStatus) {
-            AjaxFail(jqXHR, textStatus, box_curent);
+            AjaxFail(jqXHR, textStatus);
           });
     });
 
@@ -773,7 +766,7 @@
               }
             })
             .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus, id_box_oferta_noua);
+              AjaxFail(jqXHR, textStatus);
             });
 
       }
@@ -841,7 +834,7 @@
               }
             })
             .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus, box_curent);
+              AjaxFail(jqXHR, textStatus);
             });
       }
     });
@@ -896,8 +889,7 @@
               }
             })
             .fail(function(jqXHR, textStatus) {
-              console.log('Box_curent')
-              AjaxFail(jqXHR, textStatus, id_box_vanzatori);
+              AjaxFail(jqXHR, textStatus);
             });
       }
     });
@@ -1001,7 +993,7 @@
               }
             })
             .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus, id_box_persoane);
+              AjaxFail(jqXHR, textStatus);
             });
       }
     });
@@ -1011,10 +1003,7 @@
     });
 
     class_box.on('click', '#word', function(event) {
-      // TESTARE WORD
-      var $id = $('#select_persoana').attr('data-id'),
-          root = $(this).closest('.box').attr('id').slice(4),
-          box_curent = $('#box-' + root);
+      var $id = $('#select_persoana').attr('data-id');
       if (!$id) {
         event.preventDefault();
         $('form select').addClass('required');
@@ -1029,7 +1018,7 @@
             box_curent.append('<p>Documentul s-a generat cu succes.</p>');
           })
           .fail(function(jqXHR, textStatus) {
-            AjaxFail(jqXHR, textStatus, box_curent);
+            AjaxFail(jqXHR, textStatus);
           });
     });
   })
