@@ -1,9 +1,11 @@
 <?php
 include('conexiune.php');
+$width = $_POST["width"] * 0.97;
+
 ?>
 
 <h2>Statistici ofertare</h2>
-<canvas id="canvas2" height="400" width="900"></canvas>
+<canvas id="canvas2" height="400" width="<?php echo $width; ?>"></canvas>
 <script>
     var barChartData = {
         labels:   ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"],
@@ -69,13 +71,13 @@ include('conexiune.php');
         barStrokeWidth:      1,
 
         //Number - Spacing between each of the X value sets
-        barValueSpacing:     45,
+        barValueSpacing:     <?php echo $width/18; ?>,
 
         //Number - Spacing between data sets within X values
         barDatasetSpacing:   1,
 
         //Boolean - Whether to animate the chart
-        animation:           true,
+        animation:           false,
 
         //Number - Number of animation steps
         animationSteps:      60,

@@ -66,7 +66,7 @@ $viitor_MSQL = date('Y-m-d', $date1);
 
 ?>
 <h2>Creare ofertă nouă</h2>
-<form action="/" method="post" id="formular_oferta_noua">
+<form class="formular" action="/" method="post" id="formular_oferta_noua">
     <input id="id_oferta"
            type="hidden"
            name="id_oferta"
@@ -188,10 +188,10 @@ $viitor_MSQL = date('Y-m-d', $date1);
         </tr>
         </tbody>
     </table>
-    <span id="creaza_oferta" class="submit">Salvează<span class="sosa">å</span></span>
-    <span id="renunta" class="buton_renunta">Resetează<span class="sosa">ã</span></span>
     <!--    <span id="printeaza_oferta" class="buton_printeaza">Printează<span class="sosa">8</span></span>-->
 </form>
+<span id="creaza_oferta" class="submit">Salvează<span class="sosa">å</span></span>
+<span id="renunta" class="buton_renunta">Resetează<span class="sosa">ã</span></span>
 <div id="lista_companii" class="ddm"></div>
 <div id="lista_vanzatori" class="ddm"></div>
 <div id="lista_persoane" class="ddm"></div>
