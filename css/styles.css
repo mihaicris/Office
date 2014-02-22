@@ -209,7 +209,7 @@ input.normal {
     font-weight:      400;
     font-size:        1em;
     border-radius:    3px;
-    color:            palegreen;
+    color:            #FFFFFF;
 }
 input.normal:focus {
     background-color: #EEE;
@@ -310,17 +310,25 @@ option {
 }
 table {
     /*display: block;*/
-    margin-top:      10px;
-    margin-bottom:      20px;
+    /*margin-bottom:      20px;*/
     border-collapse: collapse;
     /*border-spacing: 1px;*/
     /*height: 200px;*/
     /*overflow-y: auto;*/
 }
+table.rezultate {
+    margin-top: 10px;
+}
 td {
     vertical-align: top;
     padding-top:    7px;
     /*border: 1px solid #FFF;*/
+}
+td.align_bottom {
+    vertical-align: bottom;
+}
+form.formular {
+    margin-bottom: 20px;
 }
 form td {
     padding-right: 30px;
@@ -385,9 +393,6 @@ div.ddm .noresults {
     font-family:      'Roboto Condensed', sans-serif;
     background-color: #333;
 }
-.nou {
-    margin-left: 30px;
-}
 .persoana td, .persoana tr {
     border: none;
 }
@@ -441,6 +446,8 @@ div.ddm .noresults {
     color:            #000;
     background-color: #777;
     padding:          0 4px;
+    margin-top:       10px;
+    display:          inline-block;
 }
 .error {
     /* textele care se afiseaza dupa input */

@@ -38,28 +38,25 @@ function afiseaza_rezultate($query)
             . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
         echo '</tr>';
     } //end for
+    echo "</table>";
 }
 
 function afiseaza_numar_total($count)
 {
-    echo '<table>';
-    echo "<tr>";
-    echo '<td class="total">' . $count;
+    echo '<span class="total">' . $count;
     if ($count == 1) {
         echo " vânzător";
     } else {
         echo " vânzători";
     }
-    echo "</td>";
-    echo "</tr>";
-    echo "<table>";
+    echo "</span>";
 }
 
 if (isset($_POST["formular_creare"])) {
     //  Formular creeare vanzator nou
     ?>
     <h2>Creare vânzător</h2>
-    <form action="/" method="post" id="creare_vanzator">
+    <form class="formular" action="/" method="post" id="creare_vanzator">
         <input id="id_vanzator" type="hidden" name="id_vanzator" value=""/>
         <table>
             <tbody>
@@ -86,9 +83,9 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="creaza_vanzator" class="submit">Salvează<span class="sosa">å</span></span>
-        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
+    <span id="creaza_vanzator" class="submit">Salvează<span class="sosa">å</span></span>
+    <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     <?php
     exit();
 }
@@ -108,7 +105,7 @@ if (isset($_POST["formular_editare"])) {
     }
     ?>
     <h2>Modificare vânzător</h2>
-    <form action="/" method="post">
+    <form class="formular" action="/" method="post">
         <input id="id_vanzator"
                type="hidden"
                name="id_vanzator"
@@ -139,13 +136,45 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="editeaza_vanzator" class="submit">Modifică<span class="sosa">å</span></span>
-        <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
-        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
+    <span id="editeaza_vanzator" class="submit">Modifică<span class="sosa">å</span></span>
+    <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
+    <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     <?php
     exit();
 }
+
+if (isset($_POST["salveaza"])) {
+    $data = $_POST["formdata"];
+    if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
+        verifica_existenta_vanzator(null, $data[1], $data[2]);
+        $string = 'INSERT INTO `vanzatori`
+                       (`nume_vanzator`,
+                        `prenume_vanzator`,
+                        `id_vanzator`)
+		           VALUES (?, ?, NULL);';
+        array_shift($data);
+    } else {
+        verifica_existenta_vanzator($data[0], $data[1], $data[2]); // data[0] contine id-ul vanzatorului care se modifica
+        $string = 'UPDATE `vanzatori`
+                   SET  `nume_vanzator` = ?,
+                        `prenume_vanzator` = ?
+                   WHERE `id_vanzator` = ?;';
+        array_push($data, array_shift($data));
+    }
+    $query = interogare($string, $data);
+    echo('ok');
+    exit();
+}
+if (isset($_POST["sterge"])) {
+    // actiune stergere vanzator in baza de date
+    $data = array($_POST["id"]);
+    $string = 'DELETE FROM `vanzatori` WHERE `vanzatori`.`id_vanzator` = ? LIMIT 1;';
+    $query = interogare($string, $data);
+    echo('ok');
+    exit();
+}
+
 if (isset($_POST["select_vanzator"])) {
 
     // alegere vanzator din baza de date in formulare
@@ -179,92 +208,59 @@ if (isset($_POST["select_vanzator"])) {
     }
     exit();
 }
-if (isset($_POST["salveaza"])) {
-    $data = $_POST["formdata"];
-    if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
-        verifica_existenta_vanzator(null, $data[1], $data[2]);
-        $string = 'INSERT INTO `vanzatori`
-                       (`nume_vanzator`,
-                        `prenume_vanzator`,
-                        `id_vanzator`)
-		           VALUES (?, ?, NULL);';
-        array_shift($data);
-    } else {
-        verifica_existenta_vanzator($data[0], $data[1], $data[2]); // data[0] contine id-ul vanzatorului care se modifica
-        $string = 'UPDATE `vanzatori`
-                   SET  `nume_vanzator` = ?,
-                        `prenume_vanzator` = ?
-                   WHERE `id_vanzator` = ?;';
-        array_push($data, array_shift($data));
-    }
-    $query = interogare($string, $data);
-    echo('ok');
-    exit();
-}
-if (isset($_POST["sterge"])) {
-    // actiune stergere vanzator in baza de date
-    $data = array($_POST["id"]);
-    $string = 'DELETE FROM `vanzatori` WHERE `vanzatori`.`id_vanzator` = ? LIMIT 1;';
-    $query = interogare($string, $data);
-    echo('ok');
-    exit();
-}
 if (isset($_POST["camp_str"])) {
-    // cautare vanzator in baza de date
-    $str = "%" . $_POST["camp_str"] . "%";
-    $data = array($str, $str);
-    // prima interogare pentru numar de rezultate
+
     $string = 'SELECT COUNT(*)
                FROM vanzatori
 			   WHERE (nume_vanzator LIKE ? OR prenume_vanzator LIKE ?);';
+
+    $str = "%" . $_POST["camp_str"] . "%";
+    $data = array($str, $str);
+
     $query = interogare($string, $data);
     //daca nu sunt rezultate se iese cu mesaj
     $count = $query->fetchColumn();
+
     if (!$count) {
         echo '<p>Nu există în baza de date.</p>';
         exit();
     }
+
     if ($_POST["camp_str"] == "") {
         afiseaza_numar_total($count);
         exit();
     }
+
     // interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
     $string = 'SELECT *
                FROM `vanzatori`
 			   WHERE (`nume_vanzator` LIKE ? OR `prenume_vanzator` LIKE ?)
 			   ORDER BY `nume_vanzator`, `prenume_vanzator` ASC;';
     $query = interogare($string, $data);
-    afiseaza_rezultate($query, $count);
+    afiseaza_rezultate($query);
     afiseaza_numar_total($count);
     exit();
 }
-//if (isset($_POST["nume_test"])) {
-//    // testeaza existenta vanzator in baza de date
-//    $nume = $_POST["nume"];
-//    $prenume = $_POST["prenume"];
-//    $data = array($nume, $prenume);
-//    $string = 'SELECT COUNT(*)
-//               FROM `vanzatori`
-//               WHERE (`nume_vanzator` = ? AND `prenume_vanzator` = ?);';
-//    $query = interogare($string, $data);
-//    if ($query->fetchColumn()) {
-//        echo 'este'; //daca nu sunt rezultate numele nu este in baza de date
-//    }
-//    exit();
-// end if
-// afisare default cand se apeleaza vanzator fara nici un parametru de cautare
 ?>
 <h2>Listă vânzători</h2>
 <form action="/" method="post" id="submit">
-    <label for="camp">Caută</label>
-    <input class=" normal mediu"
-           id="camp"
-           type="text"
-           name="camp_str"
-           autocomplete="off"/>
-    <span class="submit nou" id="vanzator_nou">
-        Crează un vânzător nou
-    </span>
+    <table>
+        <tbody>
+        <tr>
+            <td class="align_bottom">
+                <label for="camp">Caută</label>
+                <input class=" normal mediu"
+                       id="camp"
+                       type="text"
+                       name="camp_str"
+                       autocomplete="off"/>
+            </td>
+            <td class="align_bottom">
+                <span class="submit nou" id="vanzator_nou">Crează un vânzător nou</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </form>
 <?php
 $string = 'SELECT COUNT(*) FROM `vanzatori` LIMIT 1;';

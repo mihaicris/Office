@@ -48,24 +48,20 @@ function afiseaza_rezultate($query)
 
 function afiseaza_numar_total($count)
 {
-    echo '<table>';
-    echo '<tr>';
-    echo '<td class="total">' . $count;
+    echo '<span class="total">' . $count;
     if ($count == 1) {
         echo " persoană";
     } else {
         echo " persoane";
     }
-    echo '</td>';
-    echo '</tr>';
-    echo '</table>';
+    echo '</span>';
 }
 
 if (isset($_POST["formular_creare"])) {
     //  Formular creeare persoana de contact noua
     ?>
     <h2>Creare persoană contact</h2>
-    <form action="/" method="post">
+    <form class="formular" action="/" method="post">
         <input id="id_persoana" type="hidden" name="id_persoana" value=""/>
         <table>
             <tbody>
@@ -170,9 +166,9 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="creaza_persoana" class="submit">Salvează<span class="sosa">å</span></span>
-        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
+    <span id="creaza_persoana" class="submit">Salvează<span class="sosa">å</span></span>
+    <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     <div id="lista_companii" class="ddm"></div>
     <div id="lista_sex" class="ddm">
         <div class="rec">
@@ -203,7 +199,7 @@ if (isset($_POST["formular_editare"])) {
     }
     ?>
     <h2>Modificare persoană de contact</h2>
-    <form action="/" method="post">
+    <form class="formular" action="/" method="post">
         <input id="id_persoana" type="hidden" name="id_persoana" value="<?php echo $row['id_persoana']; ?>"/>
         <table>
             <tbody>
@@ -257,7 +253,7 @@ if (isset($_POST["formular_editare"])) {
                         } else {
                             echo 'value="Femeie"';
                         }
-                        echo ('data-id="'.$row['gen_persoana'].'"');
+                        echo('data-id="' . $row['gen_persoana'] . '"');
                         ?>
                            placeholder="Selectează..."
                            readonly
@@ -293,10 +289,10 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="editeaza_persoana" class="submit">Modifică<span class="sosa">å</span></span>
-        <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
-        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
+    <span id="editeaza_persoana" class="submit">Modifică<span class="sosa">å</span></span>
+    <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
+    <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     <div id="lista_companii" class="ddm"></div>
     <div id="lista_sex" class="ddm">
         <div class="rec">
@@ -306,10 +302,10 @@ if (isset($_POST["formular_editare"])) {
             <p id="f01">Femeie</p>
         </div>
     </div>
-
     <?php
     exit();
 }
+
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];
     if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
@@ -357,6 +353,7 @@ if (isset($_POST["sterge"])) {
     echo('ok');
     exit();
 }
+
 if (isset($_POST["select_persoana"])) {
 
     // alegere persoana din baza de date in formulare
@@ -414,8 +411,7 @@ if (isset($_POST["camp_str"])) {
 						OR functie_persoana LIKE ?
 						OR departament_persoana LIKE ?
 						OR email_persoana LIKE ?
-						OR nume_companie LIKE ?)
-					ORDER BY nume_persoana ASC LIMIT 1;';
+						OR nume_companie LIKE ?);';
     $query = interogare($string, $data);
     $count = $query->fetchColumn();
     if (!$count) { //daca nu sunt rezultate se iese cu mesaj
@@ -447,11 +443,19 @@ if (isset($_POST["camp_str"])) {
 ?>
 <h2>Lista persoane de contact</h2>
 <form action="/" method="post" id="submit">
-    <label for="camp">Caută</label>
-    <input id="camp" class="normal mediu" type="text" name="camp_str" autocomplete="off"/>
-    <span id="produs_nou" class="submit nou">
-        Crează un contact nou
-    </span>
+    <table>
+        <tbody>
+        <tr>
+            <td class="align_bottom">
+                <label for="camp">Caută</label>
+                <input id="camp" class="normal mediu" type="text" name="camp_str" autocomplete="off"/>
+            </td>
+            <td class="align_bottom">
+                <span id="produs_nou" class="submit nou">Crează un contact nou</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </form>
 <?php
 $string = 'SELECT COUNT(*)

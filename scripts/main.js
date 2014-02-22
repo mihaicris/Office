@@ -23,8 +23,8 @@
           'php/companii.php',
           'php/vanzatori.php',
           'php/persoane.php'],
-        timp_fadein = 50,
-        timp_fadeout = 100;
+        timp_fadein = 100,
+        timp_fadeout = 150;
 
     var isInArray = function(value, array) {
       return array.indexOf(value) > -1;
@@ -82,23 +82,34 @@
       // se incarca box-ul unei optiuni noi din meniu
       // implemantare box.load cu fadeout/fadein
       // intre box-ul optiunii curente si box-ul optiunii noi care se incarca
+      var promise;
+      console.log(box_curent);
+      console.log(box_nou);
+
       $.ajax({
         async:   true,
         url:     path,
-        timeout: 5000
+        timeout: 5000,
+        data:    {
+          width: parseInt(box_nou.css('width')) // se trimite si latimea ferestrei noi
+        }
       })
           .done(function(data) {
-            box_curent.fadeOut(timp_fadeout)
-                .promise()
-                .done(function() {
-                  box_curent.empty();
-                  box_nou.queue('fx', function() {
-                    box_nou.html(data);
-                    box_nou.dequeue('fx');
-                  });
-                  box_nou.fadeIn(timp_fadein);
-                  initializare_Zebra();
-                });
+
+            function go() {
+              box_nou.html(data).promise().done(function() {
+                box_nou.fadeIn(timp_fadein);
+                initializare_Zebra();
+              });
+            }
+
+            if (box_curent.length) {
+              box_curent.fadeOut(timp_fadeout, function() {
+                go();
+              });
+            } else {
+              go();
+            }
           })
           .fail(function(jqXHR, textStatus) {
             AjaxFail(jqXHR, textStatus);
@@ -231,7 +242,7 @@
           },
           timeout: 5000})
             .done(function(raspuns) {
-              box_curent.children('table, p, a, div').remove().end().append(raspuns);
+              box_curent.children('span, table, p, a, div').remove().end().append(raspuns);
             })
             .fail(function(jqXHR, textStatus) {
               AjaxFail(jqXHR, textStatus);

@@ -11,7 +11,7 @@ function verifica_existenta_companie($id, $nume_companie)
     $string = 'SELECT `id_companie` FROM `companii` WHERE `nume_companie` = ?;';
     $query = interogare($string, $data);
     $result = $query->fetch();
-    if($result['id_companie'] && $result['id_companie'] != $id) {
+    if ($result['id_companie'] && $result['id_companie'] != $id) {
         // daca exista un rezultat si acesta este diferit de $id atunci exista
         // daca $id este null (creare) atunci la orice rezultat care nu este null inseamna ca exista
         echo('exista');
@@ -44,24 +44,24 @@ function afiseaza_rezultate($query)
 
 function afiseaza_numar_total($count)
 {
-    echo '<table>';
-    echo "<tr>";
-    echo '<td class="total">' . $count;
+//    echo '<table>';
+//    echo "<tr>";
+    echo '<span class="total">' . $count;
     if ($count == 1) {
         echo " companie";
     } else {
         echo " companii";
     }
-    echo "</td>";
-    echo "</tr>";
-    echo "<table>";
+    echo "</span>";
+//    echo "</tr>";
+//    echo "<table>";
 }
 
 if (isset($_POST["formular_creare"])) {
     //  Formular creeare companie nou
     ?>
     <h2>Creare companie</h2>
-    <form action="/" method="post">
+    <form class="formular" action="/" method="post">
         <input id="id_companie" type="hidden" name="id_companie" value=""/>
         <table>
             <tbody>
@@ -107,9 +107,9 @@ if (isset($_POST["formular_creare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="creaza_companie" class="submit">Salvează<span class="sosa">å</span></span>
-        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
+    <span id="creaza_companie" class="submit">Salvează<span class="sosa">å</span></span>
+    <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     <?php
     exit();
 }
@@ -126,7 +126,7 @@ if (isset($_POST["formular_editare"])) {
     }
     ?>
     <h2>Modificare companie</h2>
-    <form action="/" method="post" id="editare_companii">
+    <form class="formular" action="/" method="post" id="editare_companii">
         <input id="id_companie" type="hidden" name="id_companie" value="<?php echo $row['id_companie']; ?>"/>
         <table>
             <tbody>
@@ -176,10 +176,10 @@ if (isset($_POST["formular_editare"])) {
             </tr>
             </tbody>
         </table>
-        <span id="editeaza_companie" class="submit">Modifică<span class="sosa">å</span></span>
-        <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
-        <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     </form>
+    <span id="editeaza_companie" class="submit">Modifică<span class="sosa">å</span></span>
+    <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
+    <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     <?php
     exit();
 }
@@ -258,12 +258,12 @@ if (isset($_POST["select_companie"])) {
 if (isset($_POST["camp_str"])) {
 
     $string = 'SELECT COUNT(*) FROM `companii`
-               WHERE (`nume_companie` LIKE ?)
-			   ORDER BY `nume_companie` ASC
-			   LIMIT 1;';
-    $data = array('%' . $_POST["camp_str"] . '%');
-    $query = interogare($string, $data);
+               WHERE (`nume_companie` LIKE ?);';
 
+    $str = "%" . $_POST["camp_str"] . "%";
+    $data = array($str);
+
+    $query = interogare($string, $data);
     //daca nu sunt rezultate se iese cu mesaj
     $count = $query->fetchColumn();
 
@@ -287,12 +287,22 @@ if (isset($_POST["camp_str"])) {
     exit();
 }
 ?>
-    <h2>Listă companii</h2>
-    <form action="/" method="post" id="submit">
-        <label for="camp">Caută</label>
-        <input class="normal mediu" id="camp" type="text" name="camp_str" autocomplete="off"/>
-        <span id="companie_noua" class="submit nou">Crează o companie nouă</span>
-    </form>
+<h2>Listă companii</h2>
+<form action="/" method="post" id="submit">
+    <table>
+        <tbody>
+        <tr>
+            <td class="align_bottom">
+                <label for="camp">Caută</label>
+                <input class="normal mediu" id="camp" type="text" name="camp_str" autocomplete="off"/>
+            </td>
+            <td class="align_bottom">
+                <span id="companie_noua" class="submit nou">Crează o companie nouă</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
 <?php
 // afisare default cand se apeleaza companie fara nici un parametru de cautare
 $string = 'SELECT COUNT(*) FROM `companii` LIMIT 1;';
