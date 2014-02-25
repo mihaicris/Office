@@ -12,6 +12,7 @@
         id_box_vanzatori = $('#box-vanzatori'),
         id_box_persoane = $('#box-persoane'),
         id_box_oferta_noua = $('#box-oferta-noua'),
+        id_box_oferte = $('#box-editeaza-oferta'),
         pagina = [  'php/oferta-noua.php',
           'php/oferte.php',
           'php/comanda_noua.php',
@@ -82,9 +83,6 @@
       // se incarca box-ul unei optiuni noi din meniu
       // implemantare box.load cu fadeout/fadein
       // intre box-ul optiunii curente si box-ul optiunii noi care se incarca
-      var promise;
-      console.log(box_curent);
-      console.log(box_nou);
 
       $.ajax({
         async:   true,
@@ -172,42 +170,41 @@
       }
     });
 
-    id_box_oferta_noua.on('keydown', '#valabilitate', function(event) {
-      if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
-        103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
-        event.preventDefault();
-      } else {
-        if (this.selectionStart === this.selectionEnd && $(this).val().length === 3 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
+    id_box_oferta_noua.on({
+      keydown: function(event) {
+        if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
+          103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
           event.preventDefault();
+        } else {
+          if (this.selectionStart === this.selectionEnd && $(this).val().length === 3 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
+            event.preventDefault();
+          }
+        }
+      },
+      input:   function() {
+        var data_ro = $('#data_oferta').val();
+        if (data_ro !== "") {
+          var valabilitate = $('#valabilitate').val();
+          var dataJS_exp = convertDate(data_ro).addDays(valabilitate);
+          var exp_ro = dataJS_exp.toString('d-MMM-yyyy');
+          var exp_MSQL = dataJS_exp.toString('yyyy-MM-dd');
+          $('#data_expirare').val(exp_ro).attr('data-data', exp_MSQL);
         }
       }
-    });
+    }, '#valabilitate');
 
-    id_box_oferta_noua.on('input', '#valabilitate', function() {
-      var data_ro = $('#data_oferta').val();
-      if (data_ro !== "") {
-        var valabilitate = $('#valabilitate').val();
-        var dataJS_exp = convertDate(data_ro).addDays(valabilitate);
-        var exp_ro = dataJS_exp.toString('d-MMM-yyyy');
-        var exp_MSQL = dataJS_exp.toString('yyyy-MM-dd');
-        $('#data_expirare').val(exp_ro).attr('data-data', exp_MSQL);
-      }
-    });
-
-    id_box_oferta_noua.on('keydown', '#valoare_oferta', function(event) {
-      if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
-        103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
-        event.preventDefault();
-      } else {
-        if (this.selectionStart === this.selectionEnd && $(this).val().length === 12 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
+    id_box_oferta_noua.on({
+      keydown: function(event) {
+        if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
+          103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
           event.preventDefault();
+        } else {
+          if (this.selectionStart === this.selectionEnd && $(this).val().length === 12 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
+            event.preventDefault();
+          }
         }
       }
-    });
-
-    id_box_oferta_noua.on('input', '#valoare_oferta', function() {
-
-    });
+    }, '#valoare_oferta');
 
     class_box.on('click', 'select', function() {
       $('form select').removeClass('required');
@@ -218,40 +215,40 @@
       $(this).removeClass('required');
     });
 
-    class_box.on('keydown', 'input#camp', function(event) {
-      if (event.which == 13) {
-        event.preventDefault();
-        $('.nou').click();
+    class_box.on({
+      keydown: function(event) {
+        if (event.which == 13) {
+          event.preventDefault();
+          $('.nou').click();
+        }
+      },
+      keyup:   function(event) {
+        var camp_str = $(this).val(),
+            root = $(this).closest('.box').attr('id').slice(4),
+            box_curent = $('#box-' + root),
+            path = 'php/' + root + '.php';
+        if (event.which == 13 || event.which == 16) {   // enter sau shift
+          return;
+        }
+        if (!camp_str.length || camp_str.length > 2 || event.which === 53) {     // 53 == '%' toate
+          $.ajax({
+            async:   true,
+            url:     path,
+            data:    {
+              camp_str: camp_str
+            },
+            timeout: 5000})
+              .done(function(raspuns) {
+                box_curent.children('span, table, p, a, div').remove().end().append(raspuns);
+              })
+              .fail(function(jqXHR, textStatus) {
+                AjaxFail(jqXHR, textStatus);
+              });
+        }
       }
-    });
+    }, 'input#camp');
 
-    class_box.on('keyup', 'input#camp', function(event) {
-      var camp_str = $(this).val(),
-          root = $(this).closest('.box').attr('id').slice(4),
-          box_curent = $('#box-' + root),
-          path = 'php/' + root + '.php';
-      if (event.which == 13 || event.which == 16) {   // enter sau shift
-        return;
-      }
-      if (!camp_str.length || camp_str.length > 2 || event.which === 53) {     // 53 == '%' toate
-        $.ajax({
-          async:   true,
-          url:     path,
-          data:    {
-            camp_str: camp_str
-          },
-          timeout: 5000})
-            .done(function(raspuns) {
-              box_curent.children('span, table, p, a, div').remove().end().append(raspuns);
-            })
-            .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus);
-            });
-      }
-    });
-
-    class_box.on('click', '.nou', function(event) {
-      event.preventDefault();
+    class_box.on('click', '.nou', function() {
       var root = $(this).closest('.box').attr('id').slice(4),
           path = 'php/' + root + '.php',
           box_curent = $('#box-' + root);
@@ -286,8 +283,7 @@
       load_box(box, box, path);
     });
 
-    class_box.on('click', '#sterge', function(event) {
-      event.preventDefault();
+    class_box.on('click', '#sterge', function() {
       var r, id = $('form input').eq(0).val(),
           root = $(this).closest('.box').attr('id').slice(4),
           box_curent = $('#box-' + root),
@@ -403,7 +399,7 @@
               lista.hide().promise().done(function() {
                 $('input').eq(camp.val($text).index('input') + 1).focus();
                 camp.attr('data-id', id);
-                $('#select_persoana').val('').attr('data-id', '').trigger('mouseup');
+                $('#select_persoana').val('').attr('data-id', '');
                 lista.empty();
               });
               return;
@@ -545,7 +541,7 @@
         lista.hide().promise().done(function() {
           $('input').eq(camp.val($text).index('input') + 1).focus();
           camp.attr('data-id', id);
-          $('#select_persoana').val('').attr('data-id', '').trigger('mouseup');
+          $('#select_persoana').val('').attr('data-id', '');
           lista.empty();
         });
       }
@@ -1014,9 +1010,9 @@
 
     class_box.on('click', '#word', function() {
       var $id = $('#select_persoana').attr('data-id');
-      $('.error, .mesaj, p, a').remove();
+      id_box_oferte.find('.error, .mesaj, p, a').remove();
       if (!$id) {
-        $('#box-editeaza-oferta').append('<span class="error">Alegeţi o companie şi o persoană de contact.</p>')
+        id_box_oferte.append('<span class="error">Alegeţi o companie şi o persoană de contact.</p>');
         return;
       }
       $.ajax({
