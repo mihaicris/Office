@@ -83,7 +83,6 @@
       // se incarca box-ul unei optiuni noi din meniu
       // implemantare box.load cu fadeout/fadein
       // intre box-ul optiunii curente si box-ul optiunii noi care se incarca
-
       $.ajax({
         async:   true,
         url:     path,
@@ -103,6 +102,7 @@
 
             if (box_curent.length) {
               box_curent.fadeOut(timp_fadeout, function() {
+                box_curent.empty();
                 go();
               });
             } else {
@@ -160,60 +160,48 @@
       load_box(box_curent, box_nou, path);
     });
 
-    $(document).on('ajaxStart', function() {
-      $('span.ajax').remove();
-    });
-
-    $(document).keyup(function(event) {
-      if (event.keyCode == 27) {
-        $('#renunta').click();
-      }
-    });
-
-    id_box_oferta_noua.on({
-      keydown: function(event) {
-        if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
-          103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
-          event.preventDefault();
-        } else {
-          if (this.selectionStart === this.selectionEnd && $(this).val().length === 3 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
-            event.preventDefault();
-          }
+    class_box.on({
+      mousedown: function(event) {
+        if (typeof $(event.target).closest('.ddm').attr('id') === 'undefined') {
+          $('.ddm').hide();
         }
       },
-      input:   function() {
-        var data_ro = $('#data_oferta').val();
-        if (data_ro !== "") {
-          var valabilitate = $('#valabilitate').val();
-          var dataJS_exp = convertDate(data_ro).addDays(valabilitate);
-          var exp_ro = dataJS_exp.toString('d-MMM-yyyy');
-          var exp_MSQL = dataJS_exp.toString('yyyy-MM-dd');
-          $('#data_expirare').val(exp_ro).attr('data-data', exp_MSQL);
+      ajaxstart: function() {
+        $('span.ajax').remove();
+      },
+      keyup:     function(event) {
+        if (event.keyCode == 27) {
+          $('#renunta').click();
         }
       }
-    }, '#valabilitate');
-
-    id_box_oferta_noua.on({
-      keydown: function(event) {
-        if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
-          103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
-          event.preventDefault();
-        } else {
-          if (this.selectionStart === this.selectionEnd && $(this).val().length === 12 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
-            event.preventDefault();
-          }
-        }
-      }
-    }, '#valoare_oferta');
-
-    class_box.on('click', 'select', function() {
-      $('form select').removeClass('required');
     });
 
-    class_box.on('focus', 'input', function() {
+    class_box.on({click: function() {
+      var $id = $('#select_persoana').attr('data-id');
+      id_box_oferte.find('.error, .mesaj, p, a').remove();
+      if (!$id) {
+        id_box_oferte.append('<span class="error">Alegeţi o companie şi o persoană de contact.</p>');
+        return;
+      }
+      $.ajax({
+        async:   false,
+        url:     'php/word/genereaza_word.php',
+        data:    { id_persoana: $id },
+        timeout: 5000})
+          .done(function() {
+            $('#box-editeaza-oferta')
+                .append('<span class="mesaj">Documentul s-a generat cu succes.&nbsp</span>')
+                .append('<a href="/php/word/Oferta.docx">Descarcă aici.</a>');
+          })
+          .fail(function(jqXHR, textStatus) {
+            AjaxFail(jqXHR, textStatus);
+          });
+    }}, '#word');
+
+    class_box.on({focus: function() {
       $(this).next('img').hide();
       $(this).removeClass('required');
-    });
+    }}, 'input');
 
     class_box.on({
       keydown: function(event) {
@@ -248,7 +236,7 @@
       }
     }, 'input#camp');
 
-    class_box.on('click', '.nou', function() {
+    class_box.on({click: function() {
       var root = $(this).closest('.box').attr('id').slice(4),
           path = 'php/' + root + '.php',
           box_curent = $('#box-' + root);
@@ -274,16 +262,16 @@
           .fail(function(jqXHR, textStatus) {
             AjaxFail(jqXHR, textStatus);
           });
-    });
+    }}, '.nou');
 
-    class_box.on('click', '#renunta', function() {
+    class_box.on({click: function() {
       var root = $(this).closest('.box').attr('id').slice(4),
           box = $('.box:visible'),
           path = 'php/' + root + '.php';
       load_box(box, box, path);
-    });
+    } }, '#renunta');
 
-    class_box.on('click', '#sterge', function() {
+    class_box.on({click: function() {
       var r, id = $('form input').eq(0).val(),
           root = $(this).closest('.box').attr('id').slice(4),
           box_curent = $('#box-' + root),
@@ -321,13 +309,7 @@
               AjaxFail(jqXHR, textStatus);
             });
       }
-    });
-
-    class_box.on('mousedown', function(event) {
-      if (typeof $(event.target).closest('.ddm').attr('id') === 'undefined') {
-        $('.ddm').hide();
-      }
-    });
+    } }, '#sterge');
 
     class_box.on({
       keydown: function(event) {
@@ -435,7 +417,7 @@
           });
         }
       }
-    }, 'input#select_companie');
+    }, '#select_companie');
 
     class_box.on({
       mouseup: function() {
@@ -468,7 +450,7 @@
           $(this).blur();
         }
       }
-    }, 'input#select_persoana');
+    }, '#select_persoana');
 
     class_box.on({
       mouseup: function() {
@@ -494,7 +476,7 @@
           $(this).blur();
         }
       }
-    }, 'input#select_vanzator');
+    }, '#select_vanzator');
 
     class_box.on({
       mouseup: function() {
@@ -508,7 +490,7 @@
           $(this).blur();
         }
       }
-    }, 'input#select_stadiu');
+    }, '#select_stadiu');
 
     class_box.on({
       mouseup: function() {
@@ -522,7 +504,7 @@
           $(this).blur();
         }
       }
-    }, 'input#select_sex');
+    }, '#select_sex');
 
     class_box.on({
       mouseenter: function() {
@@ -633,7 +615,7 @@
       }
     }, '#lista_sex .rec');
 
-    class_box.on('click', 'span.actiune', function(event) {
+    class_box.on({ click: function(event) {
       event.preventDefault();
       var root = $(this).closest('.box').attr('id').slice(4),
           id = parseInt($(this).parent().attr('id').slice(1)),
@@ -666,9 +648,235 @@
           .fail(function(jqXHR, textStatus) {
             AjaxFail(jqXHR, textStatus);
           });
-    });
+    }}, 'span.actiune');
 
-    id_box_oferta_noua.on('click', '#creaza_oferta', function(event) {
+    id_box_companii.on({click: function(event) {
+      var path = pagina[8],
+          flag = false,
+          pattern,
+          values = [],
+          camp = $('form input'),
+          salveaza = (this.id === 'creaza_companie') ? 1 : 0; // (1) creare, (0) modificare
+      event.preventDefault();
+      $('span.error').remove();
+      camp.removeClass('required');
+      // prelucare ID companie
+      values[0] = parseInt(camp.eq(0).val());
+      // prelucare nume companie
+      pattern = /^.{5,100}$/;
+      values[1] = camp.eq(1).val(camp.eq(1).val().trim()).val();
+      if (!pattern.test(values[1])) {
+        flag = true;
+        camp.eq(1).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
+      }
+      // prelucare adresa companie
+      pattern = /^.{5,150}$/;
+      values[2] = camp.eq(2).val(camp.eq(2).val().trim()).val();
+      if (!pattern.test(values[2])) {
+        flag = true;
+        camp.eq(2).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
+      }
+      // prelucare oras companie
+      pattern = /^.{3,30}$/;
+      values[3] = camp.eq(3).val(camp.eq(3).val().trim()).val();
+      if (!pattern.test(values[3])) {
+        flag = true;
+        camp.eq(3).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
+      }
+      // prelucare tara companie
+      pattern = /^.{5,50}$/;
+      values[4] = camp.eq(4).val(camp.eq(4).val().trim()).val();
+      if (!pattern.test(values[4])) {
+        flag = true;
+        camp.eq(4).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
+      }
+      if (!flag) {
+        $.ajax({
+          async:   true,
+          url:     path,
+          data:    {
+            salveaza: salveaza, // se creaza | se modifica compania
+            formdata: values
+          },
+          timeout: 5000})
+            .done(function(data) {
+              if (data === "ok") {
+                load_box(id_box_companii, id_box_companii, path);
+              } else if (data === "exista") {
+                camp.eq(1).addClass('required')
+                    .parent()
+                    .append('<span class="error">Compania există deja.</span>');
+              }
+              else {
+                id_box_companii.append('<span class="error">Eroare:</span>' + data);
+              }
+            })
+            .fail(function(jqXHR, textStatus) {
+              AjaxFail(jqXHR, textStatus);
+            });
+      }
+    }}, '#creaza_companie, #editeaza_companie ');
+
+    id_box_vanzatori.on({click: function(event) {
+      event.preventDefault();
+      var path = pagina[9],
+          flag = false,
+          pattern,
+          values = [],
+          camp = $('form input'),
+          salveaza = (this.id === 'creaza_vanzator') ? 1 : 0; // (1) creare, (0) modificare
+      event.preventDefault();
+      $('span.error').remove();
+      camp.removeClass('required');
+      // prelucare ID vanzator
+      values[0] = parseInt(camp.eq(0).val());
+      // prelucare nume vanzator
+      pattern = /^.{3,50}$/;
+      values[1] = camp.eq(1).val(camp.eq(1).val().trim()).val();
+      if (!pattern.test(values[1])) {
+        flag = true;
+        camp.eq(1).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
+      }
+      // prelucare prenume vanzator
+      pattern = /^.{3,50}$/;
+      values[2] = camp.eq(2).val(camp.eq(2).val().trim()).val();
+      if (!pattern.test(values[2])) {
+        flag = true;
+        camp.eq(2).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
+      }
+      if (!flag) {
+        $.ajax({
+          async:   true,
+          url:     path,
+          data:    {
+            salveaza: salveaza, // se creaza | se modifica compania
+            formdata: values
+          },
+          timeout: 5000})
+            .done(function(data) {
+              if (data === "ok") {
+                load_box(id_box_vanzatori, id_box_vanzatori, path);
+              } else if (data === "exista") {
+                camp.eq(1).addClass('required');
+                camp.eq(2).addClass('required')
+                    .parents('table')
+                    .prepend('<span class="error">Combinația nume și prenume există deja.</span>')
+              }
+              else {
+                id_box_vanzatori.append('<span class="error">Eroare:</span>' + data);
+              }
+            })
+            .fail(function(jqXHR, textStatus) {
+              AjaxFail(jqXHR, textStatus);
+            });
+      }
+    } }, '#creaza_vanzator, #editeaza_vanzator');
+
+    id_box_persoane.on({click: function(event) {
+      var path = pagina[10],
+          flag = false,
+          pattern,
+          values = [],
+          camp = $('form input'),
+          salveaza = (this.id == "creaza_persoana") ? 1 : 0;  // 1-salveaza nou, 0-modific existent
+      event.preventDefault();
+      $('span.error').remove();
+      camp.removeClass('required');
+      // prelucrare ID
+      values[0] = parseInt(camp.eq(0).val()) || null;
+
+      pattern = /^.{3,50}$/;
+      // Prelucrare nume
+      values[1] = camp.eq(1).val(camp.eq(1).val().trim()).val();
+      if (!pattern.test(values[1])) {
+        flag = true;
+        camp.eq(1).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
+      }
+      // Prelucrare prenume
+      values[2] = camp.eq(2).val(camp.eq(2).val().trim()).val();
+      if (!pattern.test(values[2])) {
+        flag = true;
+        camp.eq(2).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
+      }
+      // Prelucrare telefon
+      pattern = /^[\+\-\(\)\s0-9]{3,}$/;
+      values[3] = camp.eq(3).val(camp.eq(3).val().slice(0, 50).trim()).val();
+      if (!pattern.test(values[3])) {
+        flag = true;
+        camp.eq(3).addClass('required').parent().append('<span class="error">Caractere permise : numere, spatii, +(-)<br />Minim 3 caracatere.</span>');
+      }
+      // Prelucrare fax
+      values[4] = camp.eq(4).val(camp.eq(4).val().slice(0, 50).trim()).val();
+      if (!pattern.test(values[4])) {
+        flag = true;
+        camp.eq(4).addClass('required').parent().append('<span class="error">Caractere permise : numere, spatii, +(-)<br />Minim 3 caracatere.</span>');
+      }
+      // Prelucrare telefon mobil
+      values[5] = camp.eq(5).val(camp.eq(5).val().slice(0, 50).trim()).val();
+      if (!pattern.test(values[5])) {
+        flag = true;
+        camp.eq(5).addClass('required').parent().append('<span class="error">Caractere permise : numere, spatii, +(-)<br />Minim 3 caracatere.</span>');
+      }
+      // prelucrare email
+      pattern = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
+      values[6] = camp.eq(6).val(camp.eq(6).val().slice(0, 100).trim()).val();
+      if (!pattern.test(values[6])) {
+        flag = true;
+        camp.eq(6).addClass('required').parent().append('<span class="error">Adresa de email nu este validă.</span>');
+      }
+      // validare sex
+      values[7] = camp.eq(7).attr('data-id');
+      if (!values[7].length) {
+        flag = true;
+        camp.eq(7).addClass('required').parent().append('<span class="error">Alegeţi o opţiune.</span>');
+      }
+      // validare companie
+      values[8] = camp.eq(8).attr('data-id');
+      if (!values[8].length) {
+        flag = true;
+        camp.eq(8).addClass('required').parent().append('<span class="error">Alegeţi o companie.</span>');
+      }
+      // validare Departament
+      pattern = /^.{3,50}$/;
+      values[9] = camp.eq(9).val(camp.eq(9).val().trim()).val();
+      if (!pattern.test(values[9])) {
+        flag = true;
+        camp.eq(9).addClass('required').parent().append('<span class="error">Minim 3 caracatere.</span>');
+      }
+      // validare Functie
+      values[10] = camp.eq(10).val(camp.eq(10).val().trim()).val();
+      if (!pattern.test(values[10])) {
+        flag = true;
+        camp.eq(10).addClass('required').parent().append('<span class="error">Minim 3 caracatere.</span>');
+      }
+      if (!flag) {
+        $.ajax({
+          async:   true,
+          url:     path,
+          data:    {
+            salveaza: salveaza, // se creaza / se modifica persoana
+            formdata: values
+          },
+          timeout: 5000})
+            .done(function(data) {
+              if (data === "ok") {
+                load_box(id_box_persoane, id_box_persoane, path);
+              } else if (data === "exista") {
+                camp.filter(function(i) {
+                  return $.inArray(i, [1, 2, 8]) > -1;
+                }).addClass('required');
+                $('table').prepend('<span class="error">Combinația nume, prenume şi companie există deja.</span>');
+              } else {
+                id_box_persoane.append('<span class="error">Eroare:</span>' + data);
+              }
+            })
+            .fail(function(jqXHR, textStatus) {
+              AjaxFail(jqXHR, textStatus);
+            });
+      }
+    } }, '#creaza_persoana, #editeaza_persoana');
+
+    id_box_oferta_noua.on({click: function(event) {
       var path = pagina[0],
           flag = false,
           pattern,
@@ -776,259 +984,43 @@
             });
 
       }
-    });
+    }}, '#creaza_oferta');
 
-    id_box_companii.on('click', '#creaza_companie, #editeaza_companie ', function(event) {
-      var path = pagina[8],
-          flag = false,
-          pattern,
-          values = [],
-          camp = $('form input'),
-          salveaza = (this.id === 'creaza_companie') ? 1 : 0; // (1) creare, (0) modificare
-      event.preventDefault();
-      $('span.error').remove();
-      camp.removeClass('required');
-      // prelucare ID companie
-      values[0] = parseInt(camp.eq(0).val());
-      // prelucare nume companie
-      pattern = /^.{5,100}$/;
-      values[1] = camp.eq(1).val(camp.eq(1).val().trim()).val();
-      if (!pattern.test(values[1])) {
-        flag = true;
-        camp.eq(1).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
+    id_box_oferta_noua.on({
+      keydown: function(event) {
+        if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
+          103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
+          event.preventDefault();
+        } else {
+          if (this.selectionStart === this.selectionEnd && $(this).val().length === 3 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
+            event.preventDefault();
+          }
+        }
+      },
+      input:   function() {
+        var data_ro = $('#data_oferta').val();
+        if (data_ro !== "") {
+          var valabilitate = $('#valabilitate').val();
+          var dataJS_exp = convertDate(data_ro).addDays(valabilitate);
+          var exp_ro = dataJS_exp.toString('d-MMM-yyyy');
+          var exp_MSQL = dataJS_exp.toString('yyyy-MM-dd');
+          $('#data_expirare').val(exp_ro).attr('data-data', exp_MSQL);
+        }
       }
-      // prelucare adresa companie
-      pattern = /^.{5,150}$/;
-      values[2] = camp.eq(2).val(camp.eq(2).val().trim()).val();
-      if (!pattern.test(values[2])) {
-        flag = true;
-        camp.eq(2).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
-      }
-      // prelucare oras companie
-      pattern = /^.{3,30}$/;
-      values[3] = camp.eq(3).val(camp.eq(3).val().trim()).val();
-      if (!pattern.test(values[3])) {
-        flag = true;
-        camp.eq(3).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
-      }
-      // prelucare tara companie
-      pattern = /^.{5,50}$/;
-      values[4] = camp.eq(4).val(camp.eq(4).val().trim()).val();
-      if (!pattern.test(values[4])) {
-        flag = true;
-        camp.eq(4).addClass('required').parent().append('<span class="error">Minim 5 caractere.</span>');
-      }
-      if (!flag) {
-        $.ajax({
-          async:   true,
-          url:     path,
-          data:    {
-            salveaza: salveaza, // se creaza | se modifica compania
-            formdata: values
-          },
-          timeout: 5000})
-            .done(function(data) {
-              if (data === "ok") {
-                load_box(id_box_companii, id_box_companii, path);
-              } else if (data === "exista") {
-                camp.eq(1).addClass('required')
-                    .parent()
-                    .append('<span class="error">Compania există deja.</span>');
-              }
-              else {
-                id_box_companii.append('<span class="error">Eroare:</span>' + data);
-              }
-            })
-            .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus);
-            });
-      }
-    });
+    }, '#valabilitate');
 
-    id_box_vanzatori.on('click', '#creaza_vanzator, #editeaza_vanzator', function(event) {
-      event.preventDefault();
-      var path = pagina[9],
-          flag = false,
-          pattern,
-          values = [],
-          camp = $('form input'),
-          salveaza = (this.id === 'creaza_vanzator') ? 1 : 0; // (1) creare, (0) modificare
-      event.preventDefault();
-      $('span.error').remove();
-      camp.removeClass('required');
-      // prelucare ID vanzator
-      values[0] = parseInt(camp.eq(0).val());
-      // prelucare nume vanzator
-      pattern = /^.{3,50}$/;
-      values[1] = camp.eq(1).val(camp.eq(1).val().trim()).val();
-      if (!pattern.test(values[1])) {
-        flag = true;
-        camp.eq(1).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
+    id_box_oferta_noua.on({
+      keydown: function(event) {
+        if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
+          103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
+          event.preventDefault();
+        } else {
+          if (this.selectionStart === this.selectionEnd && $(this).val().length === 12 && !isInArray(event.keyCode, [8, 9 , 46, 37, 39])) {
+            event.preventDefault();
+          }
+        }
       }
-      // prelucare prenume vanzator
-      pattern = /^.{3,50}$/;
-      values[2] = camp.eq(2).val(camp.eq(2).val().trim()).val();
-      if (!pattern.test(values[2])) {
-        flag = true;
-        camp.eq(2).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
-      }
-      if (!flag) {
-        $.ajax({
-          async:   true,
-          url:     path,
-          data:    {
-            salveaza: salveaza, // se creaza | se modifica compania
-            formdata: values
-          },
-          timeout: 5000})
-            .done(function(data) {
-              if (data === "ok") {
-                load_box(id_box_vanzatori, id_box_vanzatori, path);
-              } else if (data === "exista") {
-                camp.eq(1).addClass('required');
-                camp.eq(2).addClass('required')
-                    .parents('table')
-                    .prepend('<span class="error">Combinația nume și prenume există deja.</span>')
-              }
-              else {
-                id_box_vanzatori.append('<span class="error">Eroare:</span>' + data);
-              }
-            })
-            .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus);
-            });
-      }
-    });
-
-    id_box_persoane.on('click', '#creaza_persoana, #editeaza_persoana', function(event) {
-      var path = pagina[10],
-          flag = false,
-          pattern,
-          values = [],
-          camp = $('form input'),
-          salveaza = (this.id == "creaza_persoana") ? 1 : 0;  // 1-salveaza nou, 0-modific existent
-      event.preventDefault();
-      $('span.error').remove();
-      camp.removeClass('required');
-      // prelucrare ID
-      values[0] = parseInt(camp.eq(0).val()) || null;
-
-      pattern = /^.{3,50}$/;
-      // Prelucrare nume
-      values[1] = camp.eq(1).val(camp.eq(1).val().trim()).val();
-      if (!pattern.test(values[1])) {
-        flag = true;
-        camp.eq(1).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
-      }
-      // Prelucrare prenume
-      values[2] = camp.eq(2).val(camp.eq(2).val().trim()).val();
-      if (!pattern.test(values[2])) {
-        flag = true;
-        camp.eq(2).addClass('required').parent().append('<span class="error">Minim 3 caractere.</span>');
-      }
-      // Prelucrare telefon
-      pattern = /^[\+\-\(\)\s0-9]{3,}$/;
-      values[3] = camp.eq(3).val(camp.eq(3).val().slice(0, 50).trim()).val();
-      if (!pattern.test(values[3])) {
-        flag = true;
-        camp.eq(3).addClass('required').parent().append('<span class="error">Caractere permise : numere, spatii, +(-)<br />Minim 3 caracatere.</span>');
-      }
-      // Prelucrare fax
-      values[4] = camp.eq(4).val(camp.eq(4).val().slice(0, 50).trim()).val();
-      if (!pattern.test(values[4])) {
-        flag = true;
-        camp.eq(4).addClass('required').parent().append('<span class="error">Caractere permise : numere, spatii, +(-)<br />Minim 3 caracatere.</span>');
-      }
-      // Prelucrare telefon mobil
-      values[5] = camp.eq(5).val(camp.eq(5).val().slice(0, 50).trim()).val();
-      if (!pattern.test(values[5])) {
-        flag = true;
-        camp.eq(5).addClass('required').parent().append('<span class="error">Caractere permise : numere, spatii, +(-)<br />Minim 3 caracatere.</span>');
-      }
-      // prelucrare email
-      pattern = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
-      values[6] = camp.eq(6).val(camp.eq(6).val().slice(0, 100).trim()).val();
-      if (!pattern.test(values[6])) {
-        flag = true;
-        camp.eq(6).addClass('required').parent().append('<span class="error">Adresa de email nu este validă.</span>');
-      }
-      // validare sex
-      values[7] = camp.eq(7).attr('data-id');
-      if (!values[7].length) {
-        flag = true;
-        camp.eq(7).addClass('required').parent().append('<span class="error">Alegeţi o opţiune.</span>');
-      }
-      // validare companie
-      values[8] = camp.eq(8).attr('data-id');
-      if (!values[8].length) {
-        flag = true;
-        camp.eq(8).addClass('required').parent().append('<span class="error">Alegeţi o companie.</span>');
-      }
-      // validare Departament
-      pattern = /^.{3,50}$/;
-      values[9] = camp.eq(9).val(camp.eq(9).val().trim()).val();
-      if (!pattern.test(values[9])) {
-        flag = true;
-        camp.eq(9).addClass('required').parent().append('<span class="error">Minim 3 caracatere.</span>');
-      }
-      // validare Functie
-      values[10] = camp.eq(10).val(camp.eq(10).val().trim()).val();
-      if (!pattern.test(values[10])) {
-        flag = true;
-        camp.eq(10).addClass('required').parent().append('<span class="error">Minim 3 caracatere.</span>');
-      }
-      if (!flag) {
-        $.ajax({
-          async:   true,
-          url:     path,
-          data:    {
-            salveaza: salveaza, // se creaza / se modifica persoana
-            formdata: values
-          },
-          timeout: 5000})
-            .done(function(data) {
-              if (data === "ok") {
-                load_box(id_box_persoane, id_box_persoane, path);
-              } else if (data === "exista") {
-                camp.filter(function(i) {
-                  return $.inArray(i, [1, 2, 8]) > -1;
-                }).addClass('required');
-                $('table').prepend('<span class="error">Combinația nume, prenume şi companie există deja.</span>');
-              } else {
-                id_box_persoane.append('<span class="error">Eroare:</span>' + data);
-              }
-            })
-            .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus);
-            });
-      }
-    });
-
-    id_box_oferta_noua.on('click', '#creaza_oferta, #editeaza_oferta', function(event) {
-
-    });
-
-    class_box.on('click', '#word', function() {
-      var $id = $('#select_persoana').attr('data-id');
-      id_box_oferte.find('.error, .mesaj, p, a').remove();
-      if (!$id) {
-        id_box_oferte.append('<span class="error">Alegeţi o companie şi o persoană de contact.</p>');
-        return;
-      }
-      $.ajax({
-        async:   false,
-        url:     'php/word/genereaza_word.php',
-        data:    { id_persoana: $id },
-        timeout: 5000})
-          .done(function() {
-            $('#box-editeaza-oferta')
-                .append('<span class="mesaj">Documentul s-a generat cu succes.&nbsp</span>')
-                .append('<a href="/php/word/Oferta.docx">Descarcă aici.</a>');
-          })
-          .fail(function(jqXHR, textStatus) {
-            AjaxFail(jqXHR, textStatus);
-          });
-    });
+    }, '#valoare_oferta');
 
   })
 })();
