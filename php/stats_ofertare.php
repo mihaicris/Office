@@ -78,7 +78,7 @@ $width = $width > 900 ? 900 :  $width;
         barDatasetSpacing:   1,
 
         //Boolean - Whether to animate the chart
-        animation:           false,
+        animation:           true,
 
         //Number - Number of animation steps
         animationSteps:      60,
