@@ -386,11 +386,11 @@ if (isset($_POST["select_persoana"])) {
     for ($i = 0; $row = $query->fetch(); $i++) {
         echo '<div class="rec">';
         echo '<p  id="f' . $row['id_persoana'] . '" class="bold">';
-        if ($row['gen_persoana']) {
-            echo "Dna. ";
-        } else {
-            echo "Dl. ";
-        }
+//        if ($row['gen_persoana']) {
+//            echo "Dna. ";
+//        } else {
+//            echo "Dl. ";
+//        }
         echo $row['prenume_persoana'];
         echo '&nbsp' . $row['nume_persoana'] . "</p>";
         echo '<p style="color: #3F41D9;">' . $row['functie_persoana'] . '</p>';

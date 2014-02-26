@@ -13,7 +13,7 @@
         id_box_vanzatori = $('#box_vanzatori'),
         id_box_persoane = $('#box_persoane'),
         id_box_oferta_noua = $('#box_oferta_noua'),
-        id_box_oferte = $('#box_editeaza_oferta'),
+        id_box_oferte = $('#box_oferte'),
         obj_pag = {
           oferte:               {
             id_box: "#box_oferte",

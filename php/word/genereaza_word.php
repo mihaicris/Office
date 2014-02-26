@@ -5,7 +5,7 @@ include_once '../external/opentbs/tbs_plugin_opentbs.php'; // Load the OpenTBS p
 include_once '../conexiune.php';
 
 // fetch informatii despre clientul cu id=?
-$string = 'SELECT * FROM `office`.`persoane` WHERE `id_persoana` = ? LIMIT 1;';
+$string = 'SELECT * FROM `persoane` WHERE `id_persoana` = ? LIMIT 1;';
 $query = $db->prepare($string);
 $data = array($_POST['id_persoana']);
 $query->execute($data);
@@ -25,12 +25,8 @@ $row = $query->fetch();
 	$mobil_persoana = $row['mobil_persoana'];
 	$email_persoana = $row['email_persoana'];
 
-fb($email_persoana);
-
-
-
 // fetch informatii despre compania asociata contactului cu id=?
-$string = 'SELECT * FROM `office`.`companii` WHERE `id_companie` = ? LIMIT 1;';
+$string = 'SELECT * FROM `companii` WHERE `id_companie` = ? LIMIT 1;';
 $query = $db->prepare($string);
 $data = array($id_companie_persoana);
 $query->execute($data);
