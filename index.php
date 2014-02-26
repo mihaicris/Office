@@ -26,46 +26,47 @@
         <li class="menu">Oferte</li>
     </ul>
     <ul>
-        <li class="option">Ofertă nouă</li>
-        <li class="option">Prelucrează ofertă</li>
+        <li class="option" data-option="oferte">Oferte</li>
+        <li class="option" data-option="oferta_noua">Ofertă nouă</li>
     </ul>
     <ul>
-        <li class="menu">Comenzi</li>
+        <li class="menu" >Comenzi</li>
     </ul>
     <ul>
-        <li class="option">Comandă nouă</li>
-        <li class="option">Prelucrează comandă</li>
+        <li class="option" data-option="comenzi">Comenzi</li>
+        <li class="option" data-option="comanda_noua">Comandă nouă</li>
 
     </ul>
     <ul>
         <li class="menu">Rapoarte</li>
     </ul>
     <ul>
-        <li class="option">Ofertare</li>
-        <li class="option">Comenzi</li>
-        <li class="option">Clienți</li>
-        <li class="option">Furnizori</li>
+        <li class="option" data-option="statistici_oferte">Ofertare</li>
+        <li class="option" data-option="statistici_comenzi">Comenzi</li>
+        <li class="option" data-option="statistici_clienti">Clienți</li>
+        <li class="option" data-option="statistici_furnizori">Furnizori</li>
     </ul>
     <ul>
         <li class="menu">Administrare</li>
     </ul>
     <ul>
-        <li class="option">Companii</li>
-        <li class="option">Vânzători</li>
-        <li class="option">Persoane contact</li>
+        <li class="option" data-option="companii">Companii</li>
+        <li class="option" data-option="vanzatori">Vânzători</li>
+        <li class="option" data-option="persoane">Persoane contact</li>
     </ul>
 </nav>
-<div class="box" id="box-oferta-noua"></div>
-<div class="box" id="box-editeaza-oferta"></div>
-<div class="box" id="box-comanda-noua"></div>
-<div class="box" id="box-editeaza-comanda"></div>
-<div class="box" id="box-statistici-ofertare"></div>
-<div class="box" id="box-statistici-comenzi"></div>
-<div class="box" id="box-statistici-clienti"></div>
-<div class="box" id="box-statistici-furnizori"></div>
-<div class="box" id="box-companii"></div>
-<div class="box" id="box-vanzatori"></div>
-<div class="box" id="box-persoane"></div>
+<div class="box" id="box_oferte"></div>
+<div class="box" id="box_oferta_noua"></div>
+<div class="box" id="box_comenzi"></div>
+<div class="box" id="box_comanda_noua"></div>
+<div class="box" id="box_editeaza_comanda"></div>
+<div class="box" id="box_statistici_ofertare"></div>
+<div class="box" id="box_statistici_comenzi"></div>
+<div class="box" id="box_statistici_clienti"></div>
+<div class="box" id="box_statistici_furnizori"></div>
+<div class="box" id="box_companii"></div>
+<div class="box" id="box_vanzatori"></div>
+<div class="box" id="box_persoane"></div>
 <footer>Copyright</footer>
 </body>
 </html>

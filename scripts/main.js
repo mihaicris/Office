@@ -7,25 +7,52 @@
  */
 (function() {
   $(document).ready(function() {
-    var class_box = $('.box'),
-        id_box_companii = $('#box-companii'),
-        id_box_vanzatori = $('#box-vanzatori'),
-        id_box_persoane = $('#box-persoane'),
-        id_box_oferta_noua = $('#box-oferta-noua'),
-        id_box_oferte = $('#box-editeaza-oferta'),
-        pagina = [  'php/oferta-noua.php',
-          'php/oferte.php',
-          'php/comanda_noua.php',
-          'php/comenzi.php',
-          'php/stats-ofertare.php',
-          'php/stats-comenzi.php',
-          'php/stats-clienti.php',
-          'php/stats-furnizori.php',
-          'php/companii.php',
-          'php/vanzatori.php',
-          'php/persoane.php'],
-        timp_fadein = 100,
-        timp_fadeout = 150;
+    var nav = $('nav'),
+        class_box = $('.box'),
+        id_box_companii = $('#box_companii'),
+        id_box_vanzatori = $('#box_vanzatori'),
+        id_box_persoane = $('#box_persoane'),
+        id_box_oferta_noua = $('#box_oferta_noua'),
+        id_box_oferte = $('#box_editeaza_oferta'),
+        obj_pag = {
+          oferte:               {
+            id_box: "#box_oferte",
+            path:   "php/oferte.php"
+          },
+          oferta_noua:          {
+            id_box: "#box_oferta_noua",
+            path:   "php/oferta_noua.php"
+          },
+          comenzi:              {
+            id_box: "#box_comenzi",
+            path:   "php/comenzi.php"
+          },
+          comanda_noua:         {
+            id_box: "#box_comanda_noua",
+            path:   "php/comanda_noua.php"
+          },
+          statistici_oferte:    {
+            id_box: "#box_statistici_ofertare",
+            path:   "php/stats_ofertare.php"
+          },
+          statistici_comenzi:   {},
+          statistici_clienti:   {},
+          statistici_furnizori: {},
+          companii:             {
+            id_box: "#box_companii",
+            path:   "php/companii.php"
+          },
+          vanzatori:            {
+            id_box: "#box_vanzatori",
+            path:   "php/vanzatori.php"
+          },
+          persoane:             {
+            id_box: "#box_persoane",
+            path:   "php/persoane.php"
+          }
+        },
+        timp_fadein = 50,
+        timp_fadeout = 80;
 
     var isInArray = function(value, array) {
       return array.indexOf(value) > -1;
@@ -97,6 +124,7 @@
               box_nou.html(data).promise().done(function() {
                 box_nou.fadeIn(timp_fadein);
                 initializare_Zebra();
+                $('input').eq(0).focus();
               });
             }
 
@@ -132,33 +160,43 @@
 
     $.ajaxSetup({
       cache: false,
-      type:  'POST'
+      type:  "POST"
     });
 
-    $('nav .menu').click(function() {
-      if ($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-        $(this).parent().next().children().hide();
-        return;
+    nav.on({
+      mouseup:   function() {
+        if ($(this).hasClass('selected')) {
+          $(this).removeClass('selected');
+          $(this).parent().next().children().hide();
+          return;
+        }
+        $('nav .menu, nav ul').removeClass('selected');
+        $('nav .option').removeClass('selected').hide();
+        $(this).addClass('selected').parent().next().addClass('selected').children().show();
+      },
+      mousedown: function(event) {
+        event.preventDefault();
       }
-      $('nav .menu, nav ul').removeClass('selected');
-      $('nav .option').removeClass('selected').hide();
-      $(this).addClass('selected').parent().next().addClass('selected').children().show();
-    });
+    }, '.menu');
 
-    $('nav .option').click(function() {
-      if ($(this).hasClass('selected')) {
-        // daca este deja selectat nu se face nimic
-        return;
+    nav.on({
+      mouseup:   function() {
+        if ($(this).hasClass('selected')) {
+          // daca este deja selectat nu se face nimic
+          return;
+        }
+        $('.option').not($(this)).removeClass('selected'); // deselect all other option;
+        $(this).addClass('selected').show();
+        var box_curent = $('.box:visible'),
+            option = $(this).attr("data-option"),
+            box_nou = $(obj_pag[option].id_box),
+            path = obj_pag[option].path;
+        load_box(box_curent, box_nou, path);
+      },
+      mousedown: function(event) {
+        event.preventDefault();
       }
-      $('.option').not($(this)).removeClass('selected'); // deselect all other option;
-      $(this).addClass('selected').show();
-      var ind = $(this).index('.option'),
-          box_curent = $('.box:visible'),
-          box_nou = class_box.eq(ind),
-          path = pagina[ind];
-      load_box(box_curent, box_nou, path);
-    });
+    }, '.option');
 
     class_box.on({
       mousedown: function(event) {
@@ -166,14 +204,15 @@
           $('.ddm').hide();
         }
       },
-      ajaxstart: function() {
-        $('span.ajax').remove();
-      },
       keyup:     function(event) {
         if (event.keyCode == 27) {
           $('#renunta').click();
         }
+      },
+      ajaxstart: function() {
+        $('span.ajax').remove();
       }
+
     });
 
     class_box.on({click: function() {
@@ -189,7 +228,7 @@
         data:    { id_persoana: $id },
         timeout: 5000})
           .done(function() {
-            $('#box-editeaza-oferta')
+            $('#box_oferte')
                 .append('<span class="mesaj">Documentul s-a generat cu succes.&nbsp</span>')
                 .append('<a href="/php/word/Oferta.docx">Descarcă aici.</a>');
           })
@@ -199,7 +238,6 @@
     }}, '#word');
 
     class_box.on({focus: function() {
-      $(this).next('img').hide();
       $(this).removeClass('required');
     }}, 'input');
 
@@ -213,7 +251,7 @@
       keyup:   function(event) {
         var camp_str = $(this).val(),
             root = $(this).closest('.box').attr('id').slice(4),
-            box_curent = $('#box-' + root),
+            box_curent = $('#box_' + root),
             path = 'php/' + root + '.php';
         if (event.which == 13 || event.which == 16) {   // enter sau shift
           return;
@@ -236,80 +274,95 @@
       }
     }, 'input#camp');
 
-    class_box.on({click: function() {
-      var root = $(this).closest('.box').attr('id').slice(4),
-          path = 'php/' + root + '.php',
-          box_curent = $('#box-' + root);
-      $.ajax({
-        async:   true,
-        url:     path,
-        data:    {
-          formular_creare: 1
-        },
-        timeout: 5000})
-          .done(function(raspuns) {
-            box_curent.fadeOut(timp_fadeout);
-            box_curent.queue('fx', function() {
-              $(this).empty().append(raspuns);
-              $(this).dequeue('fx');
-            });
-            box_curent.fadeIn(timp_fadein);
-            box_curent.queue('fx', function() {
-              $(this).find('input[type="text"]').eq(0).focus();
-              $(this).dequeue('fx');
-            });
-          })
-          .fail(function(jqXHR, textStatus) {
-            AjaxFail(jqXHR, textStatus);
-          });
-    }}, '.nou');
-
-    class_box.on({click: function() {
-      var root = $(this).closest('.box').attr('id').slice(4),
-          box = $('.box:visible'),
-          path = 'php/' + root + '.php';
-      load_box(box, box, path);
-    } }, '#renunta');
-
-    class_box.on({click: function() {
-      var r, id = $('form input').eq(0).val(),
-          root = $(this).closest('.box').attr('id').slice(4),
-          box_curent = $('#box-' + root),
-          path = 'php/' + root + '.php';
-      switch (root) {
-        case 'companii':
-          r = confirm("Sigur se șterge clientul?");
-          break;
-        case 'vanzatori':
-          r = confirm("Sigur se șterge vânzătorul?");
-          break;
-        case 'persoane':
-          r = confirm("Sigur se șterge persoana de contact?");
-          break;
-      }
-      if (r == true) {
+    class_box.on({
+      mousedown: function(event) {
+        event.preventDefault();
+      },
+      mouseup:   function() {
+        var root = $(this).closest('.box').attr('id').slice(4),
+            path = 'php/' + root + '.php',
+            box_curent = $('#box_' + root);
         $.ajax({
           async:   true,
           url:     path,
           data:    {
-            sterge: 1,
-            id:     id
+            formular_creare: 1
           },
-          timeout: 5000
-        })
+          timeout: 5000})
             .done(function(raspuns) {
-              if (raspuns == 'ok') {
-                load_box(box_curent, box_curent, path);
-              }
-              else {
-                box_curent.append(raspuns);
-              }
+              box_curent.fadeOut(timp_fadeout);
+              box_curent.queue('fx', function() {
+                $(this).empty().append(raspuns);
+                $(this).dequeue('fx');
+              });
+              box_curent.fadeIn(timp_fadein);
+              box_curent.queue('fx', function() {
+                $(this).find('input[type="text"]').eq(0).focus();
+                $(this).dequeue('fx');
+              });
             })
             .fail(function(jqXHR, textStatus) {
               AjaxFail(jqXHR, textStatus);
             });
       }
-    } }, '#sterge');
+    }, '.nou');
+
+    class_box.on({
+      mousedown: function(event) {
+        event.preventDefault();
+      },
+      mouseup:   function() {
+        var root = $(this).closest('.box').attr('id').slice(4),
+            box = $('.box:visible'),
+            path = 'php/' + root + '.php';
+        load_box(box, box, path);
+      }
+    }, '#renunta');
+
+    class_box.on({
+      mousedown: function(event) {
+        event.preventDefault();
+      },
+      mouseup:   function() {
+        var r, id = $('form input').eq(0).val(),
+            root = $(this).closest('.box').attr('id').slice(4),
+            box_curent = $('#box_' + root),
+            path = 'php/' + root + '.php';
+        switch (root) {
+          case 'companii':
+            r = confirm("Sigur se șterge clientul?");
+            break;
+          case 'vanzatori':
+            r = confirm("Sigur se șterge vânzătorul?");
+            break;
+          case 'persoane':
+            r = confirm("Sigur se șterge persoana de contact?");
+            break;
+        }
+        if (r == true) {
+          $.ajax({
+            async:   true,
+            url:     path,
+            data:    {
+              sterge: 1,
+              id:     id
+            },
+            timeout: 5000
+          })
+              .done(function(raspuns) {
+                if (raspuns == 'ok') {
+                  load_box(box_curent, box_curent, path);
+                }
+                else {
+                  box_curent.append(raspuns);
+                }
+              })
+              .fail(function(jqXHR, textStatus) {
+                AjaxFail(jqXHR, textStatus);
+              });
+        }
+      }
+    }, '#sterge');
 
     class_box.on({
       keydown: function(event) {
@@ -319,7 +372,7 @@
         var $text,
             id,
             camp = $(this),
-            path = pagina[8],
+            path = 'php/companii.php',
             lista = $('#lista_companii'),
             string = camp.val().trim();
         switch (event.which) {
@@ -422,7 +475,7 @@
     class_box.on({
       mouseup: function() {
         var lista = $('#lista_persoane'),
-            path = pagina[10],
+            path = 'php/persoane.php',
             camp = $(this),
             id_companie = $('#select_companie').attr('data-id');
         if (!id_companie) {
@@ -455,7 +508,7 @@
     class_box.on({
       mouseup: function() {
         var lista = $('#lista_vanzatori'),
-            path = pagina[9],
+            path = 'php/vanzatori.php',
             camp = $(this);
         if (!lista.is(':visible')) {
           $.ajax({
@@ -615,43 +668,48 @@
       }
     }, '#lista_sex .rec');
 
-    class_box.on({ click: function(event) {
-      event.preventDefault();
-      var root = $(this).closest('.box').attr('id').slice(4),
-          id = parseInt($(this).parent().attr('id').slice(1)),
-          box_curent = $('#box-' + root),
-          path = 'php/' + root + '.php';
-      $.ajax({
-        async:   true,
-        url:     path,
-        data:    {
-          formular_editare: 1,
-          id:               id
-        },
-        timeout: 5000})
-          .done(function(data) {
-            if (data === 'Inexistent') {
-              load_box(box_curent, box_curent, path);
-            }
-            else {
-              box_curent.fadeOut(timp_fadeout);
-              box_curent.queue('fx', function() {
-                $(this).empty().append(data);
-                $(this).dequeue('fx');
-              });
-              box_curent.fadeIn(timp_fadein);
-              box_curent.queue('fx', function() {
-                $(this).dequeue('fx');
-              });
-            }
-          })
-          .fail(function(jqXHR, textStatus) {
-            AjaxFail(jqXHR, textStatus);
-          });
-    }}, 'span.actiune');
+    class_box.on({
+      mousedown: function(event) {
+        event.preventDefault();
+      },
+      mouseup:   function(event) {
+        event.preventDefault();
+        var root = $(this).closest('.box').attr('id').slice(4),
+            id = parseInt($(this).parent().attr('id').slice(1)),
+            box_curent = $('#box_' + root),
+            path = 'php/' + root + '.php';
+        $.ajax({
+          async:   true,
+          url:     path,
+          data:    {
+            formular_editare: 1,
+            id:               id
+          },
+          timeout: 5000})
+            .done(function(data) {
+              if (data === 'Inexistent') {
+                load_box(box_curent, box_curent, path);
+              }
+              else {
+                box_curent.fadeOut(timp_fadeout);
+                box_curent.queue('fx', function() {
+                  $(this).empty().append(data);
+                  $(this).dequeue('fx');
+                });
+                box_curent.fadeIn(timp_fadein);
+                box_curent.queue('fx', function() {
+                  $(this).dequeue('fx');
+                });
+              }
+            })
+            .fail(function(jqXHR, textStatus) {
+              AjaxFail(jqXHR, textStatus);
+            });
+      }
+    }, 'span.actiune');
 
     id_box_companii.on({click: function(event) {
-      var path = pagina[8],
+      var path = 'php/companii.php',
           flag = false,
           pattern,
           values = [],
@@ -719,7 +777,7 @@
 
     id_box_vanzatori.on({click: function(event) {
       event.preventDefault();
-      var path = pagina[9],
+      var path = 'php/vanzatori.php',
           flag = false,
           pattern,
           values = [],
@@ -773,7 +831,7 @@
     } }, '#creaza_vanzator, #editeaza_vanzator');
 
     id_box_persoane.on({click: function(event) {
-      var path = pagina[10],
+      var path = 'php/persoane.php',
           flag = false,
           pattern,
           values = [],
@@ -877,7 +935,7 @@
     } }, '#creaza_persoana, #editeaza_persoana');
 
     id_box_oferta_noua.on({click: function(event) {
-      var path = pagina[0],
+      var path = 'php/oferta_noua.php',
           flag = false,
           pattern,
           values = [],
