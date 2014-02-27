@@ -86,6 +86,7 @@ if (isset($_POST["optiuni"]["listare"])) {
     $query = interogare($string, NULL);
     afiseaza_rezultate($query);
 }
+
 if (isset($_POST["optiuni"]["formular_creare"])) {
 
     date_default_timezone_set('Europe/Bucharest');
@@ -422,7 +423,8 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
         </table>
         <!--    <span id="printeaza_oferta" class="buton_printeaza">Printează<span class="sosa">8</span></span>-->
     </form>
-    <span id="creaza_oferta" class="submit">Salvează<span class="sosa">å</span></span>
+    <span id="editeaza_oferta" class="submit">Modifică<span class="sosa">å</span></span>
+    <span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>
     <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
     <div id="lista_companii" class="ddm"></div>
     <div id="lista_vanzatori" class="ddm"></div>
@@ -442,6 +444,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 
 <?php
 }
+
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];
     if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
@@ -484,5 +487,13 @@ if (isset($_POST["salveaza"])) {
     echo('ok');
     exit();
 
+}
+if (isset($_POST["sterge"])) {
+    // actiune stergere oferta din baza de date
+    $string = 'DELETE FROM `oferte` WHERE `id_oferta` = ? LIMIT 1;';
+    $data = array($_POST['id']);
+    $query = interogare($string, $data);
+    echo('ok');
+    exit();
 }
 ?>

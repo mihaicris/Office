@@ -12,7 +12,6 @@
         id_box_companii = $('#box_companii'),
         id_box_vanzatori = $('#box_vanzatori'),
         id_box_persoane = $('#box_persoane'),
-        id_box_oferta_noua = $('#box_oferta_noua'),
         id_box_oferte = $('#box_oferte'),
         obj_pag = {
           oferte:               {
@@ -58,8 +57,8 @@
             optiuni: {}
           }
         },
-        timp_fadein = 10,
-        timp_fadeout = 20,
+        timp_fadein = 100,
+        timp_fadeout = 200,
         isInArray = function(value, array) {
           return array.indexOf(value) > -1;
         },
@@ -87,34 +86,37 @@
           var elem = $('input.datepicker'),
               exp = $('#data_expirare');
           $('.Zebra_DatePicker').remove();
-          elem.Zebra_DatePicker({
-            onClear:  function() {
-              elem.attr('data-data', '');
-              if (exp.length) {
-                $('#data_expirare').val('').attr('data-data', '');
+          if (elem.length) {
+            elem.Zebra_DatePicker({
+              onClear:  function() {
+                elem.attr('data-data', '');
+                if (exp.length) {
+                  $('#data_expirare').val('').attr('data-data', '');
+                }
+              },
+              onSelect: function(user_data, date_MSQL, data_JS, element) {
+                /**
+                 The callback function takes 4 parameters:
+                 - the date in the format specified by the “format” attribute;
+                 - the date in YYYY-MM-DD format
+                 - the date as a JavaScript Date object
+                 - a reference to the element the date picker is attached to, as a jQuery object*/
+                var v = $('#valabilitate').val(),
+                    data_expirare = data_JS.addDays(v);
+                element.attr('data-data', date_MSQL);
+                if (exp.length) {
+                  exp.val(data_expirare.toString('d-MMM-yyyy'))
+                      .attr('data-data', data_expirare.toString('yyyy-MM-dd'));
+                }
               }
-            },
-            onSelect: function(user_data, date_MSQL, data_JS, element) {
-              /**
-               The callback function takes 4 parameters:
-               - the date in the format specified by the “format” attribute;
-               - the date in YYYY-MM-DD format
-               - the date as a JavaScript Date object
-               - a reference to the element the date picker is attached to, as a jQuery object*/
-              var v = $('#valabilitate').val(),
-                  data_expirare = data_JS.addDays(v);
-              element.attr('data-data', date_MSQL);
-              if (exp.length) {
-                exp.val(data_expirare.toString('d-MMM-yyyy'))
-                    .attr('data-data', data_expirare.toString('yyyy-MM-dd'));
-              }
-            }
-          });
+            });
+          }
         },
         load_box = function(box_curent, box_nou, path, optiuni) {
           /* se incarca box-ul unei optiuni noi din meniu
            implemantare box.load cu fadeout/fadein
            intre box-ul optiunii curente si box-ul optiunii noi care se incarca */
+          console.log(optiuni);
           $.ajax({
             async:   true,
             url:     path,
@@ -125,23 +127,18 @@
             }
           })
               .done(function(data) {
-
-                function go() {
-                  box_nou.html(data).promise().done(function() {
-                    box_nou.fadeIn(timp_fadein);
-                    initializare_Zebra();
-                    $('input').eq(0).focus();
-                  });
-                }
-
-                if (box_curent.length) {
-                  box_curent.fadeOut(timp_fadeout, function() {
-                    box_curent.empty();
-                    go();
-                  });
-                } else {
-                  go();
-                }
+                box_curent.fadeOut(timp_fadeout).promise()
+                    .done(function() {
+                      box_curent.empty();
+                    })
+                    .done(function() {
+                      box_nou.html(data);
+                    })
+                    .done(function() {
+                      box_nou.fadeIn(timp_fadein);
+                      initializare_Zebra();
+                      $('input').eq(0).focus();
+                    });
               })
               .fail(function(jqXHR, textStatus) {
                 AjaxFail(jqXHR, textStatus);
@@ -192,6 +189,7 @@
 
     nav.on({
       mouseup:   function() {
+        console.log("Trigger: mouseup: .option");
         if ($(this).hasClass('selected')) {
           // daca este deja selectat nu se face nimic
           return;
@@ -344,11 +342,17 @@
         event.preventDefault();
       },
       mouseup:   function() {
+        console.log("Trigger: mouseup:#sterge");
+
         var r, id = $('form input').eq(0).val(),
             root = $(this).closest('.box').attr('id').slice(4),
             box_curent = $('#box_' + root),
-            path = 'php/' + root + '.php';
+            path = 'php/' + root + '.php',
+            optiuni = obj_pag[root].optiuni;
         switch (root) {
+          case 'oferte':
+            r = confirm("Sigur se șterge oferta?");
+            break;
           case 'companii':
             r = confirm("Sigur se șterge clientul?");
             break;
@@ -371,7 +375,7 @@
           })
               .done(function(raspuns) {
                 if (raspuns == 'ok') {
-                  load_box(box_curent, box_curent, path);
+                  load_box(box_curent, box_curent, path, optiuni);
                 }
                 else {
                   box_curent.append(raspuns);
@@ -955,7 +959,7 @@
       }
     } }, '#creaza_persoana, #editeaza_persoana');
 
-    id_box_oferta_noua.on({click: function(event) {
+    id_box_oferte.on({click: function(event) {
       var path = 'php/oferte.php',
           flag = false,
           pattern,
@@ -1065,7 +1069,7 @@
       }
     }}, '#creaza_oferta');
 
-    id_box_oferta_noua.on({
+    id_box_oferte.on({
       keydown: function(event) {
         if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
           103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
@@ -1088,7 +1092,7 @@
       }
     }, '#valabilitate');
 
-    id_box_oferta_noua.on({
+    id_box_oferte.on({
       keydown: function(event) {
         if (!isInArray(event.keyCode, [8, 9, 46, 37, 39, 96, 97, 98, 99, 100, 101, 102,
           103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57])) {
