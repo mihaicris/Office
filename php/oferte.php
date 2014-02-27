@@ -1,28 +1,31 @@
 <?php
 include_once 'conexiune.php';
 
+$stadiu = ["Deschisă", "Câştigată", "Pierdută"];
+
+function str_replace_assoc($subject)
+{
+    $replace = array(
+        '-1-' => '-Ian-',
+        '-2-' => '-Feb-',
+        '-3-' => '-Mar-',
+        '-4-' => '-Apr-',
+        '-5-' => '-Mai-',
+        '-6-' => '-Iun-',
+        '-7-' => '-Iul-',
+        '-8-' => '-Aug-',
+        '-9-' => '-Sep-',
+        '-10-' => '-Oct-',
+        '-11-' => '-Noi-',
+        '-12-' => '-Dec-',
+    );
+    return str_replace(array_keys($replace), array_values($replace), $subject);
+}
+
 function afiseaza_rezultate($query)
 {
-    function str_replace_assoc($subject)
-    {
-        $replace = array(
-            '-1-' => '-Ian-',
-            '-2-' => '-Feb-',
-            '-3-' => '-Mar-',
-            '-4-' => '-Apr-',
-            '-5-' => '-Mai-',
-            '-6-' => '-Iun-',
-            '-7-' => '-Iul-',
-            '-8-' => '-Aug-',
-            '-9-' => '-Sep-',
-            '-10-' => '-Oct-',
-            '-11-' => '-Noi-',
-            '-12-' => '-Dec-',
-        );
-        return str_replace(array_keys($replace), array_values($replace), $subject);
-    }
+    global $stadiu;
 
-    $stadiu = ["Deshisă", "Câştigată", "Pierdută"];
     echo '<table class="rezultate">';
     echo '<tr>';
     echo '<th>ID</th>';
@@ -31,6 +34,7 @@ function afiseaza_rezultate($query)
     echo '<th>Companie</th>';
     echo '<th>Vânzător</th>';
     echo '<th>Valoare</th>';
+    echo '<th>Relevant</th>';
     echo '<th>Stadiu</th>';
     echo "</tr>";
     for ($i = 0; $row = $query->fetch(); $i++) {
@@ -38,10 +42,17 @@ function afiseaza_rezultate($query)
         echo '<td id="f' . $row['id_oferta'] . '"><span class="id">' . $row['id_oferta'] . '</span><span class="sosa actiune">a</span></td>';
         echo '<td title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
         echo '<td>' . str_replace_assoc($row['data_oferta']) . '</td>';
-        echo '<td>' . $row['nume_companie'] . '</td>';
-        echo '<td>' . $row['prenume_vanzator'] . ' ' . $row['nume_vanzator'] . '</td>';
+        echo '<td class="companie">' . $row['nume_companie'] . '</td>';
+        echo '<td class="nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
         echo '<td>' . $row['valoare_oferta'] . '</td>';
-        echo '<td>' . $stadiu[$row['stadiu']] . '</td>';
+        echo '<td class="align_center">';
+        if ($row["relevant"]) {
+            echo 'Da';
+        } else {
+            echo 'Nu';
+        }
+        echo '</td>';
+        echo '<td class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</td>';
         echo '</tr>';
     } //end for
     echo '</table>';
@@ -64,6 +75,7 @@ if (isset($_POST["optiuni"]["listare"])) {
                   O.id_vanzator_oferta,
                   O.valoare_oferta,
                   O.stadiu,
+                  O.relevant,
                   C.nume_companie,
                   V.nume_vanzator, V.prenume_vanzator
            FROM oferte AS O
@@ -242,7 +254,193 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
     exit();
 }
 if (isset($_POST["optiuni"]["formular_editare"])) {
-    echo "formular editare";
+// editeaza oferta din baza de date
+    $id = $_POST["id"];
+    $string = 'SELECT O.id_oferta,
+                  O.nume_oferta,
+                  DATE_FORMAT(O.data_oferta, "%e-%c-%Y") AS data_oferta,
+                  O.data_oferta AS data_oferta_MSQL,
+                  O.descriere_oferta,
+                  O.id_companie_oferta,
+                  O.id_persoana_oferta,
+                  O.id_vanzator_oferta,
+                  DATE_FORMAT(O.data_expirare, "%e-%c-%Y") AS data_expirare,
+                  O.data_expirare AS data_expirare_MSQL,
+                  O.valabilitate,
+                  O.valoare_oferta,
+                  O.relevant,
+                  O.stadiu,
+                  C.id_companie,
+                  C.nume_companie,
+                  V.*,
+                  P.id_persoana,
+                  P.nume_persoana,
+                  P.prenume_persoana
+           FROM oferte AS O
+           LEFT JOIN companii AS C ON O.id_companie_oferta = C.id_companie
+           LEFT JOIN persoane AS P ON O.id_persoana_oferta = P.id_persoana
+           LEFT JOIN vanzatori AS V ON O.id_vanzator_oferta = V.id_vanzator
+           WHERE O.id_oferta = ?
+           LIMIT 1;';
+    $data = array($id);
+    $query = interogare($string, $data);
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+    if (count($row) == 1) {
+        echo("Inexistent");
+        exit();
+    }
+    ?>
+    <h2>Modificare ofertă</h2>
+    <form class="formular" action="/" method="post" id="formular_oferta_noua">
+        <input id="id_oferta"
+               type="hidden"
+               name="id_oferta"
+               value="<?php echo $row['id_oferta']; ?>"/>
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    <label for="nume_oferta">Nume proiect</label>
+                    <input id="nume_oferta"
+                           name="nume_oferta"
+                           type="text"
+                           class="normal lung"
+                           value="<?php echo $row['nume_oferta']; ?>"/>
+                </td>
+                <td>
+                    <label for="data_oferta">Data ofertă / Valabilitate</label>
+                    <input id="data_oferta"
+                           name="data_oferta"
+                           type="text"
+                           class="datepicker normal extrascurt"
+                           data-data="<?php echo $row["data_oferta_MSQL"]; ?>"
+                           value="<?php echo(str_replace_assoc($row['data_oferta'])); ?>"
+                        />
+
+                    <input id="valabilitate"
+                           name="valabilitate"
+                           class="normal megascurt"
+                           type="text"
+                           value="<?php echo $row['valabilitate']; ?>"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="select_vanzator">Vânzător</label>
+                    <input id="select_vanzator"
+                           class="scurt normal"
+                           name="select_vanzator"
+                           type="text"
+                           placeholder="Selectează..."
+                           value="<?php echo($row['nume_vanzator'] . ' ' . $row['prenume_vanzator']); ?>"
+                           data-id="<?php echo($row['id_vanzator']); ?>"
+                           readonly
+                        />
+                </td>
+                <td>
+                    <label for="data_expirare">Data expirare ofertă</label>
+                    <input id="data_expirare"
+                           name="data_expirare"
+                           type="text"
+                           class="data_expirare extrascurt"
+                           data-data="<?php echo $row["data_expirare_MSQL"]; ?>"
+                           value="<?php echo(str_replace_assoc($row['data_expirare'])); ?>"
+                           disabled="disabled"/>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2">
+                    <label for="descriere_oferta">Descriere</label>
+                    <textarea id="descriere_oferta"
+                              maxlength="400"
+                              spellcheck="false"><?php echo($row['descriere_oferta']); ?></textarea>
+                </td>
+                <td>
+                    <label for="select_stadiu">Stadiu ofertă</label>
+                    <input id="select_stadiu"
+                           name="select_stadiu"
+                           type="text"
+                           class="normal extrascurt"
+                           value="<?php echo($stadiu[$row['stadiu']]); ?>"
+                           data-id="<?php echo($row['stadiu']); ?>"
+                           placeholder="Selectează..."
+                           readonly
+                        />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="relevant">Inclus în volum ofertare</label>
+                    <input id="relevant"
+                           name="relevant"
+                           type="checkbox"
+                        <?php
+                        if ($row["relevant"]) {
+                            echo "checked";
+                        }
+                        ?>
+                        />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="select_companie">Companie</label>
+                    <input id="select_companie"
+                           name="select_companie"
+                           type="text"
+                           class="lung normal"
+                           value="<?php echo $row["nume_companie"]; ?>"
+                           data-id="<?php echo $row["id_companie"]; ?>"
+                           placeholder="Tastează pentru a căuta..."/>
+                </td>
+                <td>
+                    <label for="select_persoana">Persoană de contact</label>
+                    <input id="select_persoana"
+                           name="select_persoana"
+                           type="text"
+                           class="normal scurt"
+                           value="<?php echo $row["prenume_persoana"].' '.$row["nume_persoana"]; ?>"
+                           data-id="<?php echo $row["id_persoana"]; ?>"
+                           placeholder="Selectează..."
+                           readonly
+                        />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="valoare_oferta">Valoare ofertă</label>
+                    <input id="valoare_oferta"
+                           name="valoare_oferta"
+                           type="text"
+                           placeholder="EUR"
+                           class="scurt valoare_oferta"
+                           value="<?php echo $row["valoare_oferta"]; ?>"/>
+                </td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+        <!--    <span id="printeaza_oferta" class="buton_printeaza">Printează<span class="sosa">8</span></span>-->
+    </form>
+    <span id="creaza_oferta" class="submit">Salvează<span class="sosa">å</span></span>
+    <span id="renunta" class="buton_renunta">Renunță<span class="sosa">ã</span></span>
+    <div id="lista_companii" class="ddm"></div>
+    <div id="lista_vanzatori" class="ddm"></div>
+    <div id="lista_persoane" class="ddm"></div>
+    <div id="lista_stadii" class="ddm">
+        <div class="rec">
+            <p id="f00">Deschisă</p>
+        </div>
+        <div class="rec">
+            <p id="f01">Câștigată</p>
+        </div>
+        <div class="rec">
+            <p id="f02">Pierdută</p>
+        </div>
+    </div>
+
+
+<?php
 }
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];

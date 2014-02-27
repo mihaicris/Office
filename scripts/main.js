@@ -26,12 +26,14 @@
             optiuni: { formular_creare: 1 }
           },
           comenzi:              {
-            id_box: "#box_comenzi",
-            path:   "php/comenzi.php"
+            id_box:  "#box_comenzi",
+            path:    "php/comenzi.php",
+            optiuni: { listare: 1}
           },
           comanda_noua:         {
-            id_box: "#box_comanda_noua",
-            path:   "php/comanda_noua.php"
+            id_box:  "#box_comanda_noua",
+            path:    "php/comanda_noua.php",
+            optiuni: { formular_creare: 1 }
           },
           statistici_oferte:    {
             id_box: "#box_statistici_ofertare",
@@ -41,20 +43,23 @@
           statistici_clienti:   {},
           statistici_furnizori: {},
           companii:             {
-            id_box: "#box_companii",
-            path:   "php/companii.php"
+            id_box:  "#box_companii",
+            path:    "php/companii.php",
+            optiuni: {}
           },
           vanzatori:            {
-            id_box: "#box_vanzatori",
-            path:   "php/vanzatori.php"
+            id_box:  "#box_vanzatori",
+            path:    "php/vanzatori.php",
+            optiuni: {}
           },
           persoane:             {
-            id_box: "#box_persoane",
-            path:   "php/persoane.php"
+            id_box:  "#box_persoane",
+            path:    "php/persoane.php",
+            optiuni: {}
           }
         },
-        timp_fadein = 50,
-        timp_fadeout = 80,
+        timp_fadein = 10,
+        timp_fadeout = 20,
         isInArray = function(value, array) {
           return array.indexOf(value) > -1;
         },
@@ -164,6 +169,11 @@
       type:  "POST"
     });
 
+    $(document).ajaxStart(function() {
+      console.log("Trigger: ajaxstart");
+      $('span.ajax').remove();
+    });
+
     nav.on({
       mouseup:   function() {
         if ($(this).hasClass('selected')) {
@@ -206,15 +216,13 @@
           $('.ddm').hide();
         }
       },
-      keyup:     function(event) {
-        if (event.keyCode == 27) {
-          $('#renunta').trigger('mouseup');
-        }
-      },
-      ajaxstart: function() {
-        $('span.ajax').remove();
-      }
-
+//      keyup:     function(event) {
+//        var renunta = $('#renunta');
+//        if (event.keyCode === 27 && renunta.length) {
+//          renunta.trigger('mouseup');
+//          console.log(renunta.length);
+//        }
+//      }
     });
 
     class_box.on({click: function() {
@@ -239,18 +247,22 @@
           });
     }}, '#word');
 
-    class_box.on({focus: function() {
-      $(this).removeClass('required');
-    }}, 'input');
+    class_box.on({
+      focus: function() {
+        console.log("Trigger: focus:input");
+        $(this).removeClass('required');
+      }}, 'input');
 
     class_box.on({
       keydown: function(event) {
+        console.log("Trigger: keydown:input#camp");
         if (event.which == 13) {
           event.preventDefault();
           $('.nou').click();
         }
       },
       keyup:   function(event) {
+        console.log("Trigger: keyup:input#camp");
         var camp_str = $(this).val(),
             root = $(this).closest('.box').attr('id').slice(4),
             box_curent = $('#box_' + root),
@@ -258,7 +270,7 @@
         if (event.which == 13 || event.which == 16) {   // enter sau shift
           return;
         }
-        if (!camp_str.length || camp_str.length > 2 || event.which === 53) {     // 53 == '%' toate
+        if ((!camp_str.length && event.which !== 27) || camp_str.length > 2 || event.which === 53) {     // 53 == '%' toate
           $.ajax({
             async:   true,
             url:     path,
@@ -284,11 +296,12 @@
         var root = $(this).closest('.box').attr('id').slice(4),
             path = 'php/' + root + '.php',
             box_curent = $('#box_' + root);
+
         $.ajax({
           async:   true,
           url:     path,
           data:    {
-            formular_creare: 1
+            optiuni: {formular_creare: 1}
           },
           timeout: 5000})
             .done(function(raspuns) {
@@ -316,12 +329,13 @@
       mouseup:   function() {
         var root = $(this).closest('.box').attr('id').slice(4),
             box = $('.box:visible'),
-            path = 'php/' + root + '.php';
+            path = 'php/' + root + '.php',
+            optiuni = obj_pag[root].optiuni;
         if (root === "oferta_noua") {
           $("#oferte").trigger("mouseup");
           return;
         }
-        load_box(box, box, path);
+        load_box(box, box, path, optiuni);
       }
     }, '#renunta');
 
@@ -684,8 +698,6 @@
             id = parseInt($(this).parent().attr('id').slice(1)),
             box_curent = $('#box_' + root),
             path = 'php/' + root + '.php';
-        console.log(root);
-
         $.ajax({
           async:   true,
           url:     path,
@@ -706,6 +718,7 @@
                 });
                 box_curent.fadeIn(timp_fadein);
                 box_curent.queue('fx', function() {
+                  initializare_Zebra();
                   $(this).dequeue('fx');
                 });
               }
@@ -943,7 +956,7 @@
     } }, '#creaza_persoana, #editeaza_persoana');
 
     id_box_oferta_noua.on({click: function(event) {
-      var path = 'php/oferta_noua.php',
+      var path = 'php/oferte.php',
           flag = false,
           pattern,
           values = [],
