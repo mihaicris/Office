@@ -331,7 +331,7 @@ table.rezultate th {
     background-color: #600000;
     color:            #FFD5D5;
     font-weight:      400;
-    font-size:        1.1em;
+    /*font-size:        1.1em;*/
 }
 table.rezultate tr:nth-child(2n) td {
     background-color: #424242;

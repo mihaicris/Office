@@ -25,10 +25,9 @@ function str_replace_assoc($subject)
 function afiseaza_rezultate($query)
 {
     global $stadiu;
-
     echo '<table class="rezultate">';
     echo '<tr>';
-    echo '<th>ID</th>';
+    echo '<th>Referință</th>';
     echo '<th>Nume proiect</th>';
     echo '<th>Data</th>';
     echo '<th>Companie</th>';
@@ -86,7 +85,6 @@ if (isset($_POST["optiuni"]["listare"])) {
     $query = interogare($string, NULL);
     afiseaza_rezultate($query);
 }
-
 if (isset($_POST["optiuni"]["formular_creare"])) {
 
     date_default_timezone_set('Europe/Bucharest');
@@ -400,7 +398,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
                            name="select_persoana"
                            type="text"
                            class="normal scurt"
-                           value="<?php echo $row["prenume_persoana"].' '.$row["nume_persoana"]; ?>"
+                           value="<?php echo $row["prenume_persoana"] . ' ' . $row["nume_persoana"]; ?>"
                            data-id="<?php echo $row["id_persoana"]; ?>"
                            placeholder="Selectează..."
                            readonly
@@ -440,11 +438,8 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
             <p id="f02">Pierdută</p>
         </div>
     </div>
-
-
 <?php
 }
-
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];
     if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
