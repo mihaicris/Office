@@ -26,33 +26,33 @@
         <li class="menu">Oferte</li>
     </ul>
     <ul>
-        <li class="option" data-option="oferte">Oferte</li>
-        <li class="option" data-option="oferta_noua">Ofertă nouă</li>
+        <li class="option" id="oferte">Oferte</li>
+        <li class="option" id="oferta_noua">Ofertă nouă</li>
     </ul>
     <ul>
         <li class="menu" >Comenzi</li>
     </ul>
     <ul>
-        <li class="option" data-option="comenzi">Comenzi</li>
-        <li class="option" data-option="comanda_noua">Comandă nouă</li>
+        <li class="option" id="comenzi">Comenzi</li>
+        <li class="option" id="comanda_noua">Comandă nouă</li>
 
     </ul>
     <ul>
         <li class="menu">Rapoarte</li>
     </ul>
     <ul>
-        <li class="option" data-option="statistici_oferte">Ofertare</li>
-        <li class="option" data-option="statistici_comenzi">Comenzi</li>
-        <li class="option" data-option="statistici_clienti">Clienți</li>
-        <li class="option" data-option="statistici_furnizori">Furnizori</li>
+        <li class="option" id="statistici_oferte">Ofertare</li>
+        <li class="option" id="statistici_comenzi">Comenzi</li>
+        <li class="option" id="statistici_clienti">Clienți</li>
+        <li class="option" id="statistici_furnizori">Furnizori</li>
     </ul>
     <ul>
         <li class="menu">Administrare</li>
     </ul>
     <ul>
-        <li class="option" data-option="companii">Companii</li>
-        <li class="option" data-option="vanzatori">Vânzători</li>
-        <li class="option" data-option="persoane">Persoane contact</li>
+        <li class="option" id="companii">Companii</li>
+        <li class="option" id="vanzatori">Vânzători</li>
+        <li class="option" id="persoane">Persoane contact</li>
     </ul>
 </nav>
 <div class="box" id="box_oferte"></div>

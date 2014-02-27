@@ -52,111 +52,109 @@
           }
         },
         timp_fadein = 50,
-        timp_fadeout = 80;
-
-    var isInArray = function(value, array) {
-      return array.indexOf(value) > -1;
-    };
-    var AjaxFail = function(jqXHR, textStatus) {
-      var box = $('.box:visible');
-      if (textStatus === "error") {
-        box.append('<span class="error ajax">A intervenit o eroare!<br/>' + jqXHR.responseText + '</span>');
-      }
-      if (textStatus === "timeout") {
-        box.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
-      }
-    };
-    var convertDate = function(value) {
-      var out,
-          temp = value.split('-'),
-          luni = {
-            Ian: 0, Feb: 1, Mar: 2, Apr: 3,
-            Mai: 4, Iun: 5, Iul: 6, Aug: 7,
-            Sep: 8, Oct: 9, Noi: 10, Dec: 11
-          };
-      out = new Date(temp[2], luni[temp[1]], temp[0]);
-      return out;
-    };
-    var initializare_Zebra = function() {
-      var elem = $('input.datepicker'),
-          exp = $('#data_expirare');
-      $('.Zebra_DatePicker').remove();
-      elem.Zebra_DatePicker({
-        onClear:  function() {
-          elem.attr('data-data', '');
-          if (exp.length) {
-            $('#data_expirare').val('').attr('data-data', '');
+        timp_fadeout = 80,
+        isInArray = function(value, array) {
+          return array.indexOf(value) > -1;
+        },
+        AjaxFail = function(jqXHR, textStatus) {
+          var box = $('.box:visible');
+          if (textStatus === "error") {
+            box.append('<span class="error ajax">A intervenit o eroare!<br/>' + jqXHR.responseText + '</span>');
+          }
+          if (textStatus === "timeout") {
+            box.append('<span class="error ajax">Rețeaua este lentă sau întreruptă.</span>');
           }
         },
-        onSelect: function(user_data, date_MSQL, data_JS, element) {
-          /**
-           The callback function takes 4 parameters:
-           - the date in the format specified by the “format” attribute;
-           - the date in YYYY-MM-DD format
-           - the date as a JavaScript Date object
-           - a reference to the element the date picker is attached to, as a jQuery object*/
-          var v = $('#valabilitate').val(),
-              data_expirare = data_JS.addDays(v);
-          element.attr('data-data', date_MSQL);
-          if (exp.length) {
-            exp.val(data_expirare.toString('d-MMM-yyyy'))
-                .attr('data-data', data_expirare.toString('yyyy-MM-dd'));
-          }
-        }
-      });
-
-    };
-    var load_box = function(box_curent, box_nou, path) {
-      // se incarca box-ul unei optiuni noi din meniu
-      // implemantare box.load cu fadeout/fadein
-      // intre box-ul optiunii curente si box-ul optiunii noi care se incarca
-      $.ajax({
-        async:   true,
-        url:     path,
-        timeout: 5000,
-        data:    {
-          width: parseInt(box_nou.css('width')) // se trimite si latimea ferestrei noi
-        }
-      })
-          .done(function(data) {
-
-            function go() {
-              box_nou.html(data).promise().done(function() {
-                box_nou.fadeIn(timp_fadein);
-                initializare_Zebra();
-                $('input').eq(0).focus();
-              });
+        convertDate = function(value) {
+          var out,
+              temp = value.split('-'),
+              luni = {
+                Ian: 0, Feb: 1, Mar: 2, Apr: 3,
+                Mai: 4, Iun: 5, Iul: 6, Aug: 7,
+                Sep: 8, Oct: 9, Noi: 10, Dec: 11
+              };
+          out = new Date(temp[2], luni[temp[1]], temp[0]);
+          return out;
+        },
+        initializare_Zebra = function() {
+          var elem = $('input.datepicker'),
+              exp = $('#data_expirare');
+          $('.Zebra_DatePicker').remove();
+          elem.Zebra_DatePicker({
+            onClear:  function() {
+              elem.attr('data-data', '');
+              if (exp.length) {
+                $('#data_expirare').val('').attr('data-data', '');
+              }
+            },
+            onSelect: function(user_data, date_MSQL, data_JS, element) {
+              /**
+               The callback function takes 4 parameters:
+               - the date in the format specified by the “format” attribute;
+               - the date in YYYY-MM-DD format
+               - the date as a JavaScript Date object
+               - a reference to the element the date picker is attached to, as a jQuery object*/
+              var v = $('#valabilitate').val(),
+                  data_expirare = data_JS.addDays(v);
+              element.attr('data-data', date_MSQL);
+              if (exp.length) {
+                exp.val(data_expirare.toString('d-MMM-yyyy'))
+                    .attr('data-data', data_expirare.toString('yyyy-MM-dd'));
+              }
             }
-
-            if (box_curent.length) {
-              box_curent.fadeOut(timp_fadeout, function() {
-                box_curent.empty();
-                go();
-              });
-            } else {
-              go();
+          });
+        },
+        load_box = function(box_curent, box_nou, path) {
+          /* se incarca box-ul unei optiuni noi din meniu
+           implemantare box.load cu fadeout/fadein
+           intre box-ul optiunii curente si box-ul optiunii noi care se incarca */
+          $.ajax({
+            async:   true,
+            url:     path,
+            timeout: 5000,
+            data:    {
+              width: parseInt(box_nou.css('width')) // se trimite si latimea ferestrei noi
             }
           })
-          .fail(function(jqXHR, textStatus) {
-            AjaxFail(jqXHR, textStatus);
+              .done(function(data) {
+
+                function go() {
+                  box_nou.html(data).promise().done(function() {
+                    box_nou.fadeIn(timp_fadein);
+                    initializare_Zebra();
+                    $('input').eq(0).focus();
+                  });
+                }
+
+                if (box_curent.length) {
+                  box_curent.fadeOut(timp_fadeout, function() {
+                    box_curent.empty();
+                    go();
+                  });
+                } else {
+                  go();
+                }
+              })
+              .fail(function(jqXHR, textStatus) {
+                AjaxFail(jqXHR, textStatus);
+              });
+        },
+        pozitionare_lista_sugestii = function(elem_sursa, elem_destinatie) {
+          /* pozitioneaza fereastra de sugestii sub campul apelat
+           elem_sursa este cel de la care se preia pozitia si dimensiunile
+           elem_destinatie este elementul care se pozitioneaza */
+          var Xleft = elem_sursa.position().left,
+              Xtop = elem_sursa.position().top,
+              Xwidth = parseInt(elem_sursa.css('width')),
+              Xheight = parseInt(elem_sursa.css('height')),
+              Rheight = parseInt(elem_destinatie.children(':not(#source)').first().outerHeight());
+          elem_destinatie.css({
+            'left':       Xleft,
+            'top':        Xtop + Xheight + 1,
+            'min-width':  Xwidth,
+            'max-height': Rheight * 7
           });
-    };
-    var pozitionare_lista_sugestii = function(elem_sursa, elem_destinatie) {
-      // pozitioneaza fereastra de sugestii sub campul apelat
-      // elem_sursa este cel de la care se preia pozitia si dimensiunile
-      // elem_destinatie este elementul care se pozitioneaza
-      var Xleft = elem_sursa.position().left,
-          Xtop = elem_sursa.position().top,
-          Xwidth = parseInt(elem_sursa.css('width')),
-          Xheight = parseInt(elem_sursa.css('height')),
-          Rheight = parseInt(elem_destinatie.children(':not(#source)').first().outerHeight());
-      elem_destinatie.css({
-        'left':       Xleft,
-        'top':        Xtop + Xheight + 1,
-        'min-width':  Xwidth,
-        'max-height': Rheight * 7
-      });
-    };
+        };
 
     $.ajaxSetup({
       cache: false,
@@ -188,7 +186,7 @@
         $('.option').not($(this)).removeClass('selected'); // deselect all other option;
         $(this).addClass('selected').show();
         var box_curent = $('.box:visible'),
-            option = $(this).attr("data-option"),
+            option = this.id,
             box_nou = $(obj_pag[option].id_box),
             path = obj_pag[option].path;
         load_box(box_curent, box_nou, path);
@@ -315,6 +313,11 @@
         var root = $(this).closest('.box').attr('id').slice(4),
             box = $('.box:visible'),
             path = 'php/' + root + '.php';
+        console.log(root);
+        if (root === "oferta_noua") {
+          $("#oferte").trigger("mouseup");
+          return;
+        }
         load_box(box, box, path);
       }
     }, '#renunta');
@@ -1027,7 +1030,7 @@
           timeout: 5000})
             .done(function(data) {
               if (data === "ok") {
-                load_box(id_box_oferta_noua, id_box_oferta_noua, path);
+                $("#oferte").trigger("mouseup");
               } else if (data === "exista") {
                 camp.filter(function(i) {
                   return $.inArray(i, [1, 2, 8]) > -1;

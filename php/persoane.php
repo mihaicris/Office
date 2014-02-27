@@ -403,15 +403,7 @@ if (isset($_POST["camp_str"])) {
     $str = "%" . $_POST["camp_str"] . "%";
     // prima interogare pentru numar de rezultate
     $data = array($str, $str, $str, $str, $str, $str);
-    $string = 'SELECT COUNT(*)
-					FROM persoane AS P
-					LEFT JOIN companii AS C ON P.id_companie_persoana = C.id_companie
-					WHERE (nume_persoana LIKE ?
-						OR prenume_persoana LIKE ?
-						OR functie_persoana LIKE ?
-						OR departament_persoana LIKE ?
-						OR email_persoana LIKE ?
-						OR nume_companie LIKE ?);';
+    $string = 'SELECT COUNT(*) FROM persoane ;';
     $query = interogare($string, $data);
     $count = $query->fetchColumn();
     if (!$count) { //daca nu sunt rezultate se iese cu mesaj
