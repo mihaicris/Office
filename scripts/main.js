@@ -16,12 +16,14 @@
         id_box_oferte = $('#box_oferte'),
         obj_pag = {
           oferte:               {
-            id_box: "#box_oferte",
-            path:   "php/oferte.php"
+            id_box:  "#box_oferte",
+            path:    "php/oferte.php",
+            optiuni: { listare: 1}
           },
           oferta_noua:          {
-            id_box: "#box_oferta_noua",
-            path:   "php/oferta_noua.php"
+            id_box:  "#box_oferte",
+            path:    "php/oferte.php",
+            optiuni: { formular_creare: 1 }
           },
           comenzi:              {
             id_box: "#box_comenzi",
@@ -104,7 +106,7 @@
             }
           });
         },
-        load_box = function(box_curent, box_nou, path) {
+        load_box = function(box_curent, box_nou, path, optiuni) {
           /* se incarca box-ul unei optiuni noi din meniu
            implemantare box.load cu fadeout/fadein
            intre box-ul optiunii curente si box-ul optiunii noi care se incarca */
@@ -113,7 +115,8 @@
             url:     path,
             timeout: 5000,
             data:    {
-              width: parseInt(box_nou.css('width')) // se trimite si latimea ferestrei noi
+              optiuni: optiuni,
+              width:   parseInt(box_nou.css('width')) // se trimite si latimea ferestrei noi
             }
           })
               .done(function(data) {
@@ -186,10 +189,11 @@
         $('.option').not($(this)).removeClass('selected'); // deselect all other option;
         $(this).addClass('selected').show();
         var box_curent = $('.box:visible'),
-            option = this.id,
-            box_nou = $(obj_pag[option].id_box),
-            path = obj_pag[option].path;
-        load_box(box_curent, box_nou, path);
+            id = this.id,
+            box_nou = $(obj_pag[id].id_box),
+            path = obj_pag[id].path,
+            optiuni = obj_pag[id].optiuni;
+        load_box(box_curent, box_nou, path, optiuni);
       },
       mousedown: function(event) {
         event.preventDefault();
@@ -204,7 +208,7 @@
       },
       keyup:     function(event) {
         if (event.keyCode == 27) {
-          $('#renunta').click();
+          $('#renunta').trigger('mouseup');
         }
       },
       ajaxstart: function() {
@@ -313,7 +317,6 @@
         var root = $(this).closest('.box').attr('id').slice(4),
             box = $('.box:visible'),
             path = 'php/' + root + '.php';
-        console.log(root);
         if (root === "oferta_noua") {
           $("#oferte").trigger("mouseup");
           return;
@@ -681,12 +684,14 @@
             id = parseInt($(this).parent().attr('id').slice(1)),
             box_curent = $('#box_' + root),
             path = 'php/' + root + '.php';
+        console.log(root);
+
         $.ajax({
           async:   true,
           url:     path,
           data:    {
-            formular_editare: 1,
-            id:               id
+            optiuni: {formular_editare: 1},
+            id:      id
           },
           timeout: 5000})
             .done(function(data) {

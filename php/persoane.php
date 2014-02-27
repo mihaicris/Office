@@ -57,7 +57,7 @@ function afiseaza_numar_total($count)
     echo '</span>';
 }
 
-if (isset($_POST["formular_creare"])) {
+if (isset($_POST["optiuni"]["formular_creare"])) {
     //  Formular creeare persoana de contact noua
     ?>
     <h2>Creare persoană contact</h2>
@@ -181,7 +181,7 @@ if (isset($_POST["formular_creare"])) {
     <?php
     exit();
 }
-if (isset($_POST["formular_editare"])) {
+if (isset($_POST["optiuni"]["formular_editare"])) {
     // editeaza persoana din baza de date
     $id = $_POST["id"];
     $string = 'SELECT P.*, C.nume_companie

@@ -57,7 +57,7 @@ function afiseaza_numar_total($count)
 //    echo "<table>";
 }
 
-if (isset($_POST["formular_creare"])) {
+if (isset($_POST["optiuni"]["formular_creare"])) {
     //  Formular creeare companie nou
     ?>
     <h2>Creare companie</h2>
@@ -113,7 +113,7 @@ if (isset($_POST["formular_creare"])) {
     <?php
     exit();
 }
-if (isset($_POST["formular_editare"])) {
+if (isset($_POST["optiuni"]["formular_editare"])) {
     // editeaza companie din baza de date
     $id = $_POST["id"];
     $string = 'SELECT * FROM `companii` WHERE `id_companie` = ? LIMIT 1;';
