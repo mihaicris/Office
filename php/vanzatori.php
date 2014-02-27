@@ -52,7 +52,7 @@ function afiseaza_numar_total($count)
     echo "</span>";
 }
 
-if (isset($_POST["formular_creare"])) {
+if (isset($_POST["optiuni"]["formular_creare"])) {
     //  Formular creeare vanzator nou
     ?>
     <h2>Creare vânzător</h2>
@@ -89,7 +89,7 @@ if (isset($_POST["formular_creare"])) {
     <?php
     exit();
 }
-if (isset($_POST["formular_editare"])) {
+if (isset($_POST["optiuni"]["formular_editare"])) {
     // editeaza vanzator din baza de date
     $id = $_POST["id"];
     $string = 'SELECT *

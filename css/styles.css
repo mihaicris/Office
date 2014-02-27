@@ -316,10 +316,27 @@ table {
     /*height: 200px;*/
     /*overflow-y: auto;*/
 }
+table.required {
+    color: #E00;
+}
 table.rezultate {
     margin-top: 10px;
 }
-td {
+table.rezultate td, .rezultate th {
+    padding:    1px 5px;
+    text-align: left;
+    border:     1px solid #777;
+}
+table.rezultate th {
+    background-color: #600000;
+    color:            #FFD5D5;
+    font-weight:      400;
+    font-size:        1.1em;
+}
+table.rezultate tr:nth-child(2n) td {
+    background-color: #424242;
+}
+td, th {
     vertical-align: top;
     padding-top:    7px;
     /*border: 1px solid #FFF;*/
@@ -395,24 +412,6 @@ div.ddm .noresults {
 }
 .persoana td, .persoana tr {
     border: none;
-}
-.required {
-    color: #E00;
-}
-.rezultate td, .rezultate th {
-    padding:        1px 5px;
-    text-align:     left;
-    border:         1px solid #777;
-    vertical-align: top;
-}
-.rezultate th {
-    background-color: #600000;
-    color:            #FFD5D5;
-    font-weight:      400;
-    font-size:        1.1em;
-}
-.rezultate tr:nth-child(2n) td {
-    background-color: #424242;
 }
 .produse .cod {
     min-width:   200px;
