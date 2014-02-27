@@ -268,7 +268,7 @@ textarea {
     box-shadow:       0 0 2px 0 #666;
     padding:          1px 3px 1px 3px;
     font-family:      'Roboto Condensed', sans-serif;
-    color:            palegreen;
+    color:            #FFFFFF;
     font-weight:      400;
     font-size:        1em;
     border-radius:    2px;
@@ -342,7 +342,10 @@ td, th {
     /*border: 1px solid #FFF;*/
 }
 td.align_bottom {
-    vertical-align: bottom;
+    vertical-align: bottom !important;
+}
+td.align_center {
+    text-align: center !important;
 }
 form.formular {
     margin-bottom: 20px;
@@ -476,4 +479,13 @@ div.ddm .noresults {
     color:        floralwhite;
     text-align:   center;
     padding-left: 5px;
+}
+.stadiu_0{
+    color: orange;
+}
+.stadiu_1{
+    color: green;
+}
+.stadiu_2{
+    color: red;
 }

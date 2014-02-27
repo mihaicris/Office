@@ -56,7 +56,6 @@
     </ul>
 </nav>
 <div class="box" id="box_oferte"></div>
-<div class="box" id="box_oferta_noua"></div>
 <div class="box" id="box_comenzi"></div>
 <div class="box" id="box_comanda_noua"></div>
 <div class="box" id="box_editeaza_comanda"></div>
