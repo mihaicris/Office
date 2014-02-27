@@ -371,10 +371,7 @@ if (isset($_POST["select_persoana"])) {
     //daca nu sunt rezultate se iese cu mesaj
     $count = $query->fetchColumn();
     if (!$count) {
-        echo '<p class="noresults">
-			        <strong>Nu există în baza de date.</strong>
-			        <br/><br/>Crează persoana din meniul:&nbsp;&nbsp;<em>Administrare, Persoane contact</em>
-			  </p>';
+        echo '<p class="noresults"><strong>Nu există în baza de date.</strong></p>';
         exit();
     }
     // interogarea adevarata pentru rezultate

@@ -233,10 +233,7 @@ if (isset($_POST["select_companie"])) {
     //daca nu sunt rezultate se iese cu mesaj
     $count = $query->fetchColumn();
     if (!$count) {
-        echo '<p class="noresults">
-			        <strong>Nu există în baza de date.</strong>
-			        <br/><br/>Crează compania din meniul:&nbsp;&nbsp;<em>Administrare, Companii</em>
-			  </p>';
+        echo '<p class="noresults"><strong>Nu există în baza de date.</strong></p>';
         exit();
     }
     // interogarea adevarata pentru rezultate
