@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 19, 2014 at 03:41 PM
+-- Generation Time: Feb 28, 2014 at 03:31 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `companii` (
   `tara_companie` varchar(50) NOT NULL,
   PRIMARY KEY (`id_companie`),
   UNIQUE KEY `nume_client` (`nume_companie`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
 
 --
 -- Dumping data for table `companii`
@@ -73,7 +73,10 @@ INSERT INTO `companii` (`id_companie`, `nume_companie`, `adresa_companie`, `oras
 (00048, 'ETI România S.R.L.', 'Str. Doina, Nr. 17A, Sector 5', 'București', 'România'),
 (00049, 'Electroechipament Industrial S.R.L.', 'Str. Tmișoarei, Nr. 2A', 'Reșița', 'România'),
 (00050, 'Bacme S.A.', 'Str. Gherghiței, Nr. 23 C, Sector 2', 'București', 'România'),
-(00052, 'PC Garage S.R.L.', 'Str. Logofat Tautu 68A, Sector 3', 'București', 'România');
+(00052, 'PC Garage S.R.L.', 'Str. Logofat Tautu 68A, Sector 3', 'București', 'România'),
+(00053, 'Energomontaj S.A.', 'Calea Dorobanților 103-105, Sector 1', 'București', 'România'),
+(00054, 'RITTER Starkstromtechnik GmbH & Co. KG', 'Essener Str. 10 a', 'Wilnsdorf', 'Germania'),
+(00055, 'Strabag S.R.L.', 'Calea 13 Septembrie Nr. 90', 'București', 'România');
 
 -- --------------------------------------------------------
 
@@ -99,14 +102,16 @@ CREATE TABLE IF NOT EXISTS `oferte` (
   KEY `id_companie_oferta` (`id_companie_oferta`),
   KEY `id_vanzator_oferta` (`id_vanzator_oferta`),
   KEY `id_persoana_oferta` (`id_persoana_oferta`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `oferte`
 --
 
 INSERT INTO `oferte` (`id_oferta`, `nume_oferta`, `data_oferta`, `descriere_oferta`, `id_companie_oferta`, `id_persoana_oferta`, `id_vanzator_oferta`, `data_expirare`, `valabilitate`, `valoare_oferta`, `relevant`, `stadiu`) VALUES
-(00022, 'Petrobrazi 1', '2014-02-19', 'Livrare celule de medie tensiune', 00005, 00020, 00030, '2014-04-20', 60, 550000, 1, 0);
+(00027, 'Alimentare cu energie stație 220 kV Turnu Măgurele', '2014-02-27', 'Livrare de echipamente de înaltă tensiune\nPrestare de servicii de parametrizare', 00053, 00021, 00031, '2014-03-29', 30, 1500000, 1, 0),
+(00028, 'Proiect de modernizare Statie Satu Mare', '2014-02-26', 'Livrare celule de medie tensiune', 00005, 00020, 00033, '2014-04-27', 60, 540000, 0, 1),
+(00030, 'STA Sebeș', '2014-02-28', 'Livrare de celule de medie tensiune', 00055, 00023, 00042, '2014-03-30', 30, 100000, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -128,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `persoane` (
   `email_persoana` varchar(100) CHARACTER SET utf8 COLLATE utf8_romanian_ci NOT NULL,
   PRIMARY KEY (`id_persoana`),
   KEY `id_companie_persoana` (`id_companie_persoana`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `persoane`
@@ -143,12 +148,14 @@ INSERT INTO `persoane` (`id_persoana`, `nume_persoana`, `prenume_persoana`, `gen
 (00006, 'Stoinea', 'Dumitru', 0, 'Responsabil Ofertă', 'Departament Ofertare', 00006, '+40 (21) 231 89 90', '+40 (247) 306 213', '+40 (723) 361157', 'office@electrotel.ro'),
 (00007, 'Terec', 'Adrian', 0, 'Director Executiv', 'Management', 00008, '+40 (264) 207 544', '+40 (264) 207 555', '+40 (723) 658 773', 'adrian.terec@energobit.com'),
 (00008, 'Putineanu', 'Sorin', 0, 'Inginer Ofertare', 'Medie Tensiune', 00011, '+40 (21) 311 83 36', '+40 (21) 315 41 77 ', '+40 (730) 066 955', 'sorin.putineanu@electroalfa.ro'),
-(00009, 'Chirileasa', 'Costel', 0, 'Inginer Proiectant Electric', 'Directia Comerciala', 00011, '+40 (231) 53 21 86', '+40 (231) 53 21 85 ', '+40 (231) 31 99 73 ', 'costel.chirileasa@electroalfa.ro'),
+(00009, 'Chirileasa', 'Costel', 0, 'Inginer Proiectant Electric', 'Directia Comerciala', 00011, '+40 (231) 53 21 86', '+40 (231) 53 21 85', '+40 (231) 31 99 73', 'costel.chirileasa@electroalfa.ro'),
 (00010, 'Costin', 'Ana Maria', 1, 'Director Executiv', 'Management', 00010, '+40 (264) 415 120', '+40 (264) 415 121', '+40 (721) 367 234', 'anamaria.costin@electrogrup.ro'),
 (00011, 'Stoica', 'Neculai', 0, 'Ing. Electric APE', 'Birou Proiectare', 00021, '+40 (234) 574 479', '+40 (234) 573 548', '+40 (234) 574 479', 'stoica.n@electrotehno.ro'),
-(00016, 'Warkus', 'Mueller', 0, 'Representant vânzări', 'Vânzări', 00052, '+40 (21) 345-123', '+40 (21) 345-123', '+40 (21) 345-123', 'Mueller.warkus@ritz.com'),
 (00018, 'Solomon', 'Mircea', 0, 'Director General', 'Management', 00024, '+40 (244) 335 540', '+40 (244) 375 221', '+40 (722) 255 032', 'mircea.solomon@emon.ro'),
-(00020, 'Sava', 'Svestun', 0, 'Director de Marketing', 'Management', 00005, '+40 (372) 058 100', '+40 (372) 058 101', '+40 (724) 320 950', 'office@automatica.ro');
+(00020, 'Sava', 'Svestun', 0, 'Director de Marketing', 'Management', 00005, '+40 (372) 058 100', '+40 (372) 058 101', '+40 (724) 320 950', 'office@automatica.ro'),
+(00021, 'Toader', 'Iulia', 1, 'Responsabil Ofertare', 'Serviciul Oferte', 00053, '+40 (21) 304 68 38', '+40 (21) 304 68 22', '+40', 'iulia.toader@iea-saem.ro'),
+(00022, 'Konheusler', 'Birgitt', 1, 'Sales Manager', 'Sales', 00054, '+49 2739 47 78 24', '+49 2739 47 78 17', '+49', 'birgitt.konheusler@ritter.info'),
+(00023, 'Cristian', 'Ștefan', 0, 'Electrical Engineer', 'Departament Tehnic', 00055, '+40 (21) 403 43 29', '+40 (21) 403 43 30', '+40 (731) 680 669', 'stefan.cristian@strabag.com');
 
 -- --------------------------------------------------------
 
@@ -213,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `vanzatori` (
   `nume_vanzator` varchar(50) CHARACTER SET utf8 COLLATE utf8_romanian_ci NOT NULL,
   `prenume_vanzator` varchar(50) CHARACTER SET utf8 COLLATE utf8_romanian_ci NOT NULL,
   PRIMARY KEY (`id_vanzator`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
 
 --
 -- Dumping data for table `vanzatori`
@@ -221,15 +228,11 @@ CREATE TABLE IF NOT EXISTS `vanzatori` (
 
 INSERT INTO `vanzatori` (`id_vanzator`, `nume_vanzator`, `prenume_vanzator`) VALUES
 (00028, 'Manta', 'Elena'),
-(00029, 'Cristea', 'Vasile Mădălin'),
-(00030, 'Stoian', 'Oana'),
 (00031, 'Medinceanu', 'Costinel'),
-(00032, 'Luca', 'Adrian'),
 (00033, 'Rusu', 'Lucian'),
-(00037, 'Herea', 'Valentin'),
-(00038, 'Ene', 'Sebastian'),
-(00039, 'Careane', 'Mihai'),
-(00040, 'Ciobanu', 'Adrian');
+(00042, 'Cristea', 'Vasile'),
+(00043, 'Stoian', 'Oana'),
+(00044, 'Luca', 'Adrian');
 
 --
 -- Constraints for dumped tables
