@@ -96,7 +96,7 @@ nav {
     font-family:      'Roboto Condensed', sans-serif;
     font-weight:      400;
 }
-li, header, footer, label, input[readonly] {
+li, header, footer, label, input[readonly], div.ddm {
     -webkit-touch-callout: none;
     -webkit-user-select:   none;
     -khtml-user-select:    none;
@@ -316,8 +316,10 @@ table {
     /*height: 200px;*/
     /*overflow-y: auto;*/
 }
-table.required {
-    color: #E00;
+input.required {
+    /*color: rgb(255, 68, 68);*/
+    background-color: rgba(255, 68, 68, 0.5);
+    border:           hidden;
 }
 table.rezultate {
     margin-top: 10px;
@@ -341,11 +343,15 @@ td, th {
     padding-top:    7px;
     /*border: 1px solid #FFF;*/
 }
-td.align_bottom {
+.align_bottom {
     vertical-align: bottom !important;
 }
-td.align_center {
+.align_center {
     text-align: center !important;
+}
+.align_right {
+    text-align: right !important;
+    min-width: 100px;
 }
 form.formular {
     margin-bottom: 20px;
@@ -354,19 +360,13 @@ form td {
     padding-right: 30px;
 }
 div.ddm {
-    position:              absolute;
-    display:               none;
-    border:                1px solid #eee;
-    background-color:      #fff;
-    border-radius:         2px;
-    box-shadow:            0 0 3px 1px #222;
-    overflow-y:            auto;
-    -webkit-touch-callout: none;
-    -webkit-user-select:   none;
-    -khtml-user-select:    none;
-    -moz-user-select:      none;
-    -ms-user-select:       none;
-    user-select:           none;
+    position:         absolute;
+    display:          none;
+    border:           1px solid #eee;
+    background-color: #fff;
+    border-radius:    2px;
+    box-shadow:       0 0 3px 1px #222;
+    overflow-y:       auto;
 }
 div.ddm > :last-child {
     border-radius: 0;
@@ -455,7 +455,7 @@ div.ddm .noresults {
     /* textele care se afiseaza dupa input */
     padding-top: 5px;
     display:     block;
-    color:       #F44;
+    color:       rgba(255, 68, 68, 0.9);
 }
 .mesaj {
     /* textele care se afiseaza dupa input */
@@ -480,12 +480,12 @@ div.ddm .noresults {
     text-align:   center;
     padding-left: 5px;
 }
-.stadiu_0{
+.stadiu_0 {
     color: orange;
 }
-.stadiu_1{
+.stadiu_1 {
     color: green;
 }
-.stadiu_2{
+.stadiu_2 {
     color: red;
 }

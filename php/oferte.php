@@ -3,6 +3,24 @@ include_once 'conexiune.php';
 
 $stadiu = ["Deschisă", "Câştigată", "Pierdută"];
 
+function verifica_existenta_oferta($id, $nume_oferta, $data_oferta, $id_companie)
+{
+// testeaza existenta  in baza de date
+// daca se apeleaza cu $id null inseamna se testeaza o oferta
+
+    $data = array($nume_oferta, $data_oferta, $id_companie);
+    $string = 'SELECT `id_oferta` FROM `oferte` WHERE (`nume_oferta` = ? AND `data_oferta` = ? AND `id_companie_oferta` = ?);';
+    $query = interogare($string, $data);
+    $result = $query->fetch();
+    if ($result['id_oferta'] && $result['id_oferta'] != $id) {
+        // daca exista un rezultat si acesta este diferit de $id atunci exista
+        // daca $id este null (creare) atunci la orice rezultat care nu este null inseamna ca exista
+        echo('exista');
+        exit();
+    };
+    return;
+}
+
 function str_replace_assoc($subject)
 {
     $replace = array(
@@ -32,7 +50,7 @@ function afiseaza_rezultate($query)
     echo '<th>Data</th>';
     echo '<th>Companie</th>';
     echo '<th>Vânzător</th>';
-    echo '<th>Valoare</th>';
+    echo '<th class="align_right">Valoare</th>';
     echo '<th>Relevant</th>';
     echo '<th>Stadiu</th>';
     echo "</tr>";
@@ -40,10 +58,10 @@ function afiseaza_rezultate($query)
         echo '<tr>';
         echo '<td id="f' . $row['id_oferta'] . '"><span class="id">' . $row['id_oferta'] . '</span><span class="sosa actiune">a</span></td>';
         echo '<td title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
-        echo '<td>' . str_replace_assoc($row['data_oferta']) . '</td>';
+        echo '<td>' . str_replace_assoc($row['dataoferta']) . '</td>';
         echo '<td class="companie">' . $row['nume_companie'] . '</td>';
         echo '<td class="nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
-        echo '<td>' . $row['valoare_oferta'] . '</td>';
+        echo '<td class="align_right">' . $row['valoare_oferta'] . '</td>';
         echo '<td class="align_center">';
         if ($row["relevant"]) {
             echo 'Da';
@@ -69,7 +87,7 @@ if (isset($_POST["optiuni"]["listare"])) {
     $string = 'SELECT O.id_oferta,
                   O.nume_oferta,
                   O.descriere_oferta,
-                  DATE_FORMAT(O.data_oferta, "%e-%c-%Y") AS data_oferta,
+                  DATE_FORMAT(O.data_oferta, "%e-%c-%Y") AS dataoferta,
                   O.id_companie_oferta,
                   O.id_vanzator_oferta,
                   O.valoare_oferta,
@@ -443,7 +461,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 if (isset($_POST["salveaza"])) {
     $data = $_POST["formdata"];
     if ($_POST["salveaza"]) { // 1-creaza | 0-modifica
-//        verifica_existenta_persoana(null, $data[1], $data[2], $data[8]);
+        verifica_existenta_oferta(null, $data[1], $data[2], $data[9]);
         $string = 'INSERT INTO `oferte`
 					(`nume_oferta`,
 					`data_oferta`,
@@ -460,24 +478,22 @@ if (isset($_POST["salveaza"])) {
 					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL);';
         array_shift($data);
     } else {
-//        verifica_existenta_persoana($data[0], $data[1], $data[2], $data[8]); // data[0] contine id-ul persoanei care se modifica
-//        $string = 'UPDATE `persoane`
-//                   	    SET	`nume_persoana` = ?,
-//							`prenume_persoana` = ?,
-//							`tel_persoana` = ?,
-//							`fax_persoana` = ?,
-//							`mobil_persoana` = ?,
-//							`email_persoana` = ?,
-//							`gen_persoana` = ?,
-//							`id_companie_persoana` = ?,
-//							`departament_persoana` = ?,
-//							`functie_persoana`= ?
-//                       	WHERE `id_persoana` = ?;';
-//        array_push($data, array_shift($data));
+        verifica_existenta_oferta($data[0], $data[1], $data[2], $data[9]);
+        $string = 'UPDATE `oferte`
+                   	    SET	`nume_oferta` = ? ,
+                            `data_oferta` = ?,
+					        `valabilitate` = ?,
+					        `id_vanzator_oferta` = ?,
+					        `data_expirare` = ?,
+					        `descriere_oferta` = ?,
+					        `stadiu` = ?,
+					        `relevant` = ?,
+					        `id_companie_oferta` = ?,
+					        `id_persoana_oferta` = ?,
+					        `valoare_oferta` = ?
+                      	WHERE `id_oferta` = ?;';
+        array_push($data, array_shift($data));
     }
-
-    fb($string);
-
     $query = interogare($string, $data);
     echo('ok');
     exit();
