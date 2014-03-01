@@ -39,6 +39,5 @@ function interogare($string, $data)
         echo('<span class="error">' . $e->getMessage() . '</span>');
         exit();
     }
-
     return $query;
 }

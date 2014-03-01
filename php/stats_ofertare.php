@@ -1,12 +1,18 @@
 <?php
 include('conexiune.php');
 $width = $_POST["width"] * 0.99;
-$width = $width > 900 ? 900 :  $width;
+$width = $width > 800 ? 800 : $width;
 
+$string = "SELECT MONTH(data_oferta) AS month, SUM(valoare_oferta) AS val FROM oferte GROUP BY MONTH(data_oferta);";
+$query = interogare($string, null);
+$valori_lunare = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+for ($i = 0; $row = $query->fetch(); $i++) {
+    $valori_lunare[ $row['month']-1] = $row['val']/1000;
+}
 ?>
 
 <h2>Statistici ofertare</h2>
-<canvas id="canvas2" height="300" width="<?php echo $width; ?>"></canvas>
+<canvas id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
 <script>
     var barChartData = {
         labels:   ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"],
@@ -14,7 +20,15 @@ $width = $width > 900 ? 900 :  $width;
             {
                 fillColor:   "rgba(64, 150, 241, 0.3)",
                 strokeColor: "rgba(200, 200, 200, 0.6)",
-                data:        [6.5, 5.9, 9.0, 8.1, 5.6, 5.6, 8.0, 13.4, 8.9, 12.0, 9.0, 6.0]
+                data: [<?php                     // numerele trebuie sa fie de forma 1000.50 cand treci la float
+                        for ($i = 0; $i < 12; $i++)
+                        {
+                             echo $valori_lunare[$i];
+                             if ($i != 11) {
+                                echo ", ";
+                             }
+                        }
+                    ?>]
             }
         ]
     };

@@ -1044,8 +1044,6 @@
         }
 
         if (!flag) {
-          console.dir(values);
-
           $.ajax({
             async:   true,
             url:     path,
@@ -1059,11 +1057,11 @@
                   $("#oferte").trigger("mouseup");
                 } else if (data === "exista") {
                   camp.filter(function(i) {
-                    return $.inArray(i, [1, 2, 8]) > -1;
+                    return $.inArray(i, [1, 2, 9]) > -1;
                   }).addClass('required');
-                  $('table').prepend('<span class="error">Combinația nume, prenume şi companie există deja.</span>');
+                  $('table').prepend('<span class="error">Combinația nume, dată şi companie există deja.</span>');
                 } else {
-                  id_box_oferta_noua.append('<span class="error">Eroare:</span>' + data);
+                  id_box_oferte.append('<span class="error">Eroare:</span>' + data);
                 }
               })
               .fail(function(jqXHR, textStatus) {
@@ -1072,7 +1070,7 @@
 
         }
       }
-    }, '#creaza_oferta', '#editeaza_oferta');
+    }, '#creaza_oferta, #editeaza_oferta');
 
     id_box_oferte.on({
       keydown: function(event) {
