@@ -341,17 +341,7 @@ table.rezultate tr:nth-child(2n) td {
 td, th {
     vertical-align: top;
     padding-top:    7px;
-    /*border: 1px solid #FFF;*/
-}
-.align_bottom {
-    vertical-align: bottom !important;
-}
-.align_center {
-    text-align: center !important;
-}
-.align_right {
-    text-align: right !important;
-    min-width: 100px;
+    border: 1px solid #FFF;
 }
 form.formular {
     margin-bottom: 20px;
@@ -367,6 +357,7 @@ div.ddm {
     border-radius:    2px;
     box-shadow:       0 0 3px 1px #222;
     overflow-y:       auto;
+    z-index: 10;
 }
 div.ddm > :last-child {
     border-radius: 0;
@@ -391,6 +382,21 @@ div.ddm .noresults {
     color:            #000;
     background-color: lavender;
     line-height:      1.05;
+}
+canvas {
+    /*position: relative;*/
+    margin-top: 10px;
+    margin-left: -28px;
+}
+.align_bottom {
+    vertical-align: bottom !important;
+}
+.align_center {
+    text-align: center !important;
+}
+.align_right {
+    text-align: right !important;
+    min-width: 100px;
 }
 :focus {
     outline: medium none;
@@ -430,6 +436,9 @@ div.ddm .noresults {
 }
 .nume {
     color: #AABBFF;
+}
+.nume_proiect {
+    min-width: 300px;
 }
 .persoane .email {
     font-size: 1em;

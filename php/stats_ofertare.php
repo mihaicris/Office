@@ -3,7 +3,7 @@ include('conexiune.php');
 $width = $_POST["width"] * 0.99;
 $width = $width > 800 ? 800 : $width;
 
-$string = "SELECT MONTH(data_oferta) AS month, SUM(valoare_oferta) AS val FROM oferte GROUP BY MONTH(data_oferta);";
+$string = "SELECT MONTH(data_oferta) AS month, SUM(valoare_oferta) AS val FROM oferte WHERE relevant = 1 GROUP BY MONTH(data_oferta);";
 $query = interogare($string, null);
 $valori_lunare = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 for ($i = 0; $row = $query->fetch(); $i++) {

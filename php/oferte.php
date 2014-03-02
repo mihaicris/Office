@@ -75,6 +75,35 @@ function afiseaza_rezultate($query)
     echo '</table>';
 }
 
+?>
+
+<form class="formular" action="/" method="post" id="formular_filtre">
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <label for="select_vanzator">Vânzător</label>
+                <input id="select_vanzator"
+                       class="scurt normal"
+                       name="select_vanzator"
+                       type="text"
+                       placeholder="Selectează..."
+                       data-id=""
+                       readonly
+                    />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="aplica" class="submit">Aplică filtre</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div id="lista_vanzatori" class="ddm"></div>
+<?php
+
 if (isset($_POST["optiuni"]["listare"])) {
     echo "<h2>Listă oferte</h2>";
     $string = 'SELECT COUNT(*) FROM `oferte`;';
@@ -87,7 +116,7 @@ if (isset($_POST["optiuni"]["listare"])) {
     $string = 'SELECT O.id_oferta,
                   O.nume_oferta,
                   O.descriere_oferta,
-                  DATE_FORMAT(O.data_oferta, "%e-%c-%Y") AS dataoferta,
+                  DATE_FORMAT(O.data_oferta, "%d-%c-%Y") AS dataoferta,
                   O.id_companie_oferta,
                   O.id_vanzator_oferta,
                   O.valoare_oferta,
