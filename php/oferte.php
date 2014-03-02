@@ -40,19 +40,19 @@ function str_replace_assoc($subject)
 	return str_replace(array_keys($replace), array_values($replace), $subject);
 }
 
+function afiseaza_numar_total($count)
+{
+	echo '<span class="total">' . $count;
+	if ($count == 1) {
+		echo " ofertă";
+	} else {
+		echo " oferte";
+	}
+	echo "</span>";
+}
+
 function afiseaza_rezultate($query)
 {
-	function afiseaza_numar_total($count)
-	{
-		echo '<span class="total">' . $count;
-		if ($count == 1) {
-			echo " ofertă";
-		} else {
-			echo " oferte";
-		}
-		echo "</span>";
-	}
-
 	global $stadiu;
 	$flag = 0;
 	$count = 0;
@@ -63,11 +63,10 @@ function afiseaza_rezultate($query)
 	$h .= '<th>Data</th>';
 	$h .= '<th>Companie</th>';
 	$h .= '<th>Vânzător</th>';
-	$h .= '<th class="align_right">Valoare</th>';
+	$h .= '<th>Valoare</th>';
 	$h .= '<th>Relevant</th>';
 	$h .= '<th>Stadiu</th>';
 	$h .= "</tr>";
-
 	for ($i = 0; $row = $query->fetch(); $i++) {
 		$flag = 1;
 		$count++;
@@ -77,7 +76,7 @@ function afiseaza_rezultate($query)
 		$h .= '<td>' . str_replace_assoc($row['dataoferta']) . '</td>';
 		$h .= '<td class="companie">' . $row['nume_companie'] . '</td>';
 		$h .= '<td class="nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
-		$h .= '<td class="align_right">' . $row['valoare_oferta'] . '</td>';
+		$h .= '<td>' . $row['valoare_oferta'] . '</td>';
 		$h .= '<td class="align_center">';
 		if ($row["relevant"]) {
 			$h .= 'Da';
@@ -99,7 +98,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 	?>
 	<h2>Listă oferte</h2>
 	<form action="/" method="post" id="formular_filtre">
-		<fieldset name="Filtre" title="Filtre">
+		<fieldset name="Filtre">
 			<table>
 				<tbody>
 				<tr>
@@ -107,7 +106,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 						<label for="select_companie"> Companie</label>
 					</td>
 					<td>
-						<input class="normal lung"
+						<input class="normal standard"
 							   id="select_companie"
 							   type="text"
 							   name="select_companie"
@@ -131,10 +130,13 @@ if (isset($_POST["optiuni"]["listare"])) {
 							<?php
 							if (isset($_POST["optiuni"]["an"])) {
 								echo 'data-id="' . $_POST["optiuni"]["an"]["id"] . '"';
-								echo 'value="' . $_POST["optiuni"]["an"]["nume"] . '"';
+								echo 'value="' . $_POST["optiuni"]["an"]["id"] . '"';
 							}
 							?>
 							   readonly/>
+					</td>
+					<td class="spatiu_stanga">
+						<span id="reset">Reset</span>
 					</td>
 				</tr>
 				<tr>
@@ -171,6 +173,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 							?>
 							   readonly/>
 					</td>
+					<td></td>
 				</tr>
 				</tbody>
 			</table>
@@ -237,6 +240,27 @@ if (isset($_POST["optiuni"]["listare"])) {
 			$string .= "\r\nWHERE O . id_vanzator_oferta = ?";
 		}
 		array_push($data, $_POST["optiuni"]["vanzator"]["id"]);
+		$flag = 1;
+	}
+
+	if (isset($_POST["optiuni"]["stadiu"])) {
+		if ($flag) {
+			$string .= "\r\nAND O . stadiu = ?";
+		} else {
+			$string .= "\r\nWHERE O . stadiu = ?";
+		}
+		array_push($data, $_POST["optiuni"]["stadiu"]["id"]);
+		$flag = 1;
+	}
+
+	if (isset($_POST["optiuni"]["an"])) {
+		if ($flag) {
+			$string .= "\r\nAND YEAR(data_oferta) = ?";
+		} else {
+			$string .= "\r\nWHERE YEAR(data_oferta) = ?";
+		}
+		array_push($data, $_POST["optiuni"]["an"]["id"]);
+		$flag = 1;
 	}
 
 	$string .= "\r\nORDER BY `data_oferta` DESC";
@@ -246,6 +270,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 	} else {
 		$string .= "\r\n;";
 	}
+
 	$query = interogare($string, $data);
 	afiseaza_rezultate($query);
 
@@ -272,7 +297,7 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 
 	?>
 	<h2>Creare ofertă nouă</h2>
-	<form class="formular" action=" / " method="post" id="formular_oferta_noua">
+	<form class="formular" action="/" method="post" id="formular_oferta_noua">
 		<input id="id_oferta"
 			   type="hidden"
 			   name="id_oferta"
@@ -293,7 +318,7 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 					<input id="data_oferta"
 						   name="data_oferta"
 						   type="text"
-						   class="datepicker normal extrascurt"
+						   class="datepicker normal data_scurt"
 						   data-data=" <?php echo $today_MSQL; ?>"
 						   value="<?php echo $today; ?>"/>
 
@@ -475,7 +500,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 					<input id="data_oferta"
 						   name="data_oferta"
 						   type="text"
-						   class="datepicker normal extrascurt"
+						   class="datepicker normal data_scurt"
 						   data-data="<?php echo $row["data_oferta_MSQL"]; ?>"
 						   value="<?php echo(str_replace_assoc($row['data_oferta'])); ?>"
 						/>

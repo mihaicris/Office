@@ -57,8 +57,8 @@
             optiuni: {}
           }
         },
-        timp_fadein = 100,
-        timp_fadeout = 50,
+        timp_fadein = 0,
+        timp_fadeout = 0,
         isInArray = function(value, array) {
           return array.indexOf(value) > -1;
         },
@@ -136,7 +136,7 @@
                     .done(function() {
                       box_nou.fadeIn(timp_fadein);
                       initializare_Zebra();
-                      $('input').eq(0).focus();
+//                      $('input').eq(0).focus();
                     });
               })
               .fail(function(jqXHR, textStatus) {
@@ -700,6 +700,9 @@
         lista.hide().promise().done(function() {
           $('input').eq(camp.val($text).index('input') + 1).focus();
           camp.attr('data-id', id);
+          if ($("#formular_filtre").length) {
+            $(this).trigger("aplica");
+          }
         });
       }
     }, '#lista_stadii .rec');
@@ -739,9 +742,12 @@
             $text = $this.text(),
             lista = $('#lista_ani'),
             camp = $('#select_an');
-        lista.hide().promise().done(function()  {
+        lista.hide().promise().done(function() {
           $('input').eq(camp.val($text).index('input') + 1).focus();
           camp.attr('data-id', id);
+          if ($("#formular_filtre").length) {
+            $(this).trigger("aplica");
+          }
         });
       }
     }, '#lista_ani .rec');
@@ -1138,7 +1144,12 @@
             nume_vanzator = vanzator.val(),
             companie = $("#select_companie"),
             id_companie = companie.attr("data-id") || null,
-            nume_companie = companie.val();
+            nume_companie = companie.val(),
+            stadiu = $("#select_stadiu"),
+            id_stadiu = stadiu.attr("data-id") || null,
+            nume_stadiu = stadiu.val(),
+            an = $("#select_an"),
+            id_an = an.attr("data-id") || null;
         optiuni.listare = 1;
         if (id_companie) {
           optiuni.companie = {
@@ -1152,9 +1163,28 @@
             nume: nume_vanzator
           }
         }
+        if (id_stadiu) {
+          optiuni.stadiu = {
+            id:   id_stadiu,
+            nume: nume_stadiu
+          }
+        }
+        if (id_an) {
+          optiuni.an = {
+            id: id_an,
+          }
+        }
         load_box(id_box_oferte, id_box_oferte, path, optiuni);
       }
     });
+
+    id_box_oferte.on({
+      mouseup: function() {
+        console.log("Trigger: mouseup #reset");
+        $("input").attr("data-id", "").val("");
+        $(this).trigger("aplica");
+      }
+    }, "#reset");
 
     id_box_oferte.on({
       keydown: function(event) {

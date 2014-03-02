@@ -260,11 +260,14 @@ input.data_expirare {
     padding:          1px 3px 1px 3px;
     color:            #DDD;
 }
+input.extralung {
+    width: 400px;
+}
 input.lung {
     width: 350px;
 }
-input.extralung {
-    width: 400px;
+input.standard {
+    width: 300px;
 }
 input.mediu {
     width: 200px;
@@ -274,6 +277,9 @@ input.scurt {
 }
 input.extrascurt {
     width: 80px;
+}
+input.data_scurt {
+    width: 100px;
 }
 input.megascurt {
     width:      30px;
@@ -340,6 +346,7 @@ input.required {
 }
 table.rezultate {
     margin-top: 10px;
+    min-width: 800px;
 }
 table.rezultate td, .rezultate th {
     padding:    1px 5px;
@@ -520,4 +527,13 @@ canvas {
 }
 .stadiu_2 {
     color: red;
+}
+#reset {
+    background-color: khaki;
+    color:            rgb(0, 0, 0);
+    display:          inline-block;
+    padding:          2px 4px;
+    font-family:      'Roboto Condensed', sans-serif;
+    cursor:           pointer;
+    border-radius:    3px;
 }
