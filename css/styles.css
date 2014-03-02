@@ -110,15 +110,21 @@ a {
     font-size:       0.9em;
 }
 fieldset {
+    margin-top:       15px;
     background-color: #446;
     border:           medium none;
-    display:          inline;
+    display:          inline-block;
     padding-bottom:   10px;
+    border-radius:    1px;
+    box-shadow:       0 0 1px 0 lightblue;
 }
 fieldset legend {
-    text-align:left;
-    padding: 5px;
-    color:   dodgerblue;
+    color:     lightcoral;
+    font-size: 1em;
+}
+fieldset legend span {
+    position: relative;
+    top:      10px;
 }
 span.submit {
     display:          inline-block;
@@ -267,7 +273,7 @@ input.scurt {
     width: 150px;
 }
 input.extrascurt {
-    width: 100px;
+    width: 80px;
 }
 input.megascurt {
     width:      30px;
@@ -350,14 +356,17 @@ table.rezultate tr:nth-child(2n) td {
     background-color: #424242;
 }
 form td, th {
-    vertical-align: top;
-    /*border: 1px solid #FFF;*/
     padding-top:    10px;
+    vertical-align: top;
+    /*border:         1px solid #FFF;*/
 }
 form.formular {
     margin-bottom: 20px;
 }
-form td:first-child {
+form#formular_filtre label {
+    padding-right: 10px;
+}
+form:not(#formular_filtre) td:first-child {
     padding-right: 30px;
 }
 div.ddm {
@@ -408,6 +417,9 @@ canvas {
 .align_right {
     text-align: right !important;
     min-width:  100px;
+}
+.spatiu_stanga {
+    padding-left: 20px;
 }
 :focus {
     outline: medium none;

@@ -40,7 +40,6 @@ function str_replace_assoc($subject)
 	return str_replace(array_keys($replace), array_values($replace), $subject);
 }
 
-
 function afiseaza_rezultate($query)
 {
 	function afiseaza_numar_total($count)
@@ -101,12 +100,13 @@ if (isset($_POST["optiuni"]["listare"])) {
 	<h2>Listă oferte</h2>
 	<form action="/" method="post" id="formular_filtre">
 		<fieldset name="Filtre" title="Filtre">
-			<legend>Filtrare oferte</legend>
 			<table>
 				<tbody>
 				<tr>
 					<td>
 						<label for="select_companie"> Companie</label>
+					</td>
+					<td>
 						<input class="normal lung"
 							   id="select_companie"
 							   type="text"
@@ -118,10 +118,30 @@ if (isset($_POST["optiuni"]["listare"])) {
 								echo 'value="' . $_POST["optiuni"]["companie"]["nume"] . '"';
 							}
 							?>
-							   autocomplete="off"/>
+							/>
+					</td>
+					<td class="spatiu_stanga"><label for="select_an"> An financiar</label>
 					</td>
 					<td>
+						<input class="normal extrascurt"
+							   id="select_an"
+							   type="text"
+							   name="select_an"
+							   placeholder="Selectează ..."
+							<?php
+							if (isset($_POST["optiuni"]["an"])) {
+								echo 'data-id="' . $_POST["optiuni"]["an"]["id"] . '"';
+								echo 'value="' . $_POST["optiuni"]["an"]["nume"] . '"';
+							}
+							?>
+							   readonly/>
+					</td>
+				</tr>
+				<tr>
+					<td>
 						<label for="select_vanzator">Vânzător</label>
+					</td>
+					<td>
 						<input id="select_vanzator"
 							   class="scurt normal"
 							   name="select_vanzator"
@@ -133,18 +153,61 @@ if (isset($_POST["optiuni"]["listare"])) {
 								echo 'value="' . $_POST["optiuni"]["vanzator"]["nume"] . '"';
 							}
 							?>
-							   readonly
-							/>
+							   readonly/>
+					</td>
+					<td class="spatiu_stanga"><label for="select_stadiu">Stadiu ofertă</label>
+					</td>
+					<td>
+						<input id="select_stadiu"
+							   name="select_stadiu"
+							   type="text"
+							   class="normal extrascurt"
+							   placeholder="Selectează ..."
+							<?php
+							if (isset($_POST["optiuni"]["stadiu"])) {
+								echo 'data-id="' . $_POST["optiuni"]["stadiu"]["id"] . '"';
+								echo 'value="' . $_POST["optiuni"]["stadiu"]["nume"] . '"';
+							}
+							?>
+							   readonly/>
 					</td>
 				</tr>
-
 				</tbody>
 			</table>
 		</fieldset>
 	</form>
 	<div id="lista_vanzatori" class="ddm"></div>
 	<div id="lista_companii" class="ddm"></div>
+	<div id="lista_stadii" class="ddm">
+		<div class="rec">
+			<p id="f00">Deschisă</p>
+		</div>
+		<div class="rec">
+			<p id="f01">Câștigată</p>
+		</div>
+		<div class="rec">
+			<p id="f02">Pierdută</p>
+		</div>
+	</div>
 	<?php
+	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta";
+	$query = interogare($string, null);
+	$ani = $query->fetchAll();
+	if (count($ani)) {
+		$html = '<div id="lista_ani" class="ddm">';
+		for ($i = 0; $i < count($ani); $i++) {
+			$html .= '<div class="rec">';
+			$html .= '<p id="f' . $ani[$i]["ani"] . '">' . $ani[$i]["ani"] . '</p>';
+			$html .= '</div>';
+		}
+		$html .= '</div>';
+		echo $html;
+	}
+
+	$string = "SELECT COUNT(*) FROM oferte";
+	$query = interogare($string, null);
+	$count_all = $query->fetchColumn();
+
 	$data = array();
 	$string = "SELECT O . id_oferta,
                   O . nume_oferta,
@@ -248,7 +311,7 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 						   class="scurt normal"
 						   name="select_vanzator"
 						   type="text"
-						   placeholder="Selectează..."
+						   placeholder="Selectează ..."
 						   data-id=""
 						   readonly
 						/>
@@ -279,7 +342,7 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 						   class="normal extrascurt"
 						   value="Deschisă"
 						   data-id="0"
-						   placeholder="Selectează..."
+						   placeholder="Selectează ..."
 						   readonly
 						/>
 				</td>
@@ -302,7 +365,7 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 						   class="lung normal"
 						   value=""
 						   data-id=""
-						   placeholder="Tastează pentru a căuta..."/>
+						   placeholder="Tastează pentru a căuta ..."/>
 				</td>
 				<td>
 					<label for="select_persoana">Persoană de contact</label>
@@ -312,7 +375,7 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 						   class="normal scurt"
 						   value=""
 						   data-id=""
-						   placeholder="Selectează..."
+						   placeholder="Selectează ..."
 						   readonly
 						/>
 				</td>
@@ -431,7 +494,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   class="scurt normal"
 						   name="select_vanzator"
 						   type="text"
-						   placeholder="Selectează..."
+						   placeholder="Selectează ..."
 						   value="<?php echo($row['nume_vanzator'] . ' ' . $row['prenume_vanzator']); ?>"
 						   data-id="<?php echo($row['id_vanzator']); ?>"
 						   readonly
@@ -463,7 +526,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   class="normal extrascurt"
 						   value="<?php echo($stadiu[$row['stadiu']]); ?>"
 						   data-id="<?php echo($row['stadiu']); ?>"
-						   placeholder="Selectează..."
+						   placeholder="Selectează ..."
 						   readonly
 						/>
 				</td>
@@ -491,7 +554,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   class="lung normal"
 						   value="<?php echo $row["nume_companie"]; ?>"
 						   data-id="<?php echo $row["id_companie"]; ?>"
-						   placeholder="Tastează pentru a căuta..."/>
+						   placeholder="Tastează pentru a căuta ..."/>
 				</td>
 				<td>
 					<label for="select_persoana">Persoană de contact</label>
@@ -501,7 +564,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   class="normal scurt"
 						   value="<?php echo $row["prenume_persoana"] . ' ' . $row["nume_persoana"]; ?>"
 						   data-id="<?php echo $row["id_persoana"]; ?>"
-						   placeholder="Selectează..."
+						   placeholder="Selectează ..."
 						   readonly
 						/>
 				</td>

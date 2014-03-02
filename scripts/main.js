@@ -57,7 +57,7 @@
             optiuni: {}
           }
         },
-        timp_fadein = 30,
+        timp_fadein = 100,
         timp_fadeout = 50,
         isInArray = function(value, array) {
           return array.indexOf(value) > -1;
@@ -596,6 +596,20 @@
     }, '#select_sex');
 
     class_box.on({
+      mouseup: function() {
+        var lista = $('#lista_ani'),
+            camp = $(this);
+        if (!lista.is(':visible')) {
+          lista.stop(true, false).fadeIn('fast');
+          pozitionare_lista_sugestii(camp, lista);
+        } else {
+          lista.hide();
+          $(this).blur();
+        }
+      }
+    }, '#select_an');
+
+    class_box.on({
       mouseenter: function() {
         $('#lista_companii').find('.rec').removeClass('selected');
         $(this).addClass('selected');
@@ -710,6 +724,27 @@
         });
       }
     }, '#lista_sex .rec');
+
+    class_box.on({
+      mouseenter: function() {
+        $('#lista_ani').find('.rec').removeClass('selected');
+        $(this).addClass('selected');
+      },
+      mouseleave: function() {
+        $(this).removeClass('selected');
+      },
+      mouseup:    function() {
+        var $this = $(this).children().first(),
+            id = parseInt($this.attr('id').slice(1)),
+            $text = $this.text(),
+            lista = $('#lista_ani'),
+            camp = $('#select_an');
+        lista.hide().promise().done(function()  {
+          $('input').eq(camp.val($text).index('input') + 1).focus();
+          camp.attr('data-id', id);
+        });
+      }
+    }, '#lista_ani .rec');
 
     class_box.on({
       mousedown: function(event) {
