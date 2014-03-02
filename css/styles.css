@@ -109,6 +109,17 @@ a {
     text-decoration: none;
     font-size:       0.9em;
 }
+fieldset {
+    background-color: #446;
+    border:           medium none;
+    display:          inline;
+    padding-bottom:   10px;
+}
+fieldset legend {
+    text-align:left;
+    padding: 5px;
+    color:   dodgerblue;
+}
 span.submit {
     display:          inline-block;
     background-color: #488FE0;
@@ -338,15 +349,15 @@ table.rezultate th {
 table.rezultate tr:nth-child(2n) td {
     background-color: #424242;
 }
-td, th {
+form td, th {
     vertical-align: top;
-    padding-top:    7px;
-    border: 1px solid #FFF;
+    /*border: 1px solid #FFF;*/
+    padding-top:    10px;
 }
 form.formular {
     margin-bottom: 20px;
 }
-form td {
+form td:first-child {
     padding-right: 30px;
 }
 div.ddm {
@@ -357,7 +368,7 @@ div.ddm {
     border-radius:    2px;
     box-shadow:       0 0 3px 1px #222;
     overflow-y:       auto;
-    z-index: 10;
+    z-index:          10;
 }
 div.ddm > :last-child {
     border-radius: 0;
@@ -385,7 +396,7 @@ div.ddm .noresults {
 }
 canvas {
     /*position: relative;*/
-    margin-top: 10px;
+    margin-top:  10px;
     margin-left: -28px;
 }
 .align_bottom {
@@ -396,7 +407,7 @@ canvas {
 }
 .align_right {
     text-align: right !important;
-    min-width: 100px;
+    min-width:  100px;
 }
 :focus {
     outline: medium none;
@@ -462,9 +473,9 @@ canvas {
 }
 .error {
     /* textele care se afiseaza dupa input */
-    padding-top: 5px;
-    display:     block;
-    color:       rgba(255, 68, 68, 0.9);
+    margin-top: 5px;
+    display:    block;
+    color:      rgba(255, 68, 68, 0.9);
 }
 .mesaj {
     /* textele care se afiseaza dupa input */

@@ -57,8 +57,8 @@
             optiuni: {}
           }
         },
-        timp_fadein = 100,
-        timp_fadeout = 100,
+        timp_fadein = 30,
+        timp_fadeout = 50,
         isInArray = function(value, array) {
           return array.indexOf(value) > -1;
         },
@@ -167,17 +167,17 @@
 
     $(document).on({
       ajaxStart: function() {
-        console.log("Trigger: ajaxstart");
+//        console.log("Trigger: ajaxstart");
         $('span.ajax').remove();
       },
       mousedown: function(event) {
-        console.log("Trigger: mousedown");
+//        console.log("Trigger: mousedown");
         if (typeof $(event.target).closest('.ddm').attr('id') === 'undefined') {
           $('.ddm').hide();
         }
       },
       keyup:     function(event) {
-        console.log("Trigger: keyup");
+//        console.log("Trigger: keyup");
         var renunta = $('#renunta');
         if (event.keyCode === 27 && renunta.length) {
           renunta.trigger('mouseup');
@@ -376,7 +376,21 @@
                   load_box(box_curent, box_curent, path, optiuni);
                 }
                 else {
-                  box_curent.append(raspuns);
+                  var html = "<span class='error'>Nu este permisă ștergerea.</span>";
+
+                  switch (root) {
+                    case 'companii':
+                      html += "<span class='error'>Compania este folosită la oferte sau persoane de contact.</span>";
+                      break;
+                    case 'vanzatori':
+                      html += "<span class='error'>Vânzătorul este folosit la oferte.</span>";
+                      break;
+                    case 'persoane':
+                      html += "<span class='error'>Persoana de contact este folosită la oferte.</span>";
+                      break;
+                  }
+                  box_curent.append(html);
+//                  box_curent.append(raspuns);
                 }
               })
               .fail(function(jqXHR, textStatus) {
@@ -600,6 +614,9 @@
           camp.attr('data-id', id);
           $('#select_persoana').val('').attr('data-id', '');
           lista.empty();
+          if ($("#formular_filtre").length) {
+            $(this).trigger("aplica");
+          }
         });
       }
     }, '#lista_companii .rec');
@@ -640,11 +657,15 @@
             $text = $this.text(),
             lista = $('#lista_vanzatori'),
             camp = $('#select_vanzator');
-        lista.hide().promise().done(function() {
-          $('input').eq(camp.val($text).index('input') + 1).focus();
-          camp.attr('data-id', id);
-          lista.empty();
-        });
+        lista.hide().promise()
+            .done(function() {
+              $('input').eq(camp.val($text).index('input') + 1).focus();
+              camp.attr('data-id', id);
+              lista.empty();
+              if ($("#formular_filtre").length) {
+                $(this).trigger("aplica");
+              }
+            });
       }
     }, '#lista_vanzatori .rec');
 
@@ -1071,6 +1092,34 @@
         }
       }
     }, '#creaza_oferta, #editeaza_oferta');
+
+    id_box_oferte.on({
+      aplica: function() {
+        console.log("Trigger: aplica");
+        var path = obj_pag["oferte"].path,
+            optiuni = {},
+            vanzator = $("#select_vanzator"),
+            id_vanzator = vanzator.attr("data-id") || null,
+            nume_vanzator = vanzator.val(),
+            companie = $("#select_companie"),
+            id_companie = companie.attr("data-id") || null,
+            nume_companie = companie.val();
+        optiuni.listare = 1;
+        if (id_companie) {
+          optiuni.companie = {
+            id:   id_companie,
+            nume: nume_companie
+          }
+        }
+        if (id_vanzator) {
+          optiuni.vanzator = {
+            id:   id_vanzator,
+            nume: nume_vanzator
+          }
+        }
+        load_box(id_box_oferte, id_box_oferte, path, optiuni);
+      }
+    });
 
     id_box_oferte.on({
       keydown: function(event) {
