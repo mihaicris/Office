@@ -129,7 +129,7 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
                            class="normal extrascurt"
                            value=""
                            data-id="0"
-                           placeholder="Selectează..."
+                           placeholder="Selectează ..."
                            readonly
                         />
                 </td>
@@ -141,7 +141,7 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
                            id="select_companie"
                            type="text"
                            name="select_companie"
-                           placeholder="Tastează pentru a căuta..."
+                           placeholder="Tastează pentru a căuta ..."
                            data-id=""
                            autocomplete="off"/>
                 </td>
@@ -255,7 +255,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
                         }
                         echo('data-id="' . $row['gen_persoana'] . '"');
                         ?>
-                           placeholder="Selectează..."
+                           placeholder="Selectează ..."
                            readonly
                         />
 
@@ -268,7 +268,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
                            id="select_companie"
                            type="text"
                            name="select_companie"
-                           placeholder="Tastează pentru a căuta..."
+                           placeholder="Tastează pentru a căuta ..."
                            value="<?php echo $row['nume_companie']; ?>"
                            data-id="<?php echo $row['id_companie_persoana']; ?>"
                            autocomplete="off"/>
