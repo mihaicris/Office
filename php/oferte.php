@@ -153,6 +153,9 @@ if (isset($_POST["optiuni"]["listare"])) {
 				</tr>
 				</tbody>
 			</table>
+			<input id="filtre"
+				   type="hidden"
+				/>
 		</fieldset>
 	</form>
 	<div id="lista_vanzatori" class="ddm"></div>
