@@ -183,6 +183,8 @@
         var target = $(event.target);
         if (typeof target.closest('.ddm').attr('id') === 'undefined' && !target.hasClass("deschis")) {
           $('.ddm').hide();
+        } else {
+          event.preventDefault();
         }
       },
       keyup:     function(event) {
@@ -208,6 +210,7 @@
       },
       mousedown: function(event) {
         console.log("Trigger: mousedown .menu");
+        console.clear();
         event.preventDefault();
       }
     }, '.menu');
@@ -255,11 +258,15 @@
       }
     }, '#word');
 
-//    class_box.on({
-//      focus: function() {
-//        console.log("Trigger: focus input");
-//        $(this).removeClass('required');
-//      }}, 'input');
+    class_box.on({
+      focus: function(event) {
+        console.log("Trigger: focus input");
+        $(this).removeClass('required');
+        if ($(this).hasClass("deschis")) {
+          event.preventDefault();
+        }
+      }
+    }, 'input');
 
     class_box.on({
       keydown: function(event) {
@@ -522,14 +529,17 @@
     }, '#select_companie');
 
     class_box.on({
-      mousedown: function() {
+      mousedown: function(event) {
         console.log("Trigger: mousedown #select_persoana");
+        event.preventDefault();
         var lista = $('#lista_persoane'),
             path = 'php/persoane.php',
             camp = $(this),
-            id_companie = $('#select_companie').attr('data-id');
+            camp_companie = $('#select_companie'),
+            id_companie = camp_companie.attr('data-id');
+        $(".ddm").not(lista).hide();
         if (!id_companie) {
-          $('#select_companie').focus();
+          camp_companie.focus();
           camp.val('');
         } else if (!lista.is(':visible')) {
           $.ajax({
@@ -550,16 +560,23 @@
               });
         } else {
           lista.hide();
-          $(this).blur().removeClass("deschis");        }
+          $(this).blur().removeClass("deschis");
+        }
+      },
+      mouseup:   function() {
+        console.log("Trigger: mouseup #select_persoana");
       }
     }, '#select_persoana');
 
     class_box.on({
-      mousedown: function() {
+      mousedown: function(event) {
         console.log("Trigger: mousedown #select_vanzator");
+        event.preventDefault();
         var lista = $('#lista_vanzatori'),
             path = 'php/vanzatori.php',
             camp = $(this);
+        camp.focus();
+        $(".ddm").not(lista).hide();
         if (!lista.is(':visible')) {
           $.ajax({
             async:   true,
@@ -582,10 +599,13 @@
     }, '#select_vanzator');
 
     class_box.on({
-      mousedown: function() {
+      mousedown: function(event) {
         console.log("Trigger: mousedown #select_stadiu");
+        event.preventDefault();
         var lista = $('#lista_stadii'),
             camp = $(this);
+        camp.focus();
+        $(".ddm").not(lista).hide();
         if (!lista.is(':visible')) {
           lista.fadeIn('fast');
           $(this).addClass("deschis");
@@ -598,9 +618,13 @@
     }, '#select_stadiu');
 
     class_box.on({
-      mousedown: function() {
+      mousedown: function(event) {
+        console.log("Trigger: mousedown #select_sex");
+        event.preventDefault();
         var lista = $('#lista_sex'),
             camp = $(this);
+        camp.focus();
+        $(".ddm").not(lista).hide();
         if (!lista.is(':visible')) {
           lista.stop(true, false).fadeIn('fast');
           $(this).addClass("deschis");
@@ -613,16 +637,21 @@
     }, '#select_sex');
 
     class_box.on({
-      mousedown: function() {
+      mousedown: function(event) {
+        console.log("Trigger: mousedown #select_an");
+        event.preventDefault();
         var lista = $('#lista_ani'),
             camp = $(this);
+        camp.focus();
+        $(".ddm").not(lista).hide();
         if (!lista.is(':visible')) {
           lista.stop(true, false).fadeIn('fast');
           $(this).addClass("deschis");
           pozitionare_lista_sugestii(camp, lista);
         } else {
           lista.hide();
-          $(this).blur().removeClass("deschis");        }
+          $(this).blur().removeClass("deschis");
+        }
       }
     }, '#select_an');
 
@@ -634,7 +663,9 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mouseup:    function(event) {
+        console.log("Trigger: mouseup #lista_companii .rec");
+        event.preventDefault();
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -645,7 +676,7 @@
           $('#select_persoana').val('').attr('data-id', '');
           lista.empty();
           if ($("#formular_filtre").length) {
-            $(this).trigger("aplica");
+            camp.blur().trigger("aplica");
           } else {
             $('input').eq(camp.index('input') + 1).focus();
           }
@@ -683,7 +714,9 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mouseup:    function(event) {
+        console.log("Trigger: mouseup #lista_vanzatori .rec");
+        event.preventDefault();
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -694,7 +727,7 @@
               camp.attr('data-id', id).val($text);
               lista.empty();
               if ($("#formular_filtre").length) {
-                $(this).trigger("aplica");
+                camp.blur().trigger("aplica");
               } else {
                 $('input').eq(camp.index('input') + 1).focus();
               }
@@ -710,7 +743,9 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mouseup:    function(event) {
+        console.log("Trigger: mouseup #lista_stadii .rec");
+        event.preventDefault();
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -719,7 +754,7 @@
         lista.hide().promise().done(function() {
           camp.attr('data-id', id).val($text);
           if ($("#formular_filtre").length) {
-            $(this).trigger("aplica");
+            camp.blur().trigger("aplica");
           } else {
             $('input').eq(camp.index('input') + 1).focus();
           }
@@ -756,7 +791,9 @@
       mouseleave: function() {
         $(this).removeClass('selected');
       },
-      mouseup:    function() {
+      mouseup:    function(event) {
+        console.log("Trigger: mouseup #lista_ani .rec");
+        event.preventDefault();
         var $this = $(this).children().first(),
             id = parseInt($this.attr('id').slice(1)),
             $text = $this.text(),
@@ -765,7 +802,7 @@
         lista.hide().promise().done(function() {
           camp.attr('data-id', id).val($text);
           if ($("#formular_filtre").length) {
-            $(this).trigger("aplica");
+            camp.blur().trigger("aplica");
           } else {
             $('input').eq(camp.index('input') + 1).focus();
           }
