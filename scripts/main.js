@@ -175,17 +175,18 @@
 
     $(document).on({
       ajaxStart: function() {
-//        console.log("Trigger: ajaxstart");
+        console.log("Trigger: ajaxstart");
         $('span.ajax').remove();
       },
       mousedown: function(event) {
-//        console.log("Trigger: mousedown");
-        if (typeof $(event.target).closest('.ddm').attr('id') === 'undefined') {
+        console.log("Trigger: mousedown all");
+        var target = $(event.target);
+        if (typeof target.closest('.ddm').attr('id') === 'undefined' && !target.hasClass("deschis")) {
           $('.ddm').hide();
         }
       },
       keyup:     function(event) {
-//        console.log("Trigger: keyup");
+        console.log("Trigger: keyup");
         var renunta = $('#renunta');
         if (event.keyCode === 27 && renunta.length) {
           renunta.trigger('mouseup');
@@ -195,6 +196,7 @@
 
     nav.on({
       mouseup:   function() {
+        console.log("Trigger: mouseup .menu");
         if ($(this).hasClass('selected')) {
           $(this).removeClass('selected');
           $(this).parent().next().children().hide();
@@ -205,6 +207,7 @@
         $(this).addClass('selected').parent().next().addClass('selected').children().show();
       },
       mousedown: function(event) {
+        console.log("Trigger: mousedown .menu");
         event.preventDefault();
       }
     }, '.menu');
@@ -222,12 +225,14 @@
         load_box(box_curent, box_nou, path, optiuni);
       },
       mousedown: function(event) {
+        console.log("Trigger: mousedown .option");
         event.preventDefault();
       }
     }, '.option');
 
     class_box.on({
       mouseup: function() {
+        console.log("Trigger: mouseup #word");
         var $id = $('#select_persoana').attr('data-id');
         id_box_oferte.find('.error, .mesaj, p, a').remove();
         if (!$id) {
@@ -250,11 +255,11 @@
       }
     }, '#word');
 
-    class_box.on({
-      focus: function() {
-        console.log("Trigger: focus input");
-        $(this).removeClass('required');
-      }}, 'input');
+//    class_box.on({
+//      focus: function() {
+//        console.log("Trigger: focus input");
+//        $(this).removeClass('required');
+//      }}, 'input');
 
     class_box.on({
       keydown: function(event) {
@@ -517,7 +522,8 @@
     }, '#select_companie');
 
     class_box.on({
-      mouseup: function() {
+      mousedown: function() {
+        console.log("Trigger: mousedown #select_persoana");
         var lista = $('#lista_persoane'),
             path = 'php/persoane.php',
             camp = $(this),
@@ -537,20 +543,20 @@
               .done(function(raspuns) {
                 lista.html(raspuns).stop(true, false).fadeIn('fast');
                 pozitionare_lista_sugestii(camp, lista);
-                $(this).attr('data-id', '');
+                $(this).attr('data-id', '').addClass("deschis");
               })
               .fail(function(jqXHR, textStatus) {
                 AjaxFail(jqXHR, textStatus);
               });
         } else {
           lista.hide();
-          $(this).blur();
-        }
+          $(this).blur().removeClass("deschis");        }
       }
     }, '#select_persoana');
 
     class_box.on({
-      mouseup: function() {
+      mousedown: function() {
+        console.log("Trigger: mousedown #select_vanzator");
         var lista = $('#lista_vanzatori'),
             path = 'php/vanzatori.php',
             camp = $(this);
@@ -563,57 +569,60 @@
               .done(function(raspuns) {
                 lista.html(raspuns).stop(true, false).fadeIn('fast').scrollTop(0);
                 pozitionare_lista_sugestii(camp, lista);
-                $(this).attr('data-id', '');
+                $(this).attr('data-id', '').addClass("deschis");
               })
               .fail(function(jqXHR, textStatus) {
                 AjaxFail(jqXHR, textStatus);
               });
         } else {
           lista.hide().empty();
-          $(this).blur();
+          $(this).blur().removeClass("deschis");
         }
       }
     }, '#select_vanzator');
 
     class_box.on({
-      mouseup: function() {
+      mousedown: function() {
+        console.log("Trigger: mousedown #select_stadiu");
         var lista = $('#lista_stadii'),
             camp = $(this);
         if (!lista.is(':visible')) {
-          lista.stop(true, false).fadeIn('fast');
+          lista.fadeIn('fast');
+          $(this).addClass("deschis");
           pozitionare_lista_sugestii(camp, lista);
         } else {
           lista.hide();
-          $(this).blur();
+          $(this).removeClass("deschis").blur();
         }
       }
     }, '#select_stadiu');
 
     class_box.on({
-      mouseup: function() {
+      mousedown: function() {
         var lista = $('#lista_sex'),
             camp = $(this);
         if (!lista.is(':visible')) {
           lista.stop(true, false).fadeIn('fast');
+          $(this).addClass("deschis");
           pozitionare_lista_sugestii(camp, lista);
         } else {
           lista.hide();
-          $(this).blur();
+          $(this).blur().removeClass("deschis");
         }
       }
     }, '#select_sex');
 
     class_box.on({
-      mouseup: function() {
+      mousedown: function() {
         var lista = $('#lista_ani'),
             camp = $(this);
         if (!lista.is(':visible')) {
           lista.stop(true, false).fadeIn('fast');
+          $(this).addClass("deschis");
           pozitionare_lista_sugestii(camp, lista);
         } else {
           lista.hide();
-          $(this).blur();
-        }
+          $(this).blur().removeClass("deschis");        }
       }
     }, '#select_an');
 
@@ -1264,5 +1273,6 @@
         }
       }
     }, '#valoare_oferta');
+
   })
 })();
