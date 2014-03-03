@@ -39,9 +39,15 @@
             path:    "php/stats_ofertare.php",
             optiuni: {}
           },
-          statistici_comenzi:   {},
-          statistici_clienti:   {},
-          statistici_furnizori: {},
+          statistici_comenzi:   {
+            optiuni: {}
+          },
+          statistici_clienti:   {
+            optiuni: {}
+          },
+          statistici_furnizori: {
+            optiuni: {}
+          },
           companii:             {
             id_box:  "#box_companii",
             path:    "php/companii.php",
@@ -58,8 +64,8 @@
             optiuni: {}
           }
         },
-        timp_fadein = 0,
-        timp_fadeout = 0,
+        timp_fadein = 50,
+        timp_fadeout = 80,
         isInArray = function(value, array) {
           return array.indexOf(value) > -1;
         },
@@ -626,12 +632,13 @@
             lista = $('#lista_companii'),
             camp = $('#select_companie');
         lista.hide().promise().done(function() {
-          $('input').eq(camp.val($text).index('input') + 1).focus();
-          camp.attr('data-id', id);
+          camp.attr('data-id', id).val($text);
           $('#select_persoana').val('').attr('data-id', '');
           lista.empty();
           if ($("#formular_filtre").length) {
             $(this).trigger("aplica");
+          } else {
+            $('input').eq(camp.index('input') + 1).focus();
           }
         });
       }
@@ -675,11 +682,12 @@
             camp = $('#select_vanzator');
         lista.hide().promise()
             .done(function() {
-              $('input').eq(camp.val($text).index('input') + 1).focus();
-              camp.attr('data-id', id);
+              camp.attr('data-id', id).val($text);
               lista.empty();
               if ($("#formular_filtre").length) {
                 $(this).trigger("aplica");
+              } else {
+                $('input').eq(camp.index('input') + 1).focus();
               }
             });
       }
@@ -700,10 +708,11 @@
             lista = $('#lista_stadii'),
             camp = $('#select_stadiu');
         lista.hide().promise().done(function() {
-          $('input').eq(camp.val($text).index('input') + 1).focus();
-          camp.attr('data-id', id);
+          camp.attr('data-id', id).val($text);
           if ($("#formular_filtre").length) {
             $(this).trigger("aplica");
+          } else {
+            $('input').eq(camp.index('input') + 1).focus();
           }
         });
       }
@@ -745,10 +754,11 @@
             lista = $('#lista_ani'),
             camp = $('#select_an');
         lista.hide().promise().done(function() {
-          $('input').eq(camp.val($text).index('input') + 1).focus();
-          camp.attr('data-id', id);
+          camp.attr('data-id', id).val($text);
           if ($("#formular_filtre").length) {
             $(this).trigger("aplica");
+          } else {
+            $('input').eq(camp.index('input') + 1).focus();
           }
         });
       }
@@ -1147,57 +1157,67 @@
         var root = $(this).closest('.box').attr('id').slice(4),
             box_curent = $('#box_' + root),
             path = 'php/' + root + '.php',
-            optiuni = {},
+            optiuni = {}, flag = 0, filtre = $("#filtre"),
             vanzator = $("#select_vanzator"),
-            id_vanzator = vanzator.attr("data-id") || null,
-            nume_vanzator = vanzator.val(),
             companie = $("#select_companie"),
-            id_companie = companie.attr("data-id") || null,
-            nume_companie = companie.val(),
             stadiu = $("#select_stadiu"),
-            id_stadiu = stadiu.attr("data-id") || null,
-            nume_stadiu = stadiu.val(),
             an = $("#select_an"),
-            id_an = an.attr("data-id") || null;
+            id_vanzator = vanzator.attr("data-id"),
+            id_companie = companie.attr("data-id"),
+            id_stadiu = stadiu.attr("data-id"),
+            id_an = an.attr("data-id");
         optiuni.filtrare = 1;
-        if (id_companie) {
-          optiuni.companie = {
-            id:   id_companie,
-            nume: nume_companie
+        if (id_companie !== (filtre.attr("data-idcompanie") || "")) {
+          filtre.attr("data-idcompanie", id_companie);
+          flag = 1;
+          if (id_companie) {
+            optiuni.companie = {
+              id: id_companie
+            }
           }
         }
-        if (id_vanzator) {
-          optiuni.vanzator = {
-            id:   id_vanzator,
-            nume: nume_vanzator
+        if (id_vanzator !== (filtre.attr("data-idvanzator") || "")) {
+          filtre.attr("data-idvanzator", id_vanzator);
+          flag = 1;
+          if (id_vanzator) {
+            optiuni.vanzator = {
+              id: id_vanzator
+            }
           }
         }
-        if (id_stadiu) {
-          optiuni.stadiu = {
-            id:   id_stadiu,
-            nume: nume_stadiu
+        if (id_stadiu !== (filtre.attr("data-idstadiu") || "")) {
+          filtre.attr("data-idstadiu", id_stadiu);
+          flag = 1;
+          if (id_stadiu) {
+            optiuni.stadiu = {
+              id: id_stadiu
+            }
           }
         }
-        if (id_an) {
-          optiuni.an = {
-            id: id_an,
+        if (id_an !== (filtre.attr("data-idan") || "")) {
+          filtre.attr("data-idan", id_an);
+          flag = 1;
+          if (id_an) {
+            optiuni.an = {
+              id: id_an
+            }
           }
         }
-        $.ajax({
-          async:   true,
-          url:     path,
-          data:    {
-            optiuni: optiuni
-          },
-          timeout: 5000})
-            .done(function(raspuns) {
-              box_curent.children('.rezultate, .total').remove().end().append(raspuns);
-            })
-            .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus);
-            });
-
-        //load_box(id_box_oferte, id_box_oferte, path, optiuni);
+        if (flag) {
+          $.ajax({
+            async:   true,
+            url:     path,
+            data:    {
+              optiuni: optiuni
+            },
+            timeout: 5000})
+              .done(function(raspuns) {
+                box_curent.children('.rezultate, .total').remove().end().append(raspuns);
+              })
+              .fail(function(jqXHR, textStatus) {
+                AjaxFail(jqXHR, textStatus);
+              });
+        }
       }
     });
 

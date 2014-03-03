@@ -346,7 +346,7 @@ input.required {
 }
 table.rezultate {
     margin-top: 10px;
-    min-width: 800px;
+    min-width:  800px;
 }
 table.rezultate td, .rezultate th {
     padding:    1px 5px;
