@@ -494,7 +494,7 @@ canvas {
     /* textele care se afiseaza dupa input */
     margin-top: 5px;
     display:    block;
-    color:      rgba(255, 68, 68, 0.9);
+    color:      khaki;
 }
 .mesaj {
     /* textele care se afiseaza dupa input */
@@ -532,8 +532,8 @@ canvas {
     background-color: khaki;
     color:            rgb(0, 0, 0);
     display:          inline-block;
-    padding:          2px 4px;
-    font-family:      'Roboto Condensed', sans-serif;
+    padding:          2px 8px;
+    font-weight:      800;
     cursor:           pointer;
     border-radius:    3px;
 }
