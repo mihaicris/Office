@@ -111,12 +111,6 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   type="text"
 							   name="select_companie"
 							   placeholder="Tastează pentru a căuta ..."
-							<?php
-							if (isset($_POST["optiuni"]["companie"])) {
-								echo 'data-id="' . $_POST["optiuni"]["companie"]["id"] . '"';
-								echo 'value="' . $_POST["optiuni"]["companie"]["nume"] . '"';
-							}
-							?>
 							/>
 					</td>
 					<td class="spatiu_stanga"><label for="select_an"> An financiar</label>
@@ -127,12 +121,6 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   type="text"
 							   name="select_an"
 							   placeholder="Selectează ..."
-							<?php
-							if (isset($_POST["optiuni"]["an"])) {
-								echo 'data-id="' . $_POST["optiuni"]["an"]["id"] . '"';
-								echo 'value="' . $_POST["optiuni"]["an"]["id"] . '"';
-							}
-							?>
 							   readonly/>
 					</td>
 					<td class="spatiu_stanga">
@@ -149,12 +137,6 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   name="select_vanzator"
 							   type="text"
 							   placeholder="Selectează ..."
-							<?php
-							if (isset($_POST["optiuni"]["vanzator"])) {
-								echo 'data-id="' . $_POST["optiuni"]["vanzator"]["id"] . '"';
-								echo 'value="' . $_POST["optiuni"]["vanzator"]["nume"] . '"';
-							}
-							?>
 							   readonly/>
 					</td>
 					<td class="spatiu_stanga"><label for="select_stadiu">Stadiu ofertă</label>
@@ -165,12 +147,6 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   type="text"
 							   class="normal extrascurt"
 							   placeholder="Selectează ..."
-							<?php
-							if (isset($_POST["optiuni"]["stadiu"])) {
-								echo 'data-id="' . $_POST["optiuni"]["stadiu"]["id"] . '"';
-								echo 'value="' . $_POST["optiuni"]["stadiu"]["nume"] . '"';
-							}
-							?>
 							   readonly/>
 					</td>
 					<td></td>
@@ -273,8 +249,69 @@ if (isset($_POST["optiuni"]["listare"])) {
 
 	$query = interogare($string, $data);
 	afiseaza_rezultate($query);
-
+	exit();
 }
+
+if (isset($_POST["optiuni"]["filtrare"])) {
+	$data = array();
+	$string = "SELECT O . id_oferta,
+                  O . nume_oferta,
+                  O . descriere_oferta,
+                  DATE_FORMAT(O . data_oferta, '%d-%c-%Y') AS dataoferta,
+                  O . id_companie_oferta,
+                  O . id_vanzator_oferta,
+                  O . valoare_oferta,
+                  O . stadiu,
+                  O . relevant,
+                  C . nume_companie,
+                  V . nume_vanzator, V . prenume_vanzator
+           FROM oferte AS O
+           LEFT JOIN companii AS C ON O . id_companie_oferta = C . id_companie
+           LEFT JOIN vanzatori AS V ON O . id_vanzator_oferta = V . id_vanzator";
+	$flag = 0;
+	if (isset($_POST["optiuni"]["companie"])) {
+		$string .= "\r\nWHERE O . id_companie_oferta = ?";
+		array_push($data, $_POST["optiuni"]["companie"]["id"]);
+		$flag = 1;
+	}
+	if (isset($_POST["optiuni"]["vanzator"])) {
+		if ($flag) {
+			$string .= "\r\nAND O . id_vanzator_oferta = ?";
+		} else {
+			$string .= "\r\nWHERE O . id_vanzator_oferta = ?";
+		}
+		array_push($data, $_POST["optiuni"]["vanzator"]["id"]);
+		$flag = 1;
+	}
+	if (isset($_POST["optiuni"]["stadiu"])) {
+		if ($flag) {
+			$string .= "\r\nAND O . stadiu = ?";
+		} else {
+			$string .= "\r\nWHERE O . stadiu = ?";
+		}
+		array_push($data, $_POST["optiuni"]["stadiu"]["id"]);
+		$flag = 1;
+	}
+	if (isset($_POST["optiuni"]["an"])) {
+		if ($flag) {
+			$string .= "\r\nAND YEAR(data_oferta) = ?";
+		} else {
+			$string .= "\r\nWHERE YEAR(data_oferta) = ?";
+		}
+		array_push($data, $_POST["optiuni"]["an"]["id"]);
+		$flag = 1;
+	}
+	$string .= "\r\nORDER BY `data_oferta` DESC";
+	if (empty($data)) {
+		$string .= "\r\nLIMIT 10;";
+	} else {
+		$string .= "\r\n;";
+	}
+	$query = interogare($string, $data);
+	afiseaza_rezultate($query);
+	exit();
+}
+
 if (isset($_POST["optiuni"]["formular_creare"])) {
 
 	date_default_timezone_set('Europe/Bucharest');
@@ -437,7 +474,6 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 			<p id="f02">Pierdută</p>
 		</div>
 	</div>
-
 	<?php
 	exit();
 }
@@ -627,7 +663,8 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 			<p id="f02">Pierdută</p>
 		</div>
 	</div>
-<?php
+	<?php
+	exit();
 }
 if (isset($_POST["salveaza"])) {
 	$data = $_POST["formdata"];
@@ -668,7 +705,6 @@ if (isset($_POST["salveaza"])) {
 	$query = interogare($string, $data);
 	echo('ok');
 	exit();
-
 }
 if (isset($_POST["sterge"])) {
 	// actiune stergere oferta din baza de date

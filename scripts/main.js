@@ -35,8 +35,9 @@
             optiuni: { formular_creare: 1 }
           },
           statistici_oferte:    {
-            id_box: "#box_statistici_ofertare",
-            path:   "php/stats_ofertare.php"
+            id_box:  "#box_statistici_ofertare",
+            path:    "php/stats_ofertare.php",
+            optiuni: {}
           },
           statistici_comenzi:   {},
           statistici_clienti:   {},
@@ -116,13 +117,14 @@
           /* se incarca box-ul unei optiuni noi din meniu
            implemantare box.load cu fadeout/fadein
            intre box-ul optiunii curente si box-ul optiunii noi care se incarca */
+
+          optiuni.width = parseInt(box_nou.css('width')); // se trimite si latimea ferestrei noi
           $.ajax({
             async:   true,
             url:     path,
             timeout: 5000,
             data:    {
-              optiuni: optiuni,
-              width:   parseInt(box_nou.css('width')) // se trimite si latimea ferestrei noi
+              optiuni: optiuni
             }
           })
               .done(function(data) {
@@ -761,7 +763,9 @@
         var root = $(this).closest('.box').attr('id').slice(4),
             id = parseInt($(this).parent().attr('id').slice(1)),
             box_curent = $('#box_' + root),
-            path = 'php/' + root + '.php';
+            path = 'php/' + root + '.php',
+            optiuni = {};
+
         $.ajax({
           async:   true,
           url:     path,
@@ -772,7 +776,7 @@
           timeout: 5000})
             .done(function(data) {
               if (data === 'Inexistent') {
-                load_box(box_curent, box_curent, path);
+                load_box(box_curent, box_curent, path, optiuni);
               }
               else {
                 box_curent.fadeOut(timp_fadeout)
@@ -799,6 +803,7 @@
             pattern,
             values = [],
             camp = $('form input'),
+            optiuni = {},
             salveaza = (this.id === 'creaza_companie') ? 1 : 0; // (1) creare, (0) modificare
         event.preventDefault();
         $('span.error').remove();
@@ -844,7 +849,7 @@
             timeout: 5000})
               .done(function(data) {
                 if (data === "ok") {
-                  load_box(id_box_companii, id_box_companii, path);
+                  load_box(id_box_companii, id_box_companii, path, optiuni);
                 } else if (data === "exista") {
                   camp.eq(1).addClass('required')
                       .parent()
@@ -869,6 +874,7 @@
             pattern,
             values = [],
             camp = $('form input'),
+            optiuni = {},
             salveaza = (this.id === 'creaza_vanzator') ? 1 : 0; // (1) creare, (0) modificare
         event.preventDefault();
         $('span.error').remove();
@@ -900,7 +906,7 @@
             timeout: 5000})
               .done(function(data) {
                 if (data === "ok") {
-                  load_box(id_box_vanzatori, id_box_vanzatori, path);
+                  load_box(id_box_vanzatori, id_box_vanzatori, path, optiuni);
                 } else if (data === "exista") {
                   camp.eq(1).addClass('required');
                   camp.eq(2).addClass('required')
@@ -925,6 +931,7 @@
             pattern,
             values = [],
             camp = $('form input'),
+            optiuni = {},
             salveaza = (this.id == "creaza_persoana") ? 1 : 0;  // 1-salveaza nou, 0-modific existent
         event.preventDefault();
         $('span.error').remove();
@@ -1007,7 +1014,7 @@
             timeout: 5000})
               .done(function(data) {
                 if (data === "ok") {
-                  load_box(id_box_persoane, id_box_persoane, path);
+                  load_box(id_box_persoane, id_box_persoane, path, optiuni);
                 } else if (data === "exista") {
                   camp.filter(function(i) {
                     return $.inArray(i, [1, 2, 8]) > -1;
@@ -1137,7 +1144,9 @@
     id_box_oferte.on({
       aplica: function() {
         console.log("Trigger: aplica");
-        var path = obj_pag["oferte"].path,
+        var root = $(this).closest('.box').attr('id').slice(4),
+            box_curent = $('#box_' + root),
+            path = 'php/' + root + '.php',
             optiuni = {},
             vanzator = $("#select_vanzator"),
             id_vanzator = vanzator.attr("data-id") || null,
@@ -1150,7 +1159,7 @@
             nume_stadiu = stadiu.val(),
             an = $("#select_an"),
             id_an = an.attr("data-id") || null;
-        optiuni.listare = 1;
+        optiuni.filtrare = 1;
         if (id_companie) {
           optiuni.companie = {
             id:   id_companie,
@@ -1174,7 +1183,21 @@
             id: id_an,
           }
         }
-        load_box(id_box_oferte, id_box_oferte, path, optiuni);
+        $.ajax({
+          async:   true,
+          url:     path,
+          data:    {
+            optiuni: optiuni
+          },
+          timeout: 5000})
+            .done(function(raspuns) {
+              box_curent.children('.rezultate, .total').remove().end().append(raspuns);
+            })
+            .fail(function(jqXHR, textStatus) {
+              AjaxFail(jqXHR, textStatus);
+            });
+
+        //load_box(id_box_oferte, id_box_oferte, path, optiuni);
       }
     });
 
