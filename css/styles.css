@@ -31,9 +31,6 @@
     src:         url('../fonts/sosa/sosa-regular-webfont.eot');
     src:         url('../fonts/sosa/sosa-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/sosa/sosa-regular-webfont.woff') format('woff'), url('../fonts/sosa/sosa-regular-webfont.ttf') format('truetype'), url('../fonts/sosa/sosa-regular-webfont.svg#sosaregular') format('svg');
 }
-html {
-    min-width: 940px;
-}
 body {
     font-size:     62.5%;
     margin-top:    50px;
