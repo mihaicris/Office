@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
-
+	<meta name="viewport" content="width=1200, initial-scale=1, maximum-scale=2, user-scalable=yes">
     <link href="images/favicon.ico" rel="icon" type="image/x-icon">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">

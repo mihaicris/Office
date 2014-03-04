@@ -537,6 +537,7 @@
             camp = $(this),
             camp_companie = $('#select_companie'),
             id_companie = camp_companie.attr('data-id');
+        camp.focus();
         $(".ddm").not(lista).hide();
         if (!id_companie) {
           camp_companie.focus();
@@ -562,9 +563,6 @@
           lista.hide();
           $(this).blur().removeClass("deschis");
         }
-      },
-      mouseup:   function() {
-        console.log("Trigger: mouseup #select_persoana");
       }
     }, '#select_persoana');
 
