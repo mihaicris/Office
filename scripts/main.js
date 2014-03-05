@@ -1201,7 +1201,7 @@
         var root = $(this).closest(".box").attr("id").slice(4),
             box_curent = $("#box_" + root),
             path = "php/" + root + ".php",
-            optiuni = {}, flag = 0, filtre = $("#filtre"),
+            optiuni = {}, filtre = $("#filtre"),
             vanzator = $("#select_vanzator"),
             companie = $("#select_companie"),
             stadiu = $("#select_stadiu"),
@@ -1211,57 +1211,46 @@
             id_stadiu = stadiu.attr("data-id"),
             id_an = an.attr("data-id");
         optiuni.filtrare = 1;
-        if (id_companie !== (filtre.attr("data-idcompanie") || "")) {
-          filtre.attr("data-idcompanie", id_companie);
-          flag = 1;
-          if (id_companie) {
-            optiuni.companie = {
-              id: id_companie
-            }
+
+        filtre.attr("data-idcompanie", id_companie);
+        if (id_companie) {
+          optiuni.companie = {
+            id: id_companie
           }
         }
-        if (id_vanzator !== (filtre.attr("data-idvanzator") || "")) {
-          filtre.attr("data-idvanzator", id_vanzator);
-          flag = 1;
-          if (id_vanzator) {
-            optiuni.vanzator = {
-              id: id_vanzator
-            }
+
+        filtre.attr("data-idvanzator", id_vanzator);
+        if (id_vanzator) {
+          optiuni.vanzator = {
+            id: id_vanzator
           }
         }
-        if (id_stadiu !== (filtre.attr("data-idstadiu") || "")) {
-          filtre.attr("data-idstadiu", id_stadiu);
-          flag = 1;
-          if (id_stadiu) {
-            optiuni.stadiu = {
-              id: id_stadiu
-            }
+
+        filtre.attr("data-idstadiu", id_stadiu);
+        if (id_stadiu) {
+          optiuni.stadiu = {
+            id: id_stadiu
           }
         }
-        if (id_an !== (filtre.attr("data-idan") || "")) {
-          filtre.attr("data-idan", id_an);
-          flag = 1;
-          if (id_an) {
-            optiuni.an = {
-              id: id_an
-            }
+
+        filtre.attr("data-idan", id_an);
+        if (id_an) {
+          optiuni.an = {
+            id: id_an
           }
         }
-        if (flag) {
-          $.ajax({
-            async:   true,
-            url:     path,
-            data:    {
-              optiuni: optiuni
-            },
-            timeout: 5000})
-              .done(function(raspuns) {
-                box_curent.children(".rezultate, .total").remove().end().append(raspuns);
-              })
-              .fail(function(jqXHR, textStatus) {
-                AjaxFail(jqXHR, textStatus);
-              });
-        }
+
+        $.ajax({
+          async:   true,
+          url:     path,
+          data:    { optiuni: optiuni },
+          timeout: 5000})
+            .done(function(raspuns) {
+              box_curent.children(".rezultate, .total").remove().end().append(raspuns);
+            })
+            .fail(function(jqXHR, textStatus) {
+              AjaxFail(jqXHR, textStatus);
+            });
       }
     });
 
