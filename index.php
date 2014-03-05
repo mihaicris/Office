@@ -44,7 +44,6 @@
         <li class="option" id="statistici_oferte">Ofertare</li>
         <li class="option" id="statistici_comenzi">Comenzi</li>
         <li class="option" id="statistici_clienti">Clienți</li>
-        <li class="option" id="statistici_furnizori">Furnizori</li>
     </ul>
     <ul>
         <li class="menu">Administrare</li>
@@ -62,7 +61,6 @@
 <div class="box" id="box_statistici_ofertare"></div>
 <div class="box" id="box_statistici_comenzi"></div>
 <div class="box" id="box_statistici_clienti"></div>
-<div class="box" id="box_statistici_furnizori"></div>
 <div class="box" id="box_companii"></div>
 <div class="box" id="box_vanzatori"></div>
 <div class="box" id="box_persoane"></div>
