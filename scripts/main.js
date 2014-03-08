@@ -949,6 +949,36 @@
           flag = true;
           camp.eq(2).addClass("required").parent().append('<span class="error">Minim 3 caractere.</span>');
         }
+        // Prelucrare telefon
+        pattern = /^[\+\-\(\)\s0-9]{3,}$/;
+        values[3] = camp.eq(3).val(camp.eq(3).val().slice(0, 50).trim()).val();
+        if (!pattern.test(values[3])) {
+          flag = true;
+          camp.eq(3).addClass("required").parent().append('<span class="error">Caractere permise : numere, spatii, +(-)<br />Minim 3 caracatere.</span>');
+        }
+        // Prelucrare fax
+        values[4] = camp.eq(4).val(camp.eq(4).val().slice(0, 50).trim()).val();
+        if (!pattern.test(values[4])) {
+          flag = true;
+          camp.eq(4).addClass("required").parent().append('<span class="error">Caractere permise : numere, spatii, +(-)<br />Minim 3 caracatere.</span>');
+        }
+        // Prelucrare telefon mobil
+        values[5] = camp.eq(5).val(camp.eq(5).val().slice(0, 50).trim()).val();
+        if (!pattern.test(values[5])) {
+          flag = true;
+          camp.eq(5).addClass("required").parent().append('<span class="error">Caractere permise : numere, spatii, +(-)<br />Minim 3 caracatere.</span>');
+        }
+        // prelucrare email
+        pattern = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
+        values[6] = camp.eq(6).val(camp.eq(6).val().slice(0, 100).trim()).val();
+        if (!pattern.test(values[6])) {
+          flag = true;
+          camp.eq(6).addClass("required").parent().append('<span class="error">Adresa de email nu este validă.</span>');
+        }
+
+        // citire activ
+        values[7] = camp.eq(7)[0].checked ? 1 : 0;
+
         if (!flag) {
           $.ajax({
             async:   true,

@@ -80,6 +80,11 @@
       <column name="id_vanzator" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5" autoIncrement="true"/>
       <column name="nume_vanzator" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
       <column name="prenume_vanzator" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="tel_vanzator" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="fax_vanzator" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="mobil_vanzator" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12"/>
+      <column name="email_vanzator" sqlType="VARCHAR" length="100" precision="0" nullable="false" jdbcType="12"/>
+      <column name="activ" sqlType="TINYINT UNSIGNED" length="3" precision="0" nullable="false" jdbcType="-6"/>
       <primary-key name="PRIMARY" columns="id_vanzator"/>
       <exported-key name="oferte_ibfk_3" table="oferte" schema="" catalog="office" columns="id_vanzator_oferta"/>
     </table>

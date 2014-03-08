@@ -647,7 +647,6 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 			</tr>
 			</tbody>
 		</table>
-		<!--    <span id="printeaza_oferta" class="buton_printeaza">Printează<span class="sosa">8</span></span>-->
 	</form>
 	<span id="editeaza_oferta" class="submit">Modifică<span class="sosa">å</span></span>
 	<span id="sterge" class="buton_stergere">Șterge<span class="sosa">ç</span></span>

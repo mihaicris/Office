@@ -27,6 +27,7 @@ function afiseaza_rezultate($query)
 	echo '<tr>';
 	echo '<th>ID</th>';
 	echo '<th>Nume și prenume</th>';
+	echo '<th>Activ</th>';
 	echo '</tr>';
 	for ($i = 0; $row = $query->fetch(); $i++) {
 		echo '<tr>';
@@ -36,6 +37,8 @@ function afiseaza_rezultate($query)
 			. '</span><span class="sosa actiune">a</span></td>';
 		echo '<td class="nume">'
 			. $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
+		echo $row['activ'] ? '<td class="align_center companie">DA' : '<td class="align_center id">NU';
+		echo '</td>';
 		echo '</tr>';
 	} //end for
 	echo "</table>";
@@ -79,6 +82,54 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 						/>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<label for="mobil_vanzator">Telefon Mobil</label>
+					<input class="normal mediu"
+						   id="mobil_vanzator"
+						   type="text"
+						   name="mobil_vanzator"
+						   autocomplete="off"/>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<label for="tel_vanzator">Telefon fix</label>
+					<input class="normal mediu"
+						   id="tel_vanzator"
+						   type="text"
+						   name="tel_vanzator"
+						   autocomplete="off"/>
+				</td>
+				<td>
+					<label for="fax_vanzator">Fax</label>
+					<input class="normal mediu"
+						   id="fax_vanzator"
+						   type="text"
+						   name="fax_vanzator"
+						   autocomplete="off"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="email_vanzator">Adresă de email</label>
+					<input class="normal mediu"
+						   id="email_vanzator"
+						   type="text"
+						   name="email_vanzator"
+						   autocomplete="off"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="activ">Vânzător activ</label>
+					<input id="activ"
+						   name="activ"
+						   type="checkbox"
+						   checked/>
+				</td>
+			</tr>
 			</tbody>
 		</table>
 	</form>
@@ -117,7 +168,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   id="nume_vanzator"
 						   type="text"
 						   name="nume_vanzator"
-						   value="<?php echo $row['nume_vanzator']; ?>"
+						   value="<?php echo $row["nume_vanzator"]; ?>"
 						   autocomplete="off"/>
 				</td>
 				<td>
@@ -126,8 +177,65 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   id="prenume_vanzator"
 						   type="text"
 						   name="prenume_vanzator"
-						   value="<?php echo $row['prenume_vanzator']; ?>"
+						   value="<?php echo $row["prenume_vanzator"]; ?>"
 						   autocomplete="off"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="mobil_vanzator">Telefon Mobil</label>
+					<input class="normal mediu"
+						   id="mobil_vanzator"
+						   type="text"
+						   name="mobil_vanzator"
+						   value="<?php echo $row["mobil_vanzator"]; ?>"
+						   autocomplete="off"/>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<label for="tel_vanzator">Telefon fix</label>
+					<input class="normal mediu"
+						   id="tel_vanzator"
+						   type="text"
+						   name="tel_vanzator"
+						   value="<?php echo $row["tel_vanzator"]; ?>"
+						   autocomplete="off"/>
+				</td>
+				<td>
+					<label for="fax_vanzator">Fax</label>
+					<input class="normal mediu"
+						   id="fax_vanzator"
+						   type="text"
+						   name="fax_vanzator"
+						   value="<?php echo $row["fax_vanzator"]; ?>"
+						   autocomplete="off"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="email_vanzator">Adresă de email</label>
+					<input class="normal mediu"
+						   id="email_vanzator"
+						   type="text"
+						   name="email_vanzator"
+						   value="<?php echo $row["email_vanzator"]; ?>"
+						   autocomplete="off"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="activ">Vânzător activ</label>
+					<input id="activ"
+						   name="activ"
+						   type="checkbox"
+						<?php
+						if ($row["activ"]) {
+							echo "checked";
+						}
+						?>
+						/>
 				</td>
 			</tr>
 			</tbody>
@@ -147,14 +255,24 @@ if (isset($_POST["salveaza"])) {
 		$string = 'INSERT INTO `vanzatori`
                        (`nume_vanzator`,
                         `prenume_vanzator`,
+                        `tel_vanzator`,
+                        `fax_vanzator`,
+                        `mobil_vanzator`,
+                        `email_vanzator`,
+                        `activ`,
                         `id_vanzator`)
-		           VALUES (?, ?, NULL);';
+		           VALUES (?, ?, ?, ?, ?, ?, ?, NULL);';
 		array_shift($data);
 	} else {
 		verifica_existenta_vanzator($data[0], $data[1], $data[2]); // data[0] contine id-ul vanzatorului care se modifica
 		$string = 'UPDATE `vanzatori`
                    SET  `nume_vanzator` = ?,
-                        `prenume_vanzator` = ?
+                        `prenume_vanzator` = ?,
+						`tel_vanzator` = ?,
+                        `fax_vanzator` = ?,
+                        `mobil_vanzator` = ?,
+                        `email_vanzator` = ?,
+                        `activ` = ?
                    WHERE `id_vanzator` = ?;';
 		array_push($data, array_shift($data));
 	}
@@ -172,9 +290,7 @@ if (isset($_POST["sterge"])) {
 }
 
 if (isset($_POST["select_vanzator"])) {
-
 	// alegere vanzator din baza de date in formulare
-
 	// prima interogare pentru numarare rezultate
 	$string = 'SELECT COUNT(*)
 					FROM `vanzatori`
@@ -184,12 +300,13 @@ if (isset($_POST["select_vanzator"])) {
 	//daca nu sunt rezultate se iese cu mesaj
 	$count = $query->fetchColumn();
 	if (!$count) {
-		echo '<p class="noresults"><strong>Nu există în baza de date.</strong></p>';
+		echo '<p class="noresults"><strong>Nu există vânazători activi în baza de date.</strong></p>';
 		exit();
 	}
 	// interogarea adevarata pentru rezultate
 	$string = 'SELECT *
 					FROM `vanzatori`
+					WHERE `activ` = 1
 					ORDER BY `nume_vanzator` ASC;';
 	$query = interogare($string, NULL);
 	for ($i = 0; $row = $query->fetch(); $i++) {
@@ -202,28 +319,22 @@ if (isset($_POST["select_vanzator"])) {
 	exit();
 }
 if (isset($_POST["camp_str"])) {
-
 	$string = 'SELECT COUNT(*)
                FROM vanzatori
 			   WHERE (nume_vanzator LIKE ? OR prenume_vanzator LIKE ?);';
-
 	$str = "%" . $_POST["camp_str"] . "%";
 	$data = array($str, $str);
-
 	$query = interogare($string, $data);
 	//daca nu sunt rezultate se iese cu mesaj
 	$count = $query->fetchColumn();
-
 	if (!$count) {
 		echo '<p>Nu există în baza de date.</p>';
 		exit();
 	}
-
-	if ($_POST["camp_str"] == "") {
-		afiseaza_numar_total($count);
-		exit();
-	}
-
+//	if ($_POST["camp_str"] == "") {
+//		afiseaza_numar_total($count);
+//		exit();
+//	}
 	// interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
 	$string = 'SELECT *
                FROM `vanzatori`
@@ -264,5 +375,8 @@ if (!$count) { //daca nu sunt rezultate se iese cu mesaj
 	echo '<p>Nu există în baza de date.</p>';
 	exit();
 }
+$string = 'SELECT * FROM `vanzatori`;';
+$query = interogare($string, NULL);
+afiseaza_rezultate($query);
 afiseaza_numar_total($count);
 ?>
