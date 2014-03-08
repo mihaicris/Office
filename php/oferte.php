@@ -56,6 +56,7 @@ function afiseaza_rezultate($query)
 	global $stadiu;
 	$flag = 0;
 	$count = 0;
+	$cur_date =date("Y-m-d");
 	$h = '<table class="rezultate">';
 	$h .= '<tr>';
 	$h .= '<th>Referință</th>';
@@ -66,6 +67,7 @@ function afiseaza_rezultate($query)
 	$h .= '<th>Valoare</th>';
 	$h .= '<th>Relevant</th>';
 	$h .= '<th>Stadiu</th>';
+	$h .= '<th>Activă</th>';
 	$h .= "</tr>";
 	for ($i = 0; $row = $query->fetch(); $i++) {
 		$flag = 1;
@@ -77,14 +79,16 @@ function afiseaza_rezultate($query)
 		$h .= '<td class="companie">' . $row['nume_companie'] . '</td>';
 		$h .= '<td class="nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
 		$h .= '<td>' . $row['valoare_oferta'] . '</td>';
-		$h .= '<td class="align_center">';
-		if ($row["relevant"]) {
-			$h .= 'Da';
-		} else {
-			$h .= 'Nu';
-		}
+		$h .= $row["relevant"] ? '<td class="align_center companie">DA' : '<td class="align_center id">NU' ;
 		$h .= '</td>';
 		$h .= '<td class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</td>';
+		if (!$row['stadiu']) {
+			$h .= $row["data_expirare"] < $cur_date
+				? '<td class="align_center companie">Expirată</td>'
+				: '<td class="align_center id">Valabilă</td>';
+		} else {
+			$h .= "<td></td>";
+		}
 		$h .= '</tr>';
 	} //end for
 	$h .= '</table>';
@@ -195,6 +199,7 @@ if (isset($_POST["optiuni"]["listare"])) {
                   O . nume_oferta,
                   O . descriere_oferta,
                   DATE_FORMAT(O . data_oferta, '%d-%c-%Y') AS dataoferta,
+                  O . data_expirare,
                   O . id_companie_oferta,
                   O . id_vanzator_oferta,
                   O . valoare_oferta,
@@ -249,7 +254,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 	} else {
 		$string .= "\r\n;";
 	}
-
+	fb($string);
 	$query = interogare($string, $data);
 	afiseaza_rezultate($query);
 	exit();
@@ -262,6 +267,7 @@ if (isset($_POST["optiuni"]["filtrare"])) {
                   O . descriere_oferta,
                   DATE_FORMAT(O . data_oferta, '%d-%c-%Y') AS dataoferta,
                   O . id_companie_oferta,
+                  O . data_expirare,
                   O . id_vanzator_oferta,
                   O . valoare_oferta,
                   O . stadiu,
