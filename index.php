@@ -29,14 +29,14 @@
         <li class="option" id="oferte">Oferte</li>
         <li class="option" id="oferta_noua">Ofertă nouă</li>
     </ul>
-    <ul>
-        <li class="menu" >Comenzi</li>
-    </ul>
-    <ul>
-        <li class="option" id="comenzi">Comenzi</li>
-        <li class="option" id="comanda_noua">Comandă nouă</li>
-
-    </ul>
+<!--    <ul>-->
+<!--        <li class="menu" >Comenzi</li>-->
+<!--    </ul>-->
+<!--    <ul>-->
+<!--        <li class="option" id="comenzi">Comenzi</li>-->
+<!--        <li class="option" id="comanda_noua">Comandă nouă</li>-->
+<!---->
+<!--    </ul>-->
     <ul>
         <li class="menu">Rapoarte</li>
     </ul>
@@ -55,9 +55,9 @@
     </ul>
 </nav>
 <div class="box" id="box_oferte"></div>
-<div class="box" id="box_comenzi"></div>
-<div class="box" id="box_comanda_noua"></div>
-<div class="box" id="box_editeaza_comanda"></div>
+<!--<div class="box" id="box_comenzi"></div>-->
+<!--<div class="box" id="box_comanda_noua"></div>-->
+<!--<div class="box" id="box_editeaza_comanda"></div>-->
 <div class="box" id="box_statistici_ofertare"></div>
 <div class="box" id="box_statistici_comenzi"></div>
 <div class="box" id="box_statistici_clienti"></div>

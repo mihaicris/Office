@@ -40,6 +40,8 @@
             optiuni: {}
           },
           statistici_comenzi:   {
+            id_box:  "#box_statistici_comenzi",
+            path:    "php/stats_comenzi.php",
             optiuni: {}
           },
           statistici_clienti:   {
