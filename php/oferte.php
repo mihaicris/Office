@@ -59,8 +59,8 @@ function afiseaza_rezultate($query)
 	$cur_date = date("Y-m-d");
 	$h = '<table class="rezultate">';
 	$h .= '<tr>';
-	$h .= '<th>Referință</th>';
-	$h .= '<th>Nume proiect</th>';
+	$h .= '<th>Acțiuni</th>';
+	$h .= '<th>Nume ofertă</th>';
 	$h .= '<th>Data</th>';
 	$h .= '<th>Companie</th>';
 	$h .= '<th>Vânzător</th>';
@@ -73,15 +73,15 @@ function afiseaza_rezultate($query)
 		$flag = 1;
 		$count++;
 		$h .= '<tr>';
-		$h .= '<td id="f' . $row['id_oferta'] . '"><span class="id">' . $row['id_oferta'] . '</span><span class="sosa actiune">a</span></td>';
+		$h .= '<td class="align_center" id="f' . $row['id_oferta'] . '"><span class="id"></span><span title="Editează" class="sosa actiune">a</span></td>';
 		$h .= '<td title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
-		$h .= '<td>' . str_replace_assoc($row['dataoferta']) . '</td>';
+		$h .= '<td class="align_center">' . str_replace_assoc($row['dataoferta']) . '</td>';
 		$h .= '<td class="companie">' . $row['nume_companie'] . '</td>';
 		$h .= '<td class="nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
 		$h .= '<td>' . $row['valoare_oferta'] . '</td>';
 		$h .= $row["relevant"] ? '<td class="align_center companie">DA' : '<td class="align_center id">NU';
 		$h .= '</td>';
-		$h .= '<td class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</td>';
+		$h .= '<td class="align_center stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</td>';
 		if (!$row['stadiu']) {
 			$h .= $row["data_expirare"] < $cur_date
 				? '<td class="align_center id">Expirată</td>'
@@ -203,6 +203,9 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   placeholder="Selectează ..."
 							   readonly/>
 					</td>
+					<td class="align_right" colspan="2">
+						<span id="reset" class="submit">Resetare</span>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -228,7 +231,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   readonly/>
 					</td>
 					<td class="spatiu_stanga ascuns valabilitate">
-						<label for="select_valabilitate">Fitrare</label>
+						<label for="select_valabilitate">Filtrare</label>
 					</td>
 					<td class="ascuns valabilitate">
 						<input class="normal extrascurt"
@@ -242,8 +245,9 @@ if (isset($_POST["optiuni"]["listare"])) {
 				</tbody>
 			</table>
 			<input id="filtre" type="hidden"/>
+
 		</fieldset>
-		<span id="reset" class="submit">Resetare</span>
+
 	</form>
 	<div id="lista_vanzatori" class="ddm"></div>
 	<div id="lista_companii" class="ddm"></div>

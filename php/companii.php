@@ -24,7 +24,7 @@ function afiseaza_rezultate($query)
 {
     echo '<table class="rezultate">';
     echo "<tr>";
-    echo '<th>ID</th>';
+    echo '<th>Acțiuni</th>';
     echo '<th>Companie</th>';
     echo '<th>Adresă</th>';
     echo '<th>Oraș</th>';
@@ -32,7 +32,7 @@ function afiseaza_rezultate($query)
     echo "</tr>";
     for ($i = 0; $row = $query->fetch(); $i++) {
         echo '<tr>';
-        echo '<td id="f' . $row['id_companie'] . '"><span class="id">' . $row['id_companie'] . '</span><span class="sosa actiune">a</span></td>';
+        echo '<td class="align_center" id="f' . $row['id_companie'] . '"><span class="id"></span><span title="Editează" class="sosa actiune">a</span></td>';
         echo '<td class="companie">' . $row['nume_companie'] . '</td>';
         echo '<td class="adresa">' . $row['adresa_companie'] . '</td>';
         echo '<td class="oras">' . $row['oras_companie'] . '</td>';
