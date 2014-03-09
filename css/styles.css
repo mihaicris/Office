@@ -117,7 +117,7 @@ fieldset {
     padding-right:    20px;
     border-radius:    1px;
     box-shadow:       0 0 1px 0 lightblue;
-    width:            900px;
+    /*width:            1000px;*/
 }
 fieldset legend {
     color:     lightcoral;
@@ -351,12 +351,18 @@ input.required {
 }
 table.rezultate {
     margin-top: 10px;
-    width:      900px;
+    width:      1000px;
+    font-size:  0.9em;
 }
 table.rezultate td, .rezultate th {
     padding: 1px 5px;
     border:  1px solid #777;
 }
+table.rezultate td div {
+    height:   16px;
+    overflow: hidden;
+}
+/*table.rezultate tr { line-height: 15px; }*/
 table.rezultate th {
     background-color: #600000;
     color:            #FFD5D5;
@@ -438,9 +444,6 @@ canvas {
 }
 :focus {
     outline: medium none;
-}
-#source {
-    display: none;
 }
 .box {
     display:          none;
@@ -536,12 +539,6 @@ canvas {
 .stadiu_2 {
     color: red;
 }
-#reset {
-    /*background-color: khaki;*/
-    /*color:            rgb(0, 0, 0);*/
-    /*display:          inline-block;*/
-    /*padding:          2px 8px;*/
-    /*font-weight:      800;*/
-    /*cursor:           pointer;*/
-    /*border-radius:    3px;*/
+#source {
+    display: none;
 }

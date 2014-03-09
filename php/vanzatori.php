@@ -25,16 +25,13 @@ function afiseaza_rezultate($query)
 {
 	echo '<table class="rezultate">';
 	echo '<tr>';
-	echo '<th>ID</th>';
+	echo '<th class="">Acțiuni</th>';
 	echo '<th>Nume și prenume</th>';
 	echo '<th>Activ</th>';
 	echo '</tr>';
 	for ($i = 0; $row = $query->fetch(); $i++) {
 		echo '<tr>';
-		echo '<td id="f' . $row['id_vanzator']
-			. '"><span class="id">'
-			. $row['id_vanzator']
-			. '</span><span class="sosa actiune">a</span></td>';
+		echo '<td class="align_center" id="f' . $row['id_vanzator'] . '"><span class="id"></span><span title="Editează" class="sosa actiune">a</span></td>';
 		echo '<td class="nume">'
 			. $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
 		echo $row['activ'] ? '<td class="align_center companie">DA' : '<td class="align_center id">NU';

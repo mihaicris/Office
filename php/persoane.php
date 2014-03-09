@@ -28,7 +28,7 @@ function afiseaza_rezultate($query)
 {
     echo '<table class="rezultate">';
     echo '<tr>';
-    echo '<th>ID</th>';
+    echo '<th>Acțiuni</th>';
     echo '<th>Nume și prenume</th>';
     echo '<th>Companie</th>';
     echo '<th>E-mail</th>';
@@ -36,7 +36,7 @@ function afiseaza_rezultate($query)
     echo "</tr>";
     for ($i = 0; $row = $query->fetch(); $i++) {
         echo '<tr>';
-        echo '<td id="f' . $row['id_persoana'] . '"><span class="id">' . $row['id_persoana'] . '</span><span class="sosa actiune">a</span></td>';
+        echo '<td class="align_center" id="f' . $row['id_persoana'] . '"><span class="id"></span><span title="Editează" class="sosa actiune">a</span></td>';
         echo '<td class="nume">' . $row['nume_persoana'] . ' ' . $row['prenume_persoana'] . '</td>';
         echo '<td class="companie">' . $row['nume_companie'] . '</td>';
         echo '<td class="email"><a class="email" href="mailto:' . $row['email_persoana'] . '">' . $row['email_persoana'] . '</a></td>';
