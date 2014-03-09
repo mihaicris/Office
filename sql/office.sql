@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 28, 2014 at 03:31 PM
+-- Generation Time: Mar 09, 2014 at 07:20 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -102,16 +102,21 @@ CREATE TABLE IF NOT EXISTS `oferte` (
   KEY `id_companie_oferta` (`id_companie_oferta`),
   KEY `id_vanzator_oferta` (`id_vanzator_oferta`),
   KEY `id_persoana_oferta` (`id_persoana_oferta`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
 
 --
 -- Dumping data for table `oferte`
 --
 
 INSERT INTO `oferte` (`id_oferta`, `nume_oferta`, `data_oferta`, `descriere_oferta`, `id_companie_oferta`, `id_persoana_oferta`, `id_vanzator_oferta`, `data_expirare`, `valabilitate`, `valoare_oferta`, `relevant`, `stadiu`) VALUES
-(00027, 'Alimentare cu energie stație 220 kV Turnu Măgurele', '2014-02-27', 'Livrare de echipamente de înaltă tensiune\nPrestare de servicii de parametrizare', 00053, 00021, 00031, '2014-03-29', 30, 1500000, 1, 0),
-(00028, 'Proiect de modernizare Statie Satu Mare', '2014-02-26', 'Livrare celule de medie tensiune', 00005, 00020, 00033, '2014-04-27', 60, 540000, 0, 1),
-(00030, 'STA Sebeș', '2014-02-28', 'Livrare de celule de medie tensiune', 00055, 00023, 00042, '2014-03-30', 30, 100000, 1, 0);
+(00053, 'Ofertă', '2014-03-12', 'sdvsdvsdv', 00024, 00018, 00042, '2014-04-08', 27, 2000000, 1, 1),
+(00054, 'Modernizare statie de medie tensiune', '2014-01-22', 'Edificii', 00011, 00008, 00044, '2014-02-21', 30, 5000000, 1, 0),
+(00055, 'Oferta', '2014-05-21', 'dfwefwef', 00010, 00010, 00031, '2014-06-20', 30, 6000000, 0, 2),
+(00056, 'Ofertă', '2014-02-21', 'wefwef wefe', 00024, 00018, 00044, '2014-03-23', 30, 4000000, 1, 1),
+(00057, 'Oferta', '2014-06-12', 'Oferta', 00005, 00004, 00043, '2014-07-12', 30, 9000000, 1, 2),
+(00058, 'Ofertă', '2014-04-18', 'werwerwe', 00011, 00009, 00042, '2014-05-18', 30, 1234500, 1, 0),
+(00059, 'Ofertă', '2014-01-06', 'qerqwer qer qer qer qr qwer r qwrqwr q', 00006, 00005, 00033, '2014-02-05', 30, 3000000, 1, 0),
+(00060, 'Post de transformare', '2014-03-09', 'Livrare celule de medie tensiune si transformatoare de distributie', 00008, 00007, 00031, '2014-04-08', 30, 6500000, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -143,7 +148,7 @@ INSERT INTO `persoane` (`id_persoana`, `nume_persoana`, `prenume_persoana`, `gen
 (00001, 'Pană', 'Dochin', 0, 'Director Tehnic', 'Management', 00043, '+40 (254) 513.325', '+40 (254) 513.464', '+40 (769) 252.265', 'electroutil@yahoo.com'),
 (00002, 'Cristescu', 'Mihai', 0, 'Suport Vânzări', 'Vânzări', 00001, '+40 (21) 6296 484', '+40 (21) 6296 480', '+40 (724) 38 38 28', 'mihai.cristescu@siemens.com'),
 (00003, 'Pigulea', 'Petre', 0, 'Inginer Proiectant Medie Tensiune', 'Birou Proiectare', 00005, '+40 (372) 058 100  Int. 207', '+40 (372) 058 101', '+40 (722) 501 617 ', 'petre.pigulea@automatica.ro'),
-(00004, 'Mirea', 'Ioana', 1, 'Şef Birou Aprovizionare', 'Birou Achiziţii', 00005, '+40 (372) 058 100*107', '+40 (372) 058 101', '+40 (729) 035 164', 'ioana.mirea@automatica.ro'),
+(00004, 'Mirea', 'Ioana', 1, 'Şef Birou Aprovizionare', 'Birou Achiziţii', 00005, '+40 (372) 058 100 + 107', '+40 (372) 058 101', '+40 (729) 035 164', 'ioana.mirea@automatica.ro'),
 (00005, 'Ionescu', 'Octavian', 0, 'Responsabil Medie Tensiune', 'Departament Tehnic', 00006, '+40 (247) 306 200', '+40 (247) 306 213', '+40 (744) 538 062', 'office@electrotel.ro'),
 (00006, 'Stoinea', 'Dumitru', 0, 'Responsabil Ofertă', 'Departament Ofertare', 00006, '+40 (21) 231 89 90', '+40 (247) 306 213', '+40 (723) 361157', 'office@electrotel.ro'),
 (00007, 'Terec', 'Adrian', 0, 'Director Executiv', 'Management', 00008, '+40 (264) 207 544', '+40 (264) 207 555', '+40 (723) 658 773', 'adrian.terec@energobit.com'),
@@ -219,6 +224,11 @@ CREATE TABLE IF NOT EXISTS `vanzatori` (
   `id_vanzator` smallint(5) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `nume_vanzator` varchar(50) CHARACTER SET utf8 COLLATE utf8_romanian_ci NOT NULL,
   `prenume_vanzator` varchar(50) CHARACTER SET utf8 COLLATE utf8_romanian_ci NOT NULL,
+  `tel_vanzator` varchar(50) NOT NULL,
+  `fax_vanzator` varchar(50) NOT NULL,
+  `mobil_vanzator` varchar(50) NOT NULL,
+  `email_vanzator` varchar(100) NOT NULL,
+  `activ` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id_vanzator`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
 
@@ -226,13 +236,13 @@ CREATE TABLE IF NOT EXISTS `vanzatori` (
 -- Dumping data for table `vanzatori`
 --
 
-INSERT INTO `vanzatori` (`id_vanzator`, `nume_vanzator`, `prenume_vanzator`) VALUES
-(00028, 'Manta', 'Elena'),
-(00031, 'Medinceanu', 'Costinel'),
-(00033, 'Rusu', 'Lucian'),
-(00042, 'Cristea', 'Vasile'),
-(00043, 'Stoian', 'Oana'),
-(00044, 'Luca', 'Adrian');
+INSERT INTO `vanzatori` (`id_vanzator`, `nume_vanzator`, `prenume_vanzator`, `tel_vanzator`, `fax_vanzator`, `mobil_vanzator`, `email_vanzator`, `activ`) VALUES
+(00028, 'Manta', 'Elena', '', '', '', '', 1),
+(00031, 'Medinceanu', 'Costinel', '45345345', '345345345', '45345345', 'costinel.medinceanu@siemens.com', 1),
+(00033, 'Rusu', 'Lucian', '', '', '', '', 1),
+(00042, 'Cristea', 'Vasile', '+40 (731) 494 589', '+40 (21) 6296 480', '+40 (21) 6296 606', 'vasile.cristea@siemens.com', 1),
+(00043, 'Stoian', 'Oana', '+40 (724) 123 456', '+40 (724) 123 456', '+40 (724) 123 456', 'oana.stoian@siemens.com', 1),
+(00044, 'Luca', 'Adrian', '+40 (726) 291 086', '+40 (726) 291 086', '+40 (21) 6296-606', 'luca.adrian@siemens.com', 1);
 
 --
 -- Constraints for dumped tables
