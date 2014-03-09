@@ -24,15 +24,15 @@ function verifica_existenta_oferta($id, $nume_oferta, $data_oferta, $id_companie
 function str_replace_assoc($subject)
 {
 	$replace = array(
-		'-1-' => '-Ian-',
-		'-2-' => '-Feb-',
-		'-3-' => '-Mar-',
-		'-4-' => '-Apr-',
-		'-5-' => '-Mai-',
-		'-6-' => '-Iun-',
-		'-7-' => '-Iul-',
-		'-8-' => '-Aug-',
-		'-9-' => '-Sep-',
+		'-01-' => '-Ian-',
+		'-02-' => '-Feb-',
+		'-03-' => '-Mar-',
+		'-04-' => '-Apr-',
+		'-05-' => '-Mai-',
+		'-06-' => '-Iun-',
+		'-07-' => '-Iul-',
+		'-08-' => '-Aug-',
+		'-09-' => '-Sep-',
 		'-10-' => '-Oct-',
 		'-11-' => '-Noi-',
 		'-12-' => '-Dec-',
@@ -40,18 +40,7 @@ function str_replace_assoc($subject)
 	return str_replace(array_keys($replace), array_values($replace), $subject);
 }
 
-function afiseaza_numar_total($count)
-{
-	echo '<span class="total">' . $count;
-	if ($count == 1) {
-		echo " ofertă";
-	} else {
-		echo " oferte";
-	}
-	echo "</span>";
-}
-
-function afiseaza_rezultate($query)
+function afiseaza_rezultate($query, $filtru)
 {
 	global $stadiu;
 	$flag = 0;
@@ -73,7 +62,10 @@ function afiseaza_rezultate($query)
 		$flag = 1;
 		$count++;
 		$h .= '<tr>';
-		$h .= '<td class="align_center" id="f' . $row['id_oferta'] . '"><span class="id"></span><span title="Editează" class="sosa actiune">a</span></td>';
+		$h .= '<td class="align_center" id="f' . $row['id_oferta'] . '">
+			<span title="Editează" class="sosa actiune">a</span>
+			<a href="php/word/Oferta.docx" title="Printează" class="sosa print">p</a>
+			</td>';
 		$h .= '<td title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
 		$h .= '<td class="align_center">' . str_replace_assoc($row['dataoferta']) . '</td>';
 		$h .= '<td class="companie">' . $row['nume_companie'] . '</td>';
@@ -90,12 +82,19 @@ function afiseaza_rezultate($query)
 			$h .= "<td></td>";
 		}
 		$h .= '</tr>';
-	} //end for
+	}
 	$h .= '</table>';
 	if ($flag) {
 		echo $h;
 	}
-	afiseaza_numar_total($count);
+	echo '<span class="total">' . $count;
+	if ($count == 1) {
+		echo " ofertă";
+	} else {
+		echo " oferte";
+	}
+	echo $filtru ? " găsite" : " recente";
+	echo "</span>";
 }
 
 function filtrare_si_afisare()
@@ -104,7 +103,7 @@ function filtrare_si_afisare()
 	$string = "SELECT O . id_oferta,
                   O . nume_oferta,
                   O . descriere_oferta,
-                  DATE_FORMAT(O . data_oferta, '%d-%c-%Y') AS dataoferta,
+                  DATE_FORMAT(O . data_oferta, '%d-%m-%Y') AS dataoferta,
                   O . id_companie_oferta,
                   O . data_expirare,
                   O . id_vanzator_oferta,
@@ -166,11 +165,13 @@ function filtrare_si_afisare()
 	$string .= "\r\nORDER BY `data_oferta` DESC";
 	if (empty($data)) {
 		$string .= "\r\nLIMIT 10;";
+		$filtru = false;
 	} else {
 		$string .= "\r\n;";
+		$filtru = true;
 	}
 	$query = interogare($string, $data);
-	afiseaza_rezultate($query);
+	afiseaza_rezultate($query, $filtru);
 }
 
 if (isset($_POST["optiuni"]["listare"])) {
