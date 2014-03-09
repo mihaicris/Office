@@ -56,7 +56,7 @@ function afiseaza_rezultate($query)
 	global $stadiu;
 	$flag = 0;
 	$count = 0;
-	$cur_date =date("Y-m-d");
+	$cur_date = date("Y-m-d");
 	$h = '<table class="rezultate">';
 	$h .= '<tr>';
 	$h .= '<th>Referință</th>';
@@ -67,7 +67,7 @@ function afiseaza_rezultate($query)
 	$h .= '<th>Valoare</th>';
 	$h .= '<th>Relevant</th>';
 	$h .= '<th>Stadiu</th>';
-	$h .= '<th>Activă</th>';
+	$h .= '<th>Valabilitate</th>';
 	$h .= "</tr>";
 	for ($i = 0; $row = $query->fetch(); $i++) {
 		$flag = 1;
@@ -79,13 +79,13 @@ function afiseaza_rezultate($query)
 		$h .= '<td class="companie">' . $row['nume_companie'] . '</td>';
 		$h .= '<td class="nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
 		$h .= '<td>' . $row['valoare_oferta'] . '</td>';
-		$h .= $row["relevant"] ? '<td class="align_center companie">DA' : '<td class="align_center id">NU' ;
+		$h .= $row["relevant"] ? '<td class="align_center companie">DA' : '<td class="align_center id">NU';
 		$h .= '</td>';
 		$h .= '<td class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</td>';
 		if (!$row['stadiu']) {
 			$h .= $row["data_expirare"] < $cur_date
-				? '<td class="align_center companie">Expirată</td>'
-				: '<td class="align_center id">Valabilă</td>';
+				? '<td class="align_center id">Expirată</td>'
+				: '<td class="align_center companie">Activă</td>';
 		} else {
 			$h .= "<td></td>";
 		}
@@ -96,6 +96,81 @@ function afiseaza_rezultate($query)
 		echo $h;
 	}
 	afiseaza_numar_total($count);
+}
+
+function filtrare_si_afisare()
+{
+	$data = array();
+	$string = "SELECT O . id_oferta,
+                  O . nume_oferta,
+                  O . descriere_oferta,
+                  DATE_FORMAT(O . data_oferta, '%d-%c-%Y') AS dataoferta,
+                  O . id_companie_oferta,
+                  O . data_expirare,
+                  O . id_vanzator_oferta,
+                  O . valoare_oferta,
+                  O . stadiu,
+                  O . relevant,
+                  C . nume_companie,
+                  V . nume_vanzator,
+                  V . prenume_vanzator
+           FROM oferte AS O
+           LEFT JOIN companii AS C ON O . id_companie_oferta = C . id_companie
+           LEFT JOIN vanzatori AS V ON O . id_vanzator_oferta = V . id_vanzator";
+	$flag = 0;
+	if (isset($_POST["optiuni"]["companie"])) {
+		$string .= "\r\nWHERE O . id_companie_oferta = ?";
+		array_push($data, $_POST["optiuni"]["companie"]["id"]);
+		$flag = 1;
+	}
+	if (isset($_POST["optiuni"]["vanzator"])) {
+		if ($flag) {
+			$string .= "\r\nAND O . id_vanzator_oferta = ?";
+		} else {
+			$string .= "\r\nWHERE O . id_vanzator_oferta = ?";
+		}
+		array_push($data, $_POST["optiuni"]["vanzator"]["id"]);
+		$flag = 1;
+	}
+	if (isset($_POST["optiuni"]["stadiu"])) {
+		if ($flag) {
+			$string .= "\r\nAND O . stadiu = ?";
+		} else {
+			$string .= "\r\nWHERE O . stadiu = ?";
+		}
+		array_push($data, $_POST["optiuni"]["stadiu"]["id"]);
+		$flag = 1;
+	}
+	if (isset($_POST["optiuni"]["valabilitate"])) {
+		if ($flag) {
+			$string .= $_POST["optiuni"]["valabilitate"]["id"]
+				? "\r\nAND O . data_expirare < curdate()"
+				: "\r\nAND O . data_expirare >= curdate()";
+		} else {
+			$string .= $_POST["optiuni"]["valabilitate"]["id"]
+				? "\r\nWHERE O . data_expirare < curdate()"
+				: "\r\nWHERE O . data_expirare >= curdate()";
+		}
+		$flag = 1;
+	};
+
+	if (isset($_POST["optiuni"]["an"])) {
+		if ($flag) {
+			$string .= "\r\nAND YEAR(data_oferta) = ?";
+		} else {
+			$string .= "\r\nWHERE YEAR(data_oferta) = ?";
+		}
+		array_push($data, $_POST["optiuni"]["an"]["id"]);
+		$flag = 1;
+	}
+	$string .= "\r\nORDER BY `data_oferta` DESC";
+	if (empty($data)) {
+		$string .= "\r\nLIMIT 10;";
+	} else {
+		$string .= "\r\n;";
+	}
+	$query = interogare($string, $data);
+	afiseaza_rezultate($query);
 }
 
 if (isset($_POST["optiuni"]["listare"])) {
@@ -117,7 +192,8 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   placeholder="Tastează pentru a căuta ..."
 							/>
 					</td>
-					<td class="spatiu_stanga"><label for="select_an"> An financiar</label>
+					<td class="spatiu_stanga">
+						<label for="select_an"> An financiar</label>
 					</td>
 					<td>
 						<input class="normal extrascurt"
@@ -126,9 +202,6 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   name="select_an"
 							   placeholder="Selectează ..."
 							   readonly/>
-					</td>
-					<td class="spatiu_stanga">
-						<span id="reset">Reset</span>
 					</td>
 				</tr>
 				<tr>
@@ -143,7 +216,8 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   placeholder="Selectează ..."
 							   readonly/>
 					</td>
-					<td class="spatiu_stanga"><label for="select_stadiu">Stadiu ofertă</label>
+					<td class="spatiu_stanga">
+						<label for="select_stadiu">Oferte</label>
 					</td>
 					<td>
 						<input id="select_stadiu"
@@ -153,26 +227,35 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   placeholder="Selectează ..."
 							   readonly/>
 					</td>
-					<td></td>
+					<td class="spatiu_stanga ascuns valabilitate">
+						<label for="select_valabilitate">Fitrare</label>
+					</td>
+					<td class="ascuns valabilitate">
+						<input class="normal extrascurt"
+							   id="select_valabilitate"
+							   type="text"
+							   name="select_valabilitate"
+							   placeholder="Selectează ..."
+							   readonly/>
+					</td>
 				</tr>
 				</tbody>
 			</table>
-			<input id="filtre"
-				   type="hidden"
-				/>
+			<input id="filtre" type="hidden"/>
 		</fieldset>
+		<span id="reset" class="submit">Resetare</span>
 	</form>
 	<div id="lista_vanzatori" class="ddm"></div>
 	<div id="lista_companii" class="ddm"></div>
 	<div id="lista_stadii" class="ddm">
 		<div class="rec">
-			<p id="f00">Deschisă</p>
+			<p id="f00">Deschise</p>
 		</div>
 		<div class="rec">
-			<p id="f01">Câștigată</p>
+			<p id="f01">Câștigate</p>
 		</div>
 		<div class="rec">
-			<p id="f02">Pierdută</p>
+			<p id="f02">Pierdute</p>
 		</div>
 	</div>
 	<?php
@@ -189,138 +272,26 @@ if (isset($_POST["optiuni"]["listare"])) {
 		$html .= '</div>';
 		echo $html;
 	}
-
-	$string = "SELECT COUNT(*) FROM oferte";
-	$query = interogare($string, null);
-	$count_all = $query->fetchColumn();
-
-	$data = array();
-	$string = "SELECT O . id_oferta,
-                  O . nume_oferta,
-                  O . descriere_oferta,
-                  DATE_FORMAT(O . data_oferta, '%d-%c-%Y') AS dataoferta,
-                  O . data_expirare,
-                  O . id_companie_oferta,
-                  O . id_vanzator_oferta,
-                  O . valoare_oferta,
-                  O . stadiu,
-                  O . relevant,
-                  C . nume_companie,
-                  V . nume_vanzator, V . prenume_vanzator
-           FROM oferte AS O
-           LEFT JOIN companii AS C ON O . id_companie_oferta = C . id_companie
-           LEFT JOIN vanzatori AS V ON O . id_vanzator_oferta = V . id_vanzator";
-	$flag = 0;
-	if (isset($_POST["optiuni"]["companie"])) {
-		$string .= "\r\nWHERE O . id_companie_oferta = ?";
-		array_push($data, $_POST["optiuni"]["companie"]["id"]);
-		$flag = 1;
-	}
-
-	if (isset($_POST["optiuni"]["vanzator"])) {
-		if ($flag) {
-			$string .= "\r\nAND O . id_vanzator_oferta = ?";
-		} else {
-			$string .= "\r\nWHERE O . id_vanzator_oferta = ?";
-		}
-		array_push($data, $_POST["optiuni"]["vanzator"]["id"]);
-		$flag = 1;
-	}
-
-	if (isset($_POST["optiuni"]["stadiu"])) {
-		if ($flag) {
-			$string .= "\r\nAND O . stadiu = ?";
-		} else {
-			$string .= "\r\nWHERE O . stadiu = ?";
-		}
-		array_push($data, $_POST["optiuni"]["stadiu"]["id"]);
-		$flag = 1;
-	}
-
-	if (isset($_POST["optiuni"]["an"])) {
-		if ($flag) {
-			$string .= "\r\nAND YEAR(data_oferta) = ?";
-		} else {
-			$string .= "\r\nWHERE YEAR(data_oferta) = ?";
-		}
-		array_push($data, $_POST["optiuni"]["an"]["id"]);
-		$flag = 1;
-	}
-
-	$string .= "\r\nORDER BY `data_oferta` DESC";
-
-	if (empty($data)) {
-		$string .= "\r\nLIMIT 10;";
-	} else {
-		$string .= "\r\n;";
-	}
-	fb($string);
-	$query = interogare($string, $data);
-	afiseaza_rezultate($query);
+	?>
+	<div id="lista_valabilitate" class="ddm">
+		<div class="rec">
+			<p id="f00">Active</p>
+		</div>
+		<div class="rec">
+			<p id="f01">Expirate</p>
+		</div>
+	</div>
+<?php
+//	$string = "SELECT COUNT(*) FROM oferte";
+//	$query = interogare($string, null);
+//	$count_all = $query->fetchColumn();
+	filtrare_si_afisare();
 	exit();
 }
-
 if (isset($_POST["optiuni"]["filtrare"])) {
-	$data = array();
-	$string = "SELECT O . id_oferta,
-                  O . nume_oferta,
-                  O . descriere_oferta,
-                  DATE_FORMAT(O . data_oferta, '%d-%c-%Y') AS dataoferta,
-                  O . id_companie_oferta,
-                  O . data_expirare,
-                  O . id_vanzator_oferta,
-                  O . valoare_oferta,
-                  O . stadiu,
-                  O . relevant,
-                  C . nume_companie,
-                  V . nume_vanzator, V . prenume_vanzator
-           FROM oferte AS O
-           LEFT JOIN companii AS C ON O . id_companie_oferta = C . id_companie
-           LEFT JOIN vanzatori AS V ON O . id_vanzator_oferta = V . id_vanzator";
-	$flag = 0;
-	if (isset($_POST["optiuni"]["companie"])) {
-		$string .= "\r\nWHERE O . id_companie_oferta = ?";
-		array_push($data, $_POST["optiuni"]["companie"]["id"]);
-		$flag = 1;
-	}
-	if (isset($_POST["optiuni"]["vanzator"])) {
-		if ($flag) {
-			$string .= "\r\nAND O . id_vanzator_oferta = ?";
-		} else {
-			$string .= "\r\nWHERE O . id_vanzator_oferta = ?";
-		}
-		array_push($data, $_POST["optiuni"]["vanzator"]["id"]);
-		$flag = 1;
-	}
-	if (isset($_POST["optiuni"]["stadiu"])) {
-		if ($flag) {
-			$string .= "\r\nAND O . stadiu = ?";
-		} else {
-			$string .= "\r\nWHERE O . stadiu = ?";
-		}
-		array_push($data, $_POST["optiuni"]["stadiu"]["id"]);
-		$flag = 1;
-	}
-	if (isset($_POST["optiuni"]["an"])) {
-		if ($flag) {
-			$string .= "\r\nAND YEAR(data_oferta) = ?";
-		} else {
-			$string .= "\r\nWHERE YEAR(data_oferta) = ?";
-		}
-		array_push($data, $_POST["optiuni"]["an"]["id"]);
-		$flag = 1;
-	}
-	$string .= "\r\nORDER BY `data_oferta` DESC";
-	if (empty($data)) {
-		$string .= "\r\nLIMIT 10;";
-	} else {
-		$string .= "\r\n;";
-	}
-	$query = interogare($string, $data);
-	afiseaza_rezultate($query);
+	filtrare_si_afisare();
 	exit();
 }
-
 if (isset($_POST["optiuni"]["formular_creare"])) {
 
 	date_default_timezone_set('Europe/Bucharest');
@@ -367,7 +338,6 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 						   class="datepicker normal data_scurt"
 						   data-data=" <?php echo $today_MSQL; ?>"
 						   value="<?php echo $today; ?>"/>
-
 					<input id="valabilitate"
 						   name="valabilitate"
 						   class="normal megascurt"
@@ -549,7 +519,6 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   data-data="<?php echo $row["data_oferta_MSQL"]; ?>"
 						   value="<?php echo(str_replace_assoc($row['data_oferta'])); ?>"
 						/>
-
 					<input id="valabilitate"
 						   name="valabilitate"
 						   class="normal megascurt"

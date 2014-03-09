@@ -656,6 +656,25 @@
     }, "#select_an");
 
     class_box.on({
+      mousedown: function(event) {
+        console.log("Trigger: mousedown #select_valabilitate");
+        event.preventDefault();
+        var lista = $("#lista_valabilitate"),
+            camp = $(this);
+        camp.focus();
+        $(".ddm").not(lista).hide();
+        if (!lista.is(":visible")) {
+          lista.stop(true, false).fadeIn("fast");
+          $(this).addClass("deschis");
+          pozitionare_lista_sugestii(camp, lista);
+        } else {
+          lista.hide();
+          $(this).blur().removeClass("deschis");
+        }
+      }
+    }, "#select_valabilitate");
+
+    class_box.on({
       mouseenter: function() {
         $("#lista_companii").find(".rec").removeClass("selected");
         $(this).addClass("selected");
@@ -672,8 +691,8 @@
             lista = $("#lista_companii"),
             camp = $("#select_companie");
         lista.hide().promise().done(function() {
-          camp.attr("data-id", id).val($text);
-          $("#select_persoana").val("").attr("data-id", "");
+          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+          $("#select_persoana").val("").attr("data-id", "").attr("value", "");
           lista.empty();
           if ($("#formular_filtre").length) {
             camp.blur().trigger("aplica");
@@ -699,8 +718,9 @@
             lista = $("#lista_persoane"),
             camp = $("#select_persoana");
         lista.hide().promise().done(function() {
-          $("input").eq(camp.val($text).index("input") + 1).focus();
-          camp.attr("data-id", id);
+          $("input").eq(camp.index("input") + 1).focus();
+          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+          ;
           lista.empty();
         });
       }
@@ -724,7 +744,7 @@
             camp = $("#select_vanzator");
         lista.hide().promise()
             .done(function() {
-              camp.attr("data-id", id).val($text);
+              camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
               lista.empty();
               if ($("#formular_filtre").length) {
                 camp.blur().trigger("aplica");
@@ -752,7 +772,13 @@
             lista = $("#lista_stadii"),
             camp = $("#select_stadiu");
         lista.hide().promise().done(function() {
-          camp.attr("data-id", id).val($text);
+          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+          if (!id) {
+            $(".valabilitate").removeClass("ascuns");
+          } else {
+            $(".valabilitate").addClass("ascuns");
+            $("#select_valabilitate").attr("data-id", "").val("").data("value", "");
+          }
           if ($("#formular_filtre").length) {
             camp.blur().trigger("aplica");
           } else {
@@ -777,8 +803,8 @@
             lista = $("#lista_sex"),
             camp = $("#select_sex");
         lista.hide().promise().done(function() {
-          $("input").eq(camp.val($text).index("input") + 1).focus();
-          camp.attr("data-id", id);
+          $("input").eq(camp.index("input") + 1).focus();
+          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
         });
       }
     }, "#lista_sex .rec");
@@ -800,7 +826,7 @@
             lista = $("#lista_ani"),
             camp = $("#select_an");
         lista.hide().promise().done(function() {
-          camp.attr("data-id", id).val($text);
+          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
           if ($("#formular_filtre").length) {
             camp.blur().trigger("aplica");
           } else {
@@ -809,6 +835,33 @@
         });
       }
     }, "#lista_ani .rec");
+
+    class_box.on({
+      mouseenter: function() {
+        $("#lista_valabilitate").find(".rec").removeClass("selected");
+        $(this).addClass("selected");
+      },
+      mouseleave: function() {
+        $(this).removeClass("selected");
+      },
+      mouseup:    function(event) {
+        console.log("Trigger: mouseup #lista_valabilitate .rec");
+        event.preventDefault();
+        var $this = $(this).children().first(),
+            id = parseInt($this.attr("id").slice(1)),
+            $text = $this.text(),
+            lista = $("#lista_valabilitate"),
+            camp = $("#select_valabilitate");
+        lista.hide().promise().done(function() {
+          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+          if ($("#formular_filtre").length) {
+            camp.blur().trigger("aplica");
+          } else {
+            $("input").eq(camp.index("input") + 1).focus();
+          }
+        });
+      }
+    }, "#lista_valabilitate .rec");
 
     class_box.on({
       mousedown: function(event) {
@@ -1233,15 +1286,19 @@
         var root = $(this).closest(".box").attr("id").slice(4),
             box_curent = $("#box_" + root),
             path = "php/" + root + ".php",
-            optiuni = {}, filtre = $("#filtre"),
+            optiuni = {},
+            filtre = $("#filtre"),
             vanzator = $("#select_vanzator"),
-            companie = $("#select_companie"),
-            stadiu = $("#select_stadiu"),
-            an = $("#select_an"),
             id_vanzator = vanzator.attr("data-id"),
+            companie = $("#select_companie"),
             id_companie = companie.attr("data-id"),
+            stadiu = $("#select_stadiu"),
             id_stadiu = stadiu.attr("data-id"),
-            id_an = an.attr("data-id");
+            an = $("#select_an"),
+            id_an = an.attr("data-id"),
+            valabilitate = $("#select_valabilitate"),
+            id_valabilitate = valabilitate.attr("data-id");
+
         optiuni.filtrare = 1;
 
         filtre.attr("data-idcompanie", id_companie);
@@ -1272,6 +1329,12 @@
           }
         }
 
+        filtre.attr("data-idvalabilitate", id_valabilitate);
+        if (id_valabilitate) {
+          optiuni.valabilitate = {
+            id: id_valabilitate
+          }
+        }
         $.ajax({
           async:   true,
           url:     path,
@@ -1289,7 +1352,8 @@
     id_box_oferte.on({
       mouseup: function() {
         console.log("Trigger: mouseup #reset");
-        $("input").attr("data-id", "").val("");
+        $("input").attr("data-id", "").attr("value", "").val("");
+        $(".valabilitate").addClass("ascuns");
         $(this).trigger("aplica");
       }
     }, "#reset");

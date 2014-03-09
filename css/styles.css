@@ -108,12 +108,16 @@ a {
 }
 fieldset {
     margin-top:       15px;
-    background-color: #446;
+    margin-left:      0;
+    margin-right:     25px;
+    background-color: #444466;
     border:           medium none;
     display:          inline-block;
     padding-bottom:   10px;
+    padding-right:    20px;
     border-radius:    1px;
     box-shadow:       0 0 1px 0 lightblue;
+    width:            900px;
 }
 fieldset legend {
     color:     lightcoral;
@@ -209,6 +213,8 @@ li.option.selected {
 }
 label {
     display:        block;
+    position:       relative;
+    top:            1px;
     font-weight:    400;
     font-size:      1em;
     padding-bottom: 3px;
@@ -345,16 +351,17 @@ input.required {
 }
 table.rezultate {
     margin-top: 10px;
+    width:      900px;
 }
 table.rezultate td, .rezultate th {
-    padding:    1px 5px;
-    text-align: left;
-    border:     1px solid #777;
+    padding: 1px 5px;
+    border:  1px solid #777;
 }
 table.rezultate th {
     background-color: #600000;
     color:            #FFD5D5;
     font-weight:      400;
+    text-align:       center;
     /*font-size:        1.1em;*/
 }
 table.rezultate tr:nth-child(2n) td {
@@ -369,7 +376,7 @@ form.formular {
     margin-bottom: 20px;
 }
 form#formular_filtre label {
-    padding-right: 10px;
+    padding-right: 5px;
 }
 form:not(#formular_filtre) td:first-child {
     padding-right: 30px;
@@ -412,6 +419,9 @@ canvas {
     /*position: relative;*/
     margin-top:  10px;
     margin-left: -28px;
+}
+.ascuns {
+    display: none;
 }
 .align_bottom {
     vertical-align: bottom !important;
@@ -527,11 +537,11 @@ canvas {
     color: red;
 }
 #reset {
-    background-color: khaki;
-    color:            rgb(0, 0, 0);
-    display:          inline-block;
-    padding:          2px 8px;
-    font-weight:      800;
-    cursor:           pointer;
-    border-radius:    3px;
+    /*background-color: khaki;*/
+    /*color:            rgb(0, 0, 0);*/
+    /*display:          inline-block;*/
+    /*padding:          2px 8px;*/
+    /*font-weight:      800;*/
+    /*cursor:           pointer;*/
+    /*border-radius:    3px;*/
 }
