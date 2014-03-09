@@ -236,31 +236,6 @@
     }, ".option");
 
     class_box.on({
-      mouseup: function() {
-        console.log("Trigger: mouseup #word");
-        var $id = $("#select_persoana").attr("data-id");
-        id_box_oferte.find(".error, .mesaj, p, a").remove();
-        if (!$id) {
-          id_box_oferte.append('<span class="error">Alegeţi o companie şi o persoană de contact.</p>');
-          return;
-        }
-        $.ajax({
-          async:   false,
-          url:     "php/word/genereaza_word.php",
-          data:    { id_persoana: $id },
-          timeout: 5000})
-            .done(function() {
-              $("#box_oferte")
-                  .append('<span class="mesaj">Documentul s-a generat cu succes.&nbsp</span>')
-                  .append('<a href="/php/word/Oferta.docx">Descarcă aici.</a>');
-            })
-            .fail(function(jqXHR, textStatus) {
-              AjaxFail(jqXHR, textStatus);
-            });
-      }
-    }, "#word");
-
-    class_box.on({
       focus: function(event) {
         console.log("Trigger: focus input");
         $(this).removeClass("required");
@@ -904,6 +879,28 @@
             });
       }
     }, "span.actiune");
+
+    class_box.on({
+      mousedown: function(event) {
+        event.preventDefault();
+      },
+      mouseup:   function(event) {
+        event.preventDefault();
+        console.log("Trigger: mouseup span.print");
+        var id = parseInt($(event.target).parent()[0].id.slice(1));
+        $.ajax({
+          async:   false,
+          url:     "php/word/genereaza_word.php",
+          data:    { id: id },
+          timeout: 5000})
+            .done(function(raspuns) {
+//              id_box_oferte.append(raspuns);
+            })
+            .fail(function(jqXHR, textStatus) {
+              AjaxFail(jqXHR, textStatus);
+            });
+      }
+    }, "a.print");
 
     id_box_companii.on({
       mouseup: function(event) {

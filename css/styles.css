@@ -179,6 +179,10 @@ span.buton_printeaza:hover {
     box-shadow: 0 0 2px 1px mediumseagreen;
     cursor:     pointer;
 }
+span.actiune:hover, span.print:hover {
+    cursor: pointer;
+    color:  #00FF00;
+}
 li {
     list-style-type: none;
     z-index:         1;
@@ -488,10 +492,6 @@ canvas {
 .disabled {
     background-color: #444;
     color:            #FFF;
-}
-.actiune:hover {
-    cursor: pointer;
-    color:  #00FF00;
 }
 .total {
     font-family:      'Roboto Condensed', sans-serif;
