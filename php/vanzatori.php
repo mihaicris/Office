@@ -375,7 +375,7 @@ if (!$count) { //daca nu sunt rezultate se iese cu mesaj
 	echo '<p>Nu există în baza de date.</p>';
 	exit();
 }
-$string = 'SELECT * FROM `vanzatori`;';
+$string = 'SELECT * FROM `vanzatori` ORDER BY `nume_vanzator`, `prenume_vanzator` ASC;';
 $query = interogare($string, NULL);
 afiseaza_rezultate($query);
 afiseaza_numar_total($count);
