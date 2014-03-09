@@ -6,8 +6,8 @@ include_once '../conexiune.php';
 
 // fetch informatii despre clientul cu id=?
 $string = "SELECT *,
-			DATE_FORMAT(O.data_oferta, '%d-%m-%Y') AS dataoferta,
-			DATE_FORMAT(O.data_expirare, '%d-%m-%Y') AS dataexpirare
+			DATE_FORMAT(O.data_oferta, '%e-%m-%Y') AS dataoferta,
+			DATE_FORMAT(O.data_expirare, '%e-%m-%Y') AS dataexpirare
 			FROM `oferte` AS O
 			LEFT JOIN `companii` AS C ON O.id_companie_oferta = id_companie
 			LEFT JOIN `persoane` AS P ON O.id_persoana_oferta = id_persoana
@@ -51,11 +51,12 @@ $email_vanzator = $row['email_vanzator'];
 
 // date despre oferta
 $nume_oferta = $row['nume_oferta'];
-$data_oferta = $row['dataoferta'];
-$data_expirare = $row['dataexpirare'];
+$data_oferta = str_replace_assoc($row['dataoferta'], FALSE);
+$data_expirare = str_replace_assoc($row['dataexpirare'], FALSE);
 $referinta_client = 'TODO';
 $id_oferta = $row['id_oferta'];
-$valoare_oferta = $row['valoare_oferta'];
+$valoare_oferta = number_format($row['valoare_oferta'], 2, ',', '.');
+
 
 
 $output_file_name = 'Oferta.docx';
