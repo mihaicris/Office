@@ -21,25 +21,6 @@ function verifica_existenta_oferta($id, $nume_oferta, $data_oferta, $id_companie
 	return;
 }
 
-function str_replace_assoc($subject)
-{
-	$replace = array(
-		'-01-' => '-Ian-',
-		'-02-' => '-Feb-',
-		'-03-' => '-Mar-',
-		'-04-' => '-Apr-',
-		'-05-' => '-Mai-',
-		'-06-' => '-Iun-',
-		'-07-' => '-Iul-',
-		'-08-' => '-Aug-',
-		'-09-' => '-Sep-',
-		'-10-' => '-Oct-',
-		'-11-' => '-Noi-',
-		'-12-' => '-Dec-',
-	);
-	return str_replace(array_keys($replace), array_values($replace), $subject);
-}
-
 function afiseaza_rezultate($query, $filtru)
 {
 	global $stadiu;
@@ -67,10 +48,10 @@ function afiseaza_rezultate($query, $filtru)
 			<a href="php/word/Oferta.docx" title="Printează" class="sosa print">p</a>
 			</td>';
 		$h .= '<td title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
-		$h .= '<td class="align_center">' . str_replace_assoc($row['dataoferta']) . '</td>';
+		$h .= '<td class="align_center">' . str_replace_assoc($row['dataoferta'], TRUE) . '</td>';
 		$h .= '<td class="companie">' . $row['nume_companie'] . '</td>';
 		$h .= '<td class="nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
-		$h .= '<td>' . $row['valoare_oferta'] . '</td>';
+		$h .= '<td class="align_right">' . number_format($row['valoare_oferta'], 2, ',', '.') . '</td>';
 		$h .= $row["relevant"] ? '<td class="align_center companie">DA' : '<td class="align_center id">NU';
 		$h .= '</td>';
 		$h .= '<td class="align_center stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</td>';
@@ -103,7 +84,7 @@ function filtrare_si_afisare()
 	$string = "SELECT O . id_oferta,
                   O . nume_oferta,
                   O . descriere_oferta,
-                  DATE_FORMAT(O . data_oferta, '%d-%m-%Y') AS dataoferta,
+                  DATE_FORMAT(O . data_oferta, '%e-%m-%Y') AS dataoferta,
                   O . id_companie_oferta,
                   O . data_expirare,
                   O . id_vanzator_oferta,
@@ -522,7 +503,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   type="text"
 						   class="datepicker normal data_scurt"
 						   data-data="<?php echo $row["data_oferta_MSQL"]; ?>"
-						   value="<?php echo(str_replace_assoc($row['data_oferta'])); ?>"
+						   value="<?php echo(str_replace_assoc($row['data_oferta'], TRUE)); ?>"
 						/>
 					<input id="valabilitate"
 						   name="valabilitate"
@@ -551,7 +532,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   type="text"
 						   class="data_expirare extrascurt"
 						   data-data="<?php echo $row["data_expirare_MSQL"]; ?>"
-						   value="<?php echo(str_replace_assoc($row['data_expirare'])); ?>"
+						   value="<?php echo(str_replace_assoc($row['data_expirare'], TRUE)); ?>"
 						   disabled="disabled"/>
 				</td>
 			</tr>

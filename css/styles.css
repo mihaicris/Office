@@ -179,7 +179,7 @@ span.buton_printeaza:hover {
     box-shadow: 0 0 2px 1px mediumseagreen;
     cursor:     pointer;
 }
-span.actiune:hover, span.print:hover {
+span.actiune:hover, a.print:hover {
     cursor: pointer;
     color:  #00FF00;
 }
@@ -442,6 +442,9 @@ canvas {
 .align_right {
     text-align: right !important;
     min-width:  100px;
+}
+.align_left {
+    text-align: left !important;
 }
 .spatiu_stanga {
     padding-left: 20px;

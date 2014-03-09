@@ -66,8 +66,8 @@
             optiuni: {}
           }
         },
-        timp_fadein = 50,
-        timp_fadeout = 80,
+        timp_fadein = 0,
+        timp_fadeout = 0,
         isInArray = function(value, array) {
           return array.indexOf(value) > -1;
         },
