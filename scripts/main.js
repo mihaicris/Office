@@ -1374,7 +1374,7 @@
           var dataJS_exp = convertDate(data_ro).addDays(valabilitate);
           var exp_ro = dataJS_exp.toString("d-MMM-yyyy");
           var exp_MSQL = dataJS_exp.toString("yyyy-MM-dd");
-          $("#data_expirare").val(exp_ro).attr("data-data", exp_MSQL);
+          $("#data_expirare").val(exp_ro).attr("value", exp_ro).attr("data-data", exp_MSQL);
         }
       }
     }, "#valabilitate");

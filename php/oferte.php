@@ -29,7 +29,7 @@ function afiseaza_rezultate($query, $filtru)
 	$cur_date = date("Y-m-d");
 	$h = '<table class="rezultate">';
 	$h .= '<tr>';
-	$h .= '<th>Acțiuni</th>';
+	$h .= '<th>Referință</th>';
 	$h .= '<th>Nume ofertă</th>';
 	$h .= '<th>Data</th>';
 	$h .= '<th>Companie</th>';
@@ -43,9 +43,10 @@ function afiseaza_rezultate($query, $filtru)
 		$flag = 1;
 		$count++;
 		$h .= '<tr>';
-		$h .= '<td class="align_center" id="f' . $row['id_oferta'] . '">
-			<span title="Editează" class="sosa actiune">a</span>
+		$h .= '<td class="align_center id" id="f' . $row['id_oferta'] . '">
+		' . $row['id_oferta'] . '
 			<a href="php/word/Oferta.docx" title="Printează" class="sosa print">p</a>
+			<span title="Editează" class="sosa actiune">a</span>
 			</td>';
 		$h .= '<td title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
 		$h .= '<td class="align_center">' . str_replace_assoc($row['dataoferta'], TRUE) . '</td>';
@@ -71,10 +72,12 @@ function afiseaza_rezultate($query, $filtru)
 	echo '<span class="total">' . $count;
 	if ($count == 1) {
 		echo " ofertă";
+		echo $filtru ? " găsită" : " recentă";
 	} else {
 		echo " oferte";
+		echo $filtru ? " găsite" : " recente";
+
 	}
-	echo $filtru ? " găsite" : " recente";
 	echo "</span>";
 }
 
@@ -157,6 +160,44 @@ function filtrare_si_afisare()
 
 if (isset($_POST["optiuni"]["listare"])) {
 	?>
+
+	<div id="lista_vanzatori" class="ddm"></div>
+	<div id="lista_companii" class="ddm"></div>
+	<div id="lista_stadii" class="ddm">
+		<div class="rec">
+			<p id="f00">Deschise</p>
+		</div>
+		<div class="rec">
+			<p id="f01">Câștigate</p>
+		</div>
+		<div class="rec">
+			<p id="f02">Pierdute</p>
+		</div>
+	</div>
+	<?php
+	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta";
+	$query = interogare($string, null);
+	$ani = $query->fetchAll();
+	if (count($ani)) {
+		$html = '<div id="lista_ani" class="ddm">';
+		for ($i = 0; $i < count($ani); $i++) {
+			$html .= '<div class="rec">';
+			$html .= '<p id="f' . $ani[$i]["ani"] . '">' . $ani[$i]["ani"] . '</p>';
+			$html .= '</div>';
+		}
+		$html .= '</div>';
+		echo $html;
+	}
+	?>
+	<div id="lista_valabilitate" class="ddm">
+		<div class="rec">
+			<p id="f00">Active</p>
+		</div>
+		<div class="rec">
+			<p id="f01">Expirate</p>
+		</div>
+	</div>
+
 	<h2>Listă oferte</h2>
 	<form action="/" method="post" id="formular_filtre">
 		<fieldset name="Filtre">
@@ -227,46 +268,9 @@ if (isset($_POST["optiuni"]["listare"])) {
 				</tbody>
 			</table>
 			<input id="filtre" type="hidden"/>
-
 		</fieldset>
-
 	</form>
-	<div id="lista_vanzatori" class="ddm"></div>
-	<div id="lista_companii" class="ddm"></div>
-	<div id="lista_stadii" class="ddm">
-		<div class="rec">
-			<p id="f00">Deschise</p>
-		</div>
-		<div class="rec">
-			<p id="f01">Câștigate</p>
-		</div>
-		<div class="rec">
-			<p id="f02">Pierdute</p>
-		</div>
-	</div>
-	<?php
-	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta";
-	$query = interogare($string, null);
-	$ani = $query->fetchAll();
-	if (count($ani)) {
-		$html = '<div id="lista_ani" class="ddm">';
-		for ($i = 0; $i < count($ani); $i++) {
-			$html .= '<div class="rec">';
-			$html .= '<p id="f' . $ani[$i]["ani"] . '">' . $ani[$i]["ani"] . '</p>';
-			$html .= '</div>';
-		}
-		$html .= '</div>';
-		echo $html;
-	}
-	?>
-	<div id="lista_valabilitate" class="ddm">
-		<div class="rec">
-			<p id="f00">Active</p>
-		</div>
-		<div class="rec">
-			<p id="f01">Expirate</p>
-		</div>
-	</div>
+
 <?php
 //	$string = "SELECT COUNT(*) FROM oferte";
 //	$query = interogare($string, null);
@@ -286,18 +290,14 @@ if (isset($_POST["optiuni"]["formular_creare"])) {
 	$luna = getdate()['mon'];
 	$an = getdate()['year'];
 	$timestamp = getdate()['0'];
-
 	$today = $ziua . '-' . $months[$luna - 1] . '-' . $an;
 	$today_MSQL = date('Y-m-d');
-
 	$date1 = mktime(0, 0, 0, $luna, $ziua + 30, $an);
 	$ziua1 = getdate($date1)['mday'];
 	$luna1 = getdate($date1)['mon'];
 	$an1 = getdate($date1)['year'];
-
 	$viitor = $ziua1 . '-' . $months[$luna1 - 1] . '-' . $an1;
 	$viitor_MSQL = date('Y-m-d', $date1);
-
 	?>
 	<h2>Creare ofertă nouă</h2>
 	<form class="formular" action="/" method="post" id="formular_oferta_noua">
@@ -447,13 +447,13 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 	$id = $_POST["id"];
 	$string = 'SELECT O.id_oferta,
                   O.nume_oferta,
-                  DATE_FORMAT(O.data_oferta, "%e-%c-%Y") AS data_oferta,
+                  DATE_FORMAT(O.data_oferta, "%e-%m-%Y") AS dataoferta,
                   O.data_oferta AS data_oferta_MSQL,
                   O.descriere_oferta,
                   O.id_companie_oferta,
                   O.id_persoana_oferta,
                   O.id_vanzator_oferta,
-                  DATE_FORMAT(O.data_expirare, "%e-%c-%Y") AS data_expirare,
+                  DATE_FORMAT(O.data_expirare, "%e-%m-%Y") AS dataexpirare,
                   O.data_expirare AS data_expirare_MSQL,
                   O.valabilitate,
                   O.valoare_oferta,
@@ -503,7 +503,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   type="text"
 						   class="datepicker normal data_scurt"
 						   data-data="<?php echo $row["data_oferta_MSQL"]; ?>"
-						   value="<?php echo(str_replace_assoc($row['data_oferta'], TRUE)); ?>"
+						   value="<?php echo(str_replace_assoc($row['dataoferta'], TRUE)); ?>"
 						/>
 					<input id="valabilitate"
 						   name="valabilitate"
@@ -532,7 +532,7 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
 						   type="text"
 						   class="data_expirare extrascurt"
 						   data-data="<?php echo $row["data_expirare_MSQL"]; ?>"
-						   value="<?php echo(str_replace_assoc($row['data_expirare'], TRUE)); ?>"
+						   value="<?php echo(str_replace_assoc($row['dataexpirare'], TRUE)); ?>"
 						   disabled="disabled"/>
 				</td>
 			</tr>

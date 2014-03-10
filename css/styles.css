@@ -178,6 +178,14 @@ span.buton_printeaza:hover {
     box-shadow: 0 0 2px 1px mediumseagreen;
     cursor:     pointer;
 }
+a.print {
+    position: relative;
+    top:      -1px;
+}
+span.actiune {
+    padding-left: 0;
+}
+
 span.actiune:hover, a.print:hover {
     cursor: pointer;
     color:  #00FF00;
