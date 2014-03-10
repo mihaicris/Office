@@ -259,10 +259,11 @@
             root = $(this).closest(".box").attr("id").slice(4),
             box_curent = $("#box_" + root),
             path = "php/" + root + ".php";
+
         if (event.which == 13 || event.which == 16) {   // enter sau shift
           return;
         }
-        if ((!camp_str.length && event.which !== 27) || camp_str.length > 2 || event.which === 53) {     // 53 == "%" toate
+        if ((!camp_str.length && event.which !== 27) || camp_str.length > 2 || camp_str === "%") {
           $.ajax({
             async:   true,
             url:     path,
