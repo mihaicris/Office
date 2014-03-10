@@ -23,7 +23,7 @@ function verifica_existenta_vanzator($id, $nume_vanzator, $prenume_vanzator)
 
 function afiseaza_rezultate($query)
 {
-	echo '<table class="rezultate">';
+	echo '<table style="width: inherit;" class="rezultate">';
 	echo '<tr>';
 	echo '<th class="">Acțiuni</th>';
 	echo '<th>Nume și prenume</th>';
@@ -317,13 +317,14 @@ if (isset($_POST["select_vanzator"])) {
 }
 if (isset($_POST["camp_str"])) {
 	$string = 'SELECT COUNT(*)
-               FROM vanzatori
+               FROM `vanzatori`
 			   WHERE (nume_vanzator LIKE ? OR prenume_vanzator LIKE ?);';
 	$str = "%" . $_POST["camp_str"] . "%";
 	$data = array($str, $str);
 	$query = interogare($string, $data);
 	//daca nu sunt rezultate se iese cu mesaj
 	$count = $query->fetchColumn();
+	fb($count);
 	if (!$count) {
 		echo '<p>Nu există în baza de date.</p>';
 		exit();

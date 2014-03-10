@@ -33,6 +33,8 @@ function afiseaza_rezultate($query)
     echo '<th>Companie</th>';
     echo '<th>E-mail</th>';
     echo '<th>Mobil</th>';
+	echo '<th>Departmanet</th>';
+	echo '<th>Funcţie</th>';
     echo "</tr>";
     for ($i = 0; $row = $query->fetch(); $i++) {
         echo '<tr>';
@@ -41,6 +43,8 @@ function afiseaza_rezultate($query)
         echo '<td class="companie">' . $row['nume_companie'] . '</td>';
         echo '<td class="email"><a class="email" href="mailto:' . $row['email_persoana'] . '">' . $row['email_persoana'] . '</a></td>';
         echo '<td class="mobil">' . $row['mobil_persoana'] . '</td>';
+		echo '<td class="">' . $row['departament_persoana'] . '</td>';
+		echo '<td class="">' . $row['functie_persoana'] . '</td>';
         echo '</tr>';
     } //end for
     echo '</table>';
@@ -400,9 +404,18 @@ if (isset($_POST["camp_str"])) {
     $str = "%" . $_POST["camp_str"] . "%";
     // prima interogare pentru numar de rezultate
     $data = array($str, $str, $str, $str, $str, $str);
-    $string = 'SELECT COUNT(*) FROM persoane ;';
+    $string = 'SELECT COUNT(*)
+    			FROM persoane AS P
+    			LEFT JOIN companii AS C ON P.id_companie_persoana = C.id_companie
+    			WHERE (nume_persoana LIKE ?
+				    OR prenume_persoana LIKE ?
+					OR functie_persoana LIKE ?
+					OR departament_persoana LIKE ?
+					OR email_persoana LIKE ?
+					OR nume_companie LIKE ?);';
     $query = interogare($string, $data);
     $count = $query->fetchColumn();
+	fb($str);
     if (!$count) { //daca nu sunt rezultate se iese cu mesaj
         // echo "<h2>Rezultate căutare</h2>";
         echo '<p>Nu există în baza de date.</p>';
