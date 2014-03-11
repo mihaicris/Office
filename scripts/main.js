@@ -17,53 +17,68 @@
           oferte:               {
             id_box:  "#box_oferte",
             path:    "php/oferte.php",
-            optiuni: { listare: 1}
+            optiuni: {
+              listare: 1
+            }
           },
           oferta_noua:          {
             id_box:  "#box_oferte",
             path:    "php/oferte.php",
-            optiuni: { formular_creare: 1 }
+            optiuni: {
+              formular_creare: 1
+            }
           },
           comenzi:              {
             id_box:  "#box_comenzi",
             path:    "php/comenzi.php",
-            optiuni: { listare: 1}
+            optiuni: {
+              listare: 1
+            }
           },
           comanda_noua:         {
             id_box:  "#box_comanda_noua",
             path:    "php/comanda_noua.php",
-            optiuni: { formular_creare: 1 }
+            optiuni: {
+              formular_creare: 1
+            }
           },
           statistici_oferte:    {
             id_box:  "#box_statistici_ofertare",
             path:    "php/stats_ofertare.php",
-            optiuni: {}
+            optiuni: {
+            }
           },
           statistici_comenzi:   {
             id_box:  "#box_statistici_comenzi",
             path:    "php/stats_comenzi.php",
-            optiuni: {}
+            optiuni: {
+            }
           },
           statistici_clienti:   {
-            optiuni: {}
+            optiuni: {
+            }
           },
           statistici_furnizori: {
-            optiuni: {}
+            optiuni: {
+            }
           },
           companii:             {
             id_box:  "#box_companii",
             path:    "php/companii.php",
-            optiuni: {}
+            optiuni: {
+            }
           },
           vanzatori:            {
             id_box:  "#box_vanzatori",
             path:    "php/vanzatori.php",
-            optiuni: {}
+            optiuni: {
+            }
           },
           persoane:             {
             id_box:  "#box_persoane",
             path:    "php/persoane.php",
-            optiuni: {}
+            optiuni: {
+            }
           }
         },
         timp_fadein = 0,
@@ -146,7 +161,6 @@
                     .done(function() {
                       box_nou.fadeIn(timp_fadein);
                       initializare_Zebra();
-//                      $("input").eq(0).focus();
                     });
               })
               .fail(function(jqXHR, textStatus) {
@@ -166,7 +180,7 @@
             "left":       Xleft,
             "top":        Xtop + Xheight + 1,
             "min-width":  Xwidth,
-            "max-height": Rheight * 7
+            "max-height": Rheight * 13 // cate .rec se afiseaza
           });
         };
 
@@ -633,6 +647,25 @@
 
     class_box.on({
       mousedown: function(event) {
+        console.log("Trigger: mousedown #select_luna");
+        event.preventDefault();
+        var lista = $("#lista_luni"),
+            camp = $(this);
+        camp.focus();
+        $(".ddm").not(lista).hide();
+        if (!lista.is(":visible")) {
+          lista.stop(true, false).fadeIn("fast");
+          $(this).addClass("deschis");
+          pozitionare_lista_sugestii(camp, lista);
+        } else {
+          lista.hide();
+          $(this).blur().removeClass("deschis");
+        }
+      }
+    }, "#select_luna");
+
+    class_box.on({
+      mousedown: function(event) {
         console.log("Trigger: mousedown #select_valabilitate");
         event.preventDefault();
         var lista = $("#lista_valabilitate"),
@@ -649,6 +682,34 @@
         }
       }
     }, "#select_valabilitate");
+
+    class_box.on({
+      keyup: function(event) {
+        console.log("Trigger: keyup:input#select_nume_oferta");
+        var string;
+        if (event.which == 13 || event.which == 16) {   // enter sau shift
+          return;
+        }
+        string = $(this).val();
+        if (!string.length || string.length > 2 || /^\d+$/.test(string)) {
+          $(this).trigger("aplica");
+        }
+      }
+    }, "#select_nume_oferta");
+
+    class_box.on({
+      keyup: function(event) {
+        console.log("Trigger: keyup:input#select_id_oferta");
+        var string;
+        if (event.which == 13 || event.which == 16) {   // enter sau shift
+          return;
+        }
+        string = $(this).val();
+        if (!string.length || /^\d+$/.test(string)) {
+          $(this).trigger("aplica");
+        }
+      }
+    }, "#select_id_oferta");
 
     class_box.on({
       mouseenter: function() {
@@ -749,10 +810,8 @@
             camp = $("#select_stadiu");
         lista.hide().promise().done(function() {
           camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
-          if (!id) {
-            $(".valabilitate").removeClass("ascuns");
-          } else {
-            $(".valabilitate").addClass("ascuns");
+          console.log(id);
+          if (id) {
             $("#select_valabilitate").attr("data-id", "").val("").data("value", "");
           }
           if ($("#formular_filtre").length) {
@@ -814,6 +873,33 @@
 
     class_box.on({
       mouseenter: function() {
+        $("#lista_luni").find(".rec").removeClass("selected");
+        $(this).addClass("selected");
+      },
+      mouseleave: function() {
+        $(this).removeClass("selected");
+      },
+      mouseup:    function(event) {
+        console.log("Trigger: mouseup #lista_luni .rec");
+        event.preventDefault();
+        var $this = $(this).children().first(),
+            id = parseInt($this.attr("id").slice(1)),
+            $text = $this.text(),
+            lista = $("#lista_luni"),
+            camp = $("#select_luna");
+        lista.hide().promise().done(function() {
+          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+          if ($("#formular_filtre").length) {
+            camp.blur().trigger("aplica");
+          } else {
+            $("input").eq(camp.index("input") + 1).focus();
+          }
+        });
+      }
+    }, "#lista_luni .rec");
+
+    class_box.on({
+      mouseenter: function() {
         $("#lista_valabilitate").find(".rec").removeClass("selected");
         $(this).addClass("selected");
       },
@@ -828,8 +914,10 @@
             $text = $this.text(),
             lista = $("#lista_valabilitate"),
             camp = $("#select_valabilitate");
+        camp_stadiu = $("#select_stadiu");
         lista.hide().promise().done(function() {
           camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+          camp_stadiu.val("Deschise").attr("value", "Deschise").attr("data-id", 0);
           if ($("#formular_filtre").length) {
             camp.blur().trigger("aplica");
           } else {
@@ -1294,52 +1382,46 @@
             id_stadiu = stadiu.attr("data-id"),
             an = $("#select_an"),
             id_an = an.attr("data-id"),
+            luna = $("#select_luna"),
+            id_luna = luna.attr("data-id"),
             valabilitate = $("#select_valabilitate"),
-            id_valabilitate = valabilitate.attr("data-id");
+            id_valabilitate = valabilitate.attr("data-id"),
+            nume = $("#select_nume_oferta").val().trim(),
+            id_oferta = $("#select_id_oferta").val().trim();
 
         optiuni.filtrare = 1;
 
         filtre.attr("data-idcompanie", id_companie);
-        if (id_companie) {
-          optiuni.companie = {
-            id: id_companie
-          }
-        }
+        optiuni.companie = id_companie ? id_companie : undefined;
 
         filtre.attr("data-idvanzator", id_vanzator);
-        if (id_vanzator) {
-          optiuni.vanzator = {
-            id: id_vanzator
-          }
-        }
+        optiuni.vanzator = id_vanzator ? id_vanzator : undefined;
 
         filtre.attr("data-idstadiu", id_stadiu);
-        if (id_stadiu) {
-          optiuni.stadiu = {
-            id: id_stadiu
-          }
-        }
+        optiuni.stadiu = id_stadiu ? id_stadiu : undefined;
 
         filtre.attr("data-idan", id_an);
-        if (id_an) {
-          optiuni.an = {
-            id: id_an
-          }
-        }
+        optiuni.an = id_an ? id_an : undefined;
+
+        filtre.attr("data-idluna", id_luna);
+        optiuni.luna = id_luna ? id_luna : undefined;
 
         filtre.attr("data-idvalabilitate", id_valabilitate);
-        if (id_valabilitate) {
-          optiuni.valabilitate = {
-            id: id_valabilitate
-          }
-        }
+        optiuni.valabilitate = id_valabilitate ? id_valabilitate : undefined;
+
+        filtre.attr("data-idnumeoferta", nume);
+        optiuni.nume = nume ? nume : undefined;
+
+        filtre.attr("data-idoferta", id_oferta);
+        optiuni.id_oferta = id_oferta ? id_oferta : undefined;
+
         $.ajax({
           async:   true,
           url:     path,
           data:    { optiuni: optiuni },
           timeout: 5000})
             .done(function(raspuns) {
-              box_curent.children(".rezultate, .total").remove().end().append(raspuns);
+              box_curent.children(".rezultate, .total, #total_valoare").remove().end().append(raspuns);
             })
             .fail(function(jqXHR, textStatus) {
               AjaxFail(jqXHR, textStatus);
@@ -1351,7 +1433,6 @@
       mouseup: function() {
         console.log("Trigger: mouseup #reset");
         $("input").attr("data-id", "").attr("value", "").val("");
-        $(".valabilitate").addClass("ascuns");
         $(this).trigger("aplica");
       }
     }, "#reset");
@@ -1393,4 +1474,5 @@
     }, "#valoare_oferta");
 
   })
-})();
+})
+    ();

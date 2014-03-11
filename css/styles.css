@@ -105,18 +105,20 @@ a {
     color:           white;
     text-decoration: none;
 }
+form {
+    margin-top:   15px;
+    margin-left:  0;
+    margin-right: 25px;
+}
 fieldset {
-    margin-top:       15px;
-    margin-left:      0;
-    margin-right:     25px;
     background-color: #444466;
     border:           medium none;
     display:          inline-block;
-    padding-bottom:   10px;
-    padding-right:    20px;
+    padding:          0 8px 8px 8px;
     border-radius:    1px;
     box-shadow:       0 0 1px 0 lightblue;
     /*width:            1000px;*/
+    margin:           0;
 }
 fieldset legend {
     color:     lightcoral;
@@ -185,7 +187,6 @@ a.print {
 span.actiune {
     padding-left: 0;
 }
-
 span.actiune:hover, a.print:hover {
     cursor: pointer;
     color:  #00FF00;
@@ -362,7 +363,7 @@ input.required {
 }
 table.rezultate {
     margin-top: 10px;
-    width:      1000px;
+    /*width:      1000px;*/
     font-size:  0.9em;
 }
 table.rezultate td, .rezultate th {
@@ -385,7 +386,7 @@ table.rezultate tr:nth-child(2n) td {
     background-color: #424242;
 }
 form td, th {
-    padding-top:    10px;
+    padding-top:    7px;
     vertical-align: top;
     /*border:         1px solid #FFF;*/
 }
@@ -551,4 +552,40 @@ canvas {
 }
 #source {
     display: none;
+}
+#reset {
+    margin-right: 0;
+}
+#total_valoare {
+    /*display:    inline-block;*/
+}
+.w_ref {
+    width: 7em;
+}
+.w_nume {
+    width: 30em;
+}
+.w_data {
+    width: 7em;
+}
+.w_comp {
+    width: 20em;
+}
+.w_vanz {
+    width: 10em;
+}
+.w_val {
+    width: 6em;
+}
+.w_rel {
+    width: 5em;
+}
+.w_stad {
+    width: 6em;
+}
+.w_valab {
+    width: 6em;
+}
+td {
+    /*border: 1px solid #777;*/
 }
