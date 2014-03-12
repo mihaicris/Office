@@ -117,7 +117,7 @@ fieldset {
     padding:          0 8px 8px 8px;
     border-radius:    1px;
     box-shadow:       0 0 1px 0 lightblue;
-    /*width:            1000px;*/
+    width:            61.5em;
     margin:           0;
 }
 fieldset legend {
@@ -363,7 +363,7 @@ input.required {
 }
 table.rezultate {
     margin-top: 10px;
-    /*width:      1000px;*/
+    width:      98em;
     font-size:  0.9em;
 }
 table.rezultate td, .rezultate th {
