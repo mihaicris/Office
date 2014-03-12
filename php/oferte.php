@@ -332,10 +332,10 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   placeholder="Selectează ..."
 							   readonly/>
 					</td>
-					<td class="spatiu_stanga valabilitate">
+					<td class="spatiu_stanga">
 						<label for="select_valabilitate">Filtrare</label>
 					</td>
-					<td class="valabilitate">
+					<td>
 						<input class="normal extrascurt"
 							   id="select_valabilitate"
 							   type="text"
@@ -367,8 +367,8 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   placeholder="Caută ..."
 							/>
 					</td>
-
-
+					<td></td>
+					<td></td>
 				</tr>
 				</tbody>
 			</table>
