@@ -9,9 +9,9 @@ $string = "SELECT *,
 			DATE_FORMAT(O.data_oferta, '%e-%m-%Y') AS dataoferta,
 			DATE_FORMAT(O.data_expirare, '%e-%m-%Y') AS dataexpirare
 			FROM `oferte` AS O
-			LEFT JOIN `companii` AS C ON O.id_companie_oferta = id_companie
-			LEFT JOIN `persoane` AS P ON O.id_persoana_oferta = id_persoana
-  			LEFT JOIN `vanzatori` AS V ON O.id_vanzator_oferta = id_vanzator
+			INNER JOIN `companii` AS C ON O.id_companie_oferta = id_companie
+			INNER JOIN `persoane` AS P ON O.id_persoana_oferta = id_persoana
+  			INNER JOIN `vanzatori` AS V ON O.id_vanzator_oferta = id_vanzator
 			WHERE `id_oferta` = ?
 			LIMIT 1;";
 $data = array($_POST['id']);

@@ -58,7 +58,7 @@ function afiseaza_rezultate($query, $filtru)
 		$h .= '<td class="w_stad align_center"><span class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</span></td>';
 		if (!$row['stadiu']) {
 			$h .= $row["data_expirare"] < $cur_date
-				? '<td class="w_valab align_center id">Expirată</td>'
+				? '<td class="w_valab align_center "><span class="expirata">Expirată</span></td>'
 				: '<td class="w_valab align_center companie">Activă</td>';
 		} else {
 			$h .= "<td></td>";
@@ -100,8 +100,8 @@ function filtrare_si_afisare()
                   V . nume_vanzator,
                   V . prenume_vanzator
            FROM oferte AS O
-           LEFT JOIN companii AS C ON O . id_companie_oferta = C . id_companie
-           LEFT JOIN vanzatori AS V ON O . id_vanzator_oferta = V . id_vanzator";
+           INNER JOIN companii AS C ON O . id_companie_oferta = C . id_companie
+           INNER JOIN vanzatori AS V ON O . id_vanzator_oferta = V . id_vanzator";
 	$flag = 0;
 	if (isset($_POST["optiuni"]["companie"])) {
 		$string .= "\r\nWHERE O . id_companie_oferta = ?";
@@ -570,9 +570,9 @@ if (isset($_POST["optiuni"]["formular_editare"])) {
                   P.nume_persoana,
                   P.prenume_persoana
            FROM oferte AS O
-           LEFT JOIN companii AS C ON O.id_companie_oferta = C.id_companie
-           LEFT JOIN persoane AS P ON O.id_persoana_oferta = P.id_persoana
-           LEFT JOIN vanzatori AS V ON O.id_vanzator_oferta = V.id_vanzator
+           INNER JOIN companii AS C ON O.id_companie_oferta = C.id_companie
+           INNER JOIN persoane AS P ON O.id_persoana_oferta = P.id_persoana
+           INNER JOIN vanzatori AS V ON O.id_vanzator_oferta = V.id_vanzator
            WHERE O.id_oferta = ?
            LIMIT 1;';
 	$data = array($id);
