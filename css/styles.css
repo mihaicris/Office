@@ -447,7 +447,6 @@ canvas {
 .align_middle {
     vertical-align: middle !important;
 }
-
 .align_center {
     text-align: center !important;
 }
@@ -558,13 +557,13 @@ canvas {
     background-color: limegreen;
     color:            #000;
     vertical-align:   middle;
-    opacity:          0.6;
+    opacity:          0.8;
 }
 .stadiu_2 {
     background-color: tomato;
     color:            #000;
     vertical-align:   middle;
-    opacity:          0.6;
+    opacity:          0.8;
 }
 .expirata {
     display:          inline-block;
@@ -574,7 +573,7 @@ canvas {
     overflow:         hidden;
     background-color: lightgoldenrodyellow;
     color:            #000;
-    opacity:          0.6;
+    opacity:          0.8;
 }
 #source {
     display: none;
@@ -613,5 +612,9 @@ canvas {
     width: 6em;
 }
 td {
-    border: 1px solid #777;
+    /*border: 1px solid #777;*/
 }
+/*input[type="checkbox"] {*/
+    /*position: relative;*/
+    /*top:      3px;*/
+/*}*/
