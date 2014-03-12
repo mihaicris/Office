@@ -541,14 +541,23 @@ canvas {
     text-align:   center;
     padding-left: 5px;
 }
+
+.stadiu_0, .stadiu_1, .stadiu_2 {
+    color:         #000;
+    border-radius: 5px;
+    padding:       0 4px;
+    font-weight:   800;
+
+}
+
 .stadiu_0 {
-    color: orange;
+    background-color: papayawhip;
 }
 .stadiu_1 {
-    color: green;
+    background-color: limegreen;
 }
 .stadiu_2 {
-    color: red;
+    background-color: tomato;
 }
 #source {
     display: none;
@@ -560,7 +569,7 @@ canvas {
     /*display:    inline-block;*/
 }
 .w_ref {
-    width: 7em;
+    width: 8em;
 }
 .w_nume {
     width: 30em;
