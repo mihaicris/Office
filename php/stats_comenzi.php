@@ -15,7 +15,7 @@ for ($i = 0; $row = $query->fetch(); $i++) {
 	$valori_lunare[ $row['month']-1] = $row['val']/1000000;
 }
 ?>
-<h2>Statistici ofertare</h2>
+<h2>Statistici comenzi</h2>
 <canvas id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
 <script>
 	var barChartData = {

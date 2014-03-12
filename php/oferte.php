@@ -31,8 +31,8 @@ function afiseaza_rezultate($query, $filtru)
 	$h = '<table class="rezultate">';
 	$h .= '<tr>';
 	$h .= '<th class="w_ref">Referință</th>';
-	$h .= '<th class="w_nume">Nume ofertă</th>';
 	$h .= '<th class="w_data">Data</th>';
+	$h .= '<th class="w_nume">Nume ofertă</th>';
 	$h .= '<th class="w_comp">Companie</th>';
 	$h .= '<th class="w_vanz">Vânzător</th>';
 	$h .= '<th class="w_val">Valoare</th>';
@@ -49,13 +49,13 @@ function afiseaza_rezultate($query, $filtru)
 			<a href="php/word/Oferta.docx" title="Printează" class="sosa print">p</a>
 			<span title="Editează" class="sosa actiune">a</span>
 			</td>';
-		$h .= '<td class="w_nume" title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
 		$h .= '<td class="w_data align_center">' . str_replace_assoc($row['dataoferta'], TRUE) . '</td>';
+		$h .= '<td class="w_nume" title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
 		$h .= '<td class="w_comp companie">' . $row['nume_companie'] . '</td>';
 		$h .= '<td class="w_vanz nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
 		$h .= '<td class="w_val align_right">' . number_format($row['valoare_oferta'], 2, ',', '.') . ' €</td>';
 		$h .= $row["relevant"] ? '<td class="w_rel align_center companie">DA</td>' : '<td class="w_rel align_center id">NU</td>';
-		$h .= '<td class="w_stad align_center stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</td>';
+		$h .= '<td class="w_stad align_center"><span class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</span></td>';
 		if (!$row['stadiu']) {
 			$h .= $row["data_expirare"] < $cur_date
 				? '<td class="w_valab align_center id">Expirată</td>'
