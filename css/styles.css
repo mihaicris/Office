@@ -541,23 +541,23 @@ canvas {
     text-align:   center;
     padding-left: 5px;
 }
-
 .stadiu_0, .stadiu_1, .stadiu_2 {
-    color:         #000;
-    border-radius: 5px;
+    border-radius: 2px;
     padding:       0 4px;
-    font-weight:   800;
-
 }
-
 .stadiu_0 {
-    background-color: papayawhip;
+    /*background-color: papayawhip;*/
+    color: #FFF;
 }
 .stadiu_1 {
     background-color: limegreen;
+    color:            #000;
+    font-weight:      800;
 }
 .stadiu_2 {
     background-color: tomato;
+    color:            #000;
+    font-weight:      800;
 }
 #source {
     display: none;

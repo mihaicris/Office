@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 09, 2014 at 07:20 PM
+-- Generation Time: Mar 12, 2014 at 02:52 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -109,14 +109,14 @@ CREATE TABLE IF NOT EXISTS `oferte` (
 --
 
 INSERT INTO `oferte` (`id_oferta`, `nume_oferta`, `data_oferta`, `descriere_oferta`, `id_companie_oferta`, `id_persoana_oferta`, `id_vanzator_oferta`, `data_expirare`, `valabilitate`, `valoare_oferta`, `relevant`, `stadiu`) VALUES
-(00053, 'Ofertă', '2014-03-12', 'sdvsdvsdv', 00024, 00018, 00042, '2014-04-08', 27, 2000000, 1, 1),
-(00054, 'Modernizare statie de medie tensiune', '2014-01-22', 'Edificii', 00011, 00008, 00044, '2014-02-21', 30, 5000000, 1, 0),
-(00055, 'Oferta', '2014-05-21', 'dfwefwef', 00010, 00010, 00031, '2014-06-20', 30, 6000000, 0, 2),
-(00056, 'Ofertă', '2014-02-21', 'wefwef wefe', 00024, 00018, 00044, '2014-03-23', 30, 4000000, 1, 1),
-(00057, 'Oferta', '2014-06-12', 'Oferta', 00005, 00004, 00043, '2014-07-12', 30, 9000000, 1, 2),
-(00058, 'Ofertă', '2014-04-18', 'werwerwe', 00011, 00009, 00042, '2014-05-18', 30, 1234500, 1, 0),
-(00059, 'Ofertă', '2014-01-06', 'qerqwer qer qer qer qr qwer r qwrqwr q', 00006, 00005, 00033, '2014-02-05', 30, 3000000, 1, 0),
-(00060, 'Post de transformare', '2014-03-09', 'Livrare celule de medie tensiune si transformatoare de distributie', 00008, 00007, 00031, '2014-04-08', 30, 6500000, 1, 0);
+(00053, 'Stația Ploiești Vest', '2014-03-12', '', 00024, 00018, 00042, '2014-04-08', 27, 2000000, 1, 1),
+(00054, 'Stația Bistrița', '2014-01-22', 'Edificii', 00011, 00008, 00044, '2014-02-21', 30, 5000000, 1, 0),
+(00055, 'Stația Craiova Est', '2014-05-21', '', 00010, 00010, 00031, '2014-06-20', 30, 6000000, 0, 2),
+(00056, 'Stația București Sud', '2014-02-21', '', 00024, 00018, 00044, '2014-03-23', 30, 4000000, 1, 1),
+(00057, 'Stația Satu Mare', '2014-06-12', '', 00005, 00004, 00043, '2014-07-12', 30, 9000000, 1, 0),
+(00058, 'Stația Brașov', '2014-04-18', '', 00011, 00009, 00042, '2014-05-18', 30, 1234500, 1, 0),
+(00059, 'Stația Constanța Nord', '2013-08-22', '', 00006, 00005, 00033, '2013-09-21', 30, 3000000, 1, 2),
+(00060, 'Stația Baia Mare', '2014-03-09', 'Livrare celule de medie tensiune si transformatoare de distributie', 00008, 00007, 00031, '2014-04-08', 30, 6500000, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `vanzatori` (
 
 INSERT INTO `vanzatori` (`id_vanzator`, `nume_vanzator`, `prenume_vanzator`, `tel_vanzator`, `fax_vanzator`, `mobil_vanzator`, `email_vanzator`, `activ`) VALUES
 (00028, 'Manta', 'Elena', '', '', '', '', 1),
-(00031, 'Medinceanu', 'Costinel', '45345345', '345345345', '45345345', 'costinel.medinceanu@siemens.com', 1),
+(00031, 'Medinceanu', 'Costinel', '345345345', '45345345', '45345345', 'costinel.medinceanu@siemens.com', 1),
 (00033, 'Rusu', 'Lucian', '', '', '', '', 1),
 (00042, 'Cristea', 'Vasile', '+40 (731) 494 589', '+40 (21) 6296 480', '+40 (21) 6296 606', 'vasile.cristea@siemens.com', 1),
 (00043, 'Stoian', 'Oana', '+40 (724) 123 456', '+40 (724) 123 456', '+40 (724) 123 456', 'oana.stoian@siemens.com', 1),
