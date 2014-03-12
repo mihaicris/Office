@@ -117,7 +117,7 @@ fieldset {
     padding:          0 8px 8px 8px;
     border-radius:    1px;
     box-shadow:       0 0 1px 0 lightblue;
-    width:            61.5em;
+    width:            62em;
     margin:           0;
 }
 fieldset legend {
@@ -444,6 +444,10 @@ canvas {
 .align_bottom {
     vertical-align: bottom !important;
 }
+.align_middle {
+    vertical-align: middle !important;
+}
+
 .align_center {
     text-align: center !important;
 }
@@ -542,22 +546,35 @@ canvas {
     padding-left: 5px;
 }
 .stadiu_0, .stadiu_1, .stadiu_2 {
-    border-radius: 2px;
-    padding:       0 4px;
+    display:       inline-block;
+    width:         4.5em;
+    border-radius: 7px;
+    overflow:      hidden;
 }
 .stadiu_0 {
-    /*background-color: papayawhip;*/
     color: #FFF;
 }
 .stadiu_1 {
     background-color: limegreen;
     color:            #000;
-    font-weight:      800;
+    vertical-align:   middle;
+    opacity:          0.6;
 }
 .stadiu_2 {
     background-color: tomato;
     color:            #000;
-    font-weight:      800;
+    vertical-align:   middle;
+    opacity:          0.6;
+}
+.expirata {
+    display:          inline-block;
+    vertical-align:   middle;
+    width:            4.5em;
+    border-radius:    7px;
+    overflow:         hidden;
+    background-color: lightgoldenrodyellow;
+    color:            #000;
+    opacity:          0.6;
 }
 #source {
     display: none;
@@ -596,5 +613,5 @@ canvas {
     width: 6em;
 }
 td {
-    /*border: 1px solid #777;*/
+    border: 1px solid #777;
 }
