@@ -81,8 +81,8 @@
             }
           }
         },
-        timp_fadein = 50,
-        timp_fadeout = 60,
+        timp_fadein = 80,
+        timp_fadeout = 100,
         isInArray = function(value, array) {
           return array.indexOf(value) > -1;
         },
