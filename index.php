@@ -18,8 +18,8 @@
 </head>
 <body>
 <header>
-    <a href="index.php">Office</a>
-    <div class="sosa_font" style="display: none">a</div>
+    <a href="index.php"><span style="position: relative; top: -3px; color: #FFF" class="sosa_font">Ç</span>&nbsp;Office</a>
+
 </header>
 <nav>
     <ul>

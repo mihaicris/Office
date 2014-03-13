@@ -35,7 +35,7 @@ function afiseaza_rezultate($query, $filtru)
 	$h .= '<th class="w_nume">Nume ofertă</th>';
 	$h .= '<th class="w_comp">Companie</th>';
 	$h .= '<th class="w_vanz">Vânzător</th>';
-	$h .= '<th class="w_val">Valoare</th>';
+	$h .= '<th class="w_val">Valoare €</th>';
 	$h .= '<th class="w_rel">Relevant</th>';
 	$h .= '<th class="w_stad">Stadiu</th>';
 	$h .= '<th class="w_valab">Valabilitate</th>';
@@ -53,7 +53,7 @@ function afiseaza_rezultate($query, $filtru)
 		$h .= '<td class="w_nume" title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
 		$h .= '<td class="w_comp companie">' . $row['nume_companie'] . '</td>';
 		$h .= '<td class="w_vanz nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
-		$h .= '<td class="w_val align_right">' . number_format($row['valoare_oferta'], 2, ',', '.') . ' €</td>';
+		$h .= '<td class="w_val align_right">' . number_format($row['valoare_oferta'], 0, ',', '.') . '</td>';
 		$h .= $row["relevant"] ? '<td class="w_rel align_center companie">DA</td>' : '<td class="w_rel align_center id">NU</td>';
 		$h .= '<td class="w_stad align_center"><span class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</span></td>';
 		if (!$row['stadiu']) {
@@ -68,7 +68,7 @@ function afiseaza_rezultate($query, $filtru)
 	}
 	$h .= '</table>';
 	if ($flag) {
-		echo '<span id="total_valoare">TOTAL&nbsp;&nbsp;<span class="total">' . number_format($total, 2, ",", ".") . ' €</span></span>';
+		echo '<span id="total_valoare">TOTAL&nbsp;&nbsp;<span class="total">' . number_format($total, 0, ",", ".") . ' €</span></span>';
 		echo $h;
 	}
 	echo '<span class="total">' . $count;
