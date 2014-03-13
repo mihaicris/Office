@@ -8,8 +8,7 @@ function verifica_existenta_vanzator($id, $nume_vanzator, $prenume_vanzator)
 
 	$data = array($nume_vanzator, $prenume_vanzator);
 	$string = 'SELECT `id_vanzator`
-                FROM `vanzatori`
-                WHERE (`nume_vanzator` = ? AND `prenume_vanzator` = ?);';
+                FROM `vanzatori` WHERE (`nume_vanzator` = ? AND `prenume_vanzator` = ?);';
 	$query = interogare($string, $data);
 	$result = $query->fetch();
 	if ($result['id_vanzator'] && $result['id_vanzator'] != $id) {
@@ -252,9 +251,9 @@ if (isset($_POST["salveaza"])) {
 		$string = 'INSERT INTO `vanzatori`
                        (`nume_vanzator`,
                         `prenume_vanzator`,
+                        `mobil_vanzator`,
                         `tel_vanzator`,
                         `fax_vanzator`,
-                        `mobil_vanzator`,
                         `email_vanzator`,
                         `activ`,
                         `id_vanzator`)
@@ -265,9 +264,9 @@ if (isset($_POST["salveaza"])) {
 		$string = 'UPDATE `vanzatori`
                    SET  `nume_vanzator` = ?,
                         `prenume_vanzator` = ?,
+						`mobil_vanzator` = ?,
 						`tel_vanzator` = ?,
                         `fax_vanzator` = ?,
-                        `mobil_vanzator` = ?,
                         `email_vanzator` = ?,
                         `activ` = ?
                    WHERE `id_vanzator` = ?;';
