@@ -22,7 +22,7 @@ function verifica_existenta_companie($id, $nume_companie)
 
 function afiseaza_rezultate($query)
 {
-    echo '<table class="rezultate">';
+    echo '<table style="width: inherit;" class="rezultate">';
     echo "<tr>";
     echo '<th>Acțiuni</th>';
     echo '<th>Companie</th>';

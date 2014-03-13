@@ -551,7 +551,10 @@ canvas {
     overflow:      hidden;
 }
 .stadiu_0 {
-    color: #FFF;
+    background-color: #FFF;
+    color:            #000;
+    vertical-align:   middle;
+    opacity:          0.8;
 }
 .stadiu_1 {
     background-color: limegreen;
@@ -571,7 +574,7 @@ canvas {
     width:            4.5em;
     border-radius:    7px;
     overflow:         hidden;
-    background-color: lightgoldenrodyellow;
+    background-color: khaki;
     color:            #000;
     opacity:          0.8;
 }
@@ -615,6 +618,6 @@ td {
     /*border: 1px solid #777;*/
 }
 /*input[type="checkbox"] {*/
-    /*position: relative;*/
-    /*top:      3px;*/
+/*position: relative;*/
+/*top:      3px;*/
 /*}*/
