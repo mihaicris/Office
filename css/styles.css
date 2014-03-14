@@ -363,7 +363,7 @@ input.required {
 }
 table.rezultate {
     margin-top: 10px;
-    width:      98em;
+    width:      120em;
     font-size:  0.9em;
 }
 table.rezultate td, .rezultate th {
@@ -452,7 +452,6 @@ canvas {
 }
 .align_right {
     text-align: right !important;
-    min-width:  100px;
 }
 .align_left {
     text-align: left !important;

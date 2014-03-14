@@ -1,67 +1,76 @@
 <?php
 include_once 'conexiune.php';
 
-function afisare_tabel($header, $content) {
+function formatare($n)
+{
+	return ($n ? number_format($n, 0, ",", ".") : "-");
+}
 
+function afisare_tabel($header, $content)
+{
+	$row = $header->fetch();
 	$h = '<table class="rezultate">';
 	$h .= '<tr>';
-		$h .= '<th colspan="4"></td>';
-		$h .= '<th>FY-1 TOTAL</td>';
-		$h .= '<th>FY TOTAL</td>';
-		$h .= '<th>Ianuarie</td>';
-		$h .= '<th>Februarie</td>';
-		$h .= '<th>Martie</td>';
-		$h .= '<th>Aprilie</td>';
-		$h .= '<th>Mai</td>';
-		$h .= '<th>Iunie</td>';
-		$h .= '<th>Iulie</td>';
-		$h .= '<th>August</td>';
-		$h .= '<th>Septembrie</td>';
-		$h .= '<th>Octombrie</td>';
-		$h .= '<th>Noiembrie</td>';
-		$h .= '<th>Decembrie</td>';
+	$h .= '<th colspan="4"></td>';
+	$h .= '<th class="align_center">FY-1 TOTAL</th>';
+	$h .= '<th class="align_center">FY TOTAL</th>';
+	$h .= '<th class="align_center">Ianuarie</th>';
+	$h .= '<th class="align_center">Februarie</th>';
+	$h .= '<th class="align_center">Martie</th>';
+	$h .= '<th class="align_center">Aprilie</th>';
+	$h .= '<th class="align_center">Mai</th>';
+	$h .= '<th class="align_center">Iunie</th>';
+	$h .= '<th class="align_center">Iulie</th>';
+	$h .= '<th class="align_center">August</th>';
+	$h .= '<th class="align_center">Septembrie</th>';
+	$h .= '<th class="align_center">Octombrie</th>';
+	$h .= '<th class="align_center">Noiembrie</th>';
+	$h .= '<th class="align_center">Decembrie</th>';
 	$h .= '</tr>';
 	$h .= '<tr>';
 	$h .= '<th>Rank</th>';
-	$h .= '<th>Companie</th>';
+	$h .= '<th class="w_nume">Companie</th>';
 	$h .= '<th>Oraş</th>';
 	$h .= '<th>Ţară</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
-	$h .= '<th>88888</th>';
+	$h .= '<td class="align_right">' . formatare($row["TOTAL_FYP"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["TOTAL_FY"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M1"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M2"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M3"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M4"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M5"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M6"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M7"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M8"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M9"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M10"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M11"]) . '</td>';
+	$h .= '<td class="align_right">' . formatare($row["M12"]) . '</td>';
 	$h .= '</tr>';
 	$h .= '</tr>';
-	$h .= '<tr>';
-		$h .= '<td>1</td>';
-		$h .= '<td>2</td>';
-		$h .= '<td>3</td>';
-		$h .= '<td>4</td>';
-		$h .= '<td>5</td>';
-		$h .= '<td>6</td>';
-		$h .= '<td>7</td>';
-		$h .= '<td>8</td>';
-		$h .= '<td>9</td>';
-		$h .= '<td>10</td>';
-		$h .= '<td>11</td>';
-		$h .= '<td>12</td>';
-		$h .= '<td>13</td>';
-		$h .= '<td>14</td>';
-		$h .= '<td>15</td>';
-		$h .= '<td>16</td>';
-		$h .= '<td>17</td>';
-		$h .= '<td>18</td>';
-	$h .= '</tr>';
+
+	for ($i = 0; $row = $content->fetch(); $i++) {
+		$h .= '<tr>';
+		$h .= '<td class="align_center">' . $row["Rank"] . '</td>';
+		$h .= '<td class="companie w_nume">' . $row["nume_companie"] . '</td>';
+		$h .= '<td class="align_center">' . $row["oras_companie"] . '</td>';
+		$h .= '<td class="align_center">' . $row["tara_companie"] . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["FYP"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["FY"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M1"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M2"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M3"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M4"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M5"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M6"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M7"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M8"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M9"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M10"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M11"]) . '</td>';
+		$h .= '<td class="align_right">' . formatare($row["M12"]) . '</td>';
+		$h .= '</tr>';
+	}
 	$h .= '</table>';
 	echo $h;
 }
