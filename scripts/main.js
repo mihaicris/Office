@@ -55,7 +55,10 @@
             }
           },
           statistici_clienti:   {
+            id_box:  "#box_statistici_clienti",
+            path:    "php/stats_clienti.php",
             optiuni: {
+
             }
           },
           statistici_furnizori: {
