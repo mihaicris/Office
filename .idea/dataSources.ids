@@ -19,6 +19,10 @@
       <exported-key name="produse_ibfk_1" table="produse" schema="" catalog="office" columns="id_companie"/>
       <index name="nume_client" unique="true" columns="nume_companie"/>
     </table>
+    <table name="lista_lunilor" schema="" catalog="office" type="TABLE">
+      <column name="id_month" sqlType="TINYINT" length="3" precision="0" nullable="false" jdbcType="-6"/>
+      <column name="value" sqlType="BIT" length="1" precision="0" nullable="false" jdbcType="-7"/>
+    </table>
     <table name="oferte" schema="" catalog="office" type="TABLE">
       <column name="id_oferta" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5" autoIncrement="true"/>
       <column name="nume_oferta" sqlType="VARCHAR" length="200" precision="0" nullable="false" jdbcType="12"/>
