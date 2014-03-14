@@ -27,7 +27,6 @@ function afiseaza_rezultate($query, $filtru)
 	$flag = 0;
 	$count = 0;
 	$cur_date = date("Y-m-d");
-	$total = 0;
 	$h = '<table class="rezultate">';
 	$h .= '<tr>';
 	$h .= '<th class="w_ref">Referință</th>';
@@ -64,11 +63,9 @@ function afiseaza_rezultate($query, $filtru)
 			$h .= "<td></td>";
 		}
 		$h .= '</tr>';
-		$total += $row['valoare_oferta'];
 	}
 	$h .= '</table>';
 	if ($flag) {
-		echo '<span id="total_valoare">TOTAL&nbsp;&nbsp;<span class="total">' . number_format($total, 0, ",", ".") . ' €</span></span>';
 		echo $h;
 	}
 	echo '<span class="total">' . $count;
@@ -305,7 +302,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   placeholder="Selectează ..."
 							   readonly/>
 					</td>
-					<td class="align_right" colspan="2">
+					<td class="spatiu_stanga align_right" colspan="2">
 						<span id="reset" class="submit">Reset</span>
 					</td>
 				</tr>

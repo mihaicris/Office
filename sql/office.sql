@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 13, 2014 at 03:02 PM
+-- Generation Time: Mar 14, 2014 at 02:46 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `oferte` (
   KEY `id_companie_oferta` (`id_companie_oferta`),
   KEY `id_vanzator_oferta` (`id_vanzator_oferta`),
   KEY `id_persoana_oferta` (`id_persoana_oferta`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=62 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=67 ;
 
 --
 -- Dumping data for table `oferte`
@@ -116,8 +116,13 @@ INSERT INTO `oferte` (`id_oferta`, `nume_oferta`, `data_oferta`, `descriere_ofer
 (00057, 'Stația Craiova Est', '2014-06-12', '', 00005, 00004, 00031, '2014-07-12', 30, 9000000, 1, 0),
 (00058, 'Stația Brașov', '2014-04-18', '', 00011, 00009, 00042, '2014-05-18', 30, 1234500, 1, 0),
 (00059, 'Stația Constanța Nord', '2013-08-22', '', 00006, 00005, 00033, '2013-09-21', 30, 3000000, 1, 1),
-(00060, 'Stația Baia Mare', '2014-03-03', 'Livrare celule de medie tensiune si transformatoare de distributie', 00008, 00007, 00031, '2014-03-08', 5, 6500000, 1, 0),
-(00061, 'Stația Arad', '2014-03-13', 'Modernizare echipamente de înaltă tensiune', 00002, 00024, 00033, '2014-04-12', 30, 2500000, 1, 0);
+(00060, 'Stația Baia Mare', '2014-03-03', 'Livrare celule de medie tensiune si transformatoare de distributie', 00005, 00004, 00031, '2014-03-08', 5, 6500000, 1, 0),
+(00061, 'Stația Arad', '2014-03-13', 'Modernizare echipamente de înaltă tensiune', 00002, 00024, 00033, '2014-04-12', 30, 2500000, 1, 0),
+(00062, 'Statia Busteni', '2013-01-01', '', 00005, 00004, 00042, '2013-01-31', 30, 4000000, 1, 0),
+(00063, 'Statia Sinaia', '2013-02-01', '', 00005, 00004, 00042, '2013-03-03', 30, 250000, 1, 0),
+(00064, 'Statie Timisoara Vest', '2013-02-01', '', 00054, 00022, 00043, '2013-03-03', 30, 4500000, 1, 0),
+(00065, 'Stația Ilfov Est', '2014-01-15', '', 00002, 00024, 00043, '2014-02-14', 30, 1000000, 1, 0),
+(00066, 'Stație Cluj Nord', '2014-02-27', '', 00010, 00010, 00031, '2014-03-29', 30, 15000000, 1, 1);
 
 -- --------------------------------------------------------
 
