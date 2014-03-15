@@ -27,7 +27,7 @@ function afiseaza_rezultate($query, $filtru)
 	$flag = 0;
 	$count = 0;
 	$cur_date = date("Y-m-d");
-	$h = '<table class="rezultate">';
+	$h = '<table class="rezultate to_remove">';
 	$h .= '<tr>';
 	$h .= '<th class="w_ref">Referință</th>';
 	$h .= '<th class="w_data">Data</th>';
@@ -68,7 +68,7 @@ function afiseaza_rezultate($query, $filtru)
 	if ($flag) {
 		echo $h;
 	}
-	echo '<span class="total">' . $count;
+	echo '<span class="total to_remove">' . $count;
 	if ($count == 1) {
 		echo " ofertă";
 		echo $filtru ? " găsită" : " recentă";
@@ -223,7 +223,6 @@ if (isset($_POST["optiuni"]["listare"])) {
 			<p id="f01">Expirate</p>
 		</div>
 	</div>
-
 	<div id="lista_luni" class="ddm">
 		<div class="rec">
 			<p id="f1">Ianuarie</p>
