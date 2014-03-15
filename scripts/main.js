@@ -43,26 +43,22 @@
             }
           },
           statistici_oferte:    {
-            id_box:  "#box_statistici_ofertare",
+            id_box:  "#box_stats_ofertare",
             path:    "php/stats_ofertare.php",
             optiuni: {
             }
           },
           statistici_comenzi:   {
-            id_box:  "#box_statistici_comenzi",
+            id_box:  "#box_stats_comenzi",
             path:    "php/stats_comenzi.php",
             optiuni: {
             }
           },
           statistici_clienti:   {
-            id_box:  "#box_statistici_clienti",
+            id_box:  "#box_stats_clienti",
             path:    "php/stats_clienti.php",
             optiuni: {
-
-            }
-          },
-          statistici_furnizori: {
-            optiuni: {
+              listare: 1
             }
           },
           companii:             {
@@ -730,16 +726,15 @@
             $text = $this.text(),
             lista = $("#lista_companii"),
             camp = $("#select_companie");
-        lista.hide().promise().done(function() {
-          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
-          $("#select_persoana").val("").attr("data-id", "").attr("value", "");
-          lista.empty();
-          if ($("#formular_filtre").length) {
-            camp.blur().trigger("aplica");
-          } else {
-            $("input").eq(camp.index("input") + 1).focus();
-          }
-        });
+        lista.hide();
+        camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+        $("#select_persoana").val("").attr("data-id", "").attr("value", "");
+        lista.empty();
+        if ($("#formular_filtre").length) {
+          camp.blur().trigger("aplica");
+        } else {
+          $("input").eq(camp.index("input") + 1).focus();
+        }
       }
     }, "#lista_companii .rec");
 
@@ -757,12 +752,10 @@
             $text = $this.text(),
             lista = $("#lista_persoane"),
             camp = $("#select_persoana");
-        lista.hide().promise().done(function() {
-          $("input").eq(camp.index("input") + 1).focus();
-          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
-          ;
-          lista.empty();
-        });
+        lista.hide();
+        $("input").eq(camp.index("input") + 1).focus();
+        camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+        lista.empty();
       }
     }, "#lista_persoane .rec");
 
@@ -782,16 +775,14 @@
             $text = $this.text(),
             lista = $("#lista_vanzatori"),
             camp = $("#select_vanzator");
-        lista.hide().promise()
-            .done(function() {
-              camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
-              lista.empty();
-              if ($("#formular_filtre").length) {
-                camp.blur().trigger("aplica");
-              } else {
-                $("input").eq(camp.index("input") + 1).focus();
-              }
-            });
+        lista.hide();
+        camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+        lista.empty();
+        if ($("#formular_filtre").length) {
+          camp.blur().trigger("aplica");
+        } else {
+          $("input").eq(camp.index("input") + 1).focus();
+        }
       }
     }, "#lista_vanzatori .rec");
 
@@ -811,18 +802,17 @@
             $text = $this.text(),
             lista = $("#lista_stadii"),
             camp = $("#select_stadiu");
-        lista.hide().promise().done(function() {
-          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
-          console.log(id);
-          if (id) {
-            $("#select_valabilitate").attr("data-id", "").val("").data("value", "");
-          }
-          if ($("#formular_filtre").length) {
-            camp.blur().trigger("aplica");
-          } else {
-            $("input").eq(camp.index("input") + 1).focus();
-          }
-        });
+        lista.hide();
+        camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+        console.log(id);
+        if (id) {
+          $("#select_valabilitate").attr("data-id", "").val("").data("value", "");
+        }
+        if ($("#formular_filtre").length) {
+          camp.blur().trigger("aplica");
+        } else {
+          $("input").eq(camp.index("input") + 1).focus();
+        }
       }
     }, "#lista_stadii .rec");
 
@@ -840,10 +830,9 @@
             $text = $this.text(),
             lista = $("#lista_sex"),
             camp = $("#select_sex");
-        lista.hide().promise().done(function() {
-          $("input").eq(camp.index("input") + 1).focus();
-          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
-        });
+        lista.hide();
+        $("input").eq(camp.index("input") + 1).focus();
+        camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
       }
     }, "#lista_sex .rec");
 
@@ -863,14 +852,13 @@
             $text = $this.text(),
             lista = $("#lista_ani"),
             camp = $("#select_an");
-        lista.hide().promise().done(function() {
-          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
-          if ($("#formular_filtre").length) {
-            camp.blur().trigger("aplica");
-          } else {
-            $("input").eq(camp.index("input") + 1).focus();
-          }
-        });
+        lista.hide();
+        camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+        if ($("#formular_filtre").length) {
+          camp.blur().trigger("aplica");
+        } else {
+          $("input").eq(camp.index("input") + 1).focus();
+        }
       }
     }, "#lista_ani .rec");
 
@@ -890,14 +878,13 @@
             $text = $this.text(),
             lista = $("#lista_luni"),
             camp = $("#select_luna");
-        lista.hide().promise().done(function() {
-          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
-          if ($("#formular_filtre").length) {
-            camp.blur().trigger("aplica");
-          } else {
-            $("input").eq(camp.index("input") + 1).focus();
-          }
-        });
+        lista.hide();
+        camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+        if ($("#formular_filtre").length) {
+          camp.blur().trigger("aplica");
+        } else {
+          $("input").eq(camp.index("input") + 1).focus();
+        }
       }
     }, "#lista_luni .rec");
 
@@ -916,17 +903,16 @@
             id = parseInt($this.attr("id").slice(1)),
             $text = $this.text(),
             lista = $("#lista_valabilitate"),
-            camp = $("#select_valabilitate");
-        camp_stadiu = $("#select_stadiu");
-        lista.hide().promise().done(function() {
-          camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
-          camp_stadiu.val("Deschise").attr("value", "Deschise").attr("data-id", 0);
-          if ($("#formular_filtre").length) {
-            camp.blur().trigger("aplica");
-          } else {
-            $("input").eq(camp.index("input") + 1).focus();
-          }
-        });
+            camp = $("#select_valabilitate"),
+            camp_stadiu = $("#select_stadiu");
+        lista.hide();
+        camp.attr("data-id", id).val($text).attr("value", $text).removeClass("deschis");
+        camp_stadiu.val("Deschise").attr("value", "Deschise").attr("data-id", 0);
+        if ($("#formular_filtre").length) {
+          camp.blur().trigger("aplica");
+        } else {
+          $("input").eq(camp.index("input") + 1).focus();
+        }
       }
     }, "#lista_valabilitate .rec");
 
@@ -1369,7 +1355,7 @@
       }
     }, "#creaza_oferta, #editeaza_oferta");
 
-    id_box_oferte.on({
+    class_box.on({
       aplica: function() {
         console.log("Trigger: aplica");
         var root = $(this).closest(".box").attr("id").slice(4),
@@ -1389,8 +1375,10 @@
             id_luna = luna.attr("data-id"),
             valabilitate = $("#select_valabilitate"),
             id_valabilitate = valabilitate.attr("data-id"),
-            nume = $("#select_nume_oferta").val().trim(),
-            id_oferta = $("#select_id_oferta").val().trim();
+            nume = $("#select_nume_oferta"),
+            id_oferta = $("#select_id_oferta");
+        nume = nume.length ? nume.val().trim() : undefined;
+        id_oferta = id_oferta.length ? id_oferta.val().trim() : undefined;
 
         optiuni.filtrare = 1;
 
@@ -1424,7 +1412,7 @@
           data:    { optiuni: optiuni },
           timeout: 5000})
             .done(function(raspuns) {
-              box_curent.children(".rezultate, .total, #total_valoare").remove().end().append(raspuns);
+              box_curent.children(".to_remove").remove().end().append(raspuns);
             })
             .fail(function(jqXHR, textStatus) {
               AjaxFail(jqXHR, textStatus);
@@ -1475,6 +1463,8 @@
         }
       }
     }, "#valoare_oferta");
+
+    $("#statistici_clienti").trigger("mouseup");
 
   })
 })

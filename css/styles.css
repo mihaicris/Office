@@ -117,7 +117,6 @@ fieldset {
     padding:          0 8px 8px 8px;
     border-radius:    1px;
     box-shadow:       0 0 1px 0 lightblue;
-    width:            62em;
     margin:           0;
 }
 fieldset legend {
@@ -363,7 +362,6 @@ input.required {
 }
 table.rezultate {
     margin-top: 10px;
-    width:      120em;
     font-size:  0.9em;
 }
 table.rezultate td, .rezultate th {
@@ -383,7 +381,94 @@ table.rezultate th {
     /*font-size:        1.1em;*/
 }
 table.rezultate tr:nth-child(2n) td {
-    background-color: #424242;
+    background-color: hsla(0, 0%, 24%, 1);
+}
+table#stat_clienti {
+    table-layout: fixed;
+}
+table#stat_clienti td {
+    overflow:    hidden;
+    /*display: table-cell;*/
+    white-space: nowrap;
+}
+table#stat_clienti tr td:not(#gol) {
+    border:  1px solid rgb(119, 119, 119);
+    padding: 1px 5px;
+}
+table#stat_clienti .ac {
+    text-align: center;
+}
+table#stat_clienti .al {
+    text-align: left;
+}
+table#stat_clienti .ar {
+    text-align: right;
+}
+table#stat_clienti .head {
+    background-color: hsla(0, 100%, 20%, 1);
+}
+table#stat_clienti .Mtot {
+    /*totaluri lunare*/
+    background-color: hsla(0, 0%, 5%, 1);
+    color:            hsla(98, 88%, 90%, 1);
+}
+table#stat_clienti .totFYP {
+    /*totaluri general an anterior*/
+    /*background-color: hsla(207, 52%, 30%, 1);*/
+    background-color: hsla(0, 0%, 5%, 1);
+    border-bottom:    1px solid #FFF !important;
+}
+table#stat_clienti .totFY {
+    /*totaluri general an curent*/
+    /*background-color: hsla(98, 52%, 30%, 1);*/
+    background-color: hsla(0, 0%, 5%, 1);
+    border-bottom:    1px solid #FFF !important;
+}
+table#stat_clienti .cFYP {
+    background-color: hsla(207, 52%, 15%, 0.4);
+    color:            hsla(207, 92%, 90%, 1);
+}
+table#stat_clienti tr:nth-child(2n+1) .cFYP {
+    background-color: hsla(207, 52%, 20%, 0.4);
+}
+table#stat_clienti .cFY {
+    background-color: hsla(98, 52%, 15%, 0.4);
+    color:            hsla(98, 92%, 90%, 1);
+}
+table#stat_clienti tr:nth-child(2n+1) .cFY {
+    background-color: hsla(98, 52%, 20%, 0.4);
+}
+table#stat_clienti .cM {
+    background-color: hsla(0, 0%, 15%, 1);
+}
+table#stat_clienti tr:nth-child(2n+1) .cM {
+    background-color: hsla(0, 0%, 20%, 1);
+}
+table#stat_clienti .cH {
+    background-color: hsla(0, 0%, 20%, 1);
+}
+table#stat_clienti tr:nth-child(2n+1) .cH {
+    background-color: hsla(0, 0%, 25%, 1);
+}
+.w1 {
+    max-width: 3em;
+    min-width: 3em;
+}
+.w2 {
+    max-width: 20em;
+    min-width: 20em;
+}
+.w3 {
+    max-width: 6em;
+    min-width: 6em;
+}
+.w4 {
+    max-width: 6em;
+    min-width: 6em;
+}
+.w5, .w6, .wM {
+    max-width: 5.5em;
+    min-width: 5.5em;
 }
 form td, th {
     padding-top:    7px;
@@ -613,10 +698,10 @@ canvas {
 .w_valab {
     width: 6em;
 }
-td {
-    /*border: 1px solid #777;*/
-}
 /*input[type="checkbox"] {*/
 /*position: relative;*/
 /*top:      3px;*/
 /*}*/
+td {
+    /*border: 1px solid #777;*/
+}

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
-	<meta name="viewport" content="width=1350, initial-scale=1, maximum-scale=2, user-scalable=yes">
+	<meta name="viewport" content="width=1920, initial-scale=1, maximum-scale=2, user-scalable=yes">
     <link href="images/favicon.ico" rel="icon" type="image/x-icon">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -58,9 +58,9 @@
 <!--<div class="box" id="box_comenzi"></div>-->
 <!--<div class="box" id="box_comanda_noua"></div>-->
 <!--<div class="box" id="box_editeaza_comanda"></div>-->
-<div class="box" id="box_statistici_ofertare"></div>
-<div class="box" id="box_statistici_comenzi"></div>
-<div class="box" id="box_statistici_clienti"></div>
+<div class="box" id="box_stats_ofertare"></div>
+<div class="box" id="box_stats_comenzi"></div>
+<div class="box" id="box_stats_clienti"></div>
 <div class="box" id="box_companii"></div>
 <div class="box" id="box_vanzatori"></div>
 <div class="box" id="box_persoane"></div>

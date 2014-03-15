@@ -9,78 +9,81 @@ function formatare($n)
 function afisare_tabel($header, $content)
 {
 	$row = $header->fetch();
-	$h = '<table class="rezultate">';
+	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
-	$h .= '<th colspan="4"></td>';
-	$h .= '<th class="align_center">FY-1 TOTAL</th>';
-	$h .= '<th class="align_center">FY TOTAL</th>';
-	$h .= '<th class="align_center">Ianuarie</th>';
-	$h .= '<th class="align_center">Februarie</th>';
-	$h .= '<th class="align_center">Martie</th>';
-	$h .= '<th class="align_center">Aprilie</th>';
-	$h .= '<th class="align_center">Mai</th>';
-	$h .= '<th class="align_center">Iunie</th>';
-	$h .= '<th class="align_center">Iulie</th>';
-	$h .= '<th class="align_center">August</th>';
-	$h .= '<th class="align_center">Septembrie</th>';
-	$h .= '<th class="align_center">Octombrie</th>';
-	$h .= '<th class="align_center">Noiembrie</th>';
-	$h .= '<th class="align_center">Decembrie</th>';
+	$h .= '<td id="gol" colspan="4"></td>';
+	$h .= '<td class="ac head w5">FY-1 TOTAL</td>';
+	$h .= '<td class="ac head w6">FY TOTAL</td>';
+	$h .= '<td class="ac head wM">Ian.</td>';
+	$h .= '<td class="ac head wM">Feb.</td>';
+	$h .= '<td class="ac head wM">Mar.</td>';
+	$h .= '<td class="ac head wM">Apr.</td>';
+	$h .= '<td class="ac head wM">Mai</td>';
+	$h .= '<td class="ac head wM">Iun.</td>';
+	$h .= '<td class="ac head wM">Iul.</td>';
+	$h .= '<td class="ac head wM">Aug.</td>';
+	$h .= '<td class="ac head wM">Sep.</td>';
+	$h .= '<td class="ac head wM">Oct.</td>';
+	$h .= '<td class="ac head wM">Noi.</td>';
+	$h .= '<td class="ac head wM">Dec.</td>';
 	$h .= '</tr>';
 	$h .= '<tr>';
-	$h .= '<th>Rank</th>';
-	$h .= '<th class="w_nume">Companie</th>';
-	$h .= '<th>Oraş</th>';
-	$h .= '<th>Ţară</th>';
-	$h .= '<td class="align_right">' . formatare($row["TOTAL_FYP"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["TOTAL_FY"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M1"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M2"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M3"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M4"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M5"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M6"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M7"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M8"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M9"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M10"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M11"]) . '</td>';
-	$h .= '<td class="align_right">' . formatare($row["M12"]) . '</td>';
-	$h .= '</tr>';
+	$h .= '<td class="ac head w1">Rank</td>';
+	$h .= '<td class="ac head w2">Companie</td>';
+	$h .= '<td class="ac head w3">Oraş</td>';
+	$h .= '<td class="ac head w4">Ţară</td>';
+	$h .= '<td class="ar totFYP w5">' . formatare($row["TOTAL_FYP"]) . '</td>';
+	$h .= '<td class="ar totFY w6">' . formatare($row["TOTAL_FY"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M1"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M2"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M3"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M4"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M5"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M6"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M7"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M8"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M9"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M10"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M11"]) . '</td>';
+	$h .= '<td class="ar Mtot wM">' . formatare($row["M12"]) . '</td>';
 	$h .= '</tr>';
 
 	for ($i = 0; $row = $content->fetch(); $i++) {
 		$h .= '<tr>';
-		$h .= '<td class="align_center">' . $row["Rank"] . '</td>';
-		$h .= '<td class="companie w_nume">' . $row["nume_companie"] . '</td>';
-		$h .= '<td class="align_center">' . $row["oras_companie"] . '</td>';
-		$h .= '<td class="align_center">' . $row["tara_companie"] . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["FYP"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["FY"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M1"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M2"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M3"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M4"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M5"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M6"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M7"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M8"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M9"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M10"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M11"]) . '</td>';
-		$h .= '<td class="align_right">' . formatare($row["M12"]) . '</td>';
+		$h .= '<td class="ac w1 cH">' . $row["Rank"] . '</td>';
+		$h .= '<td class="al w2 cH companie">' . $row["nume_companie"] . '</td>';
+		$h .= '<td class="ac w3 cH">' . $row["oras_companie"] . '</td>';
+		$h .= '<td class="ac w4 cH">' . $row["tara_companie"] . '</td>';
+		$h .= '<td class="ar w5 cFYP">' . formatare($row["FYP"]) . '</td>';
+		$h .= '<td class="ar w6 cFY">' . formatare($row["FY"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M1"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M2"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M3"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M4"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M5"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M6"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M7"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M8"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M9"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M10"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M11"]) . '</td>';
+		$h .= '<td class="ar wM cM">' . formatare($row["M12"]) . '</td>';
 		$h .= '</tr>';
 	}
 	$h .= '</table>';
 	echo $h;
 }
 
-?>
-<h2>Statistici clienti</h2>
+function filtrare_si_afisare()
+{
+	global $last_year;
+	if (isset($_POST["optiuni"]["an"])) {
+		$year = $_POST["optiuni"]["an"];
+	} else {
+		$year = $last_year;
+	}
 
-<?php
-
-$query = 'SELECT * FROM (
+	$query = 'SELECT * FROM (
     (SELECT @year := ? AS FY) AS Init,
     (SELECT SUM(valoare_oferta) AS TOTAL_FYP FROM oferte WHERE YEAR (data_oferta) = @year-1) AS COL1,
     (SELECT SUM(valoare_oferta) AS TOTAL_FY FROM oferte WHERE YEAR (data_oferta) = @year) AS COL2,
@@ -97,8 +100,8 @@ $query = 'SELECT * FROM (
     (SELECT SUM(valoare_oferta) AS M11 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 11) AS COL13,
     (SELECT SUM(valoare_oferta) AS M12 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 12) AS COL14
 );';
-$header = interogare($query, array("2014"));
-$query = 'SELECT FINAL.* FROM (SELECT
+	$header = interogare($query, array($year));
+	$query = 'SELECT FINAL.* FROM (SELECT
         @i := @i + 1 AS Rank, results.*
       FROM
         (SELECT @i := 0) AS foo,
@@ -135,12 +138,70 @@ $query = 'SELECT FINAL.* FROM (SELECT
                 WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 12 AND oferte.id_companie_oferta = @comp) AS M12
          FROM oferte
            INNER JOIN companii ON oferte.id_companie_oferta = companii.id_companie
+         WHERE YEAR(data_oferta) = @an OR YEAR(data_oferta) = @an-1
          GROUP BY oferte.id_companie_oferta
          ORDER BY FY DESC) AS results
      ) AS FINAL
 ORDER BY Rank;';
-$content = interogare($query, array("2014"));
+	$content = interogare($query, array($year));
 
-afisare_tabel($header, $content);
+	afisare_tabel($header, $content);
+
+}
+
+?>
+
+<?php
+$last_year = "";
+
+if (isset($_POST["optiuni"]["listare"])) {
+
+	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta";
+	$query = interogare($string, null);
+	$ani = $query->fetchAll();
+	if (count($ani)) {
+		$html = '<div id="lista_ani" class="ddm">';
+		for ($i = 0; $i < count($ani); $i++) {
+			$html .= '<div class="rec">';
+			$html .= '<p id="f' . $ani[$i]["ani"] . '">' . $ani[$i]["ani"] . '</p>';
+			$html .= '</div>';
+			$last_year = $ani[$i]["ani"];
+		}
+		$html .= '</div>';
+		echo $html;
+	}
+	?>
+	<h2>Statistici clienti</h2>
+	<form action="/" method="post" id="formular_filtre">
+		<fieldset name="Filtre">
+			<table>
+				<tbody>
+				<tr>
+					<td>
+						<label for="select_an">An financiar</label>
+					</td>
+					<td>
+						<input class="normal extrascurt"
+							   id="select_an"
+							   type="text"
+							   name="select_an"
+							   value="<?php echo $last_year ?>"
+							   readonly/>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<input id="filtre" type="hidden"/>
+		</fieldset>
+	</form>
+	<?php
+	filtrare_si_afisare();
+}
+if (isset($_POST["optiuni"]["filtrare"])) {
+
+	filtrare_si_afisare();
+	exit();
+}
+
 exit()
 ?>
