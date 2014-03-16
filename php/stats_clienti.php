@@ -1,14 +1,9 @@
 <?php
 
 $last_year = "";
+$flag = 0;
 
 include_once 'conexiune.php';
-
-function formatare($n)
-{
-	return ($n ? number_format($n, 0, ",", ".") : "-");
-}
-
 
 function filtrare_si_afisare()
 {
@@ -19,25 +14,25 @@ function filtrare_si_afisare()
 		$year = $last_year;
 	}
 
-	$query = 'SELECT * FROM (
+	$query = "SELECT * FROM (
     (SELECT @year := ? AS FY) AS Init,
-    (SELECT SUM(valoare_oferta) AS TOTAL_FYP FROM oferte WHERE YEAR (data_oferta) = @year-1) AS COL1,
-    (SELECT SUM(valoare_oferta) AS TOTAL_FY FROM oferte WHERE YEAR (data_oferta) = @year) AS COL2,
-    (SELECT SUM(valoare_oferta) AS M1 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 1) AS COL3,
-    (SELECT SUM(valoare_oferta) AS M2 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 2) AS COL4,
-    (SELECT SUM(valoare_oferta) AS M3 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 3) AS COL5,
-    (SELECT SUM(valoare_oferta) AS M4 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 4) AS COL6,
-    (SELECT SUM(valoare_oferta) AS M5 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 5) AS COL7,
-    (SELECT SUM(valoare_oferta) AS M6 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 6) AS COL8,
-    (SELECT SUM(valoare_oferta) AS M7 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 7) AS COL9,
-    (SELECT SUM(valoare_oferta) AS M8 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 8) AS COL10,
-    (SELECT SUM(valoare_oferta) AS M9 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 9) AS COL11,
-    (SELECT SUM(valoare_oferta) AS M10 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 10) AS COL12,
-    (SELECT SUM(valoare_oferta) AS M11 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 11) AS COL13,
-    (SELECT SUM(valoare_oferta) AS M12 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 12) AS COL14
-);';
+    (SELECT SUM(valoare_oferta) AS TOTAL_FYP FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year-1) AS COL1,
+    (SELECT SUM(valoare_oferta) AS TOTAL_FY FROM oferte WHERE stadiu = 1 AND YEAR (data_oferta) = @year) AS COL2,
+    (SELECT SUM(valoare_oferta) AS M1 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 1) AS COL3,
+    (SELECT SUM(valoare_oferta) AS M2 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 2) AS COL4,
+    (SELECT SUM(valoare_oferta) AS M3 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 3) AS COL5,
+    (SELECT SUM(valoare_oferta) AS M4 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 4) AS COL6,
+    (SELECT SUM(valoare_oferta) AS M5 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 5) AS COL7,
+    (SELECT SUM(valoare_oferta) AS M6 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 6) AS COL8,
+    (SELECT SUM(valoare_oferta) AS M7 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 7) AS COL9,
+    (SELECT SUM(valoare_oferta) AS M8 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 8) AS COL10,
+    (SELECT SUM(valoare_oferta) AS M9 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 9) AS COL11,
+    (SELECT SUM(valoare_oferta) AS M10 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 10) AS COL12,
+    (SELECT SUM(valoare_oferta) AS M11 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 11) AS COL13,
+    (SELECT SUM(valoare_oferta) AS M12 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 12) AS COL14
+);";
 	$header = interogare($query, array($year));
-	$query = 'SELECT FINAL.* FROM (SELECT
+	$query = "SELECT FINAL.* FROM (SELECT
         @i := @i + 1 AS Rank, results.*
       FROM
         (SELECT @i := 0) AS foo,
@@ -74,19 +69,20 @@ function filtrare_si_afisare()
                 WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 12 AND oferte.id_companie_oferta = @comp) AS M12
          FROM oferte
            INNER JOIN companii ON oferte.id_companie_oferta = companii.id_companie
-         WHERE YEAR(data_oferta) = @an OR YEAR(data_oferta) = @an-1
+         WHERE (stadiu = 1) AND (YEAR(data_oferta) = @an OR YEAR(data_oferta) = @an-1)
          GROUP BY oferte.id_companie_oferta
          ORDER BY FY DESC) AS results
      ) AS FINAL
-ORDER BY Rank;';
+ORDER BY Rank;";
 	$content = interogare($query, array($year));
 
 	$row = $header->fetch();
+
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
 	$h .= '<td id="gol" colspan="4"></td>';
 	$h .= '<td class="ac head w5">';
-	$h .= $year -1;
+	$h .= $year - 1;
 	$h .= '</td>';
 	$h .= '<td class="ac head w6">';
 	$h .= $year;
@@ -154,7 +150,8 @@ ORDER BY Rank;';
 
 if (isset($_POST["optiuni"]["listare"])) {
 
-	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta";
+	$flag = 0;
+	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta DESC";
 	$query = interogare($string, null);
 	$ani = $query->fetchAll();
 	if (count($ani)) {
@@ -163,7 +160,10 @@ if (isset($_POST["optiuni"]["listare"])) {
 			$html .= '<div class="rec">';
 			$html .= '<p id="f' . $ani[$i]["ani"] . '">' . $ani[$i]["ani"] . '</p>';
 			$html .= '</div>';
-			$last_year = $ani[$i]["ani"];
+			if (!$flag) {
+				$last_year = $ani[$i]["ani"];
+				$flag = 1;
+			}
 		}
 		$html .= '</div>';
 		echo $html;
