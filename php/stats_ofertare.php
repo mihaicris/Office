@@ -3,6 +3,13 @@ include('conexiune.php');
 
 function filtrare_si_afisare()
 {
+	if (isset($_POST["optiuni"]["width"])) {
+		$width = $_POST["optiuni"]["width"] * 0.99;
+		$width = $width > 800 ? 800 : $width;
+	} else {
+		$width = 800;
+	}
+
 	global $last_year;
 	if (isset($_POST["optiuni"]["an"])) {
 		$year = $_POST["optiuni"]["an"];
@@ -12,61 +19,62 @@ function filtrare_si_afisare()
 
 	$query = "SELECT * FROM (
     (SELECT @year := ? AS FY) AS Init,
-    (SELECT SUM(valoare_oferta) AS TOTAL_FYP FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year-1) AS COL1,
-    (SELECT SUM(valoare_oferta) AS TOTAL_FY FROM oferte WHERE stadiu = 1 AND YEAR (data_oferta) = @year) AS COL2,
-    (SELECT SUM(valoare_oferta) AS M1 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 1) AS COL3,
-    (SELECT SUM(valoare_oferta) AS M2 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 2) AS COL4,
-    (SELECT SUM(valoare_oferta) AS M3 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 3) AS COL5,
-    (SELECT SUM(valoare_oferta) AS M4 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 4) AS COL6,
-    (SELECT SUM(valoare_oferta) AS M5 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 5) AS COL7,
-    (SELECT SUM(valoare_oferta) AS M6 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 6) AS COL8,
-    (SELECT SUM(valoare_oferta) AS M7 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 7) AS COL9,
-    (SELECT SUM(valoare_oferta) AS M8 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 8) AS COL10,
-    (SELECT SUM(valoare_oferta) AS M9 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 9) AS COL11,
-    (SELECT SUM(valoare_oferta) AS M10 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 10) AS COL12,
-    (SELECT SUM(valoare_oferta) AS M11 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 11) AS COL13,
-    (SELECT SUM(valoare_oferta) AS M12 FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year AND MONTH(data_oferta) = 12) AS COL14
+    (SELECT SUM(valoare_oferta) AS TOTAL_FYP FROM oferte WHERE YEAR(data_oferta) = @year-1) AS COL1,
+    (SELECT SUM(valoare_oferta) AS TOTAL_FY FROM oferte WHERE YEAR (data_oferta) = @year) AS COL2,
+    (SELECT SUM(valoare_oferta) AS M1 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 1) AS COL3,
+    (SELECT SUM(valoare_oferta) AS M2 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 2) AS COL4,
+    (SELECT SUM(valoare_oferta) AS M3 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 3) AS COL5,
+    (SELECT SUM(valoare_oferta) AS M4 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 4) AS COL6,
+    (SELECT SUM(valoare_oferta) AS M5 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 5) AS COL7,
+    (SELECT SUM(valoare_oferta) AS M6 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 6) AS COL8,
+    (SELECT SUM(valoare_oferta) AS M7 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 7) AS COL9,
+    (SELECT SUM(valoare_oferta) AS M8 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 8) AS COL10,
+    (SELECT SUM(valoare_oferta) AS M9 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 9) AS COL11,
+    (SELECT SUM(valoare_oferta) AS M10 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 10) AS COL12,
+    (SELECT SUM(valoare_oferta) AS M11 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 11) AS COL13,
+    (SELECT SUM(valoare_oferta) AS M12 FROM oferte WHERE YEAR(data_oferta) = @year AND MONTH(data_oferta) = 12) AS COL14
 );";
 	$header = interogare($query, array($year));
+
 	$query = "SELECT FINAL.* FROM (SELECT
         @i := @i + 1 AS Rank, results.*
       FROM
         (SELECT @i := 0) AS foo,
         (SELECT @an := ?) AS an,
-        (SELECT @comp := companii.id_companie AS id_companie,
-           companii.nume_companie, companii.oras_companie, companii.tara_companie,
+        (SELECT @vanzator := vanzatori.id_vanzator AS id_vanzator,
+           concat(vanzatori.nume_vanzator, ' ', vanzatori.prenume_vanzator) As Vanzator,
                 (SELECT SUM(oferte.valoare_oferta) AS GRAND FROM oferte
-                WHERE YEAR(data_oferta) = @an-1 AND oferte.id_companie_oferta = @comp) AS FYP,
+                WHERE YEAR(data_oferta) = @an-1 AND oferte.id_vanzator_oferta = @vanzator) AS FYP,
                 (SELECT SUM(oferte.valoare_oferta) AS GRAND FROM oferte
-                WHERE YEAR(data_oferta) = @an AND oferte.id_companie_oferta = @comp) AS FY,
+                WHERE YEAR(data_oferta) = @an AND oferte.id_vanzator_oferta = @vanzator) AS FY,
                 (SELECT SUM(oferte.valoare_oferta) AS Ian FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 1 AND oferte.id_companie_oferta = @comp) AS M1,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 1 AND oferte.id_vanzator_oferta = @vanzator) AS M1,
                 (SELECT SUM(oferte.valoare_oferta) AS Feb FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 2 AND oferte.id_companie_oferta = @comp) AS M2,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 2 AND oferte.id_vanzator_oferta = @vanzator) AS M2,
                 (SELECT SUM(oferte.valoare_oferta) AS Mar FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 3 AND oferte.id_companie_oferta = @comp) AS M3,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 3 AND oferte.id_vanzator_oferta = @vanzator) AS M3,
                 (SELECT SUM(oferte.valoare_oferta) AS Apr FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 4 AND oferte.id_companie_oferta = @comp) AS M4,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 4 AND oferte.id_vanzator_oferta = @vanzator) AS M4,
                 (SELECT SUM(oferte.valoare_oferta) AS Mai FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 5 AND oferte.id_companie_oferta = @comp) AS M5,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 5 AND oferte.id_vanzator_oferta = @vanzator) AS M5,
                 (SELECT SUM(oferte.valoare_oferta) AS Iun FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 6 AND oferte.id_companie_oferta = @comp) AS M6,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 6 AND oferte.id_vanzator_oferta = @vanzator) AS M6,
                 (SELECT SUM(oferte.valoare_oferta) AS Iul FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 7 AND oferte.id_companie_oferta = @comp) AS M7,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 7 AND oferte.id_vanzator_oferta = @vanzator) AS M7,
                 (SELECT SUM(oferte.valoare_oferta) AS Aug FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 8 AND oferte.id_companie_oferta = @comp) AS M8,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 8 AND oferte.id_vanzator_oferta = @vanzator) AS M8,
                 (SELECT SUM(oferte.valoare_oferta) AS Sep FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 9 AND oferte.id_companie_oferta = @comp) AS M9,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 9 AND oferte.id_vanzator_oferta = @vanzator) AS M9,
                 (SELECT SUM(oferte.valoare_oferta) AS Oct FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 10 AND oferte.id_companie_oferta = @comp) AS M10,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 10 AND oferte.id_vanzator_oferta = @vanzator) AS M10,
                 (SELECT SUM(oferte.valoare_oferta) AS Nov FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 11 AND oferte.id_companie_oferta = @comp) AS M11,
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 11 AND oferte.id_vanzator_oferta = @vanzator) AS M11,
                 (SELECT SUM(oferte.valoare_oferta) AS Decem FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 12 AND oferte.id_companie_oferta = @comp) AS M12
+                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 12 AND oferte.id_vanzator_oferta = @vanzator) AS M12
          FROM oferte
-           INNER JOIN companii ON oferte.id_companie_oferta = companii.id_companie
-         WHERE (stadiu = 1) AND (YEAR(data_oferta) = @an OR YEAR(data_oferta) = @an-1)
-         GROUP BY oferte.id_companie_oferta
+           INNER JOIN vanzatori ON oferte.id_vanzator_oferta = vanzatori.id_vanzator
+         WHERE YEAR(data_oferta) = @an OR YEAR(data_oferta) = @an-1
+         GROUP BY oferte.id_vanzator_oferta
          ORDER BY FY DESC) AS results
      ) AS FINAL
 ORDER BY Rank;";
@@ -76,7 +84,7 @@ ORDER BY Rank;";
 
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
-	$h .= '<td id="gol" colspan="4"></td>';
+	$h .= '<td id="gol" colspan="2"></td>';
 	$h .= '<td class="ac head w5">';
 	$h .= $year - 1;
 	$h .= '</td>';
@@ -98,9 +106,7 @@ ORDER BY Rank;";
 	$h .= '</tr>';
 	$h .= '<tr>';
 	$h .= '<td class="ac head w1">Rank</td>';
-	$h .= '<td class="ac head w2">Companie</td>';
-	$h .= '<td class="ac head w3">Oraş</td>';
-	$h .= '<td class="ac head w4">Ţară</td>';
+	$h .= '<td class="ac head w2">Vânzător</td>';
 	$h .= '<td class="ar totFYP w5">' . formatare($row["TOTAL_FYP"]) . '</td>';
 	$h .= '<td class="ar totFY w6">' . formatare($row["TOTAL_FY"]) . '</td>';
 	$h .= '<td class="ar Mtot wM">' . formatare($row["M1"]) . '</td>';
@@ -117,12 +123,25 @@ ORDER BY Rank;";
 	$h .= '<td class="ar Mtot wM">' . formatare($row["M12"]) . '</td>';
 	$h .= '</tr>';
 
+	$valori_lunare = [
+		$row["M1"] ? $row["M1"] / 1e6 : 0,
+		$row["M2"] ? $row["M2"] / 1e6 : 0,
+		$row["M3"] ? $row["M3"] / 1e6 : 0,
+		$row["M4"] ? $row["M4"] / 1e6 : 0,
+		$row["M5"] ? $row["M5"] / 1e6 : 0,
+		$row["M6"] ? $row["M6"] / 1e6 : 0,
+		$row["M7"] ? $row["M7"] / 1e6 : 0,
+		$row["M8"] ? $row["M8"] / 1e6 : 0,
+		$row["M9"] ? $row["M9"] / 1e6 : 0,
+		$row["M10"] ? $row["M10"] / 1e6 : 0,
+		$row["M11"] ? $row["M11"] / 1e6 : 0,
+		$row["M12"] ? $row["M12"] / 1e6 : 0
+	];
+
 	for ($i = 0; $row = $content->fetch(); $i++) {
 		$h .= '<tr>';
 		$h .= '<td class="ac w1 cH">' . $row["Rank"] . '</td>';
-		$h .= '<td class="al w2 cH companie">' . $row["nume_companie"] . '</td>';
-		$h .= '<td class="ac w3 cH">' . $row["oras_companie"] . '</td>';
-		$h .= '<td class="ac w4 cH">' . $row["tara_companie"] . '</td>';
+		$h .= '<td class="al w2 cH nume">' . $row["Vanzator"] . '</td>';
 		$h .= '<td class="ar w5 cFYP">' . formatare($row["FYP"]) . '</td>';
 		$h .= '<td class="ar w6 cFY">' . formatare($row["FY"]) . '</td>';
 		$h .= '<td class="ar wM cM">' . formatare($row["M1"]) . '</td>';
@@ -142,18 +161,9 @@ ORDER BY Rank;";
 	$h .= '</table>';
 	echo $h;
 
-	$string = "SELECT MONTH(data_oferta) AS month, SUM(valoare_oferta) AS val
-	FROM oferte
-	WHERE relevant = 1
-	GROUP BY MONTH(data_oferta);";
-	$query = interogare($string, null);
-	$valori_lunare = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	for ($i = 0; $row = $query->fetch(); $i++) {
-		$valori_lunare[$row['month'] - 1] = $row['val'] / 1000000;
-	}
 	?>
 	<canvas class="to_remove" id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
-	<script>
+	<script class="to_remove">
 		var barChartData = {
 			labels:   ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"],
 			datasets: [
@@ -248,16 +258,7 @@ ORDER BY Rank;";
 <?php
 }
 
-
 if (isset($_POST["optiuni"]["listare"])) {
-
-
-	if (isset($_POST["optiuni"]["width"])) {
-		$width = $_POST["optiuni"]["width"] * 0.99;
-		$width = $width > 800 ? 800 : $width;
-	} else {
-		$width = 800;
-	}
 
 	$flag = 0;
 	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta DESC";
@@ -307,7 +308,6 @@ if (isset($_POST["optiuni"]["listare"])) {
 	exit();
 }
 if (isset($_POST["optiuni"]["filtrare"])) {
-
 	filtrare_si_afisare();
 	exit();
 }

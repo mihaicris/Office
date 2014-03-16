@@ -53,6 +53,7 @@
             id_box:  "#box_stats_comenzi",
             path:    "php/stats_comenzi.php",
             optiuni: {
+              listare: 1
             }
           },
           statistici_clienti: {

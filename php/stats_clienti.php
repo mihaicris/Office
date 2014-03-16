@@ -40,33 +40,33 @@ function filtrare_si_afisare()
         (SELECT @comp := companii.id_companie AS id_companie,
            companii.nume_companie, companii.oras_companie, companii.tara_companie,
                 (SELECT SUM(oferte.valoare_oferta) AS GRAND FROM oferte
-                WHERE YEAR(data_oferta) = @an-1 AND oferte.id_companie_oferta = @comp) AS FYP,
+                WHERE stadiu = 1 AND YEAR(data_oferta) = @an-1 AND oferte.id_companie_oferta = @comp) AS FYP,
                 (SELECT SUM(oferte.valoare_oferta) AS GRAND FROM oferte
-                WHERE YEAR(data_oferta) = @an AND oferte.id_companie_oferta = @comp) AS FY,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND oferte.id_companie_oferta = @comp) AS FY,
                 (SELECT SUM(oferte.valoare_oferta) AS Ian FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 1 AND oferte.id_companie_oferta = @comp) AS M1,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 1 AND oferte.id_companie_oferta = @comp) AS M1,
                 (SELECT SUM(oferte.valoare_oferta) AS Feb FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 2 AND oferte.id_companie_oferta = @comp) AS M2,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 2 AND oferte.id_companie_oferta = @comp) AS M2,
                 (SELECT SUM(oferte.valoare_oferta) AS Mar FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 3 AND oferte.id_companie_oferta = @comp) AS M3,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 3 AND oferte.id_companie_oferta = @comp) AS M3,
                 (SELECT SUM(oferte.valoare_oferta) AS Apr FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 4 AND oferte.id_companie_oferta = @comp) AS M4,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 4 AND oferte.id_companie_oferta = @comp) AS M4,
                 (SELECT SUM(oferte.valoare_oferta) AS Mai FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 5 AND oferte.id_companie_oferta = @comp) AS M5,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 5 AND oferte.id_companie_oferta = @comp) AS M5,
                 (SELECT SUM(oferte.valoare_oferta) AS Iun FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 6 AND oferte.id_companie_oferta = @comp) AS M6,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 6 AND oferte.id_companie_oferta = @comp) AS M6,
                 (SELECT SUM(oferte.valoare_oferta) AS Iul FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 7 AND oferte.id_companie_oferta = @comp) AS M7,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 7 AND oferte.id_companie_oferta = @comp) AS M7,
                 (SELECT SUM(oferte.valoare_oferta) AS Aug FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 8 AND oferte.id_companie_oferta = @comp) AS M8,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 8 AND oferte.id_companie_oferta = @comp) AS M8,
                 (SELECT SUM(oferte.valoare_oferta) AS Sep FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 9 AND oferte.id_companie_oferta = @comp) AS M9,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 9 AND oferte.id_companie_oferta = @comp) AS M9,
                 (SELECT SUM(oferte.valoare_oferta) AS Oct FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 10 AND oferte.id_companie_oferta = @comp) AS M10,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 10 AND oferte.id_companie_oferta = @comp) AS M10,
                 (SELECT SUM(oferte.valoare_oferta) AS Nov FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 11 AND oferte.id_companie_oferta = @comp) AS M11,
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 11 AND oferte.id_companie_oferta = @comp) AS M11,
                 (SELECT SUM(oferte.valoare_oferta) AS Decem FROM oferte
-                WHERE YEAR(data_oferta) = @an AND MONTH(data_oferta) = 12 AND oferte.id_companie_oferta = @comp) AS M12
+                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an AND MONTH(data_oferta) = 12 AND oferte.id_companie_oferta = @comp) AS M12
          FROM oferte
            INNER JOIN companii ON oferte.id_companie_oferta = companii.id_companie
          WHERE (stadiu = 1) AND (YEAR(data_oferta) = @an OR YEAR(data_oferta) = @an-1)
