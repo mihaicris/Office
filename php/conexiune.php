@@ -55,6 +55,11 @@ function str_replace_assoc($subject, $scurt)
 	return str_replace(array_keys($replace), array_values($replace), $subject);
 }
 
+function formatare($n)
+{
+	return ($n ? number_format($n, 0, ",", ".") : "-");
+}
+
 $limit = 10;
 $counter = 0;
 $db_host = "localhost";

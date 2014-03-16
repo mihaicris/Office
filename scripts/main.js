@@ -14,66 +14,67 @@
         id_box_persoane = $("#box_persoane"),
         id_box_oferte = $("#box_oferte"),
         obj_pag = {
-          oferte:               {
+          oferte:             {
             id_box:  "#box_oferte",
             path:    "php/oferte.php",
             optiuni: {
               listare: 1
             }
           },
-          oferta_noua:          {
+          oferta_noua:        {
             id_box:  "#box_oferte",
             path:    "php/oferte.php",
             optiuni: {
               formular_creare: 1
             }
           },
-          comenzi:              {
+          comenzi:            {
             id_box:  "#box_comenzi",
             path:    "php/comenzi.php",
             optiuni: {
               listare: 1
             }
           },
-          comanda_noua:         {
+          comanda_noua:       {
             id_box:  "#box_comanda_noua",
             path:    "php/comanda_noua.php",
             optiuni: {
               formular_creare: 1
             }
           },
-          statistici_oferte:    {
+          statistici_oferte:  {
             id_box:  "#box_stats_ofertare",
             path:    "php/stats_ofertare.php",
             optiuni: {
+              listare: 1
             }
           },
-          statistici_comenzi:   {
+          statistici_comenzi: {
             id_box:  "#box_stats_comenzi",
             path:    "php/stats_comenzi.php",
             optiuni: {
             }
           },
-          statistici_clienti:   {
+          statistici_clienti: {
             id_box:  "#box_stats_clienti",
             path:    "php/stats_clienti.php",
             optiuni: {
               listare: 1
             }
           },
-          companii:             {
+          companii:           {
             id_box:  "#box_companii",
             path:    "php/companii.php",
             optiuni: {
             }
           },
-          vanzatori:            {
+          vanzatori:          {
             id_box:  "#box_vanzatori",
             path:    "php/vanzatori.php",
             optiuni: {
             }
           },
-          persoane:             {
+          persoane:           {
             id_box:  "#box_persoane",
             path:    "php/persoane.php",
             optiuni: {
@@ -1464,7 +1465,7 @@
       }
     }, "#valoare_oferta");
 
-    $("#statistici_clienti").trigger("mouseup");
+//    $("#statistici_oferte").trigger("mouseup");
 
   })
 })
