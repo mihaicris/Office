@@ -125,20 +125,19 @@ ORDER BY Rank;";
 	$h .= '</tr>';
 
 	$valori_lunare = [
-		$row["M1"] ? $row["M1"] / 1e6 : 0,
-		$row["M2"] ? $row["M2"] / 1e6 : 0,
-		$row["M3"] ? $row["M3"] / 1e6 : 0,
-		$row["M4"] ? $row["M4"] / 1e6 : 0,
-		$row["M5"] ? $row["M5"] / 1e6 : 0,
-		$row["M6"] ? $row["M6"] / 1e6 : 0,
-		$row["M7"] ? $row["M7"] / 1e6 : 0,
-		$row["M8"] ? $row["M8"] / 1e6 : 0,
-		$row["M9"] ? $row["M9"] / 1e6 : 0,
-		$row["M10"] ? $row["M10"] / 1e6 : 0,
-		$row["M11"] ? $row["M11"] / 1e6 : 0,
-		$row["M12"] ? $row["M12"] / 1e6 : 0
+		$row["M1"] ? $row["M1"] : 0,
+		$row["M2"] ? $row["M2"] : 0,
+		$row["M3"] ? $row["M3"] : 0,
+		$row["M4"] ? $row["M4"] : 0,
+		$row["M5"] ? $row["M5"] : 0,
+		$row["M6"] ? $row["M6"] : 0,
+		$row["M7"] ? $row["M7"] : 0,
+		$row["M8"] ? $row["M8"] : 0,
+		$row["M9"] ? $row["M9"] : 0,
+		$row["M10"] ? $row["M10"] : 0,
+		$row["M11"] ? $row["M11"] : 0,
+		$row["M12"] ? $row["M12"] : 0
 	];
-	$max = max($valori_lunare) + 1;
 
 	for ($i = 0; $row = $content->fetch(); $i++) {
 		$h .= '<tr>';
@@ -194,9 +193,9 @@ ORDER BY Rank;";
 
 			//** Required if scaleOverride is true **
 			//Number - The number of steps in a hard coded scale
-			scaleSteps:          <?php echo $max?>,
+			scaleSteps:          null,
 			//Number - The value jump in the hard coded scale
-			scaleStepWidth:      1,
+			scaleStepWidth:      null,
 			//Number - The scale starting value
 			scaleStartValue:     0,
 
@@ -263,6 +262,7 @@ ORDER BY Rank;";
 
 if (isset($_POST["optiuni"]["listare"])) {
 
+	echo('<h2>Statistici ofertare</h2>');
 	$flag = 0;
 	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta DESC";
 	$query = interogare($string, null);
@@ -280,9 +280,13 @@ if (isset($_POST["optiuni"]["listare"])) {
 		}
 		$html .= '</div>';
 		echo $html;
+	} else {
+		echo('<span class="total to_remove">Nu sunt date pentru raport.</span>');
+		exit();
 	}
+
 	?>
-	<h2>Statistici ofertare</h2>
+
 	<form action="/" method="post" id="formular_filtre">
 		<fieldset id="filtre_ofertare">
 			<table>
