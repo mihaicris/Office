@@ -5,12 +5,13 @@ function filtrare_si_afisare()
 {
 	if (isset($_POST["optiuni"]["width"])) {
 		$width = $_POST["optiuni"]["width"] * 0.99;
-		$width = $width > 800 ? 800 : $width;
+		$width = $width > 1000 ? 1000 : $width;
 	} else {
-		$width = 800;
+		$width = 1000;
 	}
 
 	global $last_year;
+
 	if (isset($_POST["optiuni"]["an"])) {
 		$year = $_POST["optiuni"]["an"];
 	} else {
@@ -42,7 +43,7 @@ function filtrare_si_afisare()
         (SELECT @i := 0) AS foo,
         (SELECT @an := ?) AS an,
         (SELECT @vanzator := vanzatori.id_vanzator AS id_vanzator,
-           concat(vanzatori.nume_vanzator, ' ', vanzatori.prenume_vanzator) As Vanzator,
+           concat(vanzatori.nume_vanzator, ' ', vanzatori.prenume_vanzator) AS Vanzator,
                 (SELECT SUM(oferte.valoare_oferta) AS GRAND FROM oferte
                 WHERE stadiu = 1 AND YEAR (data_oferta) = @an-1 AND oferte.id_vanzator_oferta = @vanzator) AS FYP,
                 (SELECT SUM(oferte.valoare_oferta) AS GRAND FROM oferte
@@ -82,6 +83,7 @@ ORDER BY Rank;";
 
 	$row = $header->fetch();
 
+	echo '<span class="to_remove titluri">Comenzi vânzători (detaliat)<br><br></span>';
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
 	$h .= '<td id="gol" colspan="2"></td>';
@@ -162,6 +164,7 @@ ORDER BY Rank;";
 	echo $h;
 
 	?>
+	<span class="to_remove titluri"><br>Comenzi vânzători (lunar)<br><br></span>
 	<canvas class="to_remove" id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
 	<script class="to_remove">
 		var barChartData = {
@@ -256,18 +259,19 @@ ORDER BY Rank;";
 		var myLine = new Chart(document.getElementById("canvas2").getContext("2d")).Bar(barChartData, options);
 	</script>
 <?php
+
 }
 
 if (isset($_POST["optiuni"]["listare"])) {
 
 	$flag = 0;
-	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta DESC";
+	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte WHERE stadiu = 1 ORDER BY data_oferta DESC";
 	$query = interogare($string, null);
 	$ani = $query->fetchAll();
 	if (count($ani)) {
 		$html = '<div id="lista_ani" class="ddm">';
 		for ($i = 0; $i < count($ani); $i++) {
-			$html .= '<div class="rec">';
+			$html .= '<div class="rec align_center">';
 			$html .= '<p id="f' . $ani[$i]["ani"] . '">' . $ani[$i]["ani"] . '</p>';
 			$html .= '</div>';
 			if (!$flag) {
@@ -289,7 +293,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 						<label for="select_an">An financiar</label>
 					</td>
 					<td>
-						<input class="normal extrascurt"
+						<input class="normal superscurt"
 							   id="select_an"
 							   type="text"
 							   name="select_an"
