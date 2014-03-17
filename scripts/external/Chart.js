@@ -362,6 +362,7 @@ window.Chart = function(context) {
       animation:           true,
       animationSteps:      60,
       animationEasing:     "easeOutQuart",
+      labelColor:          "#AAA",
       onAnimationComplete: null
     };
     var config = (options) ? mergeChartConfig(chart.Bar.defaults, options) : chart.Bar.defaults;
@@ -1092,7 +1093,7 @@ window.Chart = function(context) {
           // added code to show data labels in the bar chart
           //  can add more config properties to remove these hardcoded values
           ctx.fill();
-          ctx.fillStyle = '#FFF';
+          ctx.fillStyle = config.labelColor;
           ctx.font = config.scaleFontFamily;
           if (data.datasets[i].data[j]) {
                   ctx.fillText(Math.round(data.datasets[i].data[j] * 10000) / 10000,
