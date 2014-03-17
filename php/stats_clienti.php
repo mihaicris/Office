@@ -281,7 +281,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 	?>
 	<h2>Statistici clienti</h2>
 	<form action="/" method="post" id="formular_filtre">
-		<fieldset name="Filtre">
+		<fieldset id="filtre_clienti">
 			<table>
 				<tbody>
 				<tr>
