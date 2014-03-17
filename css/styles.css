@@ -118,6 +118,7 @@ fieldset {
     border-radius:    1px;
     box-shadow:       0 0 1px 0 lightblue;
     margin:           0;
+    width: 60em;
 }
 fieldset legend {
     color:     lightcoral;
@@ -371,10 +372,8 @@ table.rezultate {
 table.rezultate td, .rezultate th {
     padding: 1px 5px;
     border:  1px solid #777;
-}
-table.rezultate td div {
-    height:   16px;
     overflow: hidden;
+    white-space: nowrap;
 }
 table.rezultate th {
     background-color: #600000;
@@ -386,6 +385,44 @@ table.rezultate th {
 table.rezultate tr:nth-child(2n) td {
     background-color: hsla(0, 0%, 24%, 1);
 }
+
+.w_ref {
+    min-width: 8em;
+    max-width: 8em;
+}
+.w_nume {
+    min-width: 30em;
+    min-width: 30em;
+}
+.w_data {
+    min-width: 7em;
+    max-width: 7em;
+}
+.w_comp {
+    min-width: 20em;
+    max-width: 20em;
+}
+.w_vanz {
+    min-width: 10em;
+    max-width: 10em;
+}
+.w_val {
+    min-width: 6em;
+    max-width: 6em;
+}
+.w_rel {
+    min-width: 5em;
+    max-width: 5em;
+}
+.w_stad {
+    min-width: 6em;
+    max-width: 6em;
+}
+.w_valab {
+    min-width: 6em;
+    max-width: 6em;
+}
+
 table#stat_clienti {
     table-layout: fixed;
 }
@@ -531,7 +568,8 @@ canvas {
     font-weight: 400;
     position:    relative;
     left:        30em;
-    color:       tomato;
+    color:       lightgreen;
+    font-size:   1.1em;
 }
 .ascuns {
     display: none;
@@ -681,33 +719,7 @@ canvas {
 #total_valoare {
     /*display:    inline-block;*/
 }
-.w_ref {
-    width: 8em;
-}
-.w_nume {
-    width: 30em;
-}
-.w_data {
-    width: 7em;
-}
-.w_comp {
-    width: 20em;
-}
-.w_vanz {
-    width: 10em;
-}
-.w_val {
-    width: 6em;
-}
-.w_rel {
-    width: 5em;
-}
-.w_stad {
-    width: 6em;
-}
-.w_valab {
-    width: 6em;
-}
+
 
 /*input[type="checkbox"] {*/
 /*position: relative;*/
