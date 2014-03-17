@@ -159,7 +159,7 @@ ORDER BY Rank;";
 	exit();
 	?>
 
-	<span class="to_remove titluri"><br>Grafic comenzi lunare<br><br></span>
+	<span class="to_remove titluri"><br>Grafic comenzi lunare<br></span>
 	<canvas class="to_remove" id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
 	<script class="to_remove">
 		var barChartData = {
