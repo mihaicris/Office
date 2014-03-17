@@ -323,7 +323,6 @@ if (isset($_POST["camp_str"])) {
 	$query = interogare($string, $data);
 	//daca nu sunt rezultate se iese cu mesaj
 	$count = $query->fetchColumn();
-	fb($count);
 	if (!$count) {
 		echo '<p>Nu există în baza de date.</p>';
 		exit();

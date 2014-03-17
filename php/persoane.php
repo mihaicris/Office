@@ -415,7 +415,6 @@ if (isset($_POST["camp_str"])) {
 					OR nume_companie LIKE ?);';
 	$query = interogare($string, $data);
 	$count = $query->fetchColumn();
-	fb($str);
 	if (!$count) { //daca nu sunt rezultate se iese cu mesaj
 		// echo "<h2>Rezultate căutare</h2>";
 		echo '<p>Nu există în baza de date.</p>';

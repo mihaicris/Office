@@ -60,6 +60,10 @@ function formatare($n)
 	return ($n ? number_format($n, 0, ",", ".") : "-");
 }
 
+function count_digit($number) {
+	return strlen((string) $number);
+}
+
 $limit = 10;
 $counter = 0;
 $db_host = "localhost";
