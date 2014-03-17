@@ -1,8 +1,5 @@
 <?php
 
-$last_year = "";
-$flag = 0;
-
 include_once 'conexiune.php';
 
 function filtrare_si_afisare()
@@ -78,6 +75,7 @@ ORDER BY Rank;";
 
 	$row = $header->fetch();
 
+	echo '<span class="to_remove titluri">Volum comenzi clienți (detaliat)<br><br></span>';
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
 	$h .= '<td id="gol" colspan="4"></td>';
@@ -151,13 +149,13 @@ ORDER BY Rank;";
 if (isset($_POST["optiuni"]["listare"])) {
 
 	$flag = 0;
-	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte ORDER BY data_oferta DESC";
+	$string = "SELECT DISTINCT YEAR(data_oferta) AS ani FROM oferte WHERE stadiu = 1 ORDER BY data_oferta DESC";
 	$query = interogare($string, null);
 	$ani = $query->fetchAll();
 	if (count($ani)) {
 		$html = '<div id="lista_ani" class="ddm">';
 		for ($i = 0; $i < count($ani); $i++) {
-			$html .= '<div class="rec">';
+			$html .= '<div class="rec align_center">';
 			$html .= '<p id="f' . $ani[$i]["ani"] . '">' . $ani[$i]["ani"] . '</p>';
 			$html .= '</div>';
 			if (!$flag) {
@@ -179,7 +177,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 						<label for="select_an">An financiar</label>
 					</td>
 					<td>
-						<input class="normal extrascurt"
+						<input class="normal superscurt"
 							   id="select_an"
 							   type="text"
 							   name="select_an"

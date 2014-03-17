@@ -5,9 +5,9 @@ function filtrare_si_afisare()
 {
 	if (isset($_POST["optiuni"]["width"])) {
 		$width = $_POST["optiuni"]["width"] * 0.99;
-		$width = $width > 800 ? 800 : $width;
+		$width = $width > 1000 ? 1000 : $width;
 	} else {
-		$width = 800;
+		$width = 1000;
 	}
 
 	global $last_year;
@@ -82,6 +82,7 @@ ORDER BY Rank;";
 
 	$row = $header->fetch();
 
+	echo '<span class="to_remove titluri">Volum ofertare vânzători (detaliat)<br><br></span>';
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
 	$h .= '<td id="gol" colspan="2"></td>';
@@ -162,6 +163,7 @@ ORDER BY Rank;";
 	echo $h;
 
 	?>
+	<span class="to_remove titluri"><br>Total volum oferte (lunar)<br><br></span>
 	<canvas class="to_remove" id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
 	<script class="to_remove">
 		var barChartData = {
@@ -267,7 +269,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 	if (count($ani)) {
 		$html = '<div id="lista_ani" class="ddm">';
 		for ($i = 0; $i < count($ani); $i++) {
-			$html .= '<div class="rec">';
+			$html .= '<div class="rec align_center">';
 			$html .= '<p id="f' . $ani[$i]["ani"] . '">' . $ani[$i]["ani"] . '</p>';
 			$html .= '</div>';
 			if (!$flag) {
@@ -289,7 +291,7 @@ if (isset($_POST["optiuni"]["listare"])) {
 						<label for="select_an">An financiar</label>
 					</td>
 					<td>
-						<input class="normal extrascurt"
+						<input class="normal superscurt"
 							   id="select_an"
 							   type="text"
 							   name="select_an"

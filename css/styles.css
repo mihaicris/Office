@@ -295,6 +295,10 @@ input.extrascurt {
 input.data_scurt {
     width: 100px;
 }
+input.superscurt {
+    width:      50px;
+    text-align: center;
+}
 input.megascurt {
     width:      30px;
     text-align: center;
@@ -372,7 +376,6 @@ table.rezultate td div {
     height:   16px;
     overflow: hidden;
 }
-/*table.rezultate tr { line-height: 15px; }*/
 table.rezultate th {
     background-color: #600000;
     color:            #FFD5D5;
@@ -409,19 +412,17 @@ table#stat_clienti .head {
 }
 table#stat_clienti .Mtot {
     /*totaluri lunare*/
-    background-color: hsla(0, 0%, 5%, 1);
-    color:            hsla(98, 88%, 90%, 1);
+    background-color: hsla(0, 0%, 35%, 1);
+    border-bottom:    1px solid #FFF !important;
 }
 table#stat_clienti .totFYP {
     /*totaluri general an anterior*/
-    /*background-color: hsla(207, 52%, 30%, 1);*/
-    background-color: hsla(0, 0%, 5%, 1);
+    background-color: hsla(207, 52%, 30%, 1);
     border-bottom:    1px solid #FFF !important;
 }
 table#stat_clienti .totFY {
     /*totaluri general an curent*/
-    /*background-color: hsla(98, 52%, 30%, 1);*/
-    background-color: hsla(0, 0%, 5%, 1);
+    background-color: hsla(98, 52%, 30%, 1);
     border-bottom:    1px solid #FFF !important;
 }
 table#stat_clienti .cFYP {
@@ -439,9 +440,11 @@ table#stat_clienti tr:nth-child(2n+1) .cFY {
     background-color: hsla(98, 52%, 20%, 0.4);
 }
 table#stat_clienti .cM {
+    color:            hsla(0, 0%, 80%, 1);
     background-color: hsla(0, 0%, 15%, 1);
 }
 table#stat_clienti tr:nth-child(2n+1) .cM {
+    color:            hsla(0, 0%, 80%, 1);
     background-color: hsla(0, 0%, 20%, 1);
 }
 table#stat_clienti .cH {
@@ -520,8 +523,15 @@ div.ddm .noresults {
 }
 canvas {
     /*position: relative;*/
-    margin-top:  10px;
+    /*margin-top:  10px;*/
     margin-left: -28px;
+    display:     block;
+}
+.titluri {
+    font-weight: 400;
+    position:    relative;
+    left:        30em;
+    color:       tomato;
 }
 .ascuns {
     display: none;
@@ -698,6 +708,7 @@ canvas {
 .w_valab {
     width: 6em;
 }
+
 /*input[type="checkbox"] {*/
 /*position: relative;*/
 /*top:      3px;*/
