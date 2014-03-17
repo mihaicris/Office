@@ -118,7 +118,9 @@ fieldset {
     border-radius:    1px;
     box-shadow:       0 0 1px 0 lightblue;
     margin:           0;
-    width: 60em;
+}
+fieldset#filtre_oferte {
+    min-width: 60em;
 }
 fieldset legend {
     color:     lightcoral;
