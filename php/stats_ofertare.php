@@ -42,7 +42,7 @@ function filtrare_si_afisare()
         (SELECT @i := 0) AS foo,
         (SELECT @an := ?) AS an,
         (SELECT @vanzator := vanzatori.id_vanzator AS id_vanzator,
-           concat(vanzatori.nume_vanzator, ' ', vanzatori.prenume_vanzator) As Vanzator,
+           concat(vanzatori.nume_vanzator, ' ', vanzatori.prenume_vanzator) AS Vanzator,
                 (SELECT SUM(oferte.valoare_oferta) AS GRAND FROM oferte
                 WHERE YEAR(data_oferta) = @an-1 AND oferte.id_vanzator_oferta = @vanzator) AS FYP,
                 (SELECT SUM(oferte.valoare_oferta) AS GRAND FROM oferte
@@ -82,7 +82,7 @@ ORDER BY Rank;";
 
 	$row = $header->fetch();
 
-	echo '<span class="to_remove titluri">Volum ofertare vânzători (detaliat)<br><br></span>';
+	echo '<span class="to_remove titluri">Ofertare detaliată pentru vânzători<br><br></span>';
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
 	$h .= '<td id="gol" colspan="2"></td>';
@@ -138,6 +138,7 @@ ORDER BY Rank;";
 		$row["M11"] ? $row["M11"] / 1e6 : 0,
 		$row["M12"] ? $row["M12"] / 1e6 : 0
 	];
+	$max = max($valori_lunare) + 1;
 
 	for ($i = 0; $row = $content->fetch(); $i++) {
 		$h .= '<tr>';
@@ -163,7 +164,7 @@ ORDER BY Rank;";
 	echo $h;
 
 	?>
-	<span class="to_remove titluri"><br>Total volum oferte (lunar)<br><br></span>
+	<span class="to_remove titluri"><br>Grafic oferte lunare<br><br></span>
 	<canvas class="to_remove" id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
 	<script class="to_remove">
 		var barChartData = {
@@ -193,17 +194,17 @@ ORDER BY Rank;";
 
 			//** Required if scaleOverride is true **
 			//Number - The number of steps in a hard coded scale
-			scaleSteps:          null,
+			scaleSteps:          <?php echo $max?>,
 			//Number - The value jump in the hard coded scale
-			scaleStepWidth:      null,
+			scaleStepWidth:      1,
 			//Number - The scale starting value
-			scaleStartValue:     null,
+			scaleStartValue:     0,
 
 			//String - Colour of the scale line
 			scaleLineColor:      "rgba(255,255,255,1)",
 
 			//Number - Pixel width of the scale line
-			scaleLineWidth:      1,
+			scaleLineWidth:      2,
 
 			//Boolean - Whether to show labels on the scale
 			scaleShowLabels:     true,
@@ -238,7 +239,7 @@ ORDER BY Rank;";
 			barStrokeWidth:      1,
 
 			//Number - Spacing between each of the X value sets
-			barValueSpacing:     <?php echo $width/20; ?>,
+			barValueSpacing:     <?php echo $width/18; ?>,
 
 			//Number - Spacing between data sets within X values
 			barDatasetSpacing:   1,

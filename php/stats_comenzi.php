@@ -83,7 +83,7 @@ ORDER BY Rank;";
 
 	$row = $header->fetch();
 
-	echo '<span class="to_remove titluri">Comenzi vânzători (detaliat)<br><br></span>';
+	echo '<span class="to_remove titluri">Comenzi detaliate vânzători<br><br></span>';
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
 	$h .= '<td id="gol" colspan="2"></td>';
@@ -164,7 +164,7 @@ ORDER BY Rank;";
 	echo $h;
 
 	?>
-	<span class="to_remove titluri"><br>Comenzi vânzători (lunar)<br><br></span>
+	<span class="to_remove titluri"><br>Grafic comenzi lunare<br><br></span>
 	<canvas class="to_remove" id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
 	<script class="to_remove">
 		var barChartData = {
@@ -204,7 +204,7 @@ ORDER BY Rank;";
 			scaleLineColor:      "rgba(255,255,255,1)",
 
 			//Number - Pixel width of the scale line
-			scaleLineWidth:      1,
+			scaleLineWidth:      2,
 
 			//Boolean - Whether to show labels on the scale
 			scaleShowLabels:     true,
@@ -239,7 +239,7 @@ ORDER BY Rank;";
 			barStrokeWidth:      1,
 
 			//Number - Spacing between each of the X value sets
-			barValueSpacing:     <?php echo $width/20; ?>,
+			barValueSpacing:     <?php echo $width/18 ?>,
 
 			//Number - Spacing between data sets within X values
 			barDatasetSpacing:   1,
