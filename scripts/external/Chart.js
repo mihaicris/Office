@@ -364,8 +364,9 @@ window.Chart = function(context) {
       animationEasing:     "easeOutQuart",
       onAnimationComplete: null,
       showLabelsOnBars:    true,
+      barLabelFontFamily:  "Arial",
       barLabelFontSize:    8,
-      barLabelFontColor:   "#FFF"
+      barLabelFontColor:   "#FFA"
     };
 
     var config = (options) ? mergeChartConfig(chart.Bar.defaults, options) : chart.Bar.defaults;
@@ -1098,15 +1099,18 @@ window.Chart = function(context) {
           ctx.closePath();
           ctx.fill();
           if (config.showLabelsOnBars) {
-
             var value = addCommas(Math.round(data.datasets[i].data[j] * 10000) / 10000);
             if (value !== "0") {
-              drawBarText(ctx, currentBarTop, barOffset + (barWidth / 2),
-                  config.barLabelFontSize,
-                  value,
-                  config.barLabelFontColor);
+              var existingFont = ctx.font,
+                  existingFill = ctx.fillStyle,
+                  top = currentBarTop + config.barLabelFontSize - (config.barLabelFontSize + config.barLabelFontSize * 6 / 10) - 5;
+              ctx.fillStyle = config.barLabelFontColor;
+              ctx.textAlign = "center";
+              ctx.font = config.barLabelFontSize + "pt " + config.barLabelFontFamily;
+              ctx.fillText(value, barOffset + (barWidth / 2), top);
+              ctx.fillStyle = existingFill;
+              ctx.font = existingFont;
             }
-
           }
         }
       }
@@ -1124,16 +1128,6 @@ window.Chart = function(context) {
         x1 = x1.replace(rgx, '$1' + '.' + '$2');
       }
       return x1 + x2;
-    }
-
-    function drawBarText(ctx, top, left, fontSize, text, textColor) {
-      var existingFill = ctx.fillStyle;
-      top = top + fontSize - (fontSize + fontSize * 6 / 10) - 5;
-      ctx.fillStyle = textColor;
-      ctx.textAlign = "center";
-      ctx.font = fontSize + "pt";
-      ctx.fillText(text, left, top);
-      ctx.fillStyle = existingFill;
     }
 
     function drawScale() {
