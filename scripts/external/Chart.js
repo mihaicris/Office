@@ -1084,23 +1084,22 @@ window.Chart = function(context) {
         ctx.fillStyle = data.datasets[i].fillColor;
         ctx.strokeStyle = data.datasets[i].strokeColor;
         for (var j = 0; j < data.datasets[i].data.length; j++) {
-          var barOffset = yAxisPosX + config.barValueSpacing + valueHop * j + barWidth * i + config.barDatasetSpacing * i + config.barStrokeWidth * i;
+          var value = addCommas(Math.round(data.datasets[i].data[j] * 10000) / 10000);
+          if (value !== "0") {
+            var barOffset = yAxisPosX + config.barValueSpacing + valueHop * j + barWidth * i + config.barDatasetSpacing * i + config.barStrokeWidth * i;
+            ctx.beginPath();
+            ctx.moveTo(barOffset, xAxisPosY);
+            var currentBarTop = xAxisPosY - animPc * calculateOffset(data.datasets[i].data[j], calculatedScale, scaleHop) + (config.barStrokeWidth / 2);
 
-          ctx.beginPath();
-          ctx.moveTo(barOffset, xAxisPosY);
-          var currentBarTop = xAxisPosY - animPc * calculateOffset(data.datasets[i].data[j], calculatedScale, scaleHop) + (config.barStrokeWidth / 2);
-
-          ctx.lineTo(barOffset, currentBarTop);
-          ctx.lineTo(barOffset + barWidth, xAxisPosY - animPc * calculateOffset(data.datasets[i].data[j], calculatedScale, scaleHop) + (config.barStrokeWidth / 2));
-          ctx.lineTo(barOffset + barWidth, xAxisPosY);
-          if (config.barShowStroke) {
-            ctx.stroke();
-          }
-          ctx.closePath();
-          ctx.fill();
-          if (config.showLabelsOnBars) {
-            var value = addCommas(Math.round(data.datasets[i].data[j] * 10000) / 10000);
-            if (value !== "0") {
+            ctx.lineTo(barOffset, currentBarTop);
+            ctx.lineTo(barOffset + barWidth, xAxisPosY - animPc * calculateOffset(data.datasets[i].data[j], calculatedScale, scaleHop) + (config.barStrokeWidth / 2));
+            ctx.lineTo(barOffset + barWidth, xAxisPosY);
+            if (config.barShowStroke) {
+              ctx.stroke();
+            }
+            ctx.closePath();
+            ctx.fill();
+            if (config.showLabelsOnBars) {
               var existingFont = ctx.font,
                   existingFill = ctx.fillStyle,
                   top = currentBarTop + config.barLabelFontSize - (config.barLabelFontSize + config.barLabelFontSize * 6 / 10) - 5;
