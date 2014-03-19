@@ -351,7 +351,7 @@ window.Chart = function(context) {
       scaleFontFamily:     "'Arial'",
       scaleFontSize:       12,
       scaleFontStyle:      "normal",
-      scaleFontColor:      "#666",
+      scaleFontColor:      "#888",
       scaleShowGridLines:  true,
       scaleGridLineColor:  "rgba(0,0,0,.05)",
       scaleGridLineWidth:  1,
@@ -364,7 +364,7 @@ window.Chart = function(context) {
       animationEasing:     "easeOutQuart",
       onAnimationComplete: null,
       showLabelsOnBars:    true,
-      barLabelFontFamily:  "Arial",
+      barLabelFontFamily:  "'Arial'",
       barLabelFontSize:    8,
       barLabelFontColor:   "#FFA"
     };
