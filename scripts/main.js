@@ -82,8 +82,8 @@
             }
           }
         },
-        timp_fadein = 80,
-        timp_fadeout = 100,
+        timp_fadein = 0,
+        timp_fadeout = 0,
         isInArray = function(value, array) {
           return array.indexOf(value) > -1;
         },
@@ -982,6 +982,22 @@
       }
     }, "a.print");
 
+    class_box.on({
+      mouseup: function() {
+        console.log("Trigger: mouseup sortable");
+        var $this = $(this),
+            campuri = $(".sortable").not($this);
+        campuri.removeClass("sorted-up sorted-down");
+        if ($this.hasClass("sorted-up") || $this.hasClass("sorted-down")) {
+          $this.toggleClass("sorted-down sorted-up");
+        } else {
+          $this.addClass("sorted-up");
+        }
+        $this.trigger("aplica");
+
+      }
+    }, ".sortable");
+
     id_box_companii.on({
       mouseup: function(event) {
         var path = "php/companii.php",
@@ -1378,7 +1394,13 @@
             valabilitate = $("#select_valabilitate"),
             id_valabilitate = valabilitate.attr("data-id"),
             nume = $("#select_nume_oferta"),
-            id_oferta = $("#select_id_oferta");
+            id_oferta = $("#select_id_oferta"),
+            sorted_down = $(".sorted-down"),
+            sorted_up = $(".sorted-up"),
+            sorted = sorted_down.attr("id") || sorted_up.attr("id"),
+            direction = sorted_down.length ? "ASC" :
+                sorted_up.length ? "DESC" : "undefined";
+
         nume = nume.length ? nume.val().trim() : undefined;
         id_oferta = id_oferta.length ? id_oferta.val().trim() : undefined;
 
@@ -1407,6 +1429,8 @@
 
         filtre.attr("data-idoferta", id_oferta);
         optiuni.id_oferta = id_oferta ? id_oferta : undefined;
+
+        optiuni.sorted = sorted ? { column: sorted, direction: direction } : undefined;
 
         $.ajax({
           async:   true,
