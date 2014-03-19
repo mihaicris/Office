@@ -1,7 +1,7 @@
 <?php
 include_once 'conexiune.php';
 
-$stadiu = ["Deschisă", "Câştigată", "Pierdută"];
+$stadiu = ["Deschisă", "Câștigată", "Pierdută"];
 
 function verifica_existenta_oferta($id, $nume_oferta, $data_oferta, $id_companie)
 {

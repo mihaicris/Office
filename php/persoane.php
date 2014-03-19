@@ -34,7 +34,7 @@ function afiseaza_rezultate($query)
 	echo '<th>E-mail</th>';
 	echo '<th>Mobil</th>';
 	echo '<th>Departmanet</th>';
-	echo '<th>Funcţie</th>';
+	echo '<th>Funcție</th>';
 	echo "</tr>";
 	for ($i = 0; $row = $query->fetch(); $i++) {
 		echo '<tr>';
