@@ -154,7 +154,7 @@ INSERT INTO `persoane` (`id_persoana`, `nume_persoana`, `prenume_persoana`, `gen
 (00001, 'Pană', 'Dochin', 0, 'Director Tehnic', 'Management', 00043, '+40 (254) 513.325', '+40 (254) 513.464', '+40 (769) 252.265', 'electroutil@yahoo.com'),
 (00002, 'Cristescu', 'Mihai', 0, 'Suport Vânzări', 'Vânzări', 00001, '+40 (21) 6296 484', '+40 (21) 6296 480', '+40 (724) 38 38 28', 'mihai.cristescu@siemens.com'),
 (00003, 'Pigulea', 'Petre', 0, 'Inginer Proiectant Medie Tensiune', 'Birou Proiectare', 00005, '+40 (372) 058 100  Int. 207', '+40 (372) 058 101', '+40 (722) 501 617 ', 'petre.pigulea@automatica.ro'),
-(00004, 'Mirea', 'Ioana', 1, 'Şef Birou Aprovizionare', 'Birou Achiziții', 00005, '+40 (372) 058 100 + 107', '+40 (372) 058 101', '+40 (729) 035 164', 'ioana.mirea@automatica.ro'),
+(00004, 'Mirea', 'Ioana', 1, 'Șef Birou Aprovizionare', 'Birou Achiziții', 00005, '+40 (372) 058 100 + 107', '+40 (372) 058 101', '+40 (729) 035 164', 'ioana.mirea@automatica.ro'),
 (00005, 'Ionescu', 'Octavian', 0, 'Responsabil Medie Tensiune', 'Departament Tehnic', 00006, '+40 (247) 306 200', '+40 (247) 306 213', '+40 (744) 538 062', 'office@electrotel.ro'),
 (00006, 'Stoinea', 'Dumitru', 0, 'Responsabil Ofertă', 'Departament Ofertare', 00006, '+40 (21) 231 89 90', '+40 (247) 306 213', '+40 (723) 361157', 'office@electrotel.ro'),
 (00007, 'Terec', 'Adrian', 0, 'Director Executiv', 'Management', 00008, '+40 (264) 207 544', '+40 (264) 207 555', '+40 (723) 658 773', 'adrian.terec@energobit.com'),
