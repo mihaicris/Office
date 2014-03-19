@@ -226,7 +226,7 @@ ORDER BY Rank;";
 			scaleShowGridLines:  true,
 
 			//String - Colour of the grid lines
-			scaleGridLineColor:  "rgba(255,255,255,.05)",
+			scaleGridLineColor:  "rgba(255,255,255,.04)",
 
 			//Number - Width of the grid lines
 			scaleGridLineWidth:  1,
@@ -247,13 +247,16 @@ ORDER BY Rank;";
 			animation:           true,
 
 			//Number - Number of animation steps
-			animationSteps:      60,
+			animationSteps:      80,
 
 			//String - Animation easing effect
 			animationEasing:     "easeOutQuart",
 
 			//Function - Fires when the animation is complete
-			onAnimationComplete: null
+			onAnimationComplete: null,
+
+			// Number - Colour of the value label
+			barLabelFontColor: "#FF8"
 		};
 		var myLine = new Chart(document.getElementById("canvas2").getContext("2d")).Bar(barChartData, options);
 	</script>
