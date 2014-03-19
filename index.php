@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="css/datepicker/default.css" type="text/css">
 
     <script src="scripts/external/jquery-1.11.0.js"></script>
-    <script src="scripts/external/zebra_datepicker.src.js"></script>
-    <script src="scripts/external/date-ro-RO.js"></script>
+    <script src="scripts/external/zebra_datepicker.js"></script>
+    <script src="scripts/external/date-ro-RO.min.js"></script>
     <script src="scripts/external/Chart.js"></script>
 
     <script src="scripts/main.js"></script>
@@ -55,9 +55,6 @@
     </ul>
 </nav>
 <div class="box" id="box_oferte"></div>
-<!--<div class="box" id="box_comenzi"></div>-->
-<!--<div class="box" id="box_comanda_noua"></div>-->
-<!--<div class="box" id="box_editeaza_comanda"></div>-->
 <div class="box" id="box_stats_ofertare"></div>
 <div class="box" id="box_stats_comenzi"></div>
 <div class="box" id="box_stats_clienti"></div>
