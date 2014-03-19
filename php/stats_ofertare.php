@@ -185,78 +185,15 @@ ORDER BY Rank;";
 			]
 		};
 		var options = {
-			//Boolean - If we show the scale above the chart data
-			scaleOverlay:        false,
-
-			//Boolean - If we want to override with a hard coded scale
-			scaleOverride:       false,
-
-			//** Required if scaleOverride is true **
-			//Number - The number of steps in a hard coded scale
-			scaleSteps:          null,
-			//Number - The value jump in the hard coded scale
-			scaleStepWidth:      null,
-			//Number - The scale starting value
 			scaleStartValue:     0,
-
-			//String - Colour of the scale line
-			scaleLineColor:      "rgba(255,255,255,1)",
-
-			//Number - Pixel width of the scale line
-			scaleLineWidth:      2,
-
-			//Boolean - Whether to show labels on the scale
-			scaleShowLabels:     true,
-
-			//Interpolated JS string - can access value
-
-			//String - Scale label font declaration for the scale label
 			scaleFontFamily:     "Roboto Condensed",
-
-			//Number - Scale label font size in pixels
-			scaleFontSize:       12,
-
-			//String - Scale label font weight style
-			scaleFontStyle:      "normal",
-
-			//String - Scale label font colour
-			scaleFontColor:      "#DDD",
-
-			///Boolean - Whether grid lines are shown across the chart
-			scaleShowGridLines:  true,
-
-			//String - Colour of the grid lines
-			scaleGridLineColor:  "rgba(255,255,255,.04)",
-
-			//Number - Width of the grid lines
-			scaleGridLineWidth:  1,
-
-			//Boolean - If there is a stroke on each bar
-			barShowStroke:       true,
-
-			//Number - Pixel width of the bar stroke
-			barStrokeWidth:      1,
-
-			//Number - Spacing between each of the X value sets
+			scaleLineColor:      "rgba(255,255,255,1)",
+			scaleLineWidth:      2,
 			barValueSpacing:     <?php echo $width/18; ?>,
-
-			//Number - Spacing between data sets within X values
-			barDatasetSpacing:   1,
-
-			//Boolean - Whether to animate the chart
-			animation:           true,
-
-			//Number - Number of animation steps
 			animationSteps:      80,
-
-			//String - Animation easing effect
-			animationEasing:     "easeOutQuart",
-
-			//Function - Fires when the animation is complete
-			onAnimationComplete: null,
-
-			// Number - Colour of the value label
-			barLabelFontColor: "#FF8"
+			barLabelFontColor:   "#fff",
+			barLabelFontFamily:  "Roboto Condensed",
+			barLabelFontSize:    9
 		};
 		var myLine = new Chart(document.getElementById("canvas2").getContext("2d")).Bar(barChartData, options);
 	</script>
