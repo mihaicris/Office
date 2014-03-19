@@ -26,17 +26,9 @@
         <li class="menu">Oferte</li>
     </ul>
     <ul>
-        <li class="option" id="oferte">Oferte</li>
+        <li class="option" id="oferte">Caută oferte</li>
         <li class="option" id="oferta_noua">Ofertă nouă</li>
     </ul>
-<!--    <ul>-->
-<!--        <li class="menu" >Comenzi</li>-->
-<!--    </ul>-->
-<!--    <ul>-->
-<!--        <li class="option" id="comenzi">Comenzi</li>-->
-<!--        <li class="option" id="comanda_noua">Comandă nouă</li>-->
-<!---->
-<!--    </ul>-->
     <ul>
         <li class="menu">Rapoarte</li>
     </ul>

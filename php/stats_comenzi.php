@@ -165,7 +165,7 @@ ORDER BY Rank;";
 
 	?>
 	<span class="to_remove titluri"><br>Raport volum lunar comenzi<br></span>
-	<canvas class="to_remove" id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
+	<canvas class="to_remove" id="canvas2" height="300" width="<?php echo $width; ?>"></canvas>
 	<script class="to_remove">
 		var barChartData = {
 			labels:   ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"],
