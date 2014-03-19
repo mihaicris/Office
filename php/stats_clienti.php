@@ -101,7 +101,7 @@ ORDER BY Rank;";
 	$h .= '<tr>';
 	$h .= '<td class="ac head w1">Rank</td>';
 	$h .= '<td class="ac head w2">Companie</td>';
-	$h .= '<td class="ac head w3">Oraş</td>';
+	$h .= '<td class="ac head w3">Oraș</td>';
 	$h .= '<td class="ac head w4">Ţară</td>';
 	$h .= '<td class="ar totFYP w5">' . formatare($row["TOTAL_FYP"]) . '</td>';
 	$h .= '<td class="ar totFY w6">' . formatare($row["TOTAL_FY"]) . '</td>';

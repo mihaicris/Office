@@ -1198,13 +1198,13 @@
         values[7] = camp.eq(7).attr("data-id");
         if (!values[7].length) {
           flag = true;
-          camp.eq(7).addClass("required").parent().append('<span class="error">Alegeţi o opţiune.</span>');
+          camp.eq(7).addClass("required").parent().append('<span class="error">Alegeți o opțiune.</span>');
         }
         // validare companie
         values[8] = camp.eq(8).attr("data-id");
         if (!values[8].length) {
           flag = true;
-          camp.eq(8).addClass("required").parent().append('<span class="error">Alegeţi o companie.</span>');
+          camp.eq(8).addClass("required").parent().append('<span class="error">Alegeți o companie.</span>');
         }
         // validare Departament
         pattern = /^.{3,50}$/;
@@ -1235,7 +1235,7 @@
                   camp.filter(function(i) {
                     return $.inArray(i, [1, 2, 8]) > -1;
                   }).addClass("required");
-                  $("table").prepend('<span class="error">Combinația nume, prenume şi companie există deja.</span>');
+                  $("table").prepend('<span class="error">Combinația nume, prenume și companie există deja.</span>');
                 } else {
                   id_box_persoane.append('<span class="error">Eroare:</span>' + data);
                 }
@@ -1344,7 +1344,7 @@
                   camp.filter(function(i) {
                     return $.inArray(i, [1, 2, 9]) > -1;
                   }).addClass("required");
-                  $("table").prepend('<span class="error">Combinația nume, dată şi companie există deja.</span>');
+                  $("table").prepend('<span class="error">Combinația nume, dată și companie există deja.</span>');
                 } else {
                   id_box_oferte.append('<span class="error">Eroare:</span>' + data);
                 }
