@@ -83,7 +83,7 @@ ORDER BY Rank;";
 
 	$row = $header->fetch();
 
-	echo '<span class="to_remove titluri">Comenzi detaliate vânzători<br><br></span>';
+	echo '<span class="to_remove titluri"><br>Raport comenzi detaliate vânzători<br></span>';
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
 	$h .= '<td id="gol" colspan="2"></td>';
@@ -164,14 +164,14 @@ ORDER BY Rank;";
 	echo $h;
 
 	?>
-	<span class="to_remove titluri"><br>Grafic comenzi lunare<br></span>
+	<span class="to_remove titluri"><br>Raport volum lunar comenzi<br></span>
 	<canvas class="to_remove" id="canvas2" height="301" width="<?php echo $width; ?>"></canvas>
 	<script class="to_remove">
 		var barChartData = {
 			labels:   ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"],
 			datasets: [
 				{
-					fillColor:   "rgba(64, 150, 241, 0.3)",
+					fillColor:   "rgba(64, 255, 26, 0.3)",
 					strokeColor: "rgba(200, 200, 200, 0.6)",
 					data:        [<?php                     // numerele trebuie sa fie de forma 1000.50 cand treci la float
                         for ($i = 0; $i < 12; $i++)
@@ -186,15 +186,17 @@ ORDER BY Rank;";
 			]
 		};
 		var options = {
-			scaleStartValue:     0,
-			scaleFontFamily:     "Roboto Condensed",
-			scaleLineColor:      "rgba(255,255,255,1)",
-			scaleLineWidth:      2,
+			scaleStartValue:    0,
+			scaleFontFamily:    "Roboto Condensed",
+			scaleLineColor:     "rgba(255,255,255, 0.8)",
+			scaleLineWidth:     2,
 			barValueSpacing:     <?php echo $width/18; ?>,
-			animationSteps:      80,
-			barLabelFontColor:   "#fff",
-			barLabelFontFamily:  "Roboto Condensed",
-			barLabelFontSize:    9
+			barStrokeWidth:     1,
+			scaleGridLineColor: "rgba(170,187,255, 0.06)",
+			animationSteps:     80,
+			barLabelFontColor:  "#fff",
+			barLabelFontFamily: "Roboto Condensed",
+			barLabelFontSize:   9
 		};
 		var myLine = new Chart(document.getElementById("canvas2").getContext("2d")).Bar(barChartData, options);
 	</script>

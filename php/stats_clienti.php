@@ -75,7 +75,7 @@ ORDER BY Rank;";
 
 	$row = $header->fetch();
 
-	echo '<span class="to_remove titluri">Comenzi detaliate pentru clienți<br><br></span>';
+	echo '<span class="to_remove titluri"><br>Raport comenzi detaliate pentru clienți<br></span>';
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
 	$h .= '<td id="gol" colspan="4"></td>';
