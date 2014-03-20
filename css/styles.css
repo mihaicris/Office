@@ -387,7 +387,6 @@ table.rezultate th {
 table.rezultate tr:nth-child(2n) td {
     background-color: hsla(0, 0%, 24%, 1);
 }
-
 .w_ref {
     min-width: 8em;
     max-width: 8em;
@@ -424,7 +423,6 @@ table.rezultate tr:nth-child(2n) td {
     min-width: 6em;
     max-width: 6em;
 }
-
 table#stat_clienti {
     table-layout: fixed;
 }
@@ -493,8 +491,8 @@ table#stat_clienti tr:nth-child(2n+1) .cH {
     background-color: hsla(0, 0%, 25%, 1);
 }
 .w1 {
-    max-width: 5em;
-    min-width: 5em;
+    max-width: 4em;
+    min-width: 4em;
 }
 .w2 {
     max-width: 20em;
@@ -515,11 +513,9 @@ table#stat_clienti tr:nth-child(2n+1) .cH {
 .sortable {
     cursor: pointer;
 }
-
 .sorted-up, .sorted-down {
     color: hsla(200, 100%, 75%, 1);
 }
-
 .sorted-up span {
     background:    url("../images/sorted_up.png") no-repeat 100% 60%;
     padding-right: 20px;
