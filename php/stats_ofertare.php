@@ -17,9 +17,7 @@ function filtrare_si_afisare()
 		$year = $last_year;
 	}
 
-
 	if (isset($_POST["optiuni"]["sorted"])) {
-		fb($_POST["optiuni"]["sorted"]);
 		$column = $_POST["optiuni"]["sorted"]["column"];
 		$direction = $_POST["optiuni"]["sorted"]["direction"];
 	} else {
@@ -27,7 +25,7 @@ function filtrare_si_afisare()
 		$direction = "DESC";
 	}
 
-	$query = "SELECT * FROM (
+	$query = "SELECT TOTAL_FYP, TOTAL_FY, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12 FROM (
     (SELECT @year := ? AS FY) AS Init,
     (SELECT SUM(valoare_oferta) AS TOTAL_FYP FROM oferte WHERE YEAR(data_oferta) = @year-1) AS COL1,
     (SELECT SUM(valoare_oferta) AS TOTAL_FY FROM oferte WHERE YEAR (data_oferta) = @year) AS COL2,
@@ -87,9 +85,7 @@ function filtrare_si_afisare()
          GROUP BY oferte.id_vanzator_oferta
          ORDER BY FY DESC) AS results
      ) AS FINAL
-ORDER BY ".$column.(($direction == "ASC") ?  " ASC, Rank ASC;": " DESC, Rank ASC;");
-	fb($query);
-//	exit();
+ORDER BY " . $column . " " . $direction . ", Rank ASC;";
 	$content = interogare($query, array($year));
 
 	$row = $header->fetch();
@@ -287,8 +283,10 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   id="select_an"
 							   type="text"
 							   name="select_an"
-							   value="<?php echo $last_year ?>"
-							   data-id="<?php echo $last_year ?>"
+							<?php if (isset($last_year)) {
+								echo "value='$last_year'";
+								echo "data-id='$last_year'";
+							} ?>
 							   readonly/>
 					</td>
 				</tr>

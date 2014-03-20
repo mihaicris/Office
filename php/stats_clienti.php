@@ -11,7 +11,15 @@ function filtrare_si_afisare()
 		$year = $last_year;
 	}
 
-	$query = "SELECT * FROM (
+	if (isset($_POST["optiuni"]["sorted"])) {
+		$column = $_POST["optiuni"]["sorted"]["column"];
+		$direction = $_POST["optiuni"]["sorted"]["direction"];
+	} else {
+		$column = "FY";
+		$direction = "DESC";
+	}
+
+	$query = "SELECT TOTAL_FYP, TOTAL_FY, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12 FROM (
     (SELECT @year := ? AS FY) AS Init,
     (SELECT SUM(valoare_oferta) AS TOTAL_FYP FROM oferte WHERE stadiu = 1 AND YEAR(data_oferta) = @year-1) AS COL1,
     (SELECT SUM(valoare_oferta) AS TOTAL_FY FROM oferte WHERE stadiu = 1 AND YEAR (data_oferta) = @year) AS COL2,
@@ -70,7 +78,7 @@ function filtrare_si_afisare()
          GROUP BY oferte.id_companie_oferta
          ORDER BY FY DESC) AS results
      ) AS FINAL
-ORDER BY Rank;";
+ORDER BY " . $column . " " . $direction . ", Rank ASC;";
 	$content = interogare($query, array($year));
 
 	$row = $header->fetch();
@@ -79,30 +87,71 @@ ORDER BY Rank;";
 	$h = '<table class="to_remove" id="stat_clienti">';
 	$h .= '<tr>';
 	$h .= '<td id="gol" colspan="4"></td>';
-	$h .= '<td class="ac head w5">';
+	$h .= '<td id="FYP" class="ac head w5 sortable';
+	$h .= $column == "FYP" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>';
 	$h .= $year - 1;
-	$h .= '</td>';
-	$h .= '<td class="ac head w6">';
+	$h .= '</span></td>';
+	$h .= '<td id="FY" class="ac head w6 sortable';
+	$h .= $column == "FY" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>';
 	$h .= $year;
-	$h .= '</td>';
-	$h .= '<td class="ac head wM">Ian.</td>';
-	$h .= '<td class="ac head wM">Feb.</td>';
-	$h .= '<td class="ac head wM">Mar.</td>';
-	$h .= '<td class="ac head wM">Apr.</td>';
-	$h .= '<td class="ac head wM">Mai</td>';
-	$h .= '<td class="ac head wM">Iun.</td>';
-	$h .= '<td class="ac head wM">Iul.</td>';
-	$h .= '<td class="ac head wM">Aug.</td>';
-	$h .= '<td class="ac head wM">Sep.</td>';
-	$h .= '<td class="ac head wM">Oct.</td>';
-	$h .= '<td class="ac head wM">Noi.</td>';
-	$h .= '<td class="ac head wM">Dec.</td>';
+	$h .= '</span></td>';
+	$h .= '<td id="M1" class="ac head wM sortable';
+	$h .= $column == "M1" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Ian.</span></td>';
+	$h .= '<td id="M2" class="ac head wM sortable';
+	$h .= $column == "M2" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Feb.</span></td>';
+	$h .= '<td id="M3" class="ac head wM sortable';
+	$h .= $column == "M3" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Mar.</span></td>';
+	$h .= '<td id="M4" class="ac head wM sortable';
+	$h .= $column == "M4" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Apr.</span></td>';
+	$h .= '<td id="M5" class="ac head wM sortable';
+	$h .= $column == "M5" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Mai</span></td>';
+	$h .= '<td id="M6" class="ac head wM sortable';
+	$h .= $column == "M6" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Iun.</span></td>';
+	$h .= '<td id="M7" class="ac head wM sortable';
+	$h .= $column == "M7" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Iul.</span></td>';
+	$h .= '<td id="M8" class="ac head wM sortable';
+	$h .= $column == "M8" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Aug.</span></td>';
+	$h .= '<td id="M9" class="ac head wM sortable';
+	$h .= $column == "M9" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Sep.</span></td>';
+	$h .= '<td id="M10" class="ac head wM sortable';
+	$h .= $column == "M10" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Oct.</span></td>';
+	$h .= '<td id="M11" class="ac head wM sortable';
+	$h .= $column == "M11" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Noi.</span></td>';
+	$h .= '<td id="M12" class="ac head wM sortable';
+	$h .= $column == "M12" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Dec.</span></td>';
 	$h .= '</tr>';
 	$h .= '<tr>';
-	$h .= '<td class="ac head w1">Rank</td>';
-	$h .= '<td class="ac head w2">Companie</td>';
-	$h .= '<td class="ac head w3">Oraș</td>';
-	$h .= '<td class="ac head w4">Țară</td>';
+
+	$h .= '<td id="Rank" class="ac head w1 sortable';
+	$h .= $column == "Rank" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Rank</span></td>';
+
+	$h .= '<td id="nume_companie" class="ac head w2 sortable';
+	$h .= $column == "nume_companie" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Companie</span></td>';
+
+	$h .= '<td id="oras_companie" class="ac head w3 sortable';
+	$h .= $column == "oras_companie" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Oraş</span></td>';
+
+	$h .= '<td id="tara_companie" class="ac head w4 sortable';
+	$h .= $column == "tara_companie" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Țară</span></td>';
+
 	$h .= '<td class="ar totFYP w5">' . formatare($row["TOTAL_FYP"]) . '</td>';
 	$h .= '<td class="ar totFY w6">' . formatare($row["TOTAL_FY"]) . '</td>';
 	$h .= '<td class="ar Mtot wM">' . formatare($row["M1"]) . '</td>';
@@ -195,7 +244,10 @@ if (isset($_POST["optiuni"]["listare"])) {
 							   id="select_an"
 							   type="text"
 							   name="select_an"
-							   value="<?php echo $last_year ?>"
+							<?php if (isset($last_year)) {
+								echo "value='$last_year'";
+								echo "data-id='$last_year'";
+							} ?>
 							   readonly/>
 					</td>
 				</tr>

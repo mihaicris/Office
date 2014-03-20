@@ -991,7 +991,7 @@
         if ($this.hasClass("sorted-up") || $this.hasClass("sorted-down")) {
           $this.toggleClass("sorted-down sorted-up");
         } else {
-          $this.addClass("sorted-up");
+          isInArray($this.attr("id"), ["Rank", "Vanz"]) ? $this.addClass("sorted-down") : $this.addClass("sorted-up");
         }
         $this.trigger("aplica");
 
