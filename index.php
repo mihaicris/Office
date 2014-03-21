@@ -27,7 +27,7 @@
     </ul>
     <ul>
         <li class="option" id="oferte">Caută oferte</li>
-        <li class="option" id="oferta_noua">Ofertă nouă</li>
+        <li class="option" id="oferta_noua">Crează ofertă nouă</li>
     </ul>
     <ul>
         <li class="menu">Rapoarte</li>
