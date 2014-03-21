@@ -70,6 +70,9 @@ $db_host = "localhost";
 $db_name = "office";
 $db_user = 'root';
 $db_pass = 'mihai123';
+//$db_name = "398498";
+//$db_user = '398498';
+//$db_pass = 'uC4U4ISf45v5';
 // Conectare la baza de date
 while (true) {
 	try {
@@ -77,6 +80,8 @@ while (true) {
 		$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 		$db->setAttribute(PDO::ATTR_PERSISTENT, true);
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$string = "SET NAMES utf8";
+		$query = interogare($string, null);
 		break;
 	} catch (PDOException $e) {
 		$db = NULL;

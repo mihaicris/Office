@@ -172,7 +172,9 @@
           /* pozitioneaza fereastra de sugestii sub campul apelat
            elem_sursa este cel de la care se preia pozitia si dimensiunile
            elem_destinatie este elementul care se pozitioneaza */
-          var Xleft = elem_sursa.position().left,
+
+          var numar = elem_sursa.attr("id") === "select_luna" ? 13 : 6,
+              Xleft = elem_sursa.position().left,
               Xtop = elem_sursa.position().top,
               Xwidth = parseInt(elem_sursa.css("width")),
               Xheight = parseInt(elem_sursa.css("height")),
@@ -181,7 +183,7 @@
             "left":       Xleft,
             "top":        Xtop + Xheight + 1,
             "min-width":  Xwidth,
-            "max-height": Rheight * 13 // cate .rec se afiseaza
+            "max-height": Rheight * numar // cate .rec se afiseaza
           });
         };
 
