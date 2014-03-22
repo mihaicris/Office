@@ -516,6 +516,13 @@ table#stat_clienti tr:nth-child(2n+1) .cH {
     background:    url("../images/sorted_down.png") no-repeat 100% 60%;
     padding-right: 20px;
 }
+tr:nth-child(2n) .ss {
+    background-color: hsla(240, 5%, 20%, 1) !important;
+}
+.ss {
+    background-color: hsla(240, 5%, 15%, 1) !important;
+}
+
 form td, th {
     padding-top:    7px;
     vertical-align: top;
