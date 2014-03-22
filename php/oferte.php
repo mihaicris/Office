@@ -3,6 +3,17 @@ include_once 'conexiune.php';
 
 $stadiu = ["Deschisă", "Câștigată", "Pierdută"];
 
+if (isset($_POST["optiuni"]["sorted"])) {
+	$column = $_POST["optiuni"]["sorted"]["column"];
+	$direction = $_POST["optiuni"]["sorted"]["direction"];
+} else {
+	$column = "id_oferta";
+	$direction = "ASC";
+}
+
+fb($column);
+fb($direction);
+
 function verifica_existenta_oferta($id, $nume_oferta, $data_oferta, $id_companie)
 {
 // testeaza existenta  in baza de date
@@ -23,42 +34,60 @@ function verifica_existenta_oferta($id, $nume_oferta, $data_oferta, $id_companie
 
 function afiseaza_rezultate($query, $filtru)
 {
-	global $stadiu;
+	global $stadiu, $column, $direction;
 	$flag = 0;
 	$count = 0;
 	$cur_date = date("Y-m-d");
 	$h = '<table class="rezultate to_remove">';
 	$h .= '<tr>';
-	$h .= '<th class="w_ref">Referință</th>';
-	$h .= '<th class="w_data">Data</th>';
-	$h .= '<th class="w_nume">Nume ofertă</th>';
-	$h .= '<th class="w_comp">Companie</th>';
-	$h .= '<th class="w_vanz">Vânzător</th>';
-	$h .= '<th class="w_val">Valoare €</th>';
-	$h .= '<th class="w_rel">Relevant</th>';
-	$h .= '<th class="w_stad">Stadiu</th>';
-	$h .= '<th class="w_valab">Valabilitate</th>';
+	$h .= '<td id="id_oferta" class="ac head o1 sortable default_down';
+	$h .= $column == "id_oferta" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Referință</span></td>';
+	$h .= '<td id="data_oferta" class="ac head o2 sortable default_down';
+	$h .= $column == "data_oferta" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Data</span></td>';
+	$h .= '<td id="nume_oferta" class="ac head o3 sortable default_down';
+	$h .= $column == "nume_oferta" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Nume ofertă</span></td>';
+	$h .= '<td id="nume_companie" class="ac head o4 sortable default_down';
+	$h .= $column == "nume_companie" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Companie</span></td>';
+	$h .= '<td id="nume_vanzator" class="ac head o5 sortable default_down';
+	$h .= $column == "nume_vanzator" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Vânzător</span></td>';
+	$h .= '<td id="valoare_oferta" class="ac head o6 sortable';
+	$h .= $column == "valoare_oferta" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Valoare €</span></td>';
+	$h .= '<td id="relevant" class="ac head o7 sortable default_down';
+	$h .= $column == "relevant" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Relevant</span></td>';
+	$h .= '<td id="stadiu" class="ac head o8 sortable default_down';
+	$h .= $column == "stadiu" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Stadiu</span></td>';
+	$h .= '<td id="valabilitate" class="ac head o9 sortable default_up';
+	$h .= $column == "valabilitate" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
+	$h .= '"><span>Valabilitate</span></td>';
 	$h .= "</tr>";
 	for ($i = 0; $row = $query->fetch(); $i++) {
 		$flag = 1;
 		$count++;
 		$h .= '<tr>';
-		$h .= '<td class="w_ref align_center id" id="f' . $row['id_oferta'] . '">
+		$h .= '<td class="ac o1 id" id="f' . $row['id_oferta'] . '">
 		' . $row['id_oferta'] . '
 			<a href="php/word/Oferta.docx" title="Printează" class="sosa print">p</a>
 			<span title="Editează" class="sosa actiune">a</span>
 			</td>';
-		$h .= '<td class="w_data align_center">' . str_replace_assoc($row['dataoferta'], TRUE) . '</td>';
-		$h .= '<td class="w_nume" title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
-		$h .= '<td class="w_comp companie">' . $row['nume_companie'] . '</td>';
-		$h .= '<td class="w_vanz nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
-		$h .= '<td class="w_val align_right">' . number_format($row['valoare_oferta'], 0, ',', '.') . '</td>';
-		$h .= $row["relevant"] ? '<td class="w_rel align_center companie">DA</td>' : '<td class="w_rel align_center id">NU</td>';
-		$h .= '<td class="w_stad align_center"><span class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</span></td>';
+		$h .= '<td class="ar o2">' . str_replace_assoc($row['dataoferta'], TRUE) . '</td>';
+		$h .= '<td class="al o3" title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
+		$h .= '<td class="al o4 companie">' . $row['nume_companie'] . '</td>';
+		$h .= '<td class="al o5 nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
+		$h .= '<td class="ar o6">' . number_format($row['valoare_oferta'], 0, ',', '.') . '</td>';
+		$h .= $row["relevant"] ? '<td class="ac o7 companie">DA</td>' : '<td class="ac o7 id">NU</td>';
+		$h .= '<td class="ac o8"><span class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</span></td>';
 		if (!$row['stadiu']) {
 			$h .= $row["data_expirare"] < $cur_date
-				? '<td class="w_valab align_center "><span class="expirata">Expirată</span></td>'
-				: '<td class="w_valab align_center companie">Activă</td>';
+				? '<td class="ac o9 "><span class="expirata">Expirată</span></td>'
+				: '<td class="ac o9 companie">Activă</td>';
 		} else {
 			$h .= "<td></td>";
 		}
@@ -82,20 +111,22 @@ function afiseaza_rezultate($query, $filtru)
 
 function filtrare_si_afisare()
 {
+	global $column, $direction;
 	$data = array();
 	$string = "SELECT O . id_oferta,
+                  DATE_FORMAT(O . data_oferta, '%e-%m-%Y') AS dataoferta,
                   O . nume_oferta,
                   O . descriere_oferta,
-                  DATE_FORMAT(O . data_oferta, '%e-%m-%Y') AS dataoferta,
                   O . id_companie_oferta,
                   O . data_expirare,
                   O . id_vanzator_oferta,
                   O . valoare_oferta,
+	              O . relevant,
                   O . stadiu,
-                  O . relevant,
                   C . nume_companie,
                   V . nume_vanzator,
-                  V . prenume_vanzator
+                  V . prenume_vanzator,
+                  (2*(data_expirare < CURDATE() AND stadiu = 0) + 1*(data_expirare >= CURDATE() AND stadiu = 0)) AS Expirata
            FROM oferte AS O
            INNER JOIN companii AS C ON O . id_companie_oferta = C . id_companie
            INNER JOIN vanzatori AS V ON O . id_vanzator_oferta = V . id_vanzator";
@@ -172,7 +203,12 @@ function filtrare_si_afisare()
 		$flag = 1;
 	}
 
-	$string .= "\r\nORDER BY `data_oferta` DESC";
+	if ($column == "valabilitate") {
+		$string .= "\r\nORDER BY Expirata ".$direction.", data_expirare ASC";
+	} else {
+		$string .= "\r\nORDER BY " . $column . " " . $direction . ", data_oferta ASC ";
+	}
+
 	if (empty($data)) {
 		$string .= "\r\nLIMIT 10;";
 		$filtru = false;
@@ -180,6 +216,7 @@ function filtrare_si_afisare()
 		$string .= "\r\n;";
 		$filtru = true;
 	}
+	fb($string);
 	$query = interogare($string, $data);
 	afiseaza_rezultate($query, $filtru);
 }

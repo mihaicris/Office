@@ -143,10 +143,10 @@ function filtrare_si_afisare()
 	$h .= '"><span>Dec.</span></td>';
 	$h .= '</tr>';
 	$h .= '<tr>';
-	$h .= '<td id="Rank" class="ac head w1 sortable';
+	$h .= '<td id="Rank" class="ac head w1 sortable default_down';
 	$h .= $column == "Rank" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
 	$h .= '"><span>Rank</span></td>';
-	$h .= '<td id="Vanz" class="ac head w2 sortable';
+	$h .= '<td id="Vanz" class="ac head w2 sortable default_down';
 	$h .= $column == "Vanz" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
 	$h .= '"><span>Vânzător</span></td>';
 	$h .= '<td class="ar totFYP w5">' . formatare($row["TOTAL_FYP"]) . '</td>';
