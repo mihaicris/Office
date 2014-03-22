@@ -246,7 +246,6 @@ function filtrare_si_afisare()
 		$string .= "\r\n;";
 		$filtru = true;
 	}
-	fb($string);
 	$query = interogare($string, $data);
 	afiseaza_rezultate($query, $filtru);
 }
