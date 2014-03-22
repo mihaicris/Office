@@ -360,6 +360,18 @@ table {
     /*height: 200px;*/
     /*overflow-y: auto;*/
 }
+table .ac {
+    text-align: center;
+}
+table .al {
+    text-align: left;
+}
+table .ar {
+    text-align: right;
+}
+table .head {
+    background-color: hsla(0, 100%, 20%, 1);
+}
 input.required {
     /*color: rgb(255, 68, 68);*/
     background-color: rgba(255, 68, 68, 0.5);
@@ -369,59 +381,51 @@ input.required {
 }
 table.rezultate {
     margin-top: 10px;
-    font-size:  0.9em;
 }
-table.rezultate td, .rezultate th {
+table.rezultate td {
     padding:     1px 5px;
     border:      1px solid #777;
     overflow:    hidden;
     white-space: nowrap;
 }
-table.rezultate th {
-    background-color: #600000;
-    color:            #FFD5D5;
-    font-weight:      400;
-    text-align:       center;
-    /*font-size:        1.1em;*/
-}
 table.rezultate tr:nth-child(2n) td {
     background-color: hsla(0, 0%, 24%, 1);
 }
-.w_ref {
-    min-width: 8em;
-    max-width: 8em;
-}
-.w_nume {
-    min-width: 30em;
-    min-width: 30em;
-}
-.w_data {
+.o1 {
     min-width: 7em;
     max-width: 7em;
 }
-.w_comp {
+.o2 {
+    min-width: 6em;
+    max-width: 6em;
+}
+.o3 {
+    min-width: 30em;
+    max-width: 30em;
+}
+.o4 {
     min-width: 20em;
     max-width: 20em;
 }
-.w_vanz {
+.o5 {
     min-width: 10em;
     max-width: 10em;
 }
-.w_val {
+.o6 {
+    min-width: 6em;
+    max-width: 6em;
+}
+.o7 {
+    min-width: 6em;
+    max-width: 6em;
+}
+.o8 {
     min-width: 7em;
     max-width: 7em;
 }
-.w_rel {
-    min-width: 5em;
-    max-width: 5em;
-}
-.w_stad {
-    min-width: 6em;
-    max-width: 6em;
-}
-.w_valab {
-    min-width: 6em;
-    max-width: 6em;
+.o9 {
+    min-width: 7em;
+    max-width: 7em;
 }
 table#stat_clienti {
     table-layout: fixed;
@@ -434,18 +438,6 @@ table#stat_clienti td {
 table#stat_clienti tr td:not(#gol) {
     border:  1px solid rgb(119, 119, 119);
     padding: 1px 5px;
-}
-table#stat_clienti .ac {
-    text-align: center;
-}
-table#stat_clienti .al {
-    text-align: left;
-}
-table#stat_clienti .ar {
-    text-align: right;
-}
-table#stat_clienti .head {
-    background-color: hsla(0, 100%, 20%, 1);
 }
 table#stat_clienti .Mtot {
     /*totaluri lunare*/

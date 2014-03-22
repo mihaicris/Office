@@ -993,7 +993,7 @@
         if ($this.hasClass("sorted-up") || $this.hasClass("sorted-down")) {
           $this.toggleClass("sorted-down sorted-up");
         } else {
-          isInArray($this.attr("id"), ["Rank", "Vanz"]) ? $this.addClass("sorted-down") : $this.addClass("sorted-up");
+          $this.hasClass("default_down") ? $this.addClass("sorted-down") : $this.addClass("sorted-up");
         }
         $this.trigger("aplica");
 
@@ -1492,7 +1492,7 @@
       }
     }, "#valoare_oferta");
 
-//    $("#statistici_oferte").trigger("mouseup");
+    $("#oferte").trigger("mouseup");
 
   })
 })
