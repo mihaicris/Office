@@ -307,9 +307,9 @@ input.megascurt {
     text-align: center;
 }
 textarea {
-    background-color: #666;
-    border:           1px solid #666;
-    box-shadow:       0 0 2px 0 #666;
+    background-color: #555;
+    border:           1px solid #555;
+    box-shadow:       0 0 1px 0 #555;
     padding:          1px 3px 1px 3px;
     font-family:      'Roboto Condensed', sans-serif;
     color:            #FFFFFF;
@@ -522,7 +522,6 @@ tr:nth-child(2n) .ss {
 .ss {
     background-color: hsla(240, 5%, 15%, 1) !important;
 }
-
 form td, th {
     padding-top:    7px;
     vertical-align: top;
