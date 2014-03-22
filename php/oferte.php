@@ -7,8 +7,8 @@ if (isset($_POST["optiuni"]["sorted"])) {
 	$column = $_POST["optiuni"]["sorted"]["column"];
 	$direction = $_POST["optiuni"]["sorted"]["direction"];
 } else {
-	$column = "id_oferta";
-	$direction = "ASC";
+	$column = "data_oferta";
+	$direction = "DESC";
 }
 
 fb($column);
@@ -57,7 +57,7 @@ function afiseaza_rezultate($query, $filtru)
 	$h .= '"><span>Vânzător</span></td>';
 	$h .= '<td id="valoare_oferta" class="ac head o6 sortable';
 	$h .= $column == "valoare_oferta" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
-	$h .= '"><span>Valoare €</span></td>';
+	$h .= '"><span>Valoare</span></td>';
 	$h .= '<td id="relevant" class="ac head o7 sortable default_down';
 	$h .= $column == "relevant" ? ($direction == "ASC" ? " sorted-down" : " sorted-up") : "";
 	$h .= '"><span>Relevant</span></td>';
@@ -72,25 +72,55 @@ function afiseaza_rezultate($query, $filtru)
 		$flag = 1;
 		$count++;
 		$h .= '<tr>';
-		$h .= '<td class="ac o1 id" id="f' . $row['id_oferta'] . '">
+
+		$h .= '<td class="ac o1 id';
+		$h .= $column == "id_oferta" ? " ss" : "";
+		$h .= '" id="f' . $row['id_oferta'] . '">
 		' . $row['id_oferta'] . '
 			<a href="php/word/Oferta.docx" title="Printează" class="sosa print">p</a>
 			<span title="Editează" class="sosa actiune">a</span>
 			</td>';
-		$h .= '<td class="ar o2">' . str_replace_assoc($row['dataoferta'], TRUE) . '</td>';
-		$h .= '<td class="al o3" title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
-		$h .= '<td class="al o4 companie">' . $row['nume_companie'] . '</td>';
-		$h .= '<td class="al o5 nume">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
-		$h .= '<td class="ar o6">' . number_format($row['valoare_oferta'], 0, ',', '.') . '</td>';
-		$h .= $row["relevant"] ? '<td class="ac o7 companie">DA</td>' : '<td class="ac o7 id">NU</td>';
-		$h .= '<td class="ac o8"><span class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</span></td>';
+
+		$h .= '<td class="ar o2';
+		$h .= $column == "data_oferta" ? " ss" : "";
+		$h .= '">' . str_replace_assoc($row['dataoferta'], TRUE) . '</td>';
+
+		$h .= '<td class="al o3';
+		$h .= $column == "nume_oferta" ? " ss" : "";
+		$h .= '" title="' . $row['descriere_oferta'] . '">' . $row['nume_oferta'] . '</td>';
+
+		$h .= '<td class="al o4 companie';
+		$h .= $column == "nume_companie" ? " ss" : "";
+		$h .= '">' . $row['nume_companie'] . '</td>';
+
+		$h .= '<td class="al o5 nume';
+		$h .= $column == "nume_vanzator" ? " ss" : "";
+		$h .= '">' . $row['nume_vanzator'] . ' ' . $row['prenume_vanzator'] . '</td>';
+
+		$h .= '<td class="ar o6';
+		$h .= $column == "valoare_oferta" ? " ss" : "";
+		$h .= '">' . number_format($row['valoare_oferta'], 0, ',', '.') . '</td>';
+
+		$h .= '<td class="ac o7 companie';
+		$h .= $column == "relevant" ? " ss" : "";
+		$h .= $row["relevant"] ? '">DA</td>' : '">NU</td>';
+
+		$h .= '<td class="ac o8';
+		$h .= $column == "stadiu" ? " ss" : "";
+		$h .= '"><span class="stadiu_' . $row['stadiu'] . '">' . $stadiu[$row['stadiu']] . '</span></td>';
+
 		if (!$row['stadiu']) {
-			$h .= $row["data_expirare"] < $cur_date
-				? '<td class="ac o9 "><span class="expirata">Expirată</span></td>'
-				: '<td class="ac o9 companie">Activă</td>';
+			$h .= '<td class="ac o9';
+			$h .= $column == "valabilitate" ? " ss" : "";
+			$h .= ($row["data_expirare"] < $cur_date)
+				? '"><span class="expirata">Expirată</span></td>'
+				: ' companie">Activă</td>';
 		} else {
-			$h .= "<td></td>";
+			$h .= "<td";
+			$h .= $column == "valabilitate" ? ' class="ss"' : '';
+			$h .= "></td>";
 		}
+
 		$h .= '</tr>';
 	}
 	$h .= '</table>';
@@ -204,13 +234,13 @@ function filtrare_si_afisare()
 	}
 
 	if ($column == "valabilitate") {
-		$string .= "\r\nORDER BY Expirata ".$direction.", data_expirare ASC";
+		$string .= "\r\nORDER BY Expirata " . $direction . ", stadiu ASC, data_expirare ASC";
 	} else {
 		$string .= "\r\nORDER BY " . $column . " " . $direction . ", data_oferta ASC ";
 	}
 
 	if (empty($data)) {
-		$string .= "\r\nLIMIT 10;";
+		$string .= "\r\nLIMIT 20;";
 		$filtru = false;
 	} else {
 		$string .= "\r\n;";

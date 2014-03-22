@@ -1492,8 +1492,7 @@
       }
     }, "#valoare_oferta");
 
-    $("#oferte").trigger("mouseup");
+//    $("#oferte").trigger("mouseup");
 
   })
-})
-    ();
+})();
