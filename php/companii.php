@@ -24,11 +24,11 @@ function afiseaza_rezultate($query)
 {
     echo '<table style="width: inherit;" class="rezultate">';
     echo "<tr>";
-    echo '<th>Acțiuni</th>';
-    echo '<th>Companie</th>';
-    echo '<th>Adresă</th>';
-    echo '<th>Oraș</th>';
-    echo '<th>Țară</th>';
+    echo '<td class="head">Acțiuni</td>';
+    echo '<td class="head">Companie</td>';
+    echo '<td class="head">Adresă</td>';
+    echo '<td class="head">Oraș</td>';
+    echo '<td class="head">Țară</td>';
     echo "</tr>";
     for ($i = 0; $row = $query->fetch(); $i++) {
         echo '<tr>';
@@ -255,10 +255,10 @@ if (isset($_POST["select_companie"])) {
 if (isset($_POST["camp_str"])) {
 
     $string = 'SELECT COUNT(*) FROM `companii`
-               WHERE (`nume_companie` LIKE ?);';
+               WHERE (`nume_companie` LIKE ? OR `oras_companie` LIKE ?);';
 
     $str = "%" . $_POST["camp_str"] . "%";
-    $data = array($str);
+    $data = array($str, $str);
 
     $query = interogare($string, $data);
     //daca nu sunt rezultate se iese cu mesaj
@@ -276,7 +276,7 @@ if (isset($_POST["camp_str"])) {
 
     // interogarea adevarata pentru rezultate (daca nu s-a iesit mai sus)
     $string = 'SELECT * FROM `companii`
-               		WHERE (`nume_companie` LIKE ?)
+               		WHERE (`nume_companie` LIKE ? OR `oras_companie` LIKE ?)
 			   		ORDER BY `nume_companie` ASC;';
     $query = interogare($string, $data);
     afiseaza_rezultate($query);
