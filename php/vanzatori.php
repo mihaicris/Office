@@ -24,9 +24,9 @@ function afiseaza_rezultate($query)
 {
 	echo '<table style="width: inherit;" class="rezultate">';
 	echo '<tr>';
-	echo '<th class="">Acțiuni</th>';
-	echo '<th>Nume și prenume</th>';
-	echo '<th>Activ</th>';
+	echo '<td class="head">Acțiuni</td>';
+	echo '<td class="head">Nume și prenume</td>';
+	echo '<td class="head">Activ</td>';
 	echo '</tr>';
 	for ($i = 0; $row = $query->fetch(); $i++) {
 		echo '<tr>';

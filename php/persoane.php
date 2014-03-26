@@ -26,15 +26,15 @@ function verifica_existenta_persoana($id, $nume_persoana, $prenume_persoana, $id
 
 function afiseaza_rezultate($query)
 {
-	echo '<table class="rezultate">';
+	echo '<table style="width: inherit;" class="rezultate">';
 	echo '<tr>';
-	echo '<th>Acțiuni</th>';
-	echo '<th>Nume și prenume</th>';
-	echo '<th>Companie</th>';
-	echo '<th>E-mail</th>';
-	echo '<th>Mobil</th>';
-	echo '<th>Departmanet</th>';
-	echo '<th>Funcție</th>';
+	echo '<td class="head">Acțiuni</td>';
+	echo '<td class="head">Nume și prenume</td>';
+	echo '<td class="head">Companie</td>';
+	echo '<td class="head">E-mail</td>';
+	echo '<td class="head">Mobil</td>';
+	echo '<td class="head">Departmanet</td>';
+	echo '<td class="head">Funcție</td>';
 	echo "</tr>";
 	for ($i = 0; $row = $query->fetch(); $i++) {
 		echo '<tr>';
