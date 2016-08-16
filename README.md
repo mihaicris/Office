@@ -11,3 +11,6 @@ Single Page Application Demo for Office Activities.
 * Maintain customers, contact persons and offers
 * Generate offer for customers in Word Document Format
 * Generate offer and orders Statistics
+
+### Currently, this project is hosted at:
+http://mihaicris.eu5.org
